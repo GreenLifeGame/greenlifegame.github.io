@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GREEN LIFE — Player Guide (Full Rules &amp; Stats)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The complete GREEN LIFE player guide — every rule, stat, cost, and odds table, plus playstyles. Nothing hidden. In development, launching in ~3–6 months.">
+<style>
+  :root{
+    --bg:#08080c; --bg2:#0d0d13; --panel:#14141c; --panel2:#191922;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eef0f5; --mut:#9a9aa8; --mut2:#6d6d7a;
+    --p:#c86bff; --b:#4da6ff; --g:#52e300;
+    --grad:linear-gradient(115deg,#c86bff,#4da6ff,#52e300);
+    --disp:"Arial Black","Archivo Black",Archivo,system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(1100px 650px at 50% -10%, #1a1030 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 8%, #071c14 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--b);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 clamp(16px,4vw,36px)}
+
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(8,8,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1000px;margin:0 auto;padding:10px clamp(16px,4vw,36px);display:flex;align-items:center;gap:14px}
+  .nav-logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:900;font-size:15px}
+  .nav-logo img{width:28px;height:28px;border-radius:8px}
+  .nav-logo .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav-links{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  .nav-links a{color:var(--mut);font-size:13px;font-weight:600}
+  @media(max-width:680px){.nav-links{display:none}}
+
+  .ribbon{background:linear-gradient(90deg,rgba(200,107,255,.14),rgba(82,227,0,.14));border-bottom:1px solid var(--line2);
+    text-align:center;font-size:12.5px;font-weight:700;color:#e7d9ff;padding:8px 16px}
+  .ribbon b{color:#fff}
+
+  header.top{text-align:center;padding:clamp(38px,7vw,64px) 0 18px}
+  .eyebrow{font-family:var(--disp);letter-spacing:.28em;font-size:11px;color:var(--mut);text-transform:uppercase;margin-bottom:12px}
+  h1{font-family:var(--disp);font-weight:900;font-size:clamp(34px,7vw,60px);line-height:.95;margin:0 0 12px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  header.top p{color:#c7c8d2;max-width:60ch;margin:0 auto;font-size:15px}
+
+  .callout{border-radius:14px;padding:16px 18px;margin:18px 0;font-size:13.5px;line-height:1.6}
+  .callout.warn{background:rgba(255,178,77,.06);border:1px solid rgba(255,178,77,.28);color:#ffe6c2}
+  .callout.info{background:rgba(77,166,255,.06);border:1px solid rgba(77,166,255,.28);color:#cfe6ff}
+  .callout.g{background:rgba(82,227,0,.06);border:1px solid rgba(82,227,0,.28);color:#d7f5c4}
+  .callout b{color:#fff}
+
+  /* TOC */
+  .toc{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:20px 0 8px}
+  .toc h4{margin:0 0 12px;font-family:var(--disp);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+  .toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:28px}
+  @media(max-width:560px){.toc ol{columns:1}}
+  .toc li{padding:4px 0;font-size:14px;counter-increment:toc;break-inside:avoid}
+  .toc li::before{content:counter(toc) ". ";color:var(--g);font-weight:800}
+  .toc ol{counter-reset:toc}
+
+  section{padding:30px 0;border-top:1px solid var(--line);scroll-margin-top:64px}
+  h2{font-family:var(--disp);font-weight:900;font-size:clamp(22px,4vw,30px);margin:6px 0 6px;letter-spacing:.01em}
+  h2 .num{color:var(--g);margin-right:8px}
+  h3{font-size:17px;font-weight:800;margin:26px 0 6px;color:#fff}
+  p{color:#cfd0da;font-size:14.5px}
+  ul,ol.list{color:#cfd0da;font-size:14.5px;padding-left:20px}
+  li{margin:5px 0}
+  b.k{color:#fff}
+  .g{color:var(--g)} .pp{color:var(--p)} .bb{color:var(--b)} .am{color:#ffb24d}
+
+  .tw{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:420px}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--mut);padding:8px 12px}
+  th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+  thead th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;background:rgba(255,255,255,.02)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:rgba(255,255,255,.02)}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+  .rar{font-weight:800;font-size:11px;padding:2px 7px;border-radius:5px;color:#0b0b0e}
+  .r-com{background:#c99a63} .r-unc{background:#57d364} .r-rare{background:#4da6ff} .r-epic{background:#c07be0} .r-leg{background:#ffd23f} .r-myth{background:#e0b3ff}
+
+  .loop{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+  .loop h3{margin:0 0 6px;display:flex;align-items:center;gap:9px}
+  .loop .tag{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:6px;background:rgba(82,227,0,.12);color:var(--g);border:1px solid rgba(82,227,0,.3)}
+  .loop p{margin:0;color:var(--mut);font-size:13.5px}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;margin-top:24px}
+  .disclaimer{background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px}
+  .disclaimer h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f}
+  .disclaimer p{margin:0;color:var(--mut);font-size:12.5px}
+  .fm{font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:12px;margin-top:22px;text-align:center;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html"><img src="img/logo.jpg" alt=""><span class="wm">GREEN LIFE</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="plants-and-boosts.html">Plants &amp; Boosts</a>
+      <a href="#loops">Playstyles</a>
+    </div>
+  </div>
+</nav>
+
+<div class="ribbon">🚧 <b>In development</b> — launching in <b>~3–6 months</b>. Values below are from the current build &amp; may be tuned before launch. Nothing is for sale yet.</div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Complete Player Guide</div>
+    <h1>Every Rule.<br>Every Number.</h1>
+    <p>This is the full, no-secrets breakdown of how GREEN LIFE works — costs, stats, odds, timers, and the ways you can play. If it's in the game, it's on this page.</p>
+  </header>
+
+  <div class="callout info">💡 <b>Money legend.</b> Costs come in three forms: <b>SOL</b> (real Solana, for your farm, upgrades, avatars, and marketplace trades), <b>$GREEN</b> (the in-game token you earn and spend), and a few items are <b>USD-pegged</b> — priced in dollars but paid in $GREEN at the live token price. Each cost below says which it is.</div>
+
+  <div class="toc">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#start">Quick Start — the core loop</a></li>
+      <li><a href="#farm">Your Farm &amp; the 5 levels</a></li>
+      <li><a href="#grower">Grower Levels (your character)</a></li>
+      <li><a href="#plants">Plants &amp; Grow Power</a></li>
+      <li><a href="#cycle">The Grow Cycle, Watering &amp; Death</a></li>
+      <li><a href="#earn">Earning $GREEN (emissions &amp; the 70/30 split)</a></li>
+      <li><a href="#autos">Fast Autos</a></li>
+      <li><a href="#myth">Mythicals</a></li>
+      <li><a href="#boosts">Boosts — Plant &amp; Grower</a></li>
+      <li><a href="#kitchen">The Kitchen (cooking)</a></li>
+      <li><a href="#breed">Breeding (all costs &amp; odds)</a></li>
+      <li><a href="#egg">The Weedster Egg</a></li>
+      <li><a href="#packs">Packs &amp; pull odds</a></li>
+      <li><a href="#market">Marketplace, floors &amp; combining</a></li>
+      <li><a href="#rob">PvP — Rob / Raid</a></li>
+      <li><a href="#bong">PvP — Spin The Bong</a></li>
+      <li><a href="#ref">Referrals</a></li>
+      <li><a href="#avatars">Avatars</a></li>
+      <li><a href="#kit">The Welcome Kit</a></li>
+      <li><a href="#loops">Playstyles &amp; game loops</a></li>
+    </ol>
+  </div>
+
+  <!-- 1 START -->
+  <section id="start">
+    <h2><span class="num">1</span>Quick Start — the core loop</h2>
+    <p>GREEN LIFE is a grow game where your plants earn <b class="k">$GREEN</b> for you over time. The basic loop:</p>
+    <ol class="list">
+      <li><b class="k">Start a farm</b> — a one-time <b>0.25 SOL</b> buy-in mints your Level 1 farm and hands you a welcome kit (2 plants + 1 boost + a guaranteed Weedster Egg that cracks on the spot).</li>
+      <li><b class="k">Plant strains</b> into your grow slots. Each strain has a <b>Grow Power (GP)</b> — that's your share of the rewards.</li>
+      <li><b class="k">Water them</b> so they don't wilt, and wait out the grow cycle.</li>
+      <li><b class="k">Harvest &amp; claim</b> your $GREEN.</li>
+      <li><b class="k">Reinvest</b> — buy packs, breed rarer strains, upgrade your farm, level your grower, or trade on the market. Repeat, bigger.</li>
+    </ol>
+    <div class="callout g">🌿 The whole economy runs on one idea: <b>420 billion $GREEN, minted once, never again.</b> Rewards flow from a fixed pool that drains slowly over years, and everything you spend in-game is <b>burned forever</b>. No infinite printing.</div>
+  </section>
+
+  <!-- 2 FARM -->
+  <section id="farm">
+    <h2><span class="num">2</span>Your Farm &amp; the 5 levels</h2>
+    <p>Your farm has <b>5 levels</b>. Higher levels unlock more grow slots and features. Buy-in is <b>0.25 SOL</b>; upgrades are paid in <b>SOL</b>. Maxing out costs <b>1.65 SOL</b> total (0.25 entry + 1.40 in upgrades).</p>
+    <div class="tw">
+    <table>
+      <caption>Everything each farm level unlocks</caption>
+      <thead><tr>
+        <th>Level</th><th class="n">Upgrade cost</th><th class="n">Normal slots</th><th class="n">Mythical tent</th><th class="n">Fast Auto spots</th><th class="n">Kitchen slots</th><th class="n">Daily pack limit</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1 (start)</td><td class="n">0.25 SOL entry</td><td class="n">4</td><td class="n">1</td><td class="n">2</td><td class="n">—</td><td class="n">25</td></tr>
+        <tr><td>2</td><td class="n">0.20 SOL</td><td class="n">8</td><td class="n">2</td><td class="n">4</td><td class="n">—</td><td class="n">30</td></tr>
+        <tr><td>3</td><td class="n">0.30 SOL</td><td class="n">12</td><td class="n">3</td><td class="n">6</td><td class="n">1</td><td class="n">35</td></tr>
+        <tr><td>4</td><td class="n">0.40 SOL</td><td class="n">16</td><td class="n">4</td><td class="n">8</td><td class="n">2</td><td class="n">40</td></tr>
+        <tr><td>5</td><td class="n">0.50 SOL</td><td class="n">20</td><td class="n">5</td><td class="n">10</td><td class="n">3</td><td class="n">50</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ul>
+      <li><b class="k">Normal slots</b> come free with each level (4 → 20).</li>
+      <li><b class="k">Mythical tent slots:</b> your first is free; each additional slot the level unlocks costs <b>0.1 SOL</b> to open.</li>
+      <li><b class="k">Fast Auto spots</b> unlock <b>in pairs</b> — each level's +2 costs SOL to open (Lv2 0.1 · Lv3 0.2 · Lv4 0.3 · Lv5 0.4 SOL); Level 1's first 2 are free.</li>
+      <li><b class="k">Kitchen</b> unlocks at Level 3.</li>
+      <li><b class="k">Upgrade timers:</b> upgrades take time to complete — roughly <b>1 hour</b> to Lv2, then <b>1 / 2 / 3 days</b> for Lv3 / 4 / 5.</li>
+    </ul>
+  </section>
+
+  <!-- 3 GROWER -->
+  <section id="grower">
+    <h2><span class="num">3</span>Grower Levels — leveling <em>you</em></h2>
+    <p>Separate from your farm, your <b class="k">Grower</b> (your character) levels up to boost your stats permanently. You unlock <b>10 grower levels per farm level</b> (so farm Lv5 lets you reach grower Lv50, the max). Level-ups are <b>USD-pegged, paid in $GREEN</b>.</p>
+    <div class="tw">
+    <table>
+      <caption>Grower level-up cost &amp; the bonus each level adds</caption>
+      <thead><tr><th>Grower levels</th><th class="n">Cost each</th><th class="n">Grow &amp; Harvest / lvl</th><th class="n">Breed / lvl</th></tr></thead>
+      <tbody>
+        <tr><td>1–10</td><td class="n">$0.10</td><td class="n">+0.10%</td><td class="n">+0.06%</td></tr>
+        <tr><td>11–20</td><td class="n">$0.25</td><td class="n">+0.25%</td><td class="n">+0.15%</td></tr>
+        <tr><td>21–30</td><td class="n">$0.50</td><td class="n">+0.50%</td><td class="n">+0.30%</td></tr>
+        <tr><td>31–40</td><td class="n">$0.75</td><td class="n">+0.75%</td><td class="n">+0.45%</td></tr>
+        <tr><td>41–50</td><td class="n">$1.00</td><td class="n">+1.00%</td><td class="n">+0.60%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>At max (Lv50) that's about <b>+25.9% grow &amp; harvest speed</b> and <b>+15.5% breed success</b>. Grow/harvest bonuses make your plants finish faster (down to a floor of 30% of the base cycle time); breed bonus raises your breeding success chance.</p>
+  </section>
+
+  <!-- 4 PLANTS -->
+  <section id="plants">
+    <h2><span class="num">4</span>Plants &amp; Grow Power</h2>
+    <p>There are <b>16 strains</b> across 5 pack rarities, plus the breed-only Mythical. A strain's <b class="k">Grow Power (GP)</b> is its base earning weight — the higher the GP, the bigger its slice of the rewards pool.</p>
+    <div class="tw">
+    <table>
+      <caption>All 16 strains &amp; base Grow Power</caption>
+      <thead><tr><th>Rarity</th><th>Strains (low → high GP)</th><th class="n">Base Grow Power</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rar r-com">Common</span></td><td>Dirt Weed · Mexi-Brick · Midsters</td><td class="n">100 · 500 · 1,000</td></tr>
+        <tr><td><span class="rar r-unc">Uncommon</span></td><td>Runtz · Blue Dream · Maui Waui</td><td class="n">2,000 · 3,000 · 4,000</td></tr>
+        <tr><td><span class="rar r-rare">Rare</span></td><td>OG Kush · Sour Diesel · Gorilla Glue</td><td class="n">5,000 · 10,000 · 20,000</td></tr>
+        <tr><td><span class="rar r-epic">Epic</span></td><td>Pineapple Express · White Widow · Gary Payton</td><td class="n">25,000 · 50,000 · 75,000</td></tr>
+        <tr><td><span class="rar r-leg">Legendary</span></td><td>Grand Daddy Purple · Singapore Sling · Fire As F*ck</td><td class="n">100,000 · 250,000 · 500,000</td></tr>
+        <tr><td><span class="rar r-myth">Mythical</span></td><td>Cross Breed <span style="color:var(--mut)">(breed / egg only — never in packs)</span></td><td class="n">~100 – 1,000,000</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>A plant can be grown three ways, each with its own rules: as a <b class="k">Normal</b> plant (below), a <b class="k">Fast Auto</b> (§7), or — for Mythicals only — in the <b class="k">Mythical Tent</b> (§8). Full art and stats for every card are on the <a href="plants-and-boosts.html">Plants &amp; Boosts</a> page.</p>
+  </section>
+
+  <!-- 5 CYCLE -->
+  <section id="cycle">
+    <h2><span class="num">5</span>The Grow Cycle, Watering &amp; Death</h2>
+    <p>This is the most important section — read it so nothing surprises you.</p>
+    <h3>Grow cycle length</h3>
+    <ul>
+      <li><b class="k">Normal plant:</b> <b>30 days</b> to a full harvest.</li>
+      <li><b class="k">Mythical:</b> 15 days · <b class="k">Fast Auto:</b> a flat 7 days.</li>
+      <li>Your grower grow/harvest bonus + kitchen buffs can shorten Normal &amp; Mythical cycles (never below 30% of the base). Fast Auto's 7 days is fixed and never changes.</li>
+    </ul>
+    <h3>Watering</h3>
+    <ul>
+      <li>You can water a plant every <b>8 hours</b>.</li>
+      <li>There's a <b>24-hour grace</b> window — miss watering and nothing bad happens for the first day.</li>
+      <li>After the grace, a dry plant loses <b>10% of its Grow Power per day</b> overdue (up to 100%). Water it and full power is restored.</li>
+      <li><b class="k">7 full days with zero water = the plant dies.</b> Mythicals are the exception — they never need water. Fast Autos <em>do</em> need water like normal plants.</li>
+    </ul>
+    <h3>Pulling a Normal plant early — the day windows</h3>
+    <div class="callout warn">⚠️ <b>Before Day 22, a Normal plant DIES if you remove or harvest it</b> — the card and its harvest pot are gone. This is the single biggest way players lose plants. Let them mature.</div>
+    <div class="tw">
+    <table>
+      <caption>What you get when you pull a Normal plant, by age</caption>
+      <thead><tr><th>When you pull it</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Before Day 22</td><td><b style="color:#ff8080">Plant dies</b> — card &amp; pot erased, total loss</td></tr>
+        <tr><td>Day 22 → 30</td><td>Survives, but a penalty: <b>80% of the pot lost at Day 22</b>, shrinking by 10 points/day to <b>0% at Day 30</b></td></tr>
+        <tr><td>Day 30+</td><td><b class="g">Full pot, no penalty</b> — a clean harvest</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <h3>Don't sit on a finished plant</h3>
+    <p>Once a plant is ready, you have a <b>7-day grace</b> to claim it. Ignore it longer and it counts as neglect: a Normal plant <b>dies</b> and its pot is burned. (A finished plant shows a <b>🌾 CLAIM</b> countdown so you know the deadline without opening it.)</p>
+    <div class="callout info">ℹ️ Pulling early only ever risks that plant's <b>harvest pot</b> and its survival — it never touches the $GREEN you've already been streaming to your claimable balance (see §6).</div>
+  </section>
+
+  <!-- 6 EARN -->
+  <section id="earn">
+    <h2><span class="num">6</span>Earning $GREEN — emissions &amp; the 70/30 split</h2>
+    <p>Rewards come out of a fixed <b class="k">emissions pool</b> (half of the 420B supply). Each day the pool releases <b>0.025% of whatever remains</b> — a slow geometric drain with about a <b>7.6-year half-life</b>. It never re-mints.</p>
+    <p>Your cut of the day's emissions is your <b>share of total Grow Power</b>: the more GP you're growing versus the whole network, the more $GREEN you earn every second.</p>
+    <h3>The 70 / 30 split</h3>
+    <p>Every plant's fair earnings are split two ways, always adding up to 100% — never more:</p>
+    <ul>
+      <li><b class="g">70%</b> streams continuously into your <b>claimable balance</b> — claim it anytime.</li>
+      <li><b class="am">30%</b> is locked into that plant's <b>harvest pot</b>, which pays out when the grow cycle finishes (or partially/penalized on an early pull, per §5).</li>
+    </ul>
+    <div class="callout warn">🔥 <b>Burn on loss.</b> If you forfeit a harvest pot — pulling too early, letting a plant die, or neglecting a finished one — that $GREEN is <b>burned</b>, not returned to the pool. Spent supply is gone forever.</div>
+  </section>
+
+  <!-- 7 AUTOS -->
+  <section id="autos">
+    <h2><span class="num">7</span>Fast Autos — the speed lane</h2>
+    <p>Fast Autos are a second grow area for a quick, high-intensity payout.</p>
+    <ul>
+      <li><b class="k">Same total, faster:</b> a Fast Auto pays <b>×30/7 (~4.29×) the Grow Power</b> over a <b>flat 7-day</b> cycle — so a 7-day Auto earns roughly the same total $GREEN as that strain's full 30-day Normal harvest, just four-plus times faster.</li>
+      <li><b class="k">Grow once, then it's gone.</b> Harvesting a Fast Auto consumes the plant — it doesn't replant.</li>
+      <li><b class="k">Water them</b> like normal plants (same grace/penalty/death rules) — they are <em>not</em> drought-proof.</li>
+      <li><b class="k">No boosts.</b> Plant boost items do nothing on Autos, and nothing shortens the 7 days.</li>
+      <li><b class="k">Never pull early.</b> Pulling a Fast Auto before Day 7 <b style="color:#ff8080">kills it — 100% loss, pot burned</b>. There's no partial early harvest.</li>
+      <li><b class="k">Spots:</b> 2 / 4 / 6 / 8 / 10 by farm level, unlocked in pairs (see §2).</li>
+    </ul>
+  </section>
+
+  <!-- 8 MYTH -->
+  <section id="myth">
+    <h2><span class="num">8</span>Mythicals — the top tier</h2>
+    <p>Mythicals are one-of-a-kind cards you can only get by <b>breeding</b> or cracking a <b>Weedster Egg</b> — never from packs. They grow in the <b class="k">Mythical Tent</b>.</p>
+    <ul>
+      <li><b class="k">Grow Power range:</b> ~100 up to a hard cap of <b>1,000,000</b>. (A low-tier breeding jackpot can make a small Mythical; you climb its GP by breeding.) Egg-born Mythicals roll <b>150,000–600,000</b>.</li>
+      <li><b class="k">Cycle:</b> 15 days. <b class="k">Drought-proof:</b> they never need water. <b class="k">Boost-immune:</b> plant boost items don't affect them (their power comes from breeding).</li>
+      <li><b class="k">They never die on harvest.</b> Instead, a harvested Mythical is <b>re-minted</b> as a fresh card — same name, art, and lineage — at <b>−10% Grow Power</b>. You re-breed to climb back up. This keeps a maxed Mythical from ever being "finished."</li>
+      <li><b class="k">Ready harvest:</b> pays the full pot <em>and</em> re-mints at −10%. <b class="k">Early pull:</b> the pot is forfeited (burned), but the card survives and still re-mints at −10%.</li>
+    </ul>
+  </section>
+
+  <!-- 9 BOOSTS -->
+  <section id="boosts">
+    <h2><span class="num">9</span>Boosts — two separate systems</h2>
+    <h3>Plant Boosts (Normal plants only)</h3>
+    <p>Consumables that supercharge a single Normal plant's Grow Power. Prices below are the reference market price in <b>SOL</b> (the market is player-to-player).</p>
+    <div class="tw">
+    <table>
+      <thead><tr><th>Boost</th><th class="n">Grow Power bonus</th><th class="n">Ref. price</th></tr></thead>
+      <tbody>
+        <tr><td>🧪 Nutrient Mix</td><td class="n">+5%</td><td class="n">0.005 SOL</td></tr>
+        <tr><td>💨 CO₂ Burst</td><td class="n">+10%</td><td class="n">0.008 SOL</td></tr>
+        <tr><td>💡 Full Spectrum LEDs</td><td class="n">+25%</td><td class="n">0.015 SOL</td></tr>
+        <tr><td>🌱 Root Stimulant</td><td class="n">+50%</td><td class="n">0.025 SOL</td></tr>
+        <tr><td>☣️ Mystery Serum</td><td class="n">+100%</td><td class="n">0.035 SOL</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ul>
+      <li>Each boost lasts <b>7 days</b>.</li>
+      <li><b class="k">One active boost per plant</b> — you can't stack two, and a boost <b>can't be cancelled or overwritten</b>; wait out the 7 days.</li>
+      <li><b class="k">Normal plants only.</b> Mythicals and Fast Autos ignore them completely.</li>
+      <li>You can't boost a plant that's already finished (it's stopped earning — harvest it instead).</li>
+      <li><b class="k">Combining:</b> duplicates fuse straight into a Mystery Serum — 17× Nutrient, or 10× CO₂, or 5× LEDs, or 3× Root → 1 Serum (0.005 SOL fee).</li>
+    </ul>
+    <h3>Grower Boosts (buff your whole farm)</h3>
+    <p>Cooked in the Kitchen (§10). Each multiplies <b>all</b> of your grower stats — grow, harvest, and breed — at once, for <b>24 hours</b>. Reference prices in <b>SOL</b>:</p>
+    <div class="tw">
+    <table>
+      <thead><tr><th>Grower boost</th><th class="n">Bonus to all grower stats</th><th class="n">Ref. price</th></tr></thead>
+      <tbody>
+        <tr><td>🍪 Edibles</td><td class="n">+10%</td><td class="n">0.025 SOL</td></tr>
+        <tr><td>🧈 Wax</td><td class="n">+25%</td><td class="n">0.05 SOL</td></tr>
+        <tr><td>🍫 Hash</td><td class="n">+50%</td><td class="n">0.10 SOL</td></tr>
+        <tr><td>🖊️ Carts</td><td class="n">+75%</td><td class="n">0.20 SOL</td></tr>
+        <tr><td>💉 THC IV Line</td><td class="n">+150%</td><td class="n">0.50 SOL</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ul>
+      <li><b class="k">One grower boost active at a time</b> — consuming a new one replaces the current buff.</li>
+      <li>These are premium, deliberately scarce (you cook few of them), which is what makes them worth trading.</li>
+    </ul>
+  </section>
+
+  <!-- 10 KITCHEN -->
+  <section id="kitchen">
+    <h2><span class="num">10</span>The Kitchen — cooking grower boosts</h2>
+    <p>Unlocks at farm <b>Level 3</b>. You cook a plant card into a grower boost. Cooking <b>destroys the card</b> and takes <b>24 hours</b>; you get <b>1 of the 5 grower boosts</b> on a rarity-weighted roll — a better card tilts the odds toward the stronger boosts.</p>
+    <ul><li><b class="k">Cook slots:</b> 1 at Lv3, 2 at Lv4, 3 at Lv5.</li></ul>
+    <div class="tw">
+    <table>
+      <caption>Cook outcome odds by the cooked card's rarity (each row = 100%)</caption>
+      <thead><tr><th>Cooked card</th><th class="n">Edibles</th><th class="n">Wax</th><th class="n">Hash</th><th class="n">Carts</th><th class="n">THC IV</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rar r-com">Common</span></td><td class="n">44%</td><td class="n">26%</td><td class="n">15%</td><td class="n">10%</td><td class="n">5%</td></tr>
+        <tr><td><span class="rar r-unc">Uncommon</span></td><td class="n">37%</td><td class="n">24%</td><td class="n">18%</td><td class="n">13%</td><td class="n">8%</td></tr>
+        <tr><td><span class="rar r-rare">Rare</span></td><td class="n">30%</td><td class="n">22%</td><td class="n">21%</td><td class="n">16%</td><td class="n">11%</td></tr>
+        <tr><td><span class="rar r-epic">Epic</span></td><td class="n">23%</td><td class="n">20%</td><td class="n">24%</td><td class="n">19%</td><td class="n">14%</td></tr>
+        <tr><td><span class="rar r-leg">Legendary</span></td><td class="n">16%</td><td class="n">18%</td><td class="n">27%</td><td class="n">22%</td><td class="n">17%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- 11 BREED -->
+  <section id="breed">
+    <h2><span class="num">11</span>Breeding — chasing rarer genetics</h2>
+    <p>Breeding fuses two cards into new ones. It's instant, capped at <b>25 breeds/day</b>, and <b>both parents are destroyed on success</b> (the one exception: a Mythical parent survives a <em>failed</em> Mythical×Normal attempt). All breed costs are <b>USD-pegged, paid in $GREEN</b>.</p>
+
+    <h3>Normal × Normal</h3>
+    <p><b class="k">Cost</b> = sum of both parents' card cost: Common $0.15 · Uncommon $0.30 · Rare $0.60 · Epic $1.25 · Legendary $2.50.</p>
+    <p><b class="k">Success:</b> 50% base (up to 95% with grower/avatar bonuses). Two things can happen on a success:</p>
+    <ul>
+      <li><b class="g">Jackpot → a Mythical.</b> A small chance fuses the pair into a one-of-a-kind Cross Breed Mythical whose GP = the <b>sum of both parents' GP</b>. Jackpot odds by tier: Common <b>2.5%</b> · Uncommon <b>5%</b> · Rare <b>7.5%</b> · Epic <b>10%</b> · Legendary <b>15%</b> (mixed pairs use the average). Higher-GP parents → a stronger Mythical.</li>
+      <li><b class="k">Otherwise → offspring cards.</b> You get 1 / 2 / 3 cards (50% / 35% / 15%), rarity weighted toward the lower parent (Mythical is unreachable this way — that's the jackpot's job).</li>
+    </ul>
+    <p>A <b class="k">failed</b> Normal breed still salvages <b>3 consolation boosts</b>, so it's never a total waste.</p>
+
+    <h3>Mythical + Normal</h3>
+    <p><b class="k">Cost</b> = the Mythical's GP-bracket price + the normal card's cost (normal card here: 1★ $0.10 · 2★ $0.25 · 3★ $0.50 · 4★ $1.25 · 5★ $2.50).</p>
+    <div class="tw"><table>
+      <caption>Mythical GP-bracket price — Mythical + Normal</caption>
+      <thead><tr><th>Mythical GP</th><th class="n">Bracket cost</th></tr></thead>
+      <tbody>
+        <tr><td>under 100k</td><td class="n">$0.50</td></tr><tr><td>100k–200k</td><td class="n">$1.00</td></tr><tr><td>200k–350k</td><td class="n">$2.00</td></tr>
+        <tr><td>350k–500k</td><td class="n">$4.00</td></tr><tr><td>500k–750k</td><td class="n">$8.00</td></tr><tr><td>750k–1M</td><td class="n">$15.00</td></tr>
+      </tbody>
+    </table></div>
+    <p><b class="k">Success</b> = the normal card's jackpot chance +20% (up to 97%). On success → one new Mythical with GP = the Mythical parent + <b>10% of the other card's GP</b> (capped at 1,000,000). On failure, only the normal card is lost — <b>your Mythical survives</b>.</p>
+
+    <h3>Mythical × Mythical</h3>
+    <p><b class="k">Cost</b> = the sum of both Mythicals' GP-bracket prices: under 100k $1.00 · 100k–200k $2.50 · 200k–350k $5.00 · 350k–500k $10.00 · 500k–750k $20.00 · 750k–1M $35.00.</p>
+    <p><b class="k">Guaranteed fusion</b> into one new Mythical. Its GP: mostly the higher parent + 10% of the lower (50% of the time), sometimes a graduated bonus up to nearly the full lower parent (49.5%), with a rare 0.5% full combine of both. Everything caps at <b>1,000,000 GP</b> — a Mythical at the cap can no longer breed.</p>
+  </section>
+
+  <!-- 12 EGG -->
+  <section id="egg">
+    <h2><span class="num">12</span>The Weedster Egg</h2>
+    <p>The Egg is the <b>only non-breeding way to a Mythical</b>. You earn eggs with <b class="k">ticks</b>:</p>
+    <ul>
+      <li>Post the daily tip on 𝕏: <b>+2 ticks</b> · Land a referral: <b>+1 tick</b> · Claim your free daily pack: <b>+1 tick</b>.</li>
+      <li><b>10 ticks = 1 egg.</b> Ticks <b>stack and never reset</b> — 23 ticks = 2 eggs with 3 left over.</li>
+    </ul>
+    <p><b class="k">Cracking an egg</b> guarantees a strong pull — no weak cards:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Outcome</th><th class="n">Odds</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rar r-epic">Epic</span> strain</td><td class="n">30%</td></tr>
+        <tr><td><span class="rar r-leg">Legendary</span> strain</td><td class="n">50%</td></tr>
+        <tr><td><span class="rar r-myth">Mythical</span> (GP 150k–600k)</td><td class="n">20%</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Eggs are fully <b>sellable</b> on the marketplace.</li>
+      <li><b class="k">Anti-abuse on the 𝕏 tick:</b> the +2 is granted instantly, then checked once at 12 hours — delete the post early and the 2 ticks are clawed back (your counter can go negative and must be re-earned). Honest posters never notice.</li>
+    </ul>
+  </section>
+
+  <!-- 13 PACKS -->
+  <section id="packs">
+    <h2><span class="num">13</span>Packs &amp; pull odds</h2>
+    <p>Packs are <b>USD-pegged, paid in $GREEN — and 100% of the cost is burned.</b></p>
+    <div class="tw"><table>
+      <thead><tr><th>Pack</th><th class="n">Cost</th><th>Contains</th><th>Daily limit</th></tr></thead>
+      <tbody>
+        <tr><td>🌱 Seed Pack</td><td class="n">$2.00</td><td>1 plant card</td><td>25–50 by farm level</td></tr>
+        <tr><td>❓ Mystery Pack</td><td class="n">$1.00</td><td>65% a boost · 35% a plant card</td><td>25–50 by farm level</td></tr>
+        <tr><td>⚡ Booster Pack</td><td class="n">$0.50</td><td>1 boost item</td><td>Unlimited</td></tr>
+      </tbody>
+    </table></div>
+    <p>There's also a <b class="k">free Mystery Pack</b> every day just for logging in (same 65/35 roll), and claiming it gives <b>+1 egg tick</b>.</p>
+    <h3>Plant card pull odds</h3>
+    <p>Every plant-card pull is a two-step roll — first the rarity, then which card inside that tier:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Rarity</th><th class="n">Chance</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rar r-com">Common</span></td><td class="n">45%</td></tr>
+        <tr><td><span class="rar r-unc">Uncommon</span></td><td class="n">30%</td></tr>
+        <tr><td><span class="rar r-rare">Rare</span></td><td class="n">15%</td></tr>
+        <tr><td><span class="rar r-epic">Epic</span></td><td class="n">8%</td></tr>
+        <tr><td><span class="rar r-leg">Legendary</span></td><td class="n">2%</td></tr>
+      </tbody>
+    </table></div>
+    <p>Within the chosen tier (each has 3 strains), the split is <b>60% low-GP / 30% mid / 10% high</b>. Mythicals never come from packs. <b class="k">Boost pulls</b> (Booster / Mystery packs) weight toward the weaker boosts: Nutrient 40% · CO₂ 30% · LEDs 20% · Root 9% · Mystery Serum 1%.</p>
+  </section>
+
+  <!-- 14 MARKET -->
+  <section id="market">
+    <h2><span class="num">14</span>Marketplace, floor prices &amp; combining</h2>
+    <p>A player-to-player market in <b>SOL</b> for cards, boosts, and eggs.</p>
+    <ul>
+      <li><b class="k">Fee: 10%</b> on every sale, paid by the seller — it funds the $GREEN buyback-and-burn treasury.</li>
+      <li><b class="k">Unsold listings</b> auto-return to you after <b>7 days</b>.</li>
+    </ul>
+    <h3>Floor prices (one per rarity)</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Rarity</th><th class="n">Floor</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rar r-com">Common</span></td><td class="n">0.005 SOL</td></tr>
+        <tr><td><span class="rar r-unc">Uncommon</span></td><td class="n">0.010 SOL</td></tr>
+        <tr><td><span class="rar r-rare">Rare</span></td><td class="n">0.050 SOL</td></tr>
+        <tr><td><span class="rar r-epic">Epic</span></td><td class="n">0.250 SOL</td></tr>
+        <tr><td><span class="rar r-leg">Legendary</span></td><td class="n">1.000 SOL</td></tr>
+        <tr><td><span class="rar r-myth">Mythical</span></td><td class="n">no floor — free-range</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Combining cards</h3>
+    <p><b>5 Commons → 1 Uncommon</b>, or <b>5 Uncommons → 1 Rare</b> (0.005 SOL fee, result random within the new tier). Boost combining works the same way into Mystery Serum (see §9).</p>
+  </section>
+
+  <!-- 15 ROB -->
+  <section id="rob">
+    <h2><span class="num">15</span>PvP — Rob / Raid</h2>
+    <p>Send your crew to raid rival farms for their $GREEN.</p>
+    <ul>
+      <li><b class="k">Up to 20 raids/day.</b></li>
+      <li><b class="k">Raid power</b> = your combined boosted Grow Power (planted + Mythicals + Fast Autos), scaled by your grower multiplier.</li>
+      <li><b class="k">Win chance</b> = your power ÷ (your power + their power), always between <b>10% and 90%</b> — never a sure thing either way.</li>
+      <li><b class="k">Fee: 20%</b> of the win amount, charged up front and <b>burned</b> on every attempt — win or lose. A loss costs you only that fee.</li>
+      <li><b class="k">Anti-grief shield:</b> rob someone successfully and they're shielded for <b>3 hours</b>. Attacking anyone <b>drops your own shield</b>, so raiders are exposed too.</li>
+    </ul>
+    <div class="callout info">ℹ️ PvP is a simulated v1 today; real on-chain player-vs-player loot transfer is on the roadmap.</div>
+  </section>
+
+  <!-- 16 BONG -->
+  <section id="bong">
+    <h2><span class="num">16</span>PvP — Spin The Bong</h2>
+    <p>A group betting game: <b>2–10 players</b> ante an <b>equal $GREEN bet</b> into a pot, the bong spins, and it pays out.</p>
+    <ul>
+      <li><b class="k">Pot fee: 5%</b> — split 2.5% burned + 2.5% to the buyback-and-burn treasury. <b>The winner takes the other 95%.</b></li>
+      <li><b class="k">Three modes:</b>
+        <ul>
+          <li>🎯 <b>Heads Up</b> — 1v1, 50/50, one spin decides it.</li>
+          <li>🏆 <b>Winner Take All</b> — one spin lands on a single winner.</li>
+          <li>💀 <b>Elimination</b> — each spin knocks one player out until one remains; the eliminated stay to spectate.</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 17 REF -->
+  <section id="ref">
+    <h2><span class="num">17</span>Referrals</h2>
+    <p>Invite growers and earn a cut of what your network earns and spends — multi-level:</p>
+    <ul>
+      <li><b class="k">Direct referrals: 3%</b> · their referrals: <b>1%</b> · everyone deeper: <b>0.01%</b>.</li>
+      <li>Every referral you land also gives <b>+1 Weedster Egg tick</b>.</li>
+      <li>No code? A <b>"random player's code"</b> button matches you with an active grower so you're never left out.</li>
+      <li>Your daily-tip tweet has your referral link baked in — posting it earns ticks and spreads your code at once.</li>
+    </ul>
+  </section>
+
+  <!-- 18 AVATARS -->
+  <section id="avatars">
+    <h2><span class="num">18</span>Avatars</h2>
+    <p>You get <b>1 free avatar pick per farm level</b>. Most are cosmetic — but the <b class="k">boost avatars</b> give a <b>permanent, always-on stat bonus</b> just for owning them (they stack with each other). Bought with <b>SOL</b>:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Avatar</th><th class="n">Price</th><th>Permanent bonus</th><th>Unlock</th></tr></thead>
+      <tbody>
+        <tr><td>🦍 Kong</td><td class="n">0.25 SOL</td><td>+5% Grow Power</td><td>—</td></tr>
+        <tr><td>🐼 Puff Panda</td><td class="n">0.10 SOL</td><td>+5% harvest speed</td><td>—</td></tr>
+        <tr><td>🥽 Professor Chaos</td><td class="n">0.05 SOL</td><td>+5% breed success</td><td>—</td></tr>
+        <tr><td>🤖 Bot</td><td class="n">0.15 SOL</td><td>+2% to everything</td><td>Farm Lv 4</td></tr>
+        <tr><td>🐧 Penguin</td><td class="n">0.50 SOL</td><td>+5% to everything</td><td>Farm Lv 5</td></tr>
+      </tbody>
+    </table></div>
+    <p>The 5 free avatars (Grower Girl, Ribbit, Grower Boy, Cat, Dog) are cosmetic only.</p>
+  </section>
+
+  <!-- 19 KIT -->
+  <section id="kit">
+    <h2><span class="num">19</span>The Welcome Kit</h2>
+    <p>Your 0.25 SOL buy-in isn't just a farm — every new grower gets:</p>
+    <ul>
+      <li><b class="k">2 plant cards</b> (standard pack odds).</li>
+      <li><b class="k">1 boost item.</b></li>
+      <li><b class="k">1 guaranteed Weedster Egg</b> that auto-cracks right after you pick your avatar — Epic 30% / Legendary 50% / Mythical 20%, so <b>everyone starts with at least one strong card</b>. The starter egg's Mythical is capped at 150k–500k GP (you grow it higher from there), so nobody rolls a max monster on day one.</li>
+    </ul>
+  </section>
+
+  <!-- 20 LOOPS -->
+  <section id="loops">
+    <h2><span class="num">20</span>Playstyles &amp; game loops</h2>
+    <p>There's no single "right" way to play — GREEN LIFE supports several loops, and most growers blend a few. Here are the main ones:</p>
+
+    <div class="loop"><h3>🌿 The Steady Grower <span class="tag">Low risk · F2P-friendly</span></h3>
+      <p>Buy in, plant Normals, water daily, harvest on Day 30, claim, and reinvest the $GREEN into more plants and cheap packs. Level your grower and farm as you go. The safest, most passive path — great if you just want to log in, water, and stack.</p></div>
+
+    <div class="loop"><h3>⚡ The Speed Farmer <span class="tag">Higher tempo</span></h3>
+      <p>Lean on Fast Autos for full-size payouts every 7 days and reinvest fast to compound. You trade convenience for speed — you <em>must</em> water on time and never pull early, or it's a total loss. Best once you can afford several auto spots.</p></div>
+
+    <div class="loop"><h3>🧬 The Breeder <span class="tag">Long game · high ceiling</span></h3>
+      <p>Collect strong strains and breed for jackpot Mythicals (or crack eggs), grow them in the tent, then re-breed to climb their Grow Power toward the 1M cap. The path to the biggest earners and the rarest, most valuable cards.</p></div>
+
+    <div class="loop"><h3>💹 The Trader <span class="tag">Market-focused</span></h3>
+      <p>Work the marketplace — buy under-priced cards, combine Commons up the ladder, flip Legendaries and eggs, and time the floors. You can play almost entirely through the market if you read value well.</p></div>
+
+    <div class="loop"><h3>🍳 The Chef <span class="tag">Farm Lv3+</span></h3>
+      <p>Run the Kitchen: cook grower boosts to supercharge your whole farm during big harvest windows, or sell the premium ones (they're scarce, so they hold value) to other growers.</p></div>
+
+    <div class="loop"><h3>🎮 The Raider <span class="tag">Aggressive · risk</span></h3>
+      <p>Build combined power and run up to 20 raids a day for other growers' $GREEN. Manage your shield, pick your targets, and accept the burn on every attempt. High action, high variance.</p></div>
+
+    <div class="loop"><h3>🎰 The Gambler <span class="tag">High variance</span></h3>
+      <p>Live in Spin The Bong — ante up and go for pots across the three modes. Pure risk/reward, on your terms.</p></div>
+
+    <div class="loop"><h3>🤝 The Connector <span class="tag">Social growth</span></h3>
+      <p>Post daily and grow a referral network for a passive multi-level cut of everything your downline does — plus a steady drip of egg ticks toward free Mythical shots. The more people you bring, the more you earn without touching a plant.</p></div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <h4>⚠️ Important — please read</h4>
+      <p>GREEN LIFE is an in-development video game and is <b>not yet launched</b>. There is currently <b>no $GREEN token, nothing for sale, and no live game</b>. Every value on this page is drawn from the current development build and may be <b>tuned or changed before launch</b>; the launch window (estimated ~3–6 months) is a goal, not a guarantee. This page is informational only — it is <b>not</b> financial, investment, or legal advice, and it is not an offer to buy or sell any token, security, or asset. Some systems (multiplayer/PvP, on-chain contracts) are still being finalized. Do your own research and beware of scams — this project has no token sale, presale, or airdrop at this time.</p>
+    </div>
+    <div class="fm">GREEN LIFE · 420,000,000,000 $GREEN · minted once · burned forever</div>
+  </div>
+</footer>
+
+</body>
+</html>
