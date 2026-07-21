@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GREEN LIFE — The First Fixed-Supply P2E on Solana</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="GREEN LIFE is a cannabis farming play-to-earn game on Solana, powered by $GREEN — 420 billion tokens minted once, never again. In development, targeting launch in ~3–6 months.">
+<meta property="og:title" content="GREEN LIFE — The First Fixed-Supply P2E on Solana">
+<meta property="og:description" content="Grow, breed, and earn $GREEN on Solana. 420B fixed supply, minted once, never again. Every token spent in-game is burned forever. In development.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#08080c; --bg2:#0d0d13; --panel:#14141c; --panel2:#191922;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eef0f5; --mut:#9a9aa8; --mut2:#6d6d7a;
+    --p:#c86bff; --b:#4da6ff; --g:#52e300;
+    --grad:linear-gradient(115deg,#c86bff,#4da6ff,#52e300);
+    --disp:"Arial Black","Archivo Black",Archivo,system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(1200px 700px at 50% -10%, #1a1030 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, #071c14 0%, transparent 55%),
+      radial-gradient(900px 500px at 0% 40%, #10122e 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--body); line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:var(--b);text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:rgba(8,8,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,40px);display:flex;align-items:center;gap:16px}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:16px;letter-spacing:.02em}
+  .nav-logo img{width:30px;height:30px;border-radius:8px}
+  .nav-logo .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav-links{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--mut);font-size:13px;font-weight:600}
+  .nav-links a:hover{color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* status ribbon */
+  .ribbon{background:linear-gradient(90deg,rgba(200,107,255,.14),rgba(82,227,0,.14));
+    border-bottom:1px solid var(--line2);text-align:center;font-size:12.5px;font-weight:700;color:#e7d9ff;padding:8px 16px}
+  .ribbon b{color:#fff}
+
+  /* hero */
+  .hero{text-align:center;padding:clamp(48px,9vw,96px) 0 clamp(30px,5vw,56px)}
+  .hero .logo{width:clamp(120px,22vw,168px);height:clamp(120px,22vw,168px);border-radius:30px;margin:0 auto 22px;
+    box-shadow:0 0 70px rgba(120,90,255,.45)}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border-radius:99px;
+    background:rgba(255,178,77,.1);border:1px solid rgba(255,178,77,.4);color:#ffcf8f;
+    font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
+  .badge i{width:8px;height:8px;border-radius:99px;background:#ffb24d;box-shadow:0 0 10px #ffb24d;animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  h1.wm{font-family:var(--disp);font-weight:900;font-size:clamp(46px,11vw,104px);letter-spacing:.01em;line-height:.9;margin:0 0 8px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tagline{font-size:clamp(15px,2.4vw,20px);color:#cdd0da;max-width:44ch;margin:6px auto 4px;font-weight:600}
+  .subline{font-size:clamp(13px,2vw,15px);color:var(--mut);max-width:56ch;margin:14px auto 0}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .btn{font-family:var(--body);font-weight:800;font-size:14px;padding:13px 24px;border-radius:12px;cursor:pointer;border:none;transition:transform .12s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--grad);color:#0a0a0e}
+  .btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line2)}
+
+  /* sections */
+  section{padding:clamp(46px,8vw,80px) 0}
+  .eyebrow{font-family:var(--disp);letter-spacing:.28em;font-size:11px;color:var(--mut);text-transform:uppercase;margin-bottom:12px}
+  h2{font-family:var(--disp);font-weight:900;font-size:clamp(26px,5vw,40px);line-height:1.05;margin:0 0 16px;letter-spacing:.01em}
+  h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{color:#c7c8d2;font-size:clamp(15px,2.2vw,17px);max-width:64ch}
+  .center{text-align:center;margin:0 auto}
+  .center .lede{margin-left:auto;margin-right:auto}
+
+  /* big stat band */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:34px}
+  .stat{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center}
+  .stat .n{font-family:var(--disp);font-weight:900;font-size:clamp(26px,4vw,34px);
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+  .stat .l{color:var(--mut);font-size:12.5px;margin-top:8px;font-weight:600}
+
+  /* cards grid */
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .card .ic{font-size:30px;margin-bottom:12px;display:block}
+  .card h3{font-family:var(--disp);font-weight:900;font-size:17px;margin:0 0 8px;letter-spacing:.01em}
+  .card p{color:var(--mut);font-size:14px;margin:0}
+  .card .tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--g);background:rgba(82,227,0,.1);border:1px solid rgba(82,227,0,.3);padding:3px 8px;border-radius:6px}
+  .plant-card{border-top:3px solid var(--rc)}
+  .plant-card h3{color:var(--rc)}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:30px}
+  .gitem{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative;aspect-ratio:2/3}
+  .gitem img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .gitem:hover img{transform:scale(1.06)}
+  .gitem span{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 7px;font-size:11px;font-weight:800;color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.85))}
+
+  /* roadmap */
+  .road{display:grid;gap:16px;margin-top:30px}
+  .phase{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;
+    background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .phase .dot{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;
+    background:var(--pc,rgba(255,255,255,.06));border:1px solid var(--line2)}
+  .phase h3{margin:0 0 4px;font-family:var(--disp);font-weight:900;font-size:16px}
+  .phase .when{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2)}
+  .phase.now .when{color:var(--g)}
+  .phase p{color:var(--mut);font-size:14px;margin:8px 0 0}
+
+  /* faq */
+  details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+  details summary{font-weight:800;font-size:15px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";color:var(--g);font-weight:900;font-size:20px;line-height:1}
+  details[open] summary::after{content:"\2212"}
+  details p{color:var(--mut);font-size:14px;margin:12px 0 0}
+
+  .cta-band{background:linear-gradient(115deg,rgba(200,107,255,.12),rgba(77,166,255,.1),rgba(82,227,0,.12));
+    border:1px solid var(--line2);border-radius:24px;padding:clamp(30px,6vw,56px);text-align:center;margin:20px 0}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;margin-top:40px}
+  .disclaimer{background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px;margin-bottom:26px}
+  .disclaimer h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f}
+  .disclaimer p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.6}
+  .foot-b{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-b .fm{font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:13px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .foot-b .fine{color:var(--mut2);font-size:12px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="#top"><img src="img/logo.jpg" alt="GREEN LIFE"><span class="wm">GREEN LIFE</span></a>
+    <div class="nav-links">
+      <a href="#about">Overview</a>
+      <a href="#play">How to Play</a>
+      <a href="#token">Tokenomics</a>
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="plants-and-boosts.html">Plants &amp; Boosts</a>
+    </div>
+  </div>
+</nav>
+
+<div class="ribbon">🚧 <b>In active development</b> — targeting launch in <b>~3–6 months</b>. No $GREEN token exists yet &amp; nothing is for sale.</div>
+
+<div class="wrap" id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <img class="logo" src="img/logo.jpg" alt="GREEN LIFE logo">
+    <div class="badge"><i></i> Pre-launch · Solana</div>
+    <h1 class="wm">GREEN&nbsp;LIFE</h1>
+    <p class="tagline">Grow, breed, and earn on Solana — the first <b style="color:var(--ink)">fixed-supply</b> play-to-earn game.</p>
+    <p class="subline">Build a cannabis grow empire that farms <b>$GREEN</b> every second. 420 billion tokens, minted once at launch, never again. Every token spent in-game is burned forever.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="plants-and-boosts.html">🌿 See the Plants &amp; Boosts</a>
+      <a class="btn btn-ghost" href="#roadmap">View the Roadmap</a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="center" style="max-width:760px">
+      <div class="eyebrow">What is GREEN LIFE</div>
+      <h2>A play-to-earn grow game <span class="g">built to last</span>.</h2>
+      <p class="lede">GREEN LIFE is a cannabis farming game on the Solana blockchain. You start a grow, plant strains, water and tend them, then harvest for <b>$GREEN</b> — the game's token. Trade cards on a player marketplace, breed rare Mythical strains, open packs, and take on other growers in PvP. It plays like a game first — the earning is baked into the growing.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">420B</div><div class="l">Fixed $GREEN supply</div></div>
+      <div class="stat"><div class="n">1×</div><div class="l">Minted once, never again</div></div>
+      <div class="stat"><div class="n">0%</div><div class="l">Inflation after launch</div></div>
+      <div class="stat"><div class="n">100%</div><div class="l">Of in-game spend is burned</div></div>
+    </div>
+  </section>
+
+  <!-- FIXED SUPPLY -->
+  <section id="token">
+    <div class="eyebrow">Tokenomics</div>
+    <h2>Fixed supply. <span class="g">Real scarcity.</span></h2>
+    <p class="lede">Most emission games print tokens forever until the reward is worthless. GREEN LIFE does the opposite: the entire <b>420,000,000,000 $GREEN</b> supply is minted <b>one time</b> at launch and the contract can never mint again. Rewards come out of a single shared <b>emissions pool</b> that drains slowly over years — and everything players spend in-game is <b>burned</b>, permanently shrinking the supply.</p>
+    <div class="grid g3" style="margin-top:34px">
+      <div class="card"><span class="ic">🔒</span><h3>Minted once</h3><p>420B $GREEN created at launch. The mint authority is burned — no team faucet, no surprise inflation, ever.</p></div>
+      <div class="card"><span class="ic">🔥</span><h3>Deflationary by design</h3><p>Breeding, packs, upgrades, marketplace fees — every $GREEN spent in-game is burned forever, not recycled.</p></div>
+      <div class="card"><span class="ic">🌊</span><h3>Slow, fair emissions</h3><p>Rewards flow from one pool that decays ~0.025%/day (about a 7.6-year half-life), so early growers don't drain it and there's runway for years.</p></div>
+    </div>
+  </section>
+
+  <!-- HOW TO PLAY -->
+  <section id="play">
+    <div class="eyebrow">How to play</div>
+    <h2>Plant → Grow → <span class="g">Harvest → Earn.</span></h2>
+    <p class="lede">Your farm's total <b>Grow Power</b> is your share of the emissions pool — the more power you grow, the more $GREEN you farm every second. Choose how you want to grow:</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card plant-card" style="--rc:#52e300"><span class="tag">Steady</span><span class="ic">🌿</span><h3>Normal Plants</h3><p>A 30-day grow cycle. The only plant you can supercharge with boost items. The steady, long-game backbone of your farm.</p></div>
+      <div class="card plant-card" style="--rc:#ffb24d"><span class="tag">Fast</span><span class="ic">⚡</span><h3>Fast Autos</h3><p>A flat 7-day grow-once. Earns a full month's payout in a week, but can't be boosted and pulls a one-and-done harvest. High speed, high commitment.</p></div>
+      <div class="card plant-card" style="--rc:#c86bff"><span class="tag">Rare</span><span class="ic">🧬</span><h3>Mythicals</h3><p>Bred from two strains or cracked from a Weedster Egg — never found in packs. One-of-a-kind power that you climb through breeding.</p></div>
+    </div>
+    <p class="lede" style="margin-top:22px">Plants need water or they wilt. Pull too early and you forfeit the grow. Let one finish and you claim the full payout — then reinvest into more plants, upgrades, and rarer genetics.</p>
+  </section>
+
+  <!-- ART SHOWCASE -->
+  <section>
+    <div class="eyebrow">The strains</div>
+    <h2>16 strains, <span class="g">every one hand-crafted.</span></h2>
+    <p class="lede">From bottom-shelf Dirt Weed to god-tier Mythical crossbreeds — each strain has its own original key-art. Full stats and Grow Power for every card live on the <a href="plants-and-boosts.html">Plants &amp; Boosts</a> page.</p>
+    <div class="gallery">
+      <div class="gitem"><img loading="lazy" src="img/strains/dirtweed.jpg" alt="Dirt Weed"><span>Dirt Weed</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/runtz.jpg" alt="Runtz"><span>Runtz</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/bluedream.jpg" alt="Blue Dream"><span>Blue Dream</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/ogkush.jpg" alt="OG Kush"><span>OG Kush</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/sourdiesel.jpg" alt="Sour Diesel"><span>Sour Diesel</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/gorilla.jpg" alt="Gorilla Glue"><span>Gorilla Glue</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/pineapple.jpg" alt="Pineapple Express"><span>Pineapple Express</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/whitewidow.jpg" alt="White Widow"><span>White Widow</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/garypayton.jpg" alt="Gary Payton"><span>Gary Payton</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/gdp.jpg" alt="Grand Daddy Purple"><span>Grand Daddy Purple</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/fireasf.jpg" alt="Fire As Fuck"><span>Fire As F*ck</span></div>
+      <div class="gitem"><img loading="lazy" src="img/strains/crossbreed.jpg" alt="Cross Breed Mythical"><span>Cross Breed</span></div>
+    </div>
+    <div style="text-align:center;margin-top:24px"><a class="btn btn-ghost" href="plants-and-boosts.html">See all 16 strains + 10 boosts →</a></div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="eyebrow">Features</div>
+    <h2>A whole game, <span class="g">not just a farm.</span></h2>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><span class="ic">🧬</span><h3>Breeding</h3><p>Cross two strains to chase a one-of-a-kind Mythical. Rarer parents, better odds — the only way to mint the top tier.</p></div>
+      <div class="card"><span class="ic">🎴</span><h3>Packs &amp; Reveals</h3><p>Rip Seed, Mystery, and Booster packs for strains and boost items, with cinematic pack-opening reveals.</p></div>
+      <div class="card"><span class="ic">🥚</span><h3>Weedster Egg</h3><p>Earn eggs by posting and referring friends. Crack them for guaranteed Epic+ pulls — the only non-breed path to a Mythical.</p></div>
+      <div class="card"><span class="ic">🎮</span><h3>PvP — Rob &amp; Raid</h3><p>Send crews to raid rival farms for $GREEN, with anti-grief shields so newcomers aren't farmed.</p></div>
+      <div class="card"><span class="ic">🎰</span><h3>PvP — Spin The Bong</h3><p>2–10 growers ante up and the bong spins to pick winners across three game modes. Winner takes the pot.</p></div>
+      <div class="card"><span class="ic">🍳</span><h3>The Kitchen</h3><p>Cook plant cards into grower boosts — premium, scarce consumables that multiply your whole operation.</p></div>
+      <div class="card"><span class="ic">🏪</span><h3>Player Marketplace</h3><p>List and buy strains, boosts, and eggs peer-to-peer. Live floor prices per rarity; a flat fee funds buyback-and-burn.</p></div>
+      <div class="card"><span class="ic">🤝</span><h3>Referrals</h3><p>Invite growers and earn. Every share link is baked in, feeding both your rewards and your egg progress.</p></div>
+      <div class="card"><span class="ic">🏙️</span><h3>3D Grow Rooms</h3><p>Watch your plants and companions in real 3D rooms that level up from a bedroom to a full warehouse.</p></div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section>
+    <div class="eyebrow">Built to be fair</div>
+    <h2>Provably fair, <span class="g">on-chain.</span></h2>
+    <div class="grid g2" style="margin-top:30px">
+      <div class="card"><span class="ic">🎲</span><h3>Verifiable randomness (VRF)</h3><p>Every random outcome — packs, breeds, PvP spins — resolves on-chain through a Verifiable Random Function. No one, not even the house, can rig a result.</p></div>
+      <div class="card"><span class="ic">🔗</span><h3>On-chain ownership</h3><p>Your farm, cards, and $GREEN live on Solana — yours to hold, trade, or sell. Temporary accounts refund their rent back to you on settle.</p></div>
+      <div class="card"><span class="ic">🔥</span><h3>Burn-on-spend</h3><p>Forfeited and spent $GREEN is burned, not pocketed. The economy tightens as the game grows.</p></div>
+      <div class="card"><span class="ic">🔒</span><h3>No infinite mint</h3><p>420B, one time. The math is fixed at launch and can't be changed to dilute holders later.</p></div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="eyebrow">Roadmap</div>
+    <h2>Where we are — <span class="g">and where we're headed.</span></h2>
+    <p class="lede">GREEN LIFE is being built carefully, in the open. Below is the honest state of things. <b>Timelines are estimates, not promises</b> — we'd rather launch right than launch fast.</p>
+    <div class="road">
+      <div class="phase now" style="--pc:rgba(82,227,0,.12)">
+        <div class="dot">✅</div>
+        <div><div class="when">Now · In progress</div><h3>The game is built &amp; in testing</h3>
+          <p>Core farming loop, three plant types, breeding, packs, the Weedster Egg, PvP (Rob/Raid &amp; Spin The Bong), the Kitchen, the player marketplace, referrals, 3D grow rooms, and original art for every strain and boost — all playable in an internal build.</p></div>
+      </div>
+      <div class="phase" style="--pc:rgba(77,166,255,.12)">
+        <div class="dot">⚙️</div>
+        <div><div class="when">Next</div><h3>Solana smart contracts &amp; audits</h3>
+          <p>Moving the farm, emissions, breeding, marketplace, and PvP on-chain with Anchor, wiring up VRF for fair randomness, then testing hard on devnet and putting the contracts through review.</p></div>
+      </div>
+      <div class="phase" style="--pc:rgba(200,107,255,.14)">
+        <div class="dot">🚀</div>
+        <div><div class="when">Launch · ~3–6 months out</div><h3>Public launch &amp; token generation</h3>
+          <p>The one-time mint of 420B $GREEN and the public opening of GREEN LIFE. This is an estimated window, not a fixed date — <b>the game is not live yet and there is nothing to buy today.</b></p></div>
+      </div>
+      <div class="phase" style="--pc:rgba(255,178,77,.12)">
+        <div class="dot">🍄</div>
+        <div><div class="when">After launch</div><h3>New worlds to grow</h3>
+          <p>Fully on-chain PvP loot, deeper 3D rooms, and a post-launch <b>Mushroom Farm</b> expansion for new ways to earn — plus whatever the community grows into.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta-band">
+      <div class="eyebrow" style="color:#d7c4ff">Follow the grow</div>
+      <h2 style="margin-bottom:12px">Early, but <span class="g">real.</span></h2>
+      <p class="lede center" style="max-width:52ch">GREEN LIFE isn't live yet — but the game is built and the genetics are ready. Dig into every strain and boost while we finish the on-chain build.</p>
+      <div class="cta"><a class="btn btn-primary" href="plants-and-boosts.html">🌿 Explore the Plants &amp; Boosts</a></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="eyebrow">FAQ</div>
+    <h2>Straight answers.</h2>
+    <div style="margin-top:26px">
+      <details><summary>Is GREEN LIFE live? Can I buy the token?</summary><p>No. The game is in active development, targeting launch in roughly 3–6 months. No $GREEN token exists yet, nothing is for sale, and anyone claiming to sell $GREEN today is not us.</p></details>
+      <details><summary>What makes it "fixed-supply"?</summary><p>The full 420 billion $GREEN is minted a single time at launch and the mint authority is burned. No inflation, no team faucet, no way to print more later.</p></details>
+      <details><summary>How do I actually earn?</summary><p>You grow plants. Your total Grow Power is your share of a shared emissions pool, paying out $GREEN over time. You can also trade cards, breed rare Mythicals, and win PvP.</p></details>
+      <details><summary>What stops it from crashing like other P2E games?</summary><p>No infinite minting, a pool that emits slowly over years, and a burn on everything spent in-game — so supply tightens instead of ballooning as more people play.</p></details>
+      <details><summary>Which blockchain?</summary><p>Solana — fast and cheap, so growing, trading, and PvP feel like a game, not a gas bill.</p></details>
+      <details><summary>Is it fair / can outcomes be rigged?</summary><p>Random outcomes resolve on-chain via a Verifiable Random Function (VRF). No one — player, team, or validator — can predict or fix a result.</p></details>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <h4>⚠️ Important — please read</h4>
+      <p>GREEN LIFE is an in-development video game and is <b>not yet launched</b>. As of now there is <b>no $GREEN token in existence, nothing for sale, and no live game</b>. Any launch window mentioned (currently an estimated ~3–6 months) is a goal, not a guarantee, and may change. This page is for informational purposes only. It is not financial, investment, or legal advice, and it is not an offer or solicitation to buy or sell any token, security, or asset. Do your own research. Beware of scams and imposters — this project has no token sale, presale, or airdrop at this time.</p>
+    </div>
+    <div class="foot-b">
+      <div class="fm">GREEN LIFE</div>
+      <div class="fine">420,000,000,000 $GREEN · minted once · burned forever · built on Solana</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
