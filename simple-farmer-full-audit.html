@@ -103,7 +103,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
     <div class="badges">
       <span class="tag">16 crops · 5 rarities</span>
       <span class="tag">5 garden tiers</span>
-      <span class="tag">150B emissions pool</span>
+      <span class="tag">200B emissions pool</span>
       <span class="tag">real Supabase referral backend</span>
       <span class="tag">100% client sim otherwise</span>
     </div>
@@ -173,8 +173,8 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
     <tr><td>Boost cards</td><td>5 total, one per rarity tier</td><td class="cite">farmer-constants.js:211-217</td></tr>
     <tr><td>Garden tiers</td><td>5 (1X / 2X / 5X / 10X / ☢️ Toxic 100X)</td><td class="cite">farmer-constants.js:245-259</td></tr>
     <tr><td>Farm levels</td><td>1–5, <code>MAX_FARM_LEVEL = 5</code></td><td class="cite">farmer-constants.js:272</td></tr>
-    <tr><td>Entry price</td><td>$25.00 (≈0.3289 SOL at SOL_USD=76)</td><td class="cite">farmer-constants.js:273-274</td></tr>
-    <tr><td>Emissions pool</td><td>150,000,000,000 $GREEN, decaying 0.069%/day, hard-capped 2%/day forever</td><td class="cite">farmer-constants.js:90-105</td></tr>
+    <tr><td>Entry price</td><td>$25.00 (0.25 SOL at SOL_USD=100)</td><td class="cite">farmer-constants.js:273-274</td></tr>
+    <tr><td>Emissions pool</td><td>200,000,000,000 $GREEN, decaying 0.05%/day, hard-capped 2%/day forever</td><td class="cite">farmer-constants.js:90-105</td></tr>
     <tr><td>Referral cut</td><td>3% / 1% / 0.01% over 3 levels = 4.01% total, then stops</td><td class="cite">farmer-constants.js:735-736</td></tr>
     <tr><td>Marketplace fee</td><td>10% total → 90% seller / 5% burn / 5% treasury (design target)</td><td class="cite">farmer-constants.js:672-674</td></tr>
     <tr><td>Real backend</td><td>Standalone Supabase project, referral system only</td><td class="cite">session infra record — see Ch.16</td></tr>
@@ -189,7 +189,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 <section class="sec" id="ch02">
   <div class="sec-head"><span class="sec-num">02</span><h2>Relationship to GREEN LIFE &amp; the GLG Platform</h2></div>
 
-  <p>Simple Farmer and GREEN LIFE are both games on the shared GreenLifeGame (GLG) platform. The rule, stated at the very top of <code>farmer-constants.js</code>, is precise: the two games share <b>only</b> the $GREEN token and its liquidity pool — never code, never mechanics, never a referral graph. <span class="cite">farmer-constants.js:1-19</span></p>
+  <p>Simple Farmer and GREEN LIFE are both games on the shared GreenLifeGame (GLG) platform. The rule, stated at the very top of <code>farmer-constants.js</code>, is precise: the two games share <b>only</b> the $GREEN token and the platform-level buckets behind it (the shared liquidity pool, treasury and giveaway float) — never code, never mechanics, never a referral graph. <span class="cite">farmer-constants.js:1-19</span></p>
 
   <h3>What is actually shared</h3>
   <table>
@@ -209,14 +209,14 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   </ul>
 
   <div class="callout warn">
-    <b>Arithmetic flag — the "690B platform supply" does not sum from its own stated parts</b>
-    <code>farmer-constants.js</code>'s own header comment states the 3-game platform split as Farm 150B · Weed (GREEN LIFE) 200B · Dino 250B, called a "690 billion" total supply. <b>150 + 200 + 250 = 600B, not 690B.</b> Both FARMER-PLAYER-GUIDE.html and FARMER-MASTER-REPORT.html repeat this same 690B figure identically — so this is not a disagreement between documents, it's an inconsistency present in the source comment itself, repeated faithfully everywhere it's cited. See <a href="#ch20">Open Questions §1</a>.
-    <span class="cite">farmer-constants.js:72-89; cited MR cover, MR §03</span>
+    <b>Platform supply — locked at 1 trillion across four games</b>
+    The total $GREEN supply is <b>1,000,000,000,000 — one trillion</b>, minted once and never again. Each game gets an emissions pool <b>and nothing else</b>: Simple Farmer 200B · Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B. The remaining 100B is platform-level and shared by every game — <b>Liquidity Pool 50B</b>, <b>Giveaways / Contest / Float buffer 25B</b>, <b>Treasury 25B</b>. Those three buckets belong to GLG, not to any single title, so no game has its own liquidity, treasury or promo allocation.
+    <span class="cite">tokenomics locked 2026-08-25</span>
   </div>
 
-  <p>Every one of the three GLG games decays its emissions pool at the identical <b>0.069%/day</b> rate — "so no game feels pointless relative to another" — with pool <i>size</i>, not rate, being the only lever that differs between games (Farm 150B : Weed 200B : Dino 250B ≈ a 1 : 1.33 : 1.67 earning-power ratio). Raising crop power across the board does not raise real player earnings, because the share-of-network-power math cancels it out — only pool size and rate actually move real earnings. <span class="cite">farmer-constants.js:72-89</span></p>
+  <p>Emission rates are deliberately paired to pool size, not held identical: Simple Farmer and Mother Lode run <b>0.05%/day</b> on a 200B pool, while GREEN LIFE and Dino Island run <b>0.069%/day</b> on a 250B pool. Cody's reasoning, in his own words: <i>"green life and dino island will earn more i know that, and i did it on purpose as it takes more time to play that game."</i> The heavier games pay more because they ask more of the player. Raising crop power across the board does not raise real player earnings, because the share-of-network-power math cancels it out — only pool size and rate actually move real earnings. <span class="cite">tokenomics locked 2026-08-25</span></p>
 
-  <p><b>Scope caveat, stated by this document's own predecessor research:</b> everything above about GREEN LIFE's 200B and Dino's 250B allocations comes only from Simple Farmer's own source-code comments — no GREEN LIFE or Dino source file was read to produce this document. This is the same caveat MR's own research explicitly carried forward.</p>
+  <p><b>Scope note:</b> the per-game allocations above come from the platform-level tokenomics spec, not from any single game's source file — no GREEN LIFE, Dino Island or Mother Lode source file was read to produce this document.</p>
 
   <p>Separately verified this session, directly from Cody: the lottery dataset is the <b>only</b> thing genuinely shared cross-game today; every other system (referrals, farm economy, inventory) is fully separate — matching the standing platform rule that every GLG game gets its own code, files, and GitHub repo, no exceptions even where mechanics overlap.</p>
 </section>
@@ -229,7 +229,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 
   <table>
     <tr><th>Stage</th><th>What happens</th><th>Citation</th></tr>
-    <tr><td><b>glg</b></td><td>Shared GLG platform splash: icon 150×150, "GREENLIFEGAME" wordmark, taglines "FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA" / "420B · MINTED ONCE · NEVER AGAIN". Auto-advances 3,500ms or tap-anywhere, 500ms fade-out. Own component, not imported from GREEN LIFE.</td><td class="cite">farmer-onboarding.jsx:169-230</td></tr>
+    <tr><td><b>glg</b></td><td>Shared GLG platform splash: icon 150×150, "GREENLIFEGAME" wordmark, taglines "FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA" / "1 TRILLION · MINTED ONCE · NEVER AGAIN". Auto-advances 3,500ms or tap-anywhere, 500ms fade-out. Own component, not imported from GREEN LIFE.</td><td class="cite">farmer-onboarding.jsx:169-230</td></tr>
     <tr><td><b>intro</b></td><td>Simple Farmer's own splash: real logo 190×190 (raised from 120px to match GREEN LIFE's 210px LogoTile scale), "SIMPLE FARMER" wordmark, tagline "GROW. HARVEST. EARN." Connect Wallet + How to Play buttons. Honesty line: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></td><td class="cite">farmer-onboarding.jsx:235-330</td></tr>
     <tr><td><b>checking</b></td><td>~900ms artificial delay while <code>findExistingFarm()</code> runs — a hard stub that <b>always returns null</b> (gated by <code>DEMO_EXISTING_FARM = false</code>), so every connect currently onboards as brand new. No "I already have an account" button by design — a wallet-derived farm lookup is meant to make that unnecessary, and a mis-tap there risks a double buy-in.</td><td class="cite">farmer-game.jsx:584-616; farmer-onboarding.jsx:374-453</td></tr>
     <tr><td><b>invite</b></td><td>Screen 1 of 2 (split from a combined screen 2026-08-24 to mirror GREEN LIFE). Code field: 7 chars max (<code>REF_CODE_LEN</code> = 4 letters + 3 digits), alphabet excludes I/O to avoid 1/0 confusion. 🎲 Roulette button matches to a real bootstrap-chain code (<code>SFROOT3/4/5</code> only — #1/#2 excluded). Optional claim-code field, validated live. Continue gated on code ≥4 chars.</td><td class="cite">farmer-onboarding.jsx:471-614; farmer-constants.js:56-74</td></tr>
@@ -251,7 +251,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   <h3>What a fresh mint actually grants</h3>
   <table>
     <tr><th>Item</th><th>Value</th><th>Citation</th></tr>
-    <tr><td>Entry cost</td><td>$25.00 ≈ 0.3289 SOL (SOL_USD=76)</td><td class="cite">farmer-constants.js:273-274</td></tr>
+    <tr><td>Entry cost</td><td>$25.00 = 0.25 SOL (SOL_USD=100)</td><td class="cite">farmer-constants.js:273-274</td></tr>
     <tr><td>Starter $GREEN bonus</td><td>$5.00 → 500,000 $GREEN — comes OUT of the $25, not added on top</td><td class="cite">farmer-constants.js:291; farmer-game.jsx:652-653</td></tr>
     <tr><td>Free starting plots</td><td>10 total: 4(1X) + 3(2X) + 2(5X) + 1(10X) + 0(Toxic)</td><td class="cite">farmer-constants.js:246-255</td></tr>
     <tr><td>Welcome kit</td><td>Exactly 1 Seed Pack (<code>STARTER_PACKS</code>), auto-opens the instant the farm mints — nothing else, no pre-rolled cards, no boost</td><td class="cite">farmer-constants.js:275-292; farmer-game.jsx:673-686</td></tr>
@@ -721,7 +721,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   <p>Four sections, fixed order: Global Stats → 🏆 Top Farms leaderboard → ⏳ Pool-life projection → 🧪 What's simulated.</p>
 
   <h3>Global stats</h3>
-  <p>Live emissions pool balance vs. <code>FARM_EMISSIONS_POOL</code> (150B), with correct handling of a pool that's been topped up <i>past</i> 100% (its address is public, so treasury or anyone can send $GREEN back in — always existing supply moving to farmers, never new supply). 6-stat grid: pool left, today's release, network power, your share, total burned, treasury. <span class="cite">farmer-screen-world.jsx:137-222</span></p>
+  <p>Live emissions pool balance vs. <code>FARM_EMISSIONS_POOL</code> (200B), with correct handling of a pool that's been topped up <i>past</i> 100% (its address is public, so treasury or anyone can send $GREEN back in — always existing supply moving to farmers, never new supply). 6-stat grid: pool left, today's release, network power, your share, total burned, treasury. <span class="cite">farmer-screen-world.jsx:137-222</span></p>
 
   <div class="callout fix">
     <b>2026-08-24 fix — a legitimate 0%/day rate pause was being silently overridden</b>
@@ -785,7 +785,7 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
     <tr><td>🎁 Gift Wallet</td><td>Operational</td><td>2 SOL</td><td>Unredeemed gift value + gasless-claim gas</td></tr>
     <tr><td>🏦 Treasury</td><td>Cold</td><td>—</td><td>Receives market/lottery fee + SOL-purchase treasury slice</td></tr>
     <tr><td>💧 LP Reserve</td><td>Vault (PDA)</td><td>—</td><td>$GREEN side of the pool; no human withdraw path</td></tr>
-    <tr><td>🌾 Emissions Pool</td><td>Vault (PDA)</td><td>—</td><td>The 150B; address is public, deposit-only</td></tr>
+    <tr><td>🌾 Emissions Pool</td><td>Vault (PDA)</td><td>—</td><td>The 200B; address is public, deposit-only</td></tr>
     <tr><td>📝 Content key</td><td>Signer</td><td>—</td><td>Signs event-drop publishing</td></tr>
     <tr><td>💲 Price dial key</td><td>Signer</td><td>—</td><td>Signs shop price/currency changes</td></tr>
     <tr><td>⚙️ Emissions dial key</td><td>Signer</td><td>—</td><td>Signs the emissions rate dial</td></tr>
@@ -874,8 +874,8 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   <h3>18.2 — Confirmed contradictions</h3>
 
   <div class="qcard">
-    <span class="qn">A · 690B platform total doesn't sum from its own parts</span>
-    <p>Both PG and MR independently state "690 billion" as the 3-game platform total, and both give the identical breakdown Farm 150B / Weed 200B / Dino 250B — which sums to 600B, not 690B. Not a disagreement between the docs (they agree with each other) but an inconsistency present in both, traced to the same source comment in <code>farmer-constants.js:72-89</code>. See <a href="#ch20">Open Questions §1</a>.</p>
+    <span class="qn">A · The old platform-total figure — RESOLVED, superseded by the locked 1-trillion spec</span>
+    <p>PG and MR both used to quote a three-game platform total whose stated parts did not add up to it. That entire framing is now dead — there is no three-game split and no percentage-based allocation. Tokenomics were locked 2026-08-25 at <b>1,000,000,000,000 $GREEN</b> across <b>four</b> games: Simple Farmer 200B · Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B, plus the shared platform buckets (LP 50B · Giveaways/Contest/Float 25B · Treasury 25B). 200+200+250+250+50+25+25 = 1,000B exactly. Resolved: the numbers sum, and the discrepancy no longer exists in any document. See <a href="#ch20">Open Questions §1</a>.</p>
   </div>
 
   <div class="qcard">
@@ -957,8 +957,8 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   <p>Genuine ambiguities, cross-source disagreements, or unresolved design flags found during this audit. None of these have been resolved by guessing — each is presented with its supporting evidence so Cody can make the call.</p>
 
   <div class="qcard">
-    <span class="qn">1 · Does the 690B platform total actually sum correctly?</span>
-    <p>150B (Farm) + 200B (Weed) + 250B (Dino) = 600B, not the 690B stated in <code>farmer-constants.js</code>'s own header comment (and repeated identically in both PG and MR). Either the real total is 600B and the "690B" figure is a stale/wrong comment, or there's an unstated ~90B allocation (a fourth pool? a reserve?) that no source read for this audit mentions. <b>Needs a direct check against the actual constant / Cody's own intent.</b></p>
+    <span class="qn">1 · Does the platform total sum correctly? — ANSWERED by Cody, 2026-08-25</span>
+    <p>The old platform-total question is closed. Total supply is locked at <b>1,000,000,000,000 $GREEN</b>, minted once, across <b>four</b> games. Each game receives an emissions pool and nothing else — Simple Farmer 200B @ 0.05%/day · Mother Lode 200B @ 0.05%/day · GREEN LIFE 250B @ 0.069%/day · Dino Island 250B @ 0.069%/day — and the remaining 100B sits at platform level, shared: Liquidity Pool 50B, Giveaways / Contest / Float buffer 25B, Treasury 25B. The parts sum to the whole exactly. The differing decay rates are deliberate, in Cody's words: <i>"green life and dino island will earn more i know that, and i did it on purpose as it takes more time to play that game."</i></p>
   </div>
 
   <div class="qcard">

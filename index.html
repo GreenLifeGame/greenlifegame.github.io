@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <title>GreenLifeGame (GLG) — The Platform</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="GreenLifeGame (GLG) is a platform of play-to-earn games on Solana, sharing one token — $GREEN — 420 billion minted once, never again. GREEN LIFE and Simple Farmer are in development, with more games on the roadmap.">
+<meta name="description" content="GreenLifeGame (GLG) is a platform of play-to-earn games on Solana, sharing one token — $GREEN — 1 trillion minted once, never again. GREEN LIFE and Simple Farmer are in development, with more games on the roadmap.">
 <meta property="og:title" content="GreenLifeGame (GLG) — The Platform">
-<meta property="og:description" content="One shared token, $GREEN, across a growing lineup of play-to-earn games on Solana. 420B fixed supply, minted once, never again.">
+<meta property="og:description" content="One shared token, $GREEN, across a growing lineup of play-to-earn games on Solana. 1 trillion fixed supply, minted once, never again.">
 <meta property="og:type" content="website">
 <style>
   :root{
@@ -325,7 +325,7 @@
   <img class="glg-intro-icon" src="img/glg/glg-icon.png" alt="GreenLifeGame">
   <div class="glg-intro-wm">GREENLIFEGAME</div>
   <div class="glg-intro-fact">FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA</div>
-  <div class="glg-intro-fact2">420B · MINTED ONCE · NEVER AGAIN</div>
+  <div class="glg-intro-fact2">1 TRILLION · MINTED ONCE · NEVER AGAIN</div>
   <div class="glg-intro-tap">tap to enter</div>
 </div>
 <style>
@@ -373,6 +373,7 @@
       <a href="#glgHub">🎮 All Games</a>
       <a href="green-life.html">🌿 GREEN LIFE</a>
       <a href="simple-farmer.html">🌾 Simple Farmer</a>
+      <a href="mother-lode.html">⛏️ Mother Lode</a>
     </div>
   </div>
 </nav>
@@ -408,6 +409,18 @@
   .glg-tile.locked{opacity:.6}
   .glg-tile.locked .art,.glg-tile.locked .art-emoji{filter:grayscale(1) brightness(.7)}
   .glg-tile.locked:hover{transform:none;border-color:var(--line)}
+  /* Game jump-pills — a second, unmissable way into each game's page.
+     The tiles below are clickable, but nothing about a card says "click me"
+     to someone who hasn't used the site before; these read as buttons. */
+  .glg-jump{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:26px}
+  .glg-jump a,.glg-jump button{display:inline-flex;align-items:center;gap:7px;font:inherit;cursor:pointer;
+    font-size:13px;font-weight:800;letter-spacing:.01em;padding:9px 16px;border-radius:999px;
+    background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line2);
+    color:var(--ink);transition:transform .16s,border-color .16s,color .16s}
+  .glg-jump a:hover,.glg-jump button:hover{transform:translateY(-2px);border-color:var(--g);color:var(--g)}
+  .glg-jump .soon{opacity:.55}
+  .glg-jump .soon:hover{transform:none;border-color:var(--line2);color:var(--ink)}
+  .glg-jump-hint{font-size:11.5px;color:var(--mut2);margin-top:12px}
   .glg-modal{position:fixed;inset:0;z-index:200;background:rgba(4,4,8,.86);backdrop-filter:blur(6px);
     display:none;align-items:center;justify-content:center;padding:20px}
   .glg-modal.open{display:flex}
@@ -426,6 +439,14 @@
     <div class="badge"><i></i> The GLG Platform</div>
     <h1 class="wm">GREENLIFEGAME</h1>
     <p class="hub-sub">One shared token, <b style="color:var(--ink)">$GREEN</b> — a growing lineup of play-to-earn games on Solana, from easy-to-learn to true degen. Pick a world below.</p>
+    <nav class="glg-jump" aria-label="Jump to a game">
+      <a href="green-life.html">🌿 GREEN LIFE</a>
+      <a href="simple-farmer.html">🌾 Simple Farmer</a>
+      <a href="mother-lode.html">⛏️ Mother Lode</a>
+      <button class="soon" type="button" data-soon="Dino Island" data-desc="Raise and race prehistoric creatures. Dino Island is on the GLG roadmap — check back soon.">🦖 Dino Island</button>
+      <button class="soon" type="button" data-soon="Free Lounge Fun" data-desc="A casual, no-buy-in hangout of mini-games. Free Lounge Fun is on the GLG roadmap — check back soon.">🛋️ Free Lounge Fun</button>
+    </nav>
+    <div class="glg-jump-hint">Tap a game above, or pick a card below — they go to the same place.</div>
     <div class="glg-tiles">
       <a class="glg-tile" href="green-life.html">
         <span class="pill dev">In Development</span>
@@ -440,12 +461,12 @@
         <h3>SIMPLE FARMER</h3>
         <p>Grow real produce, keep it easy. The GLG platform's Easy-tier entry point — same $GREEN token.</p>
       </a>
-      <button class="glg-tile locked" type="button" data-soon="Master Miner" data-desc="Dig, drill, and strike it rich. Master Miner is on the GLG roadmap — check back soon.">
-        <span class="pill soon">Coming Soon</span>
+      <a class="glg-tile" href="mother-lode.html">
+        <span class="pill dev">In Development</span>
         <span class="art-emoji">⛏️</span>
-        <h3>MASTER MINER</h3>
-        <p>Mine deep, hire raiders, cash out. Not live yet.</p>
-      </button>
+        <h3>MOTHER LODE</h3>
+        <p>Mine deep across five sites, roll blind for crit-digs, and pull the rig to find out what it struck.</p>
+      </a>
       <button class="glg-tile locked" type="button" data-soon="Dino Island" data-desc="Raise and race prehistoric creatures. Dino Island is on the GLG roadmap — check back soon.">
         <span class="pill soon">Coming Soon</span>
         <span class="art-emoji">🦖</span>
@@ -475,7 +496,9 @@
   var title = document.getElementById("glgSoonTitle");
   var desc = document.getElementById("glgSoonDesc");
   var closeBtn = document.getElementById("glgSoonClose");
-  document.querySelectorAll(".glg-tile.locked").forEach(function(tile){
+  // Binds by data-soon, not by class, so the hero jump-pills and the tiles below
+  // share one handler — a second selector would be a second thing to forget.
+  document.querySelectorAll("[data-soon]").forEach(function(tile){
     tile.addEventListener("click", function(){
       title.textContent = tile.dataset.soon || "Coming Soon";
       desc.textContent = tile.dataset.desc || "This game isn't live yet — check back soon.";

@@ -176,10 +176,10 @@
   <div class="cover-inner">
     <div class="cover-eyebrow">Master Technical Reference</div>
     <h1>SIMPLE FARMER</h1>
-    <p class="sub">A Solana-themed play-to-earn crop-farming web game — the deliberately EASY-tier game on the GreenLifeGame (GLG) platform. Shares only the $GREEN token and its liquidity pool with its sister game GREEN LIFE — never code, never a repo, never mechanics. This document is the single consolidated internal reference: every system, every constant, every formula, and an honest accounting of what is real vs. simulated in the current build.</p>
+    <p class="sub">A Solana-themed play-to-earn crop-farming web game — the deliberately EASY-tier game on the GreenLifeGame (GLG) platform. Shares only the $GREEN token and the platform-level buckets behind it (the shared liquidity pool, treasury and giveaway float) with its sister games — never code, never a repo, never mechanics. This document is the single consolidated internal reference: every system, every constant, every formula, and an honest accounting of what is real vs. simulated in the current build.</p>
     <div class="cover-meta">
       <div><b>Token</b>$GREEN (single dollar sign — deliberate, matches this game's own UI copy)</div>
-      <div><b>Farm emissions pool</b>150,000,000,000 — this game's share of the 3-game 690B platform supply (Weed 200B · Dino 250B)</div>
+      <div><b>Farm emissions pool</b>200,000,000,000 — this game's share of the 1-trillion, 4-game platform supply (Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B)</div>
       <div><b>Chain</b>Solana — <u>not yet connected</u>, fully simulated build</div>
       <div><b>Stack</b>React (farmer-*.jsx file set, its own entry point, zero shared code with GREEN LIFE)</div>
       <div><b>Status</b>Fully simulated dev preview — no wallet, no chain, no backend. See §25 for the complete honesty checklist.</div>
@@ -294,25 +294,25 @@
     <p class="lede">GreenLifeGame (GLG) is the shared platform brand across every GLG title. Simple Farmer is one of at least two confirmed real games under it (its sister is GREEN LIFE, the cannabis-farming game); the platform's own supply plan reserves pools for a total of three games at minimum.</p>
     <div class="callout locked">
       <b>The one and only thing shared between games</b>
-      GLG games share ONLY the $GREEN token and its liquidity pool — never code, never a repo, never mechanics. Simple Farmer is its own file set (<code>farmer-*.jsx</code>/<code>farmer-*.js</code>), its own React entry point (<code>farmer-main.jsx</code> mounting into <code>farmer.html</code>), and imports nothing from GREEN LIFE's <code>constants.js</code>/<code>green-game.jsx</code>. The reverse is also true. This is stated as a deliberate isolation choice — reusing GREEN LIFE's UI file, for example, would pull in strain art and weapon tables and "tie the two games together at the code level for no benefit."</div>
+      GLG games share ONLY the $GREEN token and the platform-level buckets behind it — the shared liquidity pool, the shared treasury, and the shared giveaway/contest/float buffer. Never code, never a repo, never mechanics. A game gets an emissions pool and nothing else. Simple Farmer is its own file set (<code>farmer-*.jsx</code>/<code>farmer-*.js</code>), its own React entry point (<code>farmer-main.jsx</code> mounting into <code>farmer.html</code>), and imports nothing from GREEN LIFE's <code>constants.js</code>/<code>green-game.jsx</code>. The reverse is also true. This is stated as a deliberate isolation choice — reusing GREEN LIFE's UI file, for example, would pull in strain art and weapon tables and "tie the two games together at the code level for no benefit."</div>
     <h3>Shared token, separate everything else</h3>
     <table>
       <tr><th>Aspect</th><th>Simple Farmer</th><th>GREEN LIFE</th></tr>
       <tr><td>Token</td><td colspan="2" class="num">$GREEN — one shared token, one shared LP, one shared price</td></tr>
       <tr><td>In-code symbol</td><td class="num">"$GREEN" (single dollar sign — deliberate)</td><td>"$GREEN$" (double dollar sign, GREEN LIFE's own convention)</td></tr>
-      <tr><td>Emissions pool</td><td class="num">150,000,000,000 (150B)</td><td>Its own separate pool</td></tr>
-      <tr><td>Platform 3-game supply split</td><td colspan="2">Farm 150B · Weed 200B · Dino 250B — 690B total across the platform's game pools, each decaying at the same 0.069%/day rate so no game feels pointless relative to another</td></tr>
-      <tr><td>Emissions decay rate</td><td class="num">0.069%/day (working number, not locked)</td><td>0.069%/day (raised 2026-08-18 from 0.025%, locked, ceiling 2% forever)</td></tr>
+      <tr><td>Emissions pool</td><td class="num">200,000,000,000 (200B)</td><td>Its own separate pool (250B)</td></tr>
+      <tr><td>Platform supply split</td><td colspan="2">Total supply <b>1,000,000,000,000 (1 trillion)</b>, minted once. Game emissions pools: Simple Farmer 200B · Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B. Shared platform buckets: Liquidity Pool 50B · Giveaways/Contest/Float 25B · Treasury 25B. A game gets an emissions pool and nothing else.</td></tr>
+      <tr><td>Emissions decay rate</td><td class="num">0.05%/day (locked 2026-08-25, ceiling 2% forever)</td><td>0.069%/day (locked, ceiling 2% forever)</td></tr>
       <tr><td>Referral bootstrap chain</td><td class="num">SFROOT1–SFROOT5, this game's own root</td><td>Its own separate 5-wallet chain (Burn Wallet / Dev Wallet / #3/#4/#5)</td></tr>
       <tr><td>Rarity ceiling</td><td class="num">Legendary (5 tiers)</td><td>Mythical (6 tiers, breed-only)</td></tr>
       <tr><td>Marketplace floor prices</td><td colspan="2">Deliberately anchored to the SAME per-rarity SOL values — both games pay out of the same $GREEN and trade on the same LP, so a mismatched floor between them would be a real arbitrage, not a design choice</td></tr>
     </table>
     <h3>Why the pool sizing matters mechanically</h3>
-    <blockquote>"the goal is for all 3 games to have similar earning power, the more advanced games will earn a little more bc it has a higher emission pool and take more player time to play." — Cody, 2026-08-18</blockquote>
-    <p>All three games run the same 0.069%/day decay, so what separates a player's earning power between games is purely the size of that game's own pool. A player holding the same share of Simple Farmer's own network therefore earns at roughly a 1&nbsp;:&nbsp;1.33&nbsp;:&nbsp;1.67 ratio versus the same share in the Weed and Dino games respectively — close enough that no game feels pointless, tilted toward the heavier games that ask more of a player's time. The consequence worth holding onto: earning power is set by <b>pool size</b>, not by Simple Farmer's own crop numbers — making crops more powerful across the board does not increase real payout, because emissions split by <i>share</i> of network power, and raising everyone's power raises the denominator too. The only levers that move real earnings here are the pool allocation and the decay rate.</p>
+    <blockquote>"green life and dino island will earn more i know that, and i did it on purpose as it takes more time to play that game." — Cody, 2026-08-25</blockquote>
+    <p>Pool size and decay rate are deliberately paired, not held equal: the Easy-tier games (Simple Farmer, Mother Lode) run <b>200B at 0.05%/day</b>, while the heavier games (GREEN LIFE, Dino Island) run <b>250B at 0.069%/day</b>. A player holding the same share of Simple Farmer's own network therefore earns meaningfully less per day than the same share in GREEN LIFE or Dino Island — and that gap is intentional, because those games ask far more of a player's time. The consequence worth holding onto: earning power is set by <b>pool size and rate</b>, not by Simple Farmer's own crop numbers — making crops more powerful across the board does not increase real payout, because emissions split by <i>share</i> of network power, and raising everyone's power raises the denominator too. The only levers that move real earnings here are the pool allocation and the decay rate.</p>
     <h3>Platform-shared presentation</h3>
     <ul>
-      <li>Both games open on an identical GLG platform splash (<code>GlgIntro</code> in Simple Farmer, its own separate component from GREEN LIFE's equivalent — components are never shared, only art and copy) — same wordmark, same copy: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i> / <i>"420B · MINTED ONCE · NEVER AGAIN"</i> / <i>"tap to enter."</i> Cody's own framing: <i>"this should be the exact intro on all games, the words should match also"</i> — these are platform-wide $GREEN facts, not game-specific ones, so they read identically everywhere.</li>
+      <li>Both games open on an identical GLG platform splash (<code>GlgIntro</code> in Simple Farmer, its own separate component from GREEN LIFE's equivalent — components are never shared, only art and copy) — same wordmark, same copy: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i> / <i>"1 TRILLION · MINTED ONCE · NEVER AGAIN"</i> / <i>"tap to enter."</i> Cody's own framing: <i>"this should be the exact intro on all games, the words should match also"</i> — these are platform-wide $GREEN facts, not game-specific ones, so they read identically everywhere.</li>
       <li>Only the game's own icon art (<code>/glg-brand/glg-icon.png</code>) is shared between the two splashes — same category as sharing the token itself.</li>
       <li>Simple Farmer's own brand accent color, <code>#52e300</code>, is the exact same green GREEN LIFE uses as its own accent — pulled from the same GLG-family logo palette.</li>
     </ul>
@@ -325,7 +325,7 @@
     </ul>
     <div class="callout gap">
       <b>Gap in the research</b>
-      The research passes available for this report cover only Simple Farmer's own source files in depth. Confirmation of the exact three-game platform split (Farm 150B / Weed 200B / Dino 250B out of 690B) comes from comments inside <code>farmer-constants.js</code> itself describing the shared plan — no GREEN LIFE or "Dino Island" source file was read as part of producing this document, so anything about those other games beyond what Simple Farmer's own comments state should be treated as Simple Farmer's own understanding of the plan, not independently verified against those games' code.</div>
+      The research passes available for this report cover only Simple Farmer's own source files in depth. The four-game platform split above comes from the platform-level tokenomics spec locked by Cody on 2026-08-25 — no GREEN LIFE, "Dino Island" or "Mother Lode" source file was read as part of producing this document, so anything about those other games beyond the locked allocation figures should be treated as plan, not as independently verified against those games' code.</div>
   </section>
 
   <!-- 04 -->
@@ -335,7 +335,7 @@
     <p class="lede">Five recognized <code>stage</code> values, each rendered by <code>farmer-onboarding.jsx</code> before the real game (<code>stage === "game"</code>) exists: <code>glg</code> → <code>intro</code> → <code>checking</code> → <code>invite</code> → <code>entry</code>. An unrecognized stage falls back to the game's own splash — never a blank page or an error card, so a player always has a working Connect button.</p>
 
     <h3>Stage 0 — GLG platform splash</h3>
-    <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"420B · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
+    <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"1 TRILLION · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
 
     <h3>Stage 1 — game splash</h3>
     <p>Warm sunrise radial wash (accent green + gold, "soil and sunlight, not neon"). Logo at 190×190px (raised from an earlier 120px to match GREEN LIFE's own logo scale). Tagline: <b>"GROW. HARVEST. EARN."</b> Body copy: <i>"Plant real crops, wait out the grow, cash the harvest."</i> / <i>"Runs on the $GREEN token"</i> (rendered in the brand gradient) / <i>"Earn Every Second."</i> Two CTAs: <b>Connect Wallet</b> and <b>How to play</b> (opens a "How To" modal, §04 below). Disclosure line, exact: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></p>
@@ -347,7 +347,7 @@
       <div class="step"><div class="step-title">2 · Plant &amp; earn every second</div><div class="step-body">70% of your farmed $GREEN streams the instant it's earned; the other 30% holds in a pot that only pays out at harvest.</div></div>
       <div class="step"><div class="step-title">3 · Rip packs</div><div class="step-body">Seed $1.50 · Mystery $1.00 · Boost $0.50 (all $GREEN today) — at the live price and currency, whatever they're currently set to. No daily limit on any of them.</div></div>
       <div class="step"><div class="step-title">4 · Upgrade</div><div class="step-body">Spend $GREEN to level your farm (Lv2–5, $10.00 flat each): more garden plots, higher pack limits. Each level has its own build-time cooldown.</div></div>
-      <div class="step"><div class="step-title">5 · Emission decay</div><div class="step-body">Every 24 hours the network emits 0.069% of whatever's left in the rewards pool — a slow, sustainable curve instead of a spike.</div></div>
+      <div class="step"><div class="step-title">5 · Emission decay</div><div class="step-body">Every 24 hours the network emits 0.05% of whatever's left in the rewards pool — a slow, sustainable curve instead of a spike.</div></div>
       <div class="step"><div class="step-title">6 · Burn</div><div class="step-body">Every $GREEN spent in-game is burned forever — never returned to the pool.</div></div>
       <div class="step"><div class="step-title">7 · Refer &amp; earn</div><div class="step-body">3% of your direct referrals' earnings and pack buys, 1% from their referrals, 0.01% one level deeper. Three levels — that's the cap, always.</div></div>
     </div>
@@ -373,7 +373,7 @@
     <p>Everything about what you get, what it costs, and how you pay lives here exclusively.</p>
     <table>
       <tr><th>Item</th><th>Value</th></tr>
-      <tr><td>Entry price</td><td class="num">$25.00 USD ≈ 0.3289 SOL (at SOL_USD = 76)</td></tr>
+      <tr><td>Entry price</td><td class="num">$25.00 USD = 0.25 SOL (at SOL_USD = 100)</td></tr>
       <tr><td>Starter $GREEN bonus</td><td class="num">$5.00 → 500,000 $GREEN (comes out of the $25, not added on top)</td></tr>
       <tr><td>Welcome kit contents</td><td>Farm Level 1 + exactly 1 Starter Pack — <i>nothing else.</i> "Nothing here promises a starter boost or pre-rolled cards."</td></tr>
       <tr><td>Free starting plots</td><td class="num">10 total — 4 (1X) + 3 (2X) + 2 (5X) + 1 (10X) + 0 (Toxic) — summed live off the garden tier table</td></tr>
@@ -646,7 +646,7 @@
     <p>Every pack but PRIMO burns $GREEN by default; PRIMO defaults to SOL — matching GREEN LIFE's identical rationale: at launch nobody will hold enough $GREEN yet, and forcing them to buy tokens just to burn them would spike a thin pool.</p>
 
     <h3>LP routing rule (SOL branch)</h3>
-    <p>SOL, USDC, and USDT purchases all follow the same table — stablecoins auto-swap to SOL in the same transaction, then whatever SOL lands is routed by total pool depth, never by market cap (a separate table governs milestone burns elsewhere in the platform's design):</p>
+    <p>SOL, USDC, and USDT purchases all follow the same table — stablecoins auto-swap to SOL in the same transaction, then whatever SOL lands is routed by total pool depth, never by market cap:</p>
     <table>
       <tr><th>Total pool depth</th><th>Liquidity Pool share</th><th>Treasury share</th></tr>
       <tr><td>$0 – $25,000</td><td class="num">100%</td><td class="num">0%</td></tr>
@@ -787,8 +787,8 @@
     <h3>The emissions engine</h3>
     <table>
       <tr><th>Constant</th><th>Value</th></tr>
-      <tr><td>Farm emissions pool</td><td class="num">150,000,000,000 (150B)</td></tr>
-      <tr><td>Decay rate</td><td class="num">0.069%/day of whatever remains (working number, admin-dialable)</td></tr>
+      <tr><td>Farm emissions pool</td><td class="num">200,000,000,000 (200B)</td></tr>
+      <tr><td>Decay rate</td><td class="num">0.05%/day of whatever remains (locked 2026-08-25, admin-dialable under the cap)</td></tr>
       <tr><td>Hard cap on the dial</td><td class="num">2.0%/day, contract-enforced ceiling, never higher</td></tr>
       <tr><td>Simulated network power baseline</td><td class="num">5,000,000</td></tr>
       <tr><td>Instant stream share</td><td class="num">70%</td></tr>
@@ -937,7 +937,7 @@
     <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms, how long the pool lasts, and the full simulated-systems disclosure list. Four sections in this fixed order: Global Stats, Leaderboard, Pool Life projection, Simulated Systems.</p>
 
     <h3>Emissions pool panel</h3>
-    <p>Live pool balance vs. the original 150B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend).</p>
+    <p>Live pool balance vs. the original 200B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend).</p>
 
     <h3>Leaderboard — 10 simulated rivals + the player's live row</h3>
     <p>A fixed roster of 10 named rival farms (SunnyAcres, TractorTom, RootRunner, BeetBoss, PlowQueen, MudMagnet, CornDog99, SoilSister, GourdLord, HayFever), each assigned a power multiplier relative to the player's own current power (from 4.2× down to 0.22×, jittered ±15%). Deliberately generated <b>once per page load at module scope</b> (not per-visit) so the fake board doesn't reshuffle every time the World tab is reopened — the on-screen "resets when you refresh" disclosure is thereby literally true rather than a lie of convenience.</p>
@@ -981,7 +981,7 @@
     <h3>💰 Economy tab</h3>
     <ul>
       <li><b>🧬 Guaranteed-breed promo toggle</b> — see §09.</li>
-      <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.069%) and "2× promo weekend" (0.138%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement.</li>
+      <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.05%) and "2× promo weekend" (0.10%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement.</li>
       <li><b>📉 Pool decay projection</b> — the same math as §19, computed off the live-typed (unsigned) draft rate so the projection updates as the admin types, before it's even signed.</li>
       <li><b>🏷️ Item floor prices</b> — two independently editable ladders (crop / boost), anchored to GREEN LIFE's own numbers on purpose; the panel explicitly warns that drifting one game's floor far from the other's opens a cross-game arbitrage.</li>
       <li><b>🎟️ Marketing codes</b> — free admin-generated Gift-a-Farm codes (plain or +SOL), tracked in their own array separate from player-purchased codes.</li>
@@ -1014,7 +1014,7 @@
       <tr><td>🎁 Gift Wallet</td><td class="num">Operational</td><td class="num">2 SOL</td><td>Holds unredeemed gift value, pays gas on gasless claims</td></tr>
       <tr><td>🏦 Treasury</td><td class="num">Cold</td><td class="num">—</td><td>Receives market fee, lottery fee, treasury slice of SOL purchases</td></tr>
       <tr><td>💧 LP Reserve</td><td class="num">Vault</td><td class="num">—</td><td>The $GREEN side of the pool, pairs with incoming SOL</td></tr>
-      <tr><td>🌾 Emissions Pool</td><td class="num">Vault</td><td class="num">—</td><td>The 150B this game pays out of — its address is public, anyone can top it up</td></tr>
+      <tr><td>🌾 Emissions Pool</td><td class="num">Vault</td><td class="num">—</td><td>The 200B this game pays out of — its address is public, anyone can top it up</td></tr>
     </table>
     <p>All addresses currently render as literal placeholders ("— not created yet" / "PDA — derived at deploy") — deliberately never a fake-real-looking address, and balances render as a plain em-dash ("— not wired") rather than a misleading "0," since a zero would look like a real reading.</p>
 
@@ -1112,8 +1112,8 @@
     <table>
       <tr><th>Constant</th><th>Value</th></tr>
       <tr><td><code>FARM_ENTRY_USD</code></td><td class="num">$25.00</td></tr>
-      <tr><td><code>FARM_ENTRY_SOL</code></td><td class="num">25 / 76 ≈ 0.328947 SOL</td></tr>
-      <tr><td><code>SOL_USD</code></td><td class="num">76</td></tr>
+      <tr><td><code>FARM_ENTRY_SOL</code></td><td class="num">25 / 100 = 0.25 SOL</td></tr>
+      <tr><td><code>SOL_USD</code></td><td class="num">100</td></tr>
       <tr><td><code>GREEN_USD</code></td><td class="num">0.00001</td></tr>
       <tr><td><code>STARTER_GREEN_USD</code></td><td class="num">$5.00 → 500,000 $GREEN</td></tr>
       <tr><td><code>STARTER_PACKS</code></td><td>1× Starter Pack, auto-opened</td></tr>
@@ -1135,8 +1135,8 @@
     <h3>Emissions</h3>
     <table>
       <tr><th>Constant</th><th>Value</th></tr>
-      <tr><td><code>FARM_EMISSIONS_POOL</code></td><td class="num">150,000,000,000</td></tr>
-      <tr><td><code>EMISSION_DECAY_PCT_PER_DAY</code></td><td class="num">0.069%/day</td></tr>
+      <tr><td><code>FARM_EMISSIONS_POOL</code></td><td class="num">200,000,000,000</td></tr>
+      <tr><td><code>EMISSION_DECAY_PCT_PER_DAY</code></td><td class="num">0.05%/day</td></tr>
       <tr><td><code>EMISSION_RATE_HARD_CAP</code></td><td class="num">2.0%/day</td></tr>
       <tr><td><code>NETWORK_POWER_BASE</code></td><td class="num">5,000,000</td></tr>
       <tr><td><code>HARVEST_SPLIT_INSTANT</code> / <code>HARVEST_SPLIT_POT</code></td><td class="num">70% / 30%</td></tr>
@@ -1303,14 +1303,14 @@
       <b>Stale documentation inside the game's own code</b>
       At least two comments in <code>farmer-constants.js</code> were found to describe numbers that had already moved on: a PRIMO-pricing rationale comment still compares against a "$10 entry" figure after farm entry was raised to $25, and the buy-in-split comment in <code>mintFarm()</code> still literally says "$10 entry" in its prose even though every actual number it computes uses $25. Neither affects behavior — both are comment-only drift — but both are worth a cleanup pass.</div>
     <div class="callout gap">
-      <b>Everything under §03 about the wider GLG platform (Weed 200B / Dino 250B, the 690B three-game total)</b>
-      This report's picture of the platform beyond Simple Farmer itself comes entirely from what Simple Farmer's own source comments say about the shared plan — no GREEN LIFE or other GLG-game source file was part of the research this report draws from, so treat any cross-game figures here as Simple Farmer's own stated understanding, not independently cross-checked against those other games' code.</div>
+      <b>Everything under §03 about the wider GLG platform (the 1-trillion supply and the four game pools)</b>
+      This report's picture of the platform beyond Simple Farmer itself comes from the platform-level tokenomics spec locked by Cody on 2026-08-25 — no GREEN LIFE, Dino Island or Mother Lode source file was part of the research this report draws from, so treat any cross-game figures here as the stated plan, not independently cross-checked against those other games' code.</div>
     <div class="callout note">
       <b>Reminder for whoever picks this document up next</b>
       This is a snapshot of a fully simulated dev preview. §25's SIM_FLAGS list and §20's Admin Console (currently open to anyone, per <code>admin-open</code>) are the two most load-bearing sections for anyone deciding whether any part of this build is close to handling real value — it is not, by the game's own explicit and repeated disclosure.</div>
   </section>
 
-  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN + its LP with GREEN LIFE</div>
+  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN and its platform-level LP / treasury / giveaway buckets with the other GLG games</div>
 
 </div>
 </body>

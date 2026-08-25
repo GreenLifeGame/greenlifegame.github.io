@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mother Lode — Dig Deep. Strike Rich. | GreenLifeGame</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mother Lode is the mining game on the GreenLifeGame (GLG) platform — deploy rigs across five sites, roll for crit-digs, and earn $GREEN on Solana. In development.">
+<meta property="og:title" content="Mother Lode — Dig Deep. Strike Rich.">
+<meta property="og:description" content="Eighteen real mining rigs, five sites including the Moon, and a jackpot you cannot see until you pull the rig. Powered by $GREEN.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#08080c; --bg2:#0d0d13; --panel:#14141c; --panel2:#191922;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eef0f5; --mut:#9a9aa8; --mut2:#6d6d7a;
+    --p:#c86bff; --b:#4da6ff; --g:#ffc94d;
+    --grad:linear-gradient(115deg,#c86bff,#4da6ff,#52e300);
+    --disp:"Arial Black","Archivo Black",Archivo,system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(1200px 700px at 50% -10%, #241a0c 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, #1c1405 0%, transparent 55%),
+      radial-gradient(900px 500px at 0% 40%, #10122e 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--body); line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:var(--b);text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:rgba(8,8,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,40px);display:flex;align-items:center;gap:16px}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:16px;letter-spacing:.02em}
+  .nav-logo img{width:30px;height:30px;border-radius:8px}
+  .nav-logo .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav-links{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--mut);font-size:13px;font-weight:600}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.cur{color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  .hero{text-align:center;padding:clamp(48px,9vw,88px) 0 clamp(30px,5vw,56px)}
+  .hero .logo{width:clamp(96px,18vw,132px);height:clamp(96px,18vw,132px);border-radius:26px;margin:0 auto 22px;
+    box-shadow:0 0 60px rgba(82,227,0,.4)}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border-radius:99px;
+    background:rgba(82,227,0,.12);border:1px solid rgba(82,227,0,.4);color:#a6ff8f;
+    font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
+  .badge i{width:8px;height:8px;border-radius:99px;background:var(--g);box-shadow:0 0 10px var(--g);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  h1.wm{font-family:var(--disp);font-weight:900;font-size:clamp(40px,10vw,92px);letter-spacing:.01em;line-height:.9;margin:0 0 8px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tagline{font-size:clamp(15px,2.4vw,20px);color:#cdd0da;max-width:44ch;margin:6px auto 4px;font-weight:600}
+  .subline{font-size:clamp(13px,2vw,15px);color:var(--mut);max-width:56ch;margin:14px auto 0}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .btn{font-family:var(--body);font-weight:800;font-size:14px;padding:13px 24px;border-radius:12px;cursor:pointer;border:none;transition:transform .12s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--grad);color:#0a0a0e}
+  .btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line2)}
+
+  section{padding:clamp(40px,7vw,72px) 0}
+  .eyebrow{font-family:var(--disp);letter-spacing:.28em;font-size:11px;color:var(--mut);text-transform:uppercase;margin-bottom:12px}
+  h2{font-family:var(--disp);font-weight:900;font-size:clamp(24px,4.6vw,38px);line-height:1.05;margin:0 0 16px;letter-spacing:.01em}
+  h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{color:#c7c8d2;font-size:clamp(15px,2.2vw,17px);max-width:64ch}
+  .center{text-align:center;margin:0 auto}
+  .center .lede{margin-left:auto;margin-right:auto}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:34px}
+  .stat{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center}
+  .stat .n{font-family:var(--disp);font-weight:900;font-size:clamp(24px,4vw,32px);
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+  .stat .l{color:var(--mut);font-size:12.5px;margin-top:8px;font-weight:600}
+
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .card .ic{font-size:28px;margin-bottom:12px;display:block}
+  .card h3{font-family:var(--disp);font-weight:900;font-size:16px;margin:0 0 8px;letter-spacing:.01em}
+  .card p{color:var(--mut);font-size:13.5px;margin:0}
+  .card .tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--g);background:rgba(82,227,0,.1);border:1px solid rgba(82,227,0,.3);padding:3px 8px;border-radius:6px}
+  .tier-card{border-top:3px solid var(--tc)}
+  .tier-card h3{color:var(--tc)}
+
+  /* auto-FIT, not auto-fill: Mother Lode has 3 rigs per tier where Simple Farmer
+     has 4 crops, so auto-fill left a dead column on every row. auto-fit
+     collapses the empty tracks and the three stretch to fill; the max-width
+     stops them ballooning into 380px-wide cards on a desktop monitor. */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:22px;max-width:840px}
+  .gallery-group-label{font-family:var(--disp);letter-spacing:.22em;font-size:12px;color:var(--p);
+    text-transform:uppercase;margin:26px 0 12px}
+  .gallery-group-label:first-of-type{margin-top:16px}
+  .gitem{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative;aspect-ratio:2/3}
+  .gitem img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .gitem:hover img{transform:scale(1.06)}
+  .gitem span{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 7px;font-size:11px;font-weight:800;color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.85))}
+  .gitem .pw{position:absolute;left:0;right:20px;bottom:22px;font-size:9.5px;font-weight:700;color:#c9ffd6}
+  .gitem .rc{position:absolute;top:6px;left:6px;z-index:2;font-size:9px;font-weight:900;letter-spacing:.04em;
+    text-transform:uppercase;padding:2px 6px;border-radius:6px;color:#0a0a0e;background:var(--c,#888)}
+  .rC{--c:#c9a27a}.rU{--c:#57d364}.rR{--c:#4da6ff}.rE{--c:#c86bff}.rL{--c:#ffc94d}
+
+  .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:22px}
+  .pack{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative;aspect-ratio:3/4}
+  .pack img{width:100%;height:100%;object-fit:cover}
+  .pack span{position:absolute;left:0;right:0;bottom:0;padding:14px 10px 8px;font-size:11.5px;font-weight:800;color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.85))}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:30px}
+  .fact{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:20px}
+  .fact .fic{font-size:24px}
+  .fact h3{font-family:var(--disp);font-weight:900;font-size:15px;margin:10px 0 6px}
+  .fact p{color:var(--mut);font-size:13px;margin:0}
+  .fact b{color:var(--ink)}
+
+  .cta-band{background:linear-gradient(115deg,rgba(82,227,0,.14),rgba(77,166,255,.1),rgba(200,107,255,.12));
+    border:1px solid var(--line2);border-radius:24px;padding:clamp(30px,6vw,56px);text-align:center;margin:20px 0}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;margin-top:40px}
+  .disclaimer{background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px;margin-bottom:26px}
+  .disclaimer h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f}
+  .disclaimer p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.6}
+  .foot-b{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-b .fm{font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:13px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .foot-b .fine{color:var(--mut2);font-size:12px}
+  .foot-social{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+  .foot-social a{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
+    border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink);transition:border-color .15s,color .15s}
+  .foot-social a:hover{border-color:var(--g);color:var(--g)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html#glgHub"><img src="img/glg/glg-icon.png" alt="GLG"><span class="wm">GREENLIFEGAME</span></a>
+    <div class="nav-links">
+      <a href="index.html#glgHub">🎮 All Games</a>
+      <a href="green-life.html">GREEN LIFE</a>
+      <a href="simple-farmer.html">Simple Farmer</a>
+      <a class="cur" href="#top">Mother Lode</a>
+      <a href="#rigs">Rigs</a>
+      <a href="#sites">Sites</a>
+      <a href="#moon">The Moon</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="logo" style="display:grid;place-items:center;font-size:clamp(52px,10vw,72px);background:linear-gradient(150deg,#2b2011,#0d0a06);border:1px solid rgba(255,201,77,.35)">⛏️</div>
+    <div class="badge"><i></i> In Development · GLG Platform · Medium Tier</div>
+    <h1 class="wm">MOTHER LODE</h1>
+    <p class="tagline">Dig deep. Strike rich.</p>
+    <p class="subline">Five sites. Eighteen machines. A fixed pool of <b style="color:var(--ink)">$GREEN</b> that shrinks a little every day — and a jackpot you can't see until you pull the rig. The same token every GreenLifeGame title shares, inside its own mining economy.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#rigs">⛏️ See the Rigs</a>
+      <a class="btn btn-ghost" href="#moon">🌑 The Moon</a>
+    </div>
+  </header>
+
+  <!-- WHAT IS IT -->
+  <section id="about">
+    <div class="eyebrow">What is Mother Lode</div>
+    <h2>Mining, <span class="g">with a jackpot you can't watch.</span></h2>
+    <p class="lede">Mother Lode is the platform's <b style="color:var(--ink)">Medium tier</b> — a step up from Simple Farmer's clean grow loop, a step short of GREEN LIFE's full economy. You buy in once, deploy rigs across five sites, and every rig earns its share of a fixed pool while it works. Three quarters of what it earns streams straight to your balance. The last quarter feeds a crit-dig pool your rig rolls against, blind — and you don't find out what it struck until you pull it out of the ground.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">18</div><div class="l">Real mining rigs</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Sites, incl. the Moon</div></div>
+      <div class="stat"><div class="n">200B</div><div class="l">$GREEN emissions pool</div></div>
+      <div class="stat"><div class="n">$GREEN</div><div class="l">Shared GLG token</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="eyebrow">How it works</div>
+    <h2>Deploy → Mine → Pull → <span class="g">Cash in.</span></h2>
+    <p class="lede">One buy-in opens the whole operation and rips your starter pack on the spot. Every rig you put underground raises your share of the daily pool — and starts rolling for crit-digs on its own cooldown, silently.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><span class="ic">📦</span><h3>Get a rig</h3><p>Equipment only enters the game through packs, and every pack opens the moment you buy it. There's no sealed pack to flip — what you pull is what you work with.</p></div>
+      <div class="card"><span class="ic">⛏️</span><h3>Put it to work</h3><p>Pick a site and deploy. Each Earth site takes a different slice of the daily pool, and that slice is re-rolled on a hidden schedule — so it pays to check which ground is running hot.</p></div>
+      <div class="card"><span class="ic">💰</span><h3>Pull it out</h3><p>Whatever it struck pays instantly. But a pull costs the rig a quarter of its power every time, so it wears down over about five runs and then burns.</p></div>
+    </div>
+    <div class="cta-band" style="margin-top:28px">
+      <h3>The crit-dig is blind, and that's the design.</h3>
+      <p>A deployed rig's winnings are invisible until you pull it. There is no running total anywhere in the game, deliberately — a visible counter turns a jackpot into a spreadsheet, and the whole point is not knowing.</p>
+    </div>
+  </section>
+
+  <!-- SITES -->
+  <section id="sites">
+    <div class="eyebrow">The Expedition Map</div>
+    <h2>Four sites on Earth, <span class="g">and one that isn't.</span></h2>
+    <p class="lede">Every Earth site draws a different share of the day's emissions, re-rolled on a schedule you can't see the end of. A site running hot pays more per unit of Mining Power than a cold one — the map is a decision, not scenery. The crit-dig pool is the exception: it splits evenly and permanently across all five sites, every single day, and the heat roll never touches it.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card tier-card" style="--tc:#c9a27a"><span class="ic">🏜️</span><h3>The Quarry</h3><p>Open-pit surface rock. Where every operation starts.</p></div>
+      <div class="card tier-card" style="--tc:#8ad0ff"><span class="ic">🧊</span><h3>Crystal Caverns</h3><p>Deep mineral seams under the ice.</p></div>
+      <div class="card tier-card" style="--tc:#ff9b6b"><span class="ic">🌋</span><h3>Deep Shaft</h3><p>Hard rock, hot ground, the real depths.</p></div>
+      <div class="card tier-card" style="--tc:#4da6ff"><span class="ic">🌊</span><h3>Abyssal Trench</h3><p>4,800 m down — polymetallic nodules on the sea floor.</p></div>
+      <div class="card tier-card" style="--tc:#e8e8f0"><span class="ic">🌑</span><h3>The Moon</h3><p>South pole, permanent shadow, −233 °C. Its own rules entirely.</p></div>
+    </div>
+  </section>
+
+  <!-- RIGS -->
+  <section id="rigs">
+    <div class="eyebrow">The equipment</div>
+    <h2>Eighteen rigs, <span class="g">every one a real machine.</span></h2>
+    <p class="lede">No invented hardware and no crypto-mining flavour anywhere — these are real metal-mining machines, from a crew with hand tools up to a bucket-wheel excavator, plus three pieces of genuine NASA lunar equipment you can only run on the Moon. A rig's <b style="color:var(--ink)">Mining Power</b> sets its share of the pool; its <b style="color:var(--ink)">cooldown</b> sets how often it rolls for a crit-dig; its <b style="color:var(--ink)">cycle</b> is how long a full run takes before it needs pulling.</p>
+
+    <div class="gallery-group-label">Common</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/rigs/pickaxe.jpg" alt="Pickaxe Crew"><span>Pickaxe Crew<div class="pw">100 power · 2h · 10d</div></span></div>
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/rigs/goldpan.jpg" alt="Gold Pan Rig"><span>Gold Pan Rig<div class="pw">500 power · 2h · 11d</div></span></div>
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/rigs/auger.jpg" alt="Hand Auger"><span>Hand Auger<div class="pw">1,000 power · 2h · 12.5d</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Uncommon</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/rigs/windlass.jpg" alt="Windlass Hoist"><span>Windlass Hoist<div class="pw">2,000 power · 4h · 15d</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/rigs/longtom.jpg" alt="Long Tom Sluice"><span>Long Tom Sluice<div class="pw">3,000 power · 4h · 16d</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/rigs/stampmill.jpg" alt="Stamp Mill"><span>Stamp Mill<div class="pw">4,000 power · 4h · 17.5d</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Rare</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/rigs/roofbolter.jpg" alt="Roof Bolter"><span>Roof Bolter<div class="pw">5,000 power · 5h · 20d</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/rigs/jumbo.jpg" alt="Drilling Jumbo"><span>Drilling Jumbo<div class="pw">10,000 power · 5h · 21d</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/rigs/giant.jpg" alt="The Giant"><span>The Giant<div class="pw">20,000 power · 5h · 22.5d</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Epic</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/rigs/blasthole.jpg" alt="Blasthole Rig"><span>Blasthole Rig<div class="pw">25,000 power · 6h · 24d</div></span></div>
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/rigs/contminer.jpg" alt="Continuous Miner"><span>Continuous Miner<div class="pw">50,000 power · 6h · 25d</div></span></div>
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/rigs/dragline.jpg" alt="Dragline Excavator"><span>Dragline Excavator<div class="pw">75,000 power · 6h · 26d</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Legendary</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/rigs/hydshovel.jpg" alt="Hydraulic Mining Shovel"><span>Hydraulic Mining Shovel<div class="pw">100,000 power · 8h · 28d</div></span></div>
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/rigs/tbm.jpg" alt="Tunnel Boring Machine"><span>Tunnel Boring Machine<div class="pw">250,000 power · 8h · 29d</div></span></div>
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/rigs/bucketwheel.jpg" alt="Bucket-Wheel Excavator"><span>Bucket-Wheel Excavator<div class="pw">500,000 power · 8h · 30d</div></span></div>
+    </div>
+
+    <div class="gallery-group-label" style="color:#8ad0ff">Moon — lunar only</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rL" style="--c:#8ad0ff">Moon</b><img loading="lazy" src="img/rigs/prime1.jpg" alt="PRIME-1 Drill"><span>PRIME-1 Drill<div class="pw">20,000 power · 8h · 15d</div></span></div>
+      <div class="gitem"><b class="rc rL" style="--c:#8ad0ff">Moon</b><img loading="lazy" src="img/rigs/viper.jpg" alt="VIPER"><span>VIPER<div class="pw">99,999 power · 8h · 15d</div></span></div>
+      <div class="gitem"><b class="rc rL" style="--c:#8ad0ff">Moon</b><img loading="lazy" src="img/rigs/rassor.jpg" alt="RASSOR"><span>RASSOR<div class="pw">750,000 power · 8h · 15d</div></span></div>
+    </div>
+    <p class="lede" style="margin-top:22px;font-size:13.5px">PRIME-1, VIPER and RASSOR are all real NASA lunar hardware. They work at full strength on the Moon and can go nowhere else — and an Earth rig sent up there runs at half power.</p>
+  </section>
+
+  <!-- THE MOON -->
+  <section id="moon">
+    <div class="eyebrow">Off world</div>
+    <h2>The Moon plays by <span class="g">its own rules.</span></h2>
+    <p class="lede">Lunar south-pole ice mining, in crater floors that have never seen sunlight sitting beside rims in near-permanent daylight — the coldest measured places in the solar system. Everything about the Moon is a trade.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><span class="ic">💎</span><h3>Rarer hits, bigger pay</h3><p>Crit-digs land less often up here, but every one pays triple.</p></div>
+      <div class="card"><span class="ic">🚫</span><h3>No boosts, ever</h3><p>Nothing you can buy speeds up a lunar rig. The Moon is immune to the entire boost system.</p></div>
+      <div class="card"><span class="ic">📉</span><h3>Fixed share</h3><p>The Moon never joins the daily heat roll. It takes its ordinary share of Mining Power and nothing more.</p></div>
+    </div>
+  </section>
+
+  <!-- ECONOMY -->
+  <section id="economy">
+    <div class="eyebrow">The economy</div>
+    <h2>One shared token, <span class="g">its own fixed pool.</span></h2>
+    <p class="lede">Mother Lode earns from a <b style="color:var(--ink)">200B $GREEN</b> emissions pool — its own slice of the platform's fixed 1 trillion supply, in its own vault. The pool releases 0.05% of whatever remains each day, so it decays smoothly and never quite empties. Your earnings are your share of total network Mining Power, which means a bigger rig helps you and not the pool: making every machine more powerful would just raise the denominator too.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><span class="ic">🔒</span><h3>Fixed and shared</h3><p>1 trillion $GREEN minted once across the whole platform, then never again. Mother Lode's 200B is its own vault — no game's contract ever touches another's.</p></div>
+      <div class="card"><span class="ic">🔥</span><h3>Spend it, burn it</h3><p>Every $GREEN spent inside the game is burned forever. Supply only ever shrinks.</p></div>
+      <div class="card"><span class="ic">⏱️</span><h3>Mining takes time to cash in</h3><p>Earnings accrue every second, but the Claim button waits three hours between uses — the one mechanic that's Mother Lode's alone.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta-band">
+      <h3>Not live yet — and we won't pretend otherwise.</h3>
+      <p>Mother Lode is in active development. Nothing here touches Solana yet, there is no $GREEN token in existence, and no part of this game takes real money today. When that changes, it will change here first.</p>
+      <div class="cta" style="margin-top:20px">
+        <a class="btn btn-primary" href="index.html#glgHub">🎮 See the whole platform</a>
+        <a class="btn btn-ghost" href="green-life.html">🌿 GREEN LIFE</a>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <h4>⚠️ Important — please read</h4>
+      <p>Mother Lode is a play-to-earn video game in development for Solana, part of the GreenLifeGame (GLG) platform. It is not live, and no $GREEN token exists yet. This page is for informational purposes only — it is not financial, investment, or legal advice, and not an offer or solicitation to buy or sell any token, security, or asset. Do your own research.</p>
+    </div>
+    <div class="foot-social">
+      <a href="index.html#glgHub">🎮 All GLG Games</a>
+      <a href="green-life.html">🌿 GREEN LIFE</a>
+      <a href="simple-farmer.html">🌾 Simple Farmer</a>
+    </div>
+    <div class="foot-b">
+      <div class="fm">GREENLIFEGAME</div>
+      <div class="fine">$GREEN · shared across the GLG platform · built on Solana</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
