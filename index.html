@@ -353,13 +353,13 @@
 
 <nav>
   <div class="nav-in">
-    <a class="nav-logo" href="#top"><img src="img/logo.png" alt="GREEN LIFE"><span class="wm">GREEN LIFE</span></a>
+    <a class="nav-logo" href="#glgHub"><img src="img/glg/glg-icon.png" alt="GreenLifeGame"><span class="wm">GREENLIFEGAME</span></a>
     <div class="nav-links">
-      <a href="#about">Overview</a>
-      <a href="#play">How to Play</a>
+      <a href="#glgHub">🎮 All Games</a>
+      <a href="#about">GreenLife Overview</a>
       <a href="#token">Tokenomics</a>
-      <a href="#features">Features</a>
       <a href="#roadmap">Roadmap</a>
+      <a href="simple-farmer.html">🌾 Simple Farmer</a>
       <a href="player-guide.html">Player Guide</a>
       <a href="plants-boosts-weapons-shields.html">Plants &amp; Boosts</a>
     </div>
@@ -369,6 +369,117 @@
     </div>
   </div>
 </nav>
+
+<!-- ==========================================================================
+     GLG PLATFORM HUB — the true landing: one token, five game worlds. Sits
+     ABOVE the existing GREEN LIFE marketing page (unchanged below, per Cody:
+     "we can keep green life... web pages as is"). The GreenLife tile just
+     scrolls to #top, the page's own long-standing hero — nothing about that
+     page moved or was rewritten, this is purely additive in front of it.
+     ========================================================================== -->
+<style>
+  #glgHub{padding:clamp(40px,7vw,72px) 0 clamp(24px,4vw,40px)}
+  #glgHub .hub-icon{width:clamp(56px,9vw,72px);height:clamp(56px,9vw,72px);border-radius:18px;margin:0 auto 18px;
+    box-shadow:0 0 50px rgba(120,90,255,.4)}
+  #glgHub h1.wm{font-size:clamp(34px,7vw,58px)}
+  #glgHub .hub-sub{color:var(--mut);font-size:clamp(13px,2vw,15px);max-width:52ch;margin:10px auto 0}
+  .glg-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:38px}
+  .glg-tile{position:relative;display:block;background:linear-gradient(180deg,var(--panel),var(--bg2));
+    border:1px solid var(--line);border-radius:20px;padding:26px 20px;text-align:center;cursor:pointer;
+    transition:transform .15s,border-color .15s;text-decoration:none;color:var(--ink)}
+  .glg-tile:hover{transform:translateY(-4px);border-color:var(--line2)}
+  .glg-tile .art{width:64px;height:64px;border-radius:16px;margin:0 auto 14px;object-fit:cover;display:block}
+  .glg-tile .art-emoji{width:64px;height:64px;border-radius:16px;margin:0 auto 14px;display:flex;
+    align-items:center;justify-content:center;font-size:30px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+  .glg-tile h3{font-family:var(--disp);font-weight:900;font-size:15px;margin:0 0 8px;letter-spacing:.01em}
+  .glg-tile p{color:var(--mut);font-size:12.5px;margin:0;line-height:1.5}
+  .glg-tile .pill{display:inline-block;margin-bottom:12px;font-size:9.5px;font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;padding:3px 9px;border-radius:6px}
+  .glg-tile .pill.live{color:var(--g);background:rgba(82,227,0,.12);border:1px solid rgba(82,227,0,.35)}
+  .glg-tile .pill.dev{color:#ffcf8f;background:rgba(255,178,77,.12);border:1px solid rgba(255,178,77,.35)}
+  .glg-tile .pill.soon{color:var(--mut);background:rgba(255,255,255,.05);border:1px solid var(--line2)}
+  .glg-tile.locked{opacity:.6}
+  .glg-tile.locked .art,.glg-tile.locked .art-emoji{filter:grayscale(1) brightness(.7)}
+  .glg-tile.locked:hover{transform:none;border-color:var(--line)}
+  .glg-modal{position:fixed;inset:0;z-index:200;background:rgba(4,4,8,.86);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;padding:20px}
+  .glg-modal.open{display:flex}
+  .glg-modal-box{position:relative;max-width:380px;width:100%;background:linear-gradient(180deg,var(--panel2),var(--bg2));
+    border:1px solid var(--line2);border-radius:20px;padding:34px 28px;text-align:center;
+    box-shadow:0 20px 80px rgba(0,0,0,.6)}
+  .glg-modal-box .emoji{font-size:40px;margin-bottom:12px}
+  .glg-modal-box h3{font-family:var(--disp);font-weight:900;font-size:19px;margin:0 0 10px}
+  .glg-modal-box p{color:var(--mut);font-size:13.5px;margin:0 0 20px;line-height:1.55}
+  .glg-modal-close{position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink);cursor:pointer;font-size:14px}
+</style>
+<section id="glgHub">
+  <div class="wrap" style="text-align:center">
+    <img class="hub-icon" src="img/glg/glg-icon.png" alt="GreenLifeGame">
+    <div class="badge"><i></i> The GLG Platform</div>
+    <h1 class="wm">GREENLIFEGAME</h1>
+    <p class="hub-sub">One shared token, <b style="color:var(--ink)">$GREEN</b> — a growing lineup of play-to-earn games on Solana, from easy-to-learn to true degen. Pick a world below.</p>
+    <div class="glg-tiles">
+      <a class="glg-tile" href="#top">
+        <span class="pill dev">In Development</span>
+        <img class="art" src="img/logo.png" alt="GREEN LIFE">
+        <h3>GREEN LIFE</h3>
+        <p>Cannabis farming P2E — breed strains, defend your farm, raid rivals. The flagship game.</p>
+      </a>
+      <a class="glg-tile" href="simple-farmer.html">
+        <span class="pill live">Live · Play Now</span>
+        <img class="art" src="img/farmer-brand/simple-farmer-icon.png" alt="Simple Farmer">
+        <h3>SIMPLE FARMER</h3>
+        <p>Grow real produce, keep it easy. The GLG platform's Easy-tier entry point — same $GREEN token.</p>
+      </a>
+      <button class="glg-tile locked" type="button" data-soon="Master Miner" data-desc="Dig, drill, and strike it rich. Master Miner is on the GLG roadmap — check back soon.">
+        <span class="pill soon">Coming Soon</span>
+        <span class="art-emoji">⛏️</span>
+        <h3>MASTER MINER</h3>
+        <p>Mine deep, hire raiders, cash out. Not live yet.</p>
+      </button>
+      <button class="glg-tile locked" type="button" data-soon="Dino Island" data-desc="Raise and race prehistoric creatures. Dino Island is on the GLG roadmap — check back soon.">
+        <span class="pill soon">Coming Soon</span>
+        <span class="art-emoji">🦖</span>
+        <h3>DINO ISLAND</h3>
+        <p>A prehistoric P2E world. Not live yet.</p>
+      </button>
+      <button class="glg-tile locked" type="button" data-soon="Free Lounge Fun" data-desc="A casual, no-buy-in hangout of mini-games. Free Lounge Fun is on the GLG roadmap — check back soon.">
+        <span class="pill soon">Coming Soon</span>
+        <span class="art-emoji">🛋️</span>
+        <h3>FREE LOUNGE FUN</h3>
+        <p>Casual mini-games, no entry fee. Not live yet.</p>
+      </button>
+    </div>
+  </div>
+</section>
+<div class="glg-modal" id="glgSoonModal">
+  <div class="glg-modal-box">
+    <button class="glg-modal-close" id="glgSoonClose" aria-label="Close">✕</button>
+    <div class="emoji" id="glgSoonEmoji">🚧</div>
+    <h3 id="glgSoonTitle">Coming Soon</h3>
+    <p id="glgSoonDesc"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var modal = document.getElementById("glgSoonModal");
+  var title = document.getElementById("glgSoonTitle");
+  var desc = document.getElementById("glgSoonDesc");
+  var closeBtn = document.getElementById("glgSoonClose");
+  document.querySelectorAll(".glg-tile.locked").forEach(function(tile){
+    tile.addEventListener("click", function(){
+      title.textContent = tile.dataset.soon || "Coming Soon";
+      desc.textContent = tile.dataset.desc || "This game isn't live yet — check back soon.";
+      modal.classList.add("open");
+    });
+  });
+  function closeModal(){ modal.classList.remove("open"); }
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModal(); });
+})();
+</script>
 
 <div class="ribbon">🥚 <b>Pre-launch head start is open</b> — connect your X below and start banking Weedster Egg ticks before day one. No wallet, no cost.</div>
 

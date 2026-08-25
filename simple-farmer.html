@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Simple Farmer — Grow. Harvest. Earn. | GreenLifeGame</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Simple Farmer is the Easy-tier game on the GreenLifeGame (GLG) platform — grow real produce, harvest, and earn $GREEN on Solana. Live now.">
+<meta property="og:title" content="Simple Farmer — Grow. Harvest. Earn.">
+<meta property="og:description" content="Plant real crops, wait out the grow, cash the harvest. The easy on-ramp to the GLG platform, powered by $GREEN.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#08080c; --bg2:#0d0d13; --panel:#14141c; --panel2:#191922;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eef0f5; --mut:#9a9aa8; --mut2:#6d6d7a;
+    --p:#c86bff; --b:#4da6ff; --g:#52e300;
+    --grad:linear-gradient(115deg,#c86bff,#4da6ff,#52e300);
+    --disp:"Arial Black","Archivo Black",Archivo,system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(1200px 700px at 50% -10%, #142010 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, #0f1c07 0%, transparent 55%),
+      radial-gradient(900px 500px at 0% 40%, #10122e 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--body); line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:var(--b);text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:rgba(8,8,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,40px);display:flex;align-items:center;gap:16px}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:16px;letter-spacing:.02em}
+  .nav-logo img{width:30px;height:30px;border-radius:8px}
+  .nav-logo .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav-links{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--mut);font-size:13px;font-weight:600}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.cur{color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  .hero{text-align:center;padding:clamp(48px,9vw,88px) 0 clamp(30px,5vw,56px)}
+  .hero .logo{width:clamp(96px,18vw,132px);height:clamp(96px,18vw,132px);border-radius:26px;margin:0 auto 22px;
+    box-shadow:0 0 60px rgba(82,227,0,.4)}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border-radius:99px;
+    background:rgba(82,227,0,.12);border:1px solid rgba(82,227,0,.4);color:#a6ff8f;
+    font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
+  .badge i{width:8px;height:8px;border-radius:99px;background:var(--g);box-shadow:0 0 10px var(--g);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  h1.wm{font-family:var(--disp);font-weight:900;font-size:clamp(40px,10vw,92px);letter-spacing:.01em;line-height:.9;margin:0 0 8px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tagline{font-size:clamp(15px,2.4vw,20px);color:#cdd0da;max-width:44ch;margin:6px auto 4px;font-weight:600}
+  .subline{font-size:clamp(13px,2vw,15px);color:var(--mut);max-width:56ch;margin:14px auto 0}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .btn{font-family:var(--body);font-weight:800;font-size:14px;padding:13px 24px;border-radius:12px;cursor:pointer;border:none;transition:transform .12s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--grad);color:#0a0a0e}
+  .btn-ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line2)}
+
+  section{padding:clamp(40px,7vw,72px) 0}
+  .eyebrow{font-family:var(--disp);letter-spacing:.28em;font-size:11px;color:var(--mut);text-transform:uppercase;margin-bottom:12px}
+  h2{font-family:var(--disp);font-weight:900;font-size:clamp(24px,4.6vw,38px);line-height:1.05;margin:0 0 16px;letter-spacing:.01em}
+  h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{color:#c7c8d2;font-size:clamp(15px,2.2vw,17px);max-width:64ch}
+  .center{text-align:center;margin:0 auto}
+  .center .lede{margin-left:auto;margin-right:auto}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:34px}
+  .stat{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center}
+  .stat .n{font-family:var(--disp);font-weight:900;font-size:clamp(24px,4vw,32px);
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+  .stat .l{color:var(--mut);font-size:12.5px;margin-top:8px;font-weight:600}
+
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .card .ic{font-size:28px;margin-bottom:12px;display:block}
+  .card h3{font-family:var(--disp);font-weight:900;font-size:16px;margin:0 0 8px;letter-spacing:.01em}
+  .card p{color:var(--mut);font-size:13.5px;margin:0}
+  .card .tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--g);background:rgba(82,227,0,.1);border:1px solid rgba(82,227,0,.3);padding:3px 8px;border-radius:6px}
+  .tier-card{border-top:3px solid var(--tc)}
+  .tier-card h3{color:var(--tc)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:22px}
+  .gallery-group-label{font-family:var(--disp);letter-spacing:.22em;font-size:12px;color:var(--p);
+    text-transform:uppercase;margin:26px 0 12px}
+  .gallery-group-label:first-of-type{margin-top:16px}
+  .gitem{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative;aspect-ratio:2/3}
+  .gitem img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .gitem:hover img{transform:scale(1.06)}
+  .gitem span{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 7px;font-size:11px;font-weight:800;color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.85))}
+  .gitem .pw{position:absolute;left:0;right:20px;bottom:22px;font-size:9.5px;font-weight:700;color:#c9ffd6}
+  .gitem .rc{position:absolute;top:6px;left:6px;z-index:2;font-size:9px;font-weight:900;letter-spacing:.04em;
+    text-transform:uppercase;padding:2px 6px;border-radius:6px;color:#0a0a0e;background:var(--c,#888)}
+  .rC{--c:#c9a27a}.rU{--c:#57d364}.rR{--c:#4da6ff}.rE{--c:#c86bff}.rL{--c:#ffc94d}
+
+  .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:22px}
+  .pack{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative;aspect-ratio:3/4}
+  .pack img{width:100%;height:100%;object-fit:cover}
+  .pack span{position:absolute;left:0;right:0;bottom:0;padding:14px 10px 8px;font-size:11.5px;font-weight:800;color:#fff;
+    background:linear-gradient(transparent,rgba(0,0,0,.85))}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:30px}
+  .fact{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:20px}
+  .fact .fic{font-size:24px}
+  .fact h3{font-family:var(--disp);font-weight:900;font-size:15px;margin:10px 0 6px}
+  .fact p{color:var(--mut);font-size:13px;margin:0}
+  .fact b{color:var(--ink)}
+
+  .cta-band{background:linear-gradient(115deg,rgba(82,227,0,.14),rgba(77,166,255,.1),rgba(200,107,255,.12));
+    border:1px solid var(--line2);border-radius:24px;padding:clamp(30px,6vw,56px);text-align:center;margin:20px 0}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;margin-top:40px}
+  .disclaimer{background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px;margin-bottom:26px}
+  .disclaimer h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f}
+  .disclaimer p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.6}
+  .foot-b{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-b .fm{font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:13px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .foot-b .fine{color:var(--mut2);font-size:12px}
+  .foot-social{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+  .foot-social a{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
+    border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink);transition:border-color .15s,color .15s}
+  .foot-social a:hover{border-color:var(--g);color:var(--g)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html#glgHub"><img src="img/glg/glg-icon.png" alt="GreenLifeGame"><span class="wm">GREENLIFEGAME</span></a>
+    <div class="nav-links">
+      <a href="index.html#glgHub">🎮 All Games</a>
+      <a href="index.html#top">GREEN LIFE</a>
+      <a class="cur" href="#top">Simple Farmer</a>
+      <a href="#crops">Crops</a>
+      <a href="#boosts">Boosts</a>
+      <a href="#tiers">Gardens</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <img class="logo" src="img/farmer-brand/simple-farmer-icon.png" alt="Simple Farmer">
+    <div class="badge"><i></i> Live now · GLG Platform · Easy Tier</div>
+    <h1 class="wm">SIMPLE FARMER</h1>
+    <p class="tagline">Grow. Harvest. Earn.</p>
+    <p class="subline">Plant real crops, wait out the grow, cash the harvest. Runs on <b style="color:var(--ink)">$GREEN</b> — the same token every GreenLifeGame title shares — inside its own farm economy, built as the easy on-ramp to the whole platform.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://simplefarmer.greenlifegame.com" target="_blank" rel="noopener">▶ Play Simple Farmer</a>
+      <a class="btn btn-ghost" href="#crops">🌾 See the Crops</a>
+    </div>
+  </header>
+
+  <!-- WHAT IS IT -->
+  <section id="about">
+    <div class="eyebrow">What is Simple Farmer</div>
+    <h2>The easy way onto <span class="g">the GLG platform.</span></h2>
+    <p class="lede">Simple Farmer strips play-to-earn farming down to the essentials: buy in, plant, water, harvest, earn $GREEN. No breeding trees, no combine bench, no PvP — just a clean, honest grow loop. It's the <b style="color:var(--ink)">Easy tier</b> of the GreenLifeGame lineup, sitting alongside GREEN LIFE's deeper Cannabis economy and the platform's future Medium/Advanced/Professional/Degen titles — same $GREEN token, its own fully separate farm and referral system.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">16</div><div class="l">Unique crops</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Boost items</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Garden tiers, 1×–100×</div></div>
+      <div class="stat"><div class="n">$GREEN</div><div class="l">Shared GLG token</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="eyebrow">How it works</div>
+    <h2>Plant → Water → Harvest → <span class="g">Earn.</span></h2>
+    <p class="lede">One buy-in mints your farm and opens your starter pack right away. From there every crop you plant earns its share of the farm's payout the moment it finishes its grow cycle — pull it early and you forfeit the grow, so the patient play wins.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card"><span class="ic">🌱</span><h3>Rip a pack</h3><p>Seed, Mystery, Booster, or the premium PRIMO pack — every pull is a real crop card, weighted by rarity, with odds shown up front.</p></div>
+      <div class="card"><span class="ic">💧</span><h3>Plant &amp; water</h3><p>Drop a card into an open plot. Crops need water to finish — let one dry out too long and the grow is lost.</p></div>
+      <div class="card"><span class="ic">🌾</span><h3>Harvest</h3><p>Let the cycle finish and claim the full $GREEN payout. Boost items and a higher-tier garden both push it further.</p></div>
+    </div>
+  </section>
+
+  <!-- GARDEN TIERS -->
+  <section id="tiers">
+    <div class="eyebrow">Garden tiers</div>
+    <h2>Same payout, <span class="g">your choice of speed.</span></h2>
+    <p class="lede">Simple Farmer's answer to grow tents and auto pods: five ground types, 1× up to a 100× ☢️ Toxic Area. A higher tier multiplies a crop's power up and cuts its grow time down by the exact same factor — one harvest pays the same either way. What changes is <b style="color:var(--ink)">throughput</b>: a faster tier finishes more cycles in the same stretch of real time, so total earnings scale with the multiplier you choose to farm at.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card tier-card" style="--tc:#8fbf5a"><span class="tag">Free</span><span class="ic">🌿</span><h3>1X Garden</h3><p>Free ground. Every farm level opens 4 more plots at no cost — the steady starting base.</p></div>
+      <div class="card tier-card" style="--tc:#57d364"><span class="ic">🌾</span><h3>2X Garden</h3><p>Double power, half the wait. 3 plots unlock per farm level.</p></div>
+      <div class="card tier-card" style="--tc:#4da6ff"><span class="ic">💧</span><h3>5X Garden</h3><p>Five times the pace. 2 plots unlock per farm level.</p></div>
+      <div class="card tier-card" style="--tc:#b06ad0"><span class="ic">⚡</span><h3>10X Garden</h3><p>Serious ground. 1 plot unlocks per farm level.</p></div>
+      <div class="card tier-card" style="--tc:#ffd700"><span class="tag">1 plot</span><span class="ic">☢️</span><h3>Toxic Area</h3><p>100× power, 1/100th the wait. One plot. Ever.</p></div>
+    </div>
+  </section>
+
+  <!-- CROPS -->
+  <section id="crops">
+    <div class="eyebrow">The crops</div>
+    <h2>16 crops, <span class="g">every one hand-crafted.</span></h2>
+    <p class="lede">From a humble Potato to the god-tier Yubari King Melon — four rarity tiers, four crops each, veggies and fruit sharing one pool per tier. Inside a tier, the lower-power card is always the more common pull.</p>
+
+    <div class="gallery-group-label">Common</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/farmer-crops/potato.jpg" alt="Potato"><span>Potato<div class="pw">100 power · 10 days</div></span></div>
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/farmer-crops/banana.jpg" alt="Banana"><span>Banana<div class="pw">250 power · 10 days</div></span></div>
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/farmer-crops/carrot.jpg" alt="Carrot"><span>Carrot<div class="pw">500 power · 12.5 days</div></span></div>
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/farmer-crops/orange.jpg" alt="Orange"><span>Orange<div class="pw">700 power · 12.5 days</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Uncommon</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/farmer-crops/cucumber.jpg" alt="Cucumber"><span>Cucumber<div class="pw">1,000 power · 15 days</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/farmer-crops/apple.jpg" alt="Apple"><span>Apple<div class="pw">1,500 power · 15 days</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/farmer-crops/tomato.jpg" alt="Tomato"><span>Tomato<div class="pw">5,000 power · 17.5 days</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/farmer-crops/mango.jpg" alt="Mango"><span>Mango<div class="pw">7,500 power · 17.5 days</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Rare</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/farmer-crops/sprouts.jpg" alt="Brussel Sprouts"><span>Brussel Sprouts<div class="pw">10,000 power · 20 days</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/farmer-crops/kiwano.jpg" alt="Kiwano"><span>Kiwano<div class="pw">20,000 power · 20 days</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/farmer-crops/romanesco.jpg" alt="Romanesco Broccoli"><span>Romanesco Broccoli<div class="pw">50,000 power · 22.5 days</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/farmer-crops/dragonfruit.jpg" alt="Dragon Fruit"><span>Dragon Fruit<div class="pw">75,000 power · 22.5 days</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Epic</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/farmer-crops/ghostpepper.jpg" alt="Ghost Pepper"><span>Ghost Pepper<div class="pw">100,000 power · 25 days</div></span></div>
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/farmer-crops/pinkpine.jpg" alt="Pink Pineapple"><span>Pink Pineapple<div class="pw">200,000 power · 25 days</div></span></div>
+    </div>
+
+    <div class="gallery-group-label">Legendary</div>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/farmer-crops/glassgem.jpg" alt="Glass Gem Corn"><span>Glass Gem Corn<div class="pw">500,000 power · 30 days</div></span></div>
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/farmer-crops/yubari.jpg" alt="Yubari King Melon"><span>Yubari King Melon<div class="pw">750,000 power · 30 days</div></span></div>
+    </div>
+  </section>
+
+  <!-- BOOSTS -->
+  <section id="boosts">
+    <div class="eyebrow">The boosts</div>
+    <h2>5 boosts to <span class="g">push a plot further.</span></h2>
+    <p class="lede">One active boost per plot, matching the rarity ladder every other card uses. A boost lasts exactly as long as that plot's own harvest cycle — plant a faster garden tier and the boost keeps pace with it.</p>
+    <div class="gallery">
+      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/farmer-boosts/compost.jpg" alt="Compost"><span>Compost<div class="pw">+1% power</div></span></div>
+      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/farmer-boosts/mulch.jpg" alt="Scarecrow"><span>Scarecrow<div class="pw">+3% power</div></span></div>
+      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/farmer-boosts/drip.jpg" alt="Drip Line"><span>Drip Line<div class="pw">+5% power</div></span></div>
+      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/farmer-boosts/beehive.jpg" alt="Beehive"><span>Beehive<div class="pw">+10% power</div></span></div>
+      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/farmer-boosts/sunlamp.jpg" alt="Solar Array"><span>Solar Array<div class="pw">+20% power</div></span></div>
+    </div>
+  </section>
+
+  <!-- PACKS -->
+  <section id="packs">
+    <div class="eyebrow">Packs</div>
+    <h2>Rip a pack, <span class="g">watch the reveal.</span></h2>
+    <p class="lede">Four pack types, each with its own cinematic rip-and-reveal — same production values as GREEN LIFE's pack openings, tuned for Simple Farmer's own crop and boost tables.</p>
+    <div class="packs">
+      <div class="pack"><img src="img/farmer-brand/simple-farmer-seedpack.jpg" alt="Seed Pack"><span>Seed Pack</span></div>
+      <div class="pack"><img src="img/farmer-brand/simple-farmer-mysterypack.jpg" alt="Mystery Pack"><span>Mystery Pack</span></div>
+      <div class="pack"><img src="img/farmer-brand/simple-farmer-boosterpack.jpg" alt="Booster Pack"><span>Booster Pack</span></div>
+      <div class="pack"><img src="img/farmer-brand/simple-farmer-primopack.jpg" alt="PRIMO Pack"><span>PRIMO Pack</span></div>
+    </div>
+  </section>
+
+  <!-- WHY IT'S DIFFERENT -->
+  <section>
+    <div class="eyebrow">Why it's different</div>
+    <h2>Same platform guarantees, <span class="g">an easier game.</span></h2>
+    <div class="facts">
+      <div class="fact"><div class="fic">🔗</div><h3>One shared token</h3><p><b>$GREEN</b> is the currency across every GreenLifeGame title — the same fixed-supply, deflationary token GREEN LIFE runs on.</p></div>
+      <div class="fact"><div class="fic">🧩</div><h3>Fully separate economy</h3><p>Simple Farmer's farm, referral chain, and payouts are built and tracked independently of every other GLG game — nothing crosses over but the token and the brand.</p></div>
+      <div class="fact"><div class="fic">🤝</div><h3>Invite-only, same referral math</h3><p>3% / 1% / 0.01% across three referrer levels, credited only once a friend actually activates — never on signup alone.</p></div>
+      <div class="fact"><div class="fic">🎯</div><h3>Built for Easy</h3><p>No breeding, no PvP, no combine bench — just plant, water, harvest. The simplest way to try play-to-earn on the GLG platform.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta-band">
+      <div class="eyebrow center">Ready to grow</div>
+      <h2 class="center">Simple Farmer is <span class="g">live right now.</span></h2>
+      <p class="lede center">No wait, no waitlist — connect a wallet and start your farm today.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://simplefarmer.greenlifegame.com" target="_blank" rel="noopener">▶ Play Simple Farmer</a>
+        <a class="btn btn-ghost" href="index.html#glgHub">🎮 See all GLG games</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <h4>⚠️ Important — please read</h4>
+      <p>Simple Farmer is a play-to-earn video game on Solana, part of the GreenLifeGame (GLG) platform. This page is for informational purposes only — it is not financial, investment, or legal advice, and not an offer or solicitation to buy or sell any token, security, or asset. Do your own research.</p>
+    </div>
+    <div class="foot-social">
+      <a href="index.html#glgHub">🎮 All GLG Games</a>
+      <a href="index.html#top">🌿 GREEN LIFE</a>
+      <a href="https://simplefarmer.greenlifegame.com" target="_blank" rel="noopener">▶ Play Simple Farmer</a>
+    </div>
+    <div class="foot-b">
+      <div class="fm">GREENLIFEGAME</div>
+      <div class="fine">$GREEN · shared across the GLG platform · built on Solana</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
