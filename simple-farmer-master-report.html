@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Farmer — Master Technical Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+  :root{
+    --accent:#2f8a00;
+    --accent-bright:#52e300;
+    --ink:#141416;
+    --sub:#5a5f57;
+    --line:#dfe3da;
+    --panel:#f5f7f2;
+    --panel2:#ecf0e6;
+    --red:#c23b2f;
+    --purple:#7a3fb0;
+    --gold:#a8790a;
+    --gold-bright:#ffd700;
+    --cyan:#0e8f8a;
+    --blue:#2a6fb0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Archivo',Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:#fff;
+    margin:0;
+    line-height:1.55;
+    font-size:15px;
+  }
+  .page{max-width:980px; margin:0 auto; padding:0 28px 100px;}
+
+  .cover{
+    background:linear-gradient(180deg,#0a1206 0%, #141416 100%);
+    color:#f2f5ee;
+    padding:80px 28px 60px;
+    margin-bottom:48px;
+  }
+  .cover-inner{max-width:980px; margin:0 auto;}
+  .cover-eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:3px;
+    color:var(--accent-bright); text-transform:uppercase; margin-bottom:18px;
+  }
+  .cover h1{
+    font-size:56px; font-weight:900; letter-spacing:1px; margin:0 0 10px;
+    text-shadow:0 0 40px rgba(82,227,0,0.35);
+  }
+  .cover .sub{font-size:17px; color:#c7cdc0; max-width:720px; margin:0 0 30px;}
+  .cover-meta{
+    display:flex; gap:32px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:12px;
+    color:#a9b0a0; border-top:1px solid #2c3226; padding-top:20px;
+  }
+  .cover-meta b{color:#f2f5ee; display:block; font-size:13px; margin-bottom:3px;}
+
+  .toc{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:24px 28px; margin-bottom:48px;
+  }
+  .toc h2{margin-top:0; font-size:12px; letter-spacing:2px; color:var(--sub); text-transform:uppercase;}
+  .toc ol{columns:2; column-gap:36px; padding-left:20px; margin:0; font-size:13.5px;}
+  .toc li{margin-bottom:6px; break-inside:avoid;}
+  .toc a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent;}
+  .toc a:hover{border-bottom-color:var(--accent);}
+
+  section{margin-bottom:56px; scroll-margin-top:20px;}
+  .sec-num{
+    font-family:'JetBrains Mono',monospace; color:var(--accent-bright);
+    background:var(--ink); display:inline-block; padding:3px 10px; border-radius:6px;
+    font-size:12px; font-weight:700; letter-spacing:1px; margin-bottom:10px;
+  }
+  h2{font-size:26px; font-weight:900; margin:0 0 6px; letter-spacing:.3px;}
+  h3{font-size:16.5px; font-weight:700; margin:28px 0 10px; color:var(--ink);}
+  h4{font-size:13.5px; font-weight:700; margin:18px 0 8px; color:var(--sub); text-transform:uppercase; letter-spacing:.5px;}
+  p{margin:0 0 13px; color:#2b2e28; font-size:14.5px;}
+  .lede{font-size:15.5px; color:var(--sub); margin-bottom:22px; max-width:760px;}
+
+  .status{
+    display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace;
+    font-size:11px; font-weight:700; letter-spacing:.5px; padding:3px 10px; border-radius:999px;
+    background:#e8f5e0; color:var(--accent); border:1px solid #c5e8ae; text-transform:uppercase;
+  }
+  .status.wip{background:#fbeecb; color:var(--gold); border-color:#f0d896;}
+  .status.stub{background:#f5e4e0; color:var(--red); border-color:#eec4bb;}
+
+  table{width:100%; border-collapse:collapse; margin:12px 0 20px; font-size:13px;}
+  th{
+    text-align:left; background:var(--ink); color:#eef2ea; font-size:10.5px; letter-spacing:.8px;
+    text-transform:uppercase; padding:8px 11px; font-weight:700;
+  }
+  td{padding:8px 11px; border-bottom:1px solid var(--line);}
+  tr:nth-child(even) td{background:var(--panel);}
+  .num{font-family:'JetBrains Mono',monospace; font-weight:600;}
+  .scrollx{overflow-x:auto; margin:12px 0 20px;}
+  .scrollx table{margin:0;}
+  .tag{
+    display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:999px;
+    letter-spacing:.4px; color:#fff; white-space:nowrap;
+  }
+  .tag.common{background:#a67c52;}
+  .tag.uncommon{background:#3f9e50;}
+  .tag.rare{background:#2a7bd6;}
+  .tag.epic{background:#9c4fc9;}
+  .tag.legend{background:#a8790a;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:18px 0;}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .card h4{margin-top:0;}
+  .card .num-big{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:var(--accent);}
+
+  .flow{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-family:'JetBrains Mono',monospace;
+    font-size:12px; margin:14px 0 20px;
+  }
+  .flow span{background:var(--panel2); border:1px solid var(--line); padding:5px 11px; border-radius:8px;}
+  .flow .arrow{color:var(--sub); background:none; border:none; padding:0;}
+
+  .callout{
+    border-left:4px solid var(--accent); background:var(--panel); padding:13px 17px;
+    border-radius:0 10px 10px 0; margin:16px 0; font-size:13.5px;
+  }
+  .callout.warn{border-left-color:var(--red); background:#fbf1ef;}
+  .callout.note{border-left-color:var(--cyan); background:#eef8f7;}
+  .callout.locked{border-left-color:var(--gold); background:#fdf6e6;}
+  .callout.gap{border-left-color:#8a8a92; background:#f3f3f5;}
+  .callout b{display:block; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px;}
+  .callout.warn b{color:var(--red);}
+  .callout.note b{color:var(--cyan);}
+  .callout.locked b{color:var(--gold);}
+  .callout.gap b{color:#5a5a62;}
+  .callout:not(.warn):not(.note):not(.locked):not(.gap) b{color:var(--accent);}
+
+  ul{padding-left:22px; margin:0 0 14px;}
+  li{margin-bottom:5px; font-size:14.5px;}
+  code{
+    font-family:'JetBrains Mono',monospace; background:var(--panel2); padding:1px 6px;
+    border-radius:4px; font-size:12px;
+  }
+  blockquote{
+    margin:10px 0 16px; padding:10px 16px; border-left:3px solid var(--line);
+    color:var(--sub); font-size:13.5px; font-style:italic; background:var(--panel);
+  }
+  .stepper{counter-reset:step; margin:16px 0;}
+  .step{position:relative; padding:2px 0 18px 36px; border-left:2px solid var(--line); margin-left:12px;}
+  .step:last-child{border-left:2px solid transparent; padding-bottom:0;}
+  .step::before{counter-increment:step; content:counter(step); position:absolute; left:-14px; top:0; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#fff; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  .step-title{font-weight:700; font-size:14px; margin-bottom:2px;}
+  .step-body{font-size:13px; color:var(--sub);}
+
+  .stagebox{border:1px solid var(--line); border-radius:12px; padding:16px 20px; margin-bottom:14px; background:#fff;}
+  .stagebox h4{color:var(--ink); text-transform:none; letter-spacing:0; font-size:15px; margin:0 0 6px;}
+  .stagebox .stagedone{color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700;}
+
+  .footer{
+    border-top:1px solid var(--line); margin-top:70px; padding-top:22px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sub); text-align:center;
+  }
+  @media print{
+    .cover{background:#141416 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    th{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    section{page-break-inside:avoid;}
+  }
+  @media (max-width:720px){
+    .cover h1{font-size:38px;}
+    .toc ol{columns:1;}
+    .grid2,.grid3{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">Master Technical Reference</div>
+    <h1>SIMPLE FARMER</h1>
+    <p class="sub">A Solana-themed play-to-earn crop-farming web game — the deliberately EASY-tier game on the GreenLifeGame (GLG) platform. Shares only the $GREEN token and its liquidity pool with its sister game GREEN LIFE — never code, never a repo, never mechanics. This document is the single consolidated internal reference: every system, every constant, every formula, and an honest accounting of what is real vs. simulated in the current build.</p>
+    <div class="cover-meta">
+      <div><b>Token</b>$GREEN (single dollar sign — deliberate, matches this game's own UI copy)</div>
+      <div><b>Farm emissions pool</b>150,000,000,000 — this game's share of the 3-game 690B platform supply (Weed 200B · Dino 250B)</div>
+      <div><b>Chain</b>Solana — <u>not yet connected</u>, fully simulated build</div>
+      <div><b>Stack</b>React (farmer-*.jsx file set, its own entry point, zero shared code with GREEN LIFE)</div>
+      <div><b>Status</b>Fully simulated dev preview — no wallet, no chain, no backend. See §25 for the complete honesty checklist.</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#summary">01 · Executive Summary</a></li>
+      <li><a href="#locked">02 · Locked Design Decisions</a></li>
+      <li><a href="#platform">03 · Relationship to GREEN LIFE &amp; the GLG Platform</a></li>
+      <li><a href="#onboarding">04 · Onboarding &amp; Entry Flow</a></li>
+      <li><a href="#farmscreen">05 · The Farm Screen (Dashboard)</a></li>
+      <li><a href="#garden">06 · Garden Tiers &amp; the Multiplier Mechanic</a></li>
+      <li><a href="#crops">07 · Crops — Full 16-Card Roster &amp; Pack Odds</a></li>
+      <li><a href="#boosts">08 · Boosts — Full Item Table</a></li>
+      <li><a href="#breed">09 · Crossbreeding</a></li>
+      <li><a href="#shop">10 · Packs, Shop System &amp; Currency Routing</a></li>
+      <li><a href="#primo">11 · PRIMO Pack (Prime Crate)</a></li>
+      <li><a href="#reveal">12 · Pack-Opening Reveal Cinematics</a></li>
+      <li><a href="#market">13 · Marketplace</a></li>
+      <li><a href="#harvest">14 · Harvest, Emissions &amp; Early-Pull Mechanics</a></li>
+      <li><a href="#lottery">15 · Lottery — Four Standing Pools</a></li>
+      <li><a href="#referral">16 · Referral &amp; Invite System</a></li>
+      <li><a href="#gift">17 · Gift-a-Farm, Claim Codes &amp; Credit-Card On-Ramp</a></li>
+      <li><a href="#stuff">18 · My Stuff — Open Now, Crops, Boosts, Invite, Activity</a></li>
+      <li><a href="#world">19 · World Screen — Leaderboard &amp; Pool-Life Projection</a></li>
+      <li><a href="#admin">20 · Admin Console</a></li>
+      <li><a href="#ui">21 · Visual &amp; UI Component System</a></li>
+      <li><a href="#scene">22 · The Farm Scene (Overhead Map)</a></li>
+      <li><a href="#money">23 · Money Flow &amp; Burn Discipline</a></li>
+      <li><a href="#numbers">24 · Numbers Reference — Master Table</a></li>
+      <li><a href="#simflags">25 · What's Simulated vs. What's Real</a></li>
+      <li><a href="#audit">26 · Session Audit Log — Bugs Found &amp; Fixed</a></li>
+      <li><a href="#open">27 · Open Questions &amp; Flagged Concerns</a></li>
+    </ol>
+  </div>
+
+  <!-- 01 -->
+  <section id="summary">
+    <div class="sec-num">01</div>
+    <h2>Executive Summary</h2>
+    <p class="lede">Simple Farmer is a Solana-themed play-to-earn crop-farming web game — the second title on the GreenLifeGame (GLG) platform, and deliberately the simpler/easier one. Where GREEN LIFE is a deep cannabis-farming economy with Mythical breeding, a 3D world, PvP games, tournaments, weapons/defend, clans and a 22,000-line codebase, Simple Farmer strips the same core shape (buy a farm, plant cards, earn a token, breed, trade, refer friends) down to fewer systems and a flatter, more approachable economy — fruits and vegetables instead of strains, a 5-tier rarity ladder with no Mythical ceiling, and an overhead SVG farm map instead of a walkable 3D room.</p>
+    <p><b>Current build status:</b> the game is a fully simulated client-side prototype. The landing screen states this outright — <i>"The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i> Every balance, purchase, harvest, breed and claim happens as in-memory React state; nothing persists past a page refresh, and no real money moves anywhere in this codebase today.</p>
+
+    <h3>Core game loop</h3>
+    <div class="flow">
+      <span>Connect wallet (simulated)</span><span class="arrow">→</span>
+      <span>Invite code (roulette matches you if you have none)</span><span class="arrow">→</span>
+      <span>$25 buy-in, SOL/USDC/USDT</span><span class="arrow">→</span>
+      <span>Farm mints + $5 $GREEN bonus + 1 Starter Pack auto-opens</span><span class="arrow">→</span>
+      <span>Plant &amp; earn every second</span><span class="arrow">→</span>
+      <span>Rip packs / crossbreed / boost</span><span class="arrow">→</span>
+      <span>Level the farm / unlock plots</span><span class="arrow">→</span>
+      <span>Trade / refer / play the lottery / repeat</span>
+    </div>
+    <p>Navigation is a bottom bar of six tabs plus a conditional seventh: <b>Farm · Garden · Breed · Market · Stuff · World</b> — and, when the (currently wide-open) admin flag is set, a seventh <b>🛠 Admin</b> tab. Market is its own full tab here — unlike GREEN LIFE, where Market is a block inside World; Simple Farmer's World screen instead holds the shared emissions pool, a simulated leaderboard, a pool-life decay projection, and the honest simulated-systems disclosure list (§19, §25).</p>
+
+    <h3>What makes it "the simple one" — the deliberate simplifications vs. GREEN LIFE</h3>
+    <ul>
+      <li><b>No Mythical tier.</b> Legendary is the ceiling, full stop — five rarities (Common → Legendary), not six.</li>
+      <li><b>One card per pack, always</b> — a Seed/Mystery/Boost/Starter/PRIMO pull is exactly one card, never a multi-card bundle, so a tier's stated odds are literally the odds of that one pull.</li>
+      <li><b>No watering mechanic.</b> Plants grow purely on elapsed time; there is no Water All button and nothing dehydrates.</li>
+      <li><b>No 3D room.</b> The farm is a single inline SVG overhead map — deliberately not Three.js, no textures, no draw-call budget to manage (see §22).</li>
+      <li><b>No PvP games, no tournaments, no weapons/Defend, no clans, no emote system.</b> None of these systems exist in Simple Farmer's current build — a control for a system that isn't there would be worse than no control.</li>
+      <li><b>A category-gated breeding rule with a real category exclusivity</b> (Veggie×Veggie or Fruit×Fruit only, never across) that GREEN LIFE's breeding does not have.</li>
+      <li><b>A genuinely different in-tier pack-odds mechanic</b> — value-inverse weighting (cheaper card = more likely) rather than GREEN LIFE's flat 60/30/10 split (see §07).</li>
+    </ul>
+
+    <h3>How this document was produced</h3>
+    <p>This report is built strictly from eleven research passes over the actual Simple Farmer source files (<code>farmer-constants.js</code>, <code>farmer-game.jsx</code>, <code>farmer-onboarding.jsx</code>, <code>farmer-main.jsx</code>, and every <code>farmer-screen-*.jsx</code>/<code>farmer-ui.jsx</code>/<code>farmer-reveal-fx.jsx</code>/<code>farmer-scene.jsx</code>/<code>farmer-admin-*.jsx</code> file), not from memory or inference. Every number in this document traces to a named constant or a quoted in-code comment. Where the source research is silent, ambiguous, or internally inconsistent about something, this report says so explicitly rather than guessing — see the <code class="scrollx"></code> callouts marked <b>GAP</b> throughout, and §27 for a consolidated list.</p>
+  </section>
+
+  <!-- 02 -->
+  <section id="locked">
+    <div class="sec-num">02</div>
+    <h2>Locked Design Decisions</h2>
+    <p class="lede">Rules the game's own source comments describe as settled ("locked"), ported unchanged from GREEN LIFE, or stated as a firm design call by Cody. Full detail and "why" for each lives in the section indicated.</p>
+    <table>
+      <tr><th>Decision</th><th>Rule</th><th>Section</th></tr>
+      <tr><td>No Mythical tier</td><td>Legendary is the absolute ceiling — 5 rarities, full stop.</td><td>§07</td></tr>
+      <tr><td>One card per pack</td><td>Every ordinary pack (paid or free) hands over exactly one card, always. PRIMO is also one card.</td><td>§10, §11</td></tr>
+      <tr><td>Breed category gate</td><td>Veggie×Veggie or Fruit×Fruit only — never across categories. New rule, not present in GREEN LIFE.</td><td>§09</td></tr>
+      <tr><td>Legendary can never be a breed parent</td><td>Epic is the highest rarity that can go IN to a breed; Legendary can still come OUT.</td><td>§09</td></tr>
+      <tr><td>Breeding &amp; farm-level upgrades burn 100%, no referral cut</td><td>Only PACKS carve a referral cut off the top before burning the remainder.</td><td>§16, §23</td></tr>
+      <tr><td>Guaranteed-breed promo capped at Rare</td><td>An admin toggle that makes Common/Uncommon/Rare pairs a guaranteed success — Epic pairs can never be made free-win.</td><td>§09, §20</td></tr>
+      <tr><td>Listings can never be cancelled</td><td>A market listing runs 7 days flat and auto-returns to the seller if unsold — no cancel button exists, on purpose.</td><td>§13</td></tr>
+      <tr><td>Marketplace fee split</td><td>10% fee = 90% seller / 5% buyback-burn / 5% treasury (design target — see §13 for what the simulated build actually executes today).</td><td>§13</td></tr>
+      <tr><td>Emissions rate hard cap</td><td>The admin dial can move the daily decay rate anywhere from 0% up to a contract-hard-coded 2% ceiling — never higher, no matter what.</td><td>§20</td></tr>
+      <tr><td>Referral chain: exactly 3 levels, then it stops</td><td>3% direct / 1% level 2 / 0.01% level 3. A 4th-level ancestor gets nothing, ever.</td><td>§16</td></tr>
+      <tr><td>Referral earnings live in a separate pot</td><td>Never mixed into the player's own claimable balance — structurally isolated from anything that could drain a farmed balance.</td><td>§16</td></tr>
+      <tr><td>Support grants are items only</td><td>Never $GREEN, never farm power, never anything taken from another player. Daily-capped at 50.</td><td>§20</td></tr>
+      <tr><td>Badges are cosmetic only</td><td>No stats, no perks, ever — the moment a badge grants something it becomes an economy lever.</td><td>§20</td></tr>
+      <tr><td>Every admin change signs</td><td>Every mutation in the Admin Console routes through the same wallet-sign sheet a player sees buying a pack.</td><td>§20</td></tr>
+      <tr><td>Pending (sealed) items are structurally unsellable</td><td>A pack sitting in Open Now lives in a wholly separate array from inventory — it cannot be listed while sealed.</td><td>§18</td></tr>
+      <tr><td>Gift-a-Farm always stays on</td><td>Not gated behind the credit-card on/off switch, unlike the $GREEN top-off ledger.</td><td>§17</td></tr>
+      <tr><td>A garden multiplier trades time for throughput, never for total payout per cycle</td><td>×N power and ÷N cycle length cancel — a single harvest pays the same at any tier; only speed differs.</td><td>§06</td></tr>
+      <tr><td>A farm level raises the plot CAP, never grants the plot</td><td>Every non-free tier still requires a separate SOL purchase per plot, in order.</td><td>§06</td></tr>
+      <tr><td>Planting requires a sign-to-commit batch</td><td>Cards staged into plots are pending (unsigned, free to undo) until one signature commits the whole batch.</td><td>§06</td></tr>
+      <tr><td>Lottery fee is 100% treasury, never burned</td><td>Deliberate exception to the game's burn-heavy spend model — a ticket is a wager pooled and redistributed, not a spend that consumes an item.</td><td>§15</td></tr>
+    </table>
+  </section>
+
+  <!-- 03 -->
+  <section id="platform">
+    <div class="sec-num">03</div>
+    <h2>Relationship to GREEN LIFE &amp; the GLG Platform</h2>
+    <p class="lede">GreenLifeGame (GLG) is the shared platform brand across every GLG title. Simple Farmer is one of at least two confirmed real games under it (its sister is GREEN LIFE, the cannabis-farming game); the platform's own supply plan reserves pools for a total of three games at minimum.</p>
+    <div class="callout locked">
+      <b>The one and only thing shared between games</b>
+      GLG games share ONLY the $GREEN token and its liquidity pool — never code, never a repo, never mechanics. Simple Farmer is its own file set (<code>farmer-*.jsx</code>/<code>farmer-*.js</code>), its own React entry point (<code>farmer-main.jsx</code> mounting into <code>farmer.html</code>), and imports nothing from GREEN LIFE's <code>constants.js</code>/<code>green-game.jsx</code>. The reverse is also true. This is stated as a deliberate isolation choice — reusing GREEN LIFE's UI file, for example, would pull in strain art and weapon tables and "tie the two games together at the code level for no benefit."</div>
+    <h3>Shared token, separate everything else</h3>
+    <table>
+      <tr><th>Aspect</th><th>Simple Farmer</th><th>GREEN LIFE</th></tr>
+      <tr><td>Token</td><td colspan="2" class="num">$GREEN — one shared token, one shared LP, one shared price</td></tr>
+      <tr><td>In-code symbol</td><td class="num">"$GREEN" (single dollar sign — deliberate)</td><td>"$GREEN$" (double dollar sign, GREEN LIFE's own convention)</td></tr>
+      <tr><td>Emissions pool</td><td class="num">150,000,000,000 (150B)</td><td>Its own separate pool</td></tr>
+      <tr><td>Platform 3-game supply split</td><td colspan="2">Farm 150B · Weed 200B · Dino 250B — 690B total across the platform's game pools, each decaying at the same 0.069%/day rate so no game feels pointless relative to another</td></tr>
+      <tr><td>Emissions decay rate</td><td class="num">0.069%/day (working number, not locked)</td><td>0.069%/day (raised 2026-08-18 from 0.025%, locked, ceiling 2% forever)</td></tr>
+      <tr><td>Referral bootstrap chain</td><td class="num">SFROOT1–SFROOT5, this game's own root</td><td>Its own separate 5-wallet chain (Burn Wallet / Dev Wallet / #3/#4/#5)</td></tr>
+      <tr><td>Rarity ceiling</td><td class="num">Legendary (5 tiers)</td><td>Mythical (6 tiers, breed-only)</td></tr>
+      <tr><td>Marketplace floor prices</td><td colspan="2">Deliberately anchored to the SAME per-rarity SOL values — both games pay out of the same $GREEN and trade on the same LP, so a mismatched floor between them would be a real arbitrage, not a design choice</td></tr>
+    </table>
+    <h3>Why the pool sizing matters mechanically</h3>
+    <blockquote>"the goal is for all 3 games to have similar earning power, the more advanced games will earn a little more bc it has a higher emission pool and take more player time to play." — Cody, 2026-08-18</blockquote>
+    <p>All three games run the same 0.069%/day decay, so what separates a player's earning power between games is purely the size of that game's own pool. A player holding the same share of Simple Farmer's own network therefore earns at roughly a 1&nbsp;:&nbsp;1.33&nbsp;:&nbsp;1.67 ratio versus the same share in the Weed and Dino games respectively — close enough that no game feels pointless, tilted toward the heavier games that ask more of a player's time. The consequence worth holding onto: earning power is set by <b>pool size</b>, not by Simple Farmer's own crop numbers — making crops more powerful across the board does not increase real payout, because emissions split by <i>share</i> of network power, and raising everyone's power raises the denominator too. The only levers that move real earnings here are the pool allocation and the decay rate.</p>
+    <h3>Platform-shared presentation</h3>
+    <ul>
+      <li>Both games open on an identical GLG platform splash (<code>GlgIntro</code> in Simple Farmer, its own separate component from GREEN LIFE's equivalent — components are never shared, only art and copy) — same wordmark, same copy: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i> / <i>"420B · MINTED ONCE · NEVER AGAIN"</i> / <i>"tap to enter."</i> Cody's own framing: <i>"this should be the exact intro on all games, the words should match also"</i> — these are platform-wide $GREEN facts, not game-specific ones, so they read identically everywhere.</li>
+      <li>Only the game's own icon art (<code>/glg-brand/glg-icon.png</code>) is shared between the two splashes — same category as sharing the token itself.</li>
+      <li>Simple Farmer's own brand accent color, <code>#52e300</code>, is the exact same green GREEN LIFE uses as its own accent — pulled from the same GLG-family logo palette.</li>
+    </ul>
+    <h3>Deliberately separate, and why</h3>
+    <ul>
+      <li><b>Separate referral graphs.</b> Each game runs its own 3-level referral chain, its own bootstrap wallets, its own roulette pool. A friend referred in one game is not automatically connected in the other.</li>
+      <li><b>Separate asset folders.</b> Boost card art lives at <code>public/farmer-boosts/</code>, deliberately not GREEN LIFE's <code>public/boosts/</code> — the two folders sharing a similar name nearly caused Simple Farmer's renders to save into GREEN LIFE's own asset directory during production; the source explicitly warns never to merge them back.</li>
+      <li><b>Separate admin consoles, separate wallets registry, separate SIM_FLAGS list.</b> Nothing about Simple Farmer's Admin Console reads or writes GREEN LIFE's state.</li>
+      <li><b>Deliberately fewer systems.</b> Simple Farmer is positioned as the platform's Easy difficulty tier; GREEN LIFE carries the deep systems (PvP, tournaments, weapons/Defend, clans, a 3D world). A system missing from Simple Farmer is very often not an oversight — it is the tier boundary doing its job.</li>
+    </ul>
+    <div class="callout gap">
+      <b>Gap in the research</b>
+      The research passes available for this report cover only Simple Farmer's own source files in depth. Confirmation of the exact three-game platform split (Farm 150B / Weed 200B / Dino 250B out of 690B) comes from comments inside <code>farmer-constants.js</code> itself describing the shared plan — no GREEN LIFE or "Dino Island" source file was read as part of producing this document, so anything about those other games beyond what Simple Farmer's own comments state should be treated as Simple Farmer's own understanding of the plan, not independently verified against those games' code.</div>
+  </section>
+
+  <!-- 04 -->
+  <section id="onboarding">
+    <div class="sec-num">04</div>
+    <h2>Onboarding &amp; Entry Flow</h2>
+    <p class="lede">Five recognized <code>stage</code> values, each rendered by <code>farmer-onboarding.jsx</code> before the real game (<code>stage === "game"</code>) exists: <code>glg</code> → <code>intro</code> → <code>checking</code> → <code>invite</code> → <code>entry</code>. An unrecognized stage falls back to the game's own splash — never a blank page or an error card, so a player always has a working Connect button.</p>
+
+    <h3>Stage 0 — GLG platform splash</h3>
+    <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"420B · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
+
+    <h3>Stage 1 — game splash</h3>
+    <p>Warm sunrise radial wash (accent green + gold, "soil and sunlight, not neon"). Logo at 190×190px (raised from an earlier 120px to match GREEN LIFE's own logo scale). Tagline: <b>"GROW. HARVEST. EARN."</b> Body copy: <i>"Plant real crops, wait out the grow, cash the harvest."</i> / <i>"Runs on the $GREEN token"</i> (rendered in the brand gradient) / <i>"Earn Every Second."</i> Two CTAs: <b>Connect Wallet</b> and <b>How to play</b> (opens a "How To" modal, §04 below). Disclosure line, exact: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></p>
+
+    <h3>The "How to Play" modal — 7 steps, every number read live</h3>
+    <p>Every figure in this modal is computed from the actual live constants at render time (never hand-typed) specifically so it can never drift from what the game really charges — though the source itself documents that this exact promise was still caught failing once (a hardcoded currency label slipped through the 2026-08-24 audit; see §26).</p>
+    <div class="stepper">
+      <div class="step"><div class="step-title">1 · Connect &amp; enter</div><div class="step-body">Connect a wallet, enter an invite code, pay the $25.00 entry to mint your Level 1 farm. It opens itself right away.</div></div>
+      <div class="step"><div class="step-title">2 · Plant &amp; earn every second</div><div class="step-body">70% of your farmed $GREEN streams the instant it's earned; the other 30% holds in a pot that only pays out at harvest.</div></div>
+      <div class="step"><div class="step-title">3 · Rip packs</div><div class="step-body">Seed $1.50 · Mystery $1.00 · Boost $0.50 (all $GREEN today) — at the live price and currency, whatever they're currently set to. No daily limit on any of them.</div></div>
+      <div class="step"><div class="step-title">4 · Upgrade</div><div class="step-body">Spend $GREEN to level your farm (Lv2–5, $10.00 flat each): more garden plots, higher pack limits. Each level has its own build-time cooldown.</div></div>
+      <div class="step"><div class="step-title">5 · Emission decay</div><div class="step-body">Every 24 hours the network emits 0.069% of whatever's left in the rewards pool — a slow, sustainable curve instead of a spike.</div></div>
+      <div class="step"><div class="step-title">6 · Burn</div><div class="step-body">Every $GREEN spent in-game is burned forever — never returned to the pool.</div></div>
+      <div class="step"><div class="step-title">7 · Refer &amp; earn</div><div class="step-body">3% of your direct referrals' earnings and pack buys, 1% from their referrals, 0.01% one level deeper. Three levels — that's the cap, always.</div></div>
+    </div>
+
+    <h3>Stage 2 — "checking" (the existing-farm lookup)</h3>
+    <p>Roughly a 900ms artificial delay standing in for an on-chain lookup. No buttons on this screen on purpose — nothing has been decided or charged yet. Copy: <i>"Checking your farm… Looking up whether {wallet} already owns one. Connecting your wallet is the login — if you already farm here you go straight in. No code, no second buy-in."</i></p>
+    <div class="callout locked">
+      <b>Why there is no "I already have an account" button</b>
+      Connecting the wallet IS the login. A farm lives at an address derived from the wallet itself, so the game just looks: if this wallet owns one, the player is dropped straight back into it, never asked for an invite code, never asked to buy in again. A separate button for "I'm returning" can be tapped wrongly by a new player, and tapping it wrongly could walk an existing owner toward paying the $25 entry a second time.
+    </div>
+    <p><code>findExistingFarm()</code> is an explicit stub in this build — it always returns <code>null</code> (gated by a <code>DEMO_EXISTING_FARM</code> testing flag, currently <code>false</code>), so <b>every connect in this build onboards as brand new.</b></p>
+
+    <h3>Stage 3 — "invite" (the code screen)</h3>
+    <p>Split into its own screen on 2026-08-24 specifically to mirror GREEN LIFE's own two-screen invite/entry split "screenshot-for-screenshot." This screen's only job is collecting a code — no price, no wallet, no "what you get" belongs here.</p>
+    <ul>
+      <li><b>Entry is invite-only, no skip.</b> Continue is hard-gated on the code being at least 4 characters — a real generated code is 4 letters + 3 digits = 7 characters, but the minimum-to-continue is looser to allow shorter/longer aliases in the future.</li>
+      <li><b>Code alphabet:</b> <code>ABCDEFGHJKLMNPQRSTUVWXYZ</code> — I and O deliberately excluded so a code read off a screen can never be confused with 1 and 0.</li>
+      <li><b>🎲 Referral roulette</b> matches a code-less player to a real seeded ancestor from the bootstrap chain (<code>SFROOT3</code>/<code>SFROOT4</code>/<code>SFROOT5</code> only — <code>SFROOT1</code>/<code>SFROOT2</code> are structurally excluded), not a throwaway random string — every code it can hand out has real, known ancestors 3 levels up, so a brand-new player's referral cut resolves correctly from their very first action.</li>
+      <li><b>Optional claim code field</b> — if a valid claim code is typed here, it waives the entry fee entirely on the next screen (validated live via <code>checkClaimCode()</code> before the player even continues).</li>
+    </ul>
+
+    <h3>Stage 4 — "entry" (the buy-in screen)</h3>
+    <p>Everything about what you get, what it costs, and how you pay lives here exclusively.</p>
+    <table>
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Entry price</td><td class="num">$25.00 USD ≈ 0.3289 SOL (at SOL_USD = 76)</td></tr>
+      <tr><td>Starter $GREEN bonus</td><td class="num">$5.00 → 500,000 $GREEN (comes out of the $25, not added on top)</td></tr>
+      <tr><td>Welcome kit contents</td><td>Farm Level 1 + exactly 1 Starter Pack — <i>nothing else.</i> "Nothing here promises a starter boost or pre-rolled cards."</td></tr>
+      <tr><td>Free starting plots</td><td class="num">10 total — 4 (1X) + 3 (2X) + 2 (5X) + 1 (10X) + 0 (Toxic) — summed live off the garden tier table</td></tr>
+      <tr><td>Pay-with options</td><td>SOL, USDC, or USDT — stablecoins auto-swap to SOL in the same transaction, no manual swapping</td></tr>
+    </table>
+    <p>The Starter Pack <b>auto-opens itself</b> the instant the farm mints — there is no sealed tile to find and tap first. It is always a crop card (never subject to the Mystery-Pack-style boost/crop roll), because a brand-new empty farm with a boost-only starter kit would leave the player with nothing to plant and no way to fix it until the next daily pack.</p>
+    <p>A "💧 Where your buy-in goes (by total liquidity)" table is shown directly on this screen, computed live off the <code>LP_PHASES</code> table (see §23):</p>
+    <table>
+      <tr><th>Total pool depth</th><th>Split</th></tr>
+      <tr><td>$0 – $25,000</td><td class="num">100% Liquidity Pool</td></tr>
+      <tr><td>$25,000 – $100,000</td><td class="num">75% Liquidity Pool · 25% Treasury</td></tr>
+      <tr><td>$100,000+</td><td class="num">50% Liquidity Pool · 50% Treasury</td></tr>
+    </table>
+    <p>Bottom disclosure, exact: <i>"Simulated build — no real SOL leaves any wallet, and the code you use is stored locally."</i></p>
+  </section>
+
+  <!-- 05 -->
+  <section id="farmscreen">
+    <div class="sec-num">05</div>
+    <h2>The Farm Screen (Dashboard)</h2>
+    <p class="lede">Render order, deliberately matching GREEN LIFE's dashboard layout per Cody's own instruction ("make the emission box and stat info match weed game by being at the top"):</p>
+    <div class="flow">
+      <span>Current Estimate</span><span class="arrow">→</span>
+      <span>Stat grid</span><span class="arrow">→</span>
+      <span>Farm Level</span><span class="arrow">→</span>
+      <span>Farm Scene (the overhead map)</span><span class="arrow">→</span>
+      <span>Daily block</span><span class="arrow">→</span>
+      <span>Lottery (4-pool grid)</span><span class="arrow">→</span>
+      <span>Pack carousel (incl. PRIMO)</span>
+    </div>
+    <p><b>Every price on this screen is read from the SHOP registry, never from the raw pack table.</b> The admin-editable <code>SHOP_CONFIG</code> is the one dial that decides what's charged; <code>PACKS</code>/<code>PRIMO</code> are only read here for name/emoji/card-count — the things that aren't price.</p>
+
+    <h3>Current Estimate block</h3>
+    <ul>
+      <li>The <b>only</b> $GREEN figure in the entire game shown as exact digits, never abbreviated — "watching the exact digits tick is the point of it."</li>
+      <li>Shows the unclaimed balance (the 70% instant-stream half only), its USD equivalent, the player's live share of network earning power, and a mini progress bar for the emissions pool balance vs. its original size.</li>
+      <li>Claim button gates on <code>unclaimed &gt;= 1</code>, not <code>&gt; 0</code> — a sub-1 balance is real but rounds to "0" everywhere else in the UI, so a button that would sign for a visibly-zero result is deliberately disabled (a bug caught live in the 2026-08-24 QA pass).</li>
+      <li>Explainer line: <i>"Earning +{rate}/sec total — 70% streams above, 30% waits in each plant's harvest pot."</i></li>
+    </ul>
+
+    <h3>Stat grid — 6 tiles</h3>
+    <p>Farm power and earning power are shown as two deliberately different numbers: a finished plant still counts as farm power (it's still yours) but has stopped contributing to earning power (your slice of the emissions pool). Merging the two would quietly inflate everyone's share.</p>
+    <table>
+      <tr><th>Tile</th><th>Shows</th></tr>
+      <tr><td>Farm level</td><td>Current level of MAX_FARM_LEVEL (5)</td></tr>
+      <tr><td>Farm power</td><td>Everything owned, including finished/stopped plants</td></tr>
+      <tr><td>Earning power</td><td>Only plants still actively growing</td></tr>
+      <tr><td>Plants</td><td>Total planted, with a count of how many are ready to harvest</td></tr>
+      <tr><td>Total claimed</td><td>Lifetime $GREEN claimed</td></tr>
+      <tr><td>Burned</td><td>Lifetime $GREEN destroyed, gone forever</td></tr>
+    </table>
+
+    <h3>Farm Level block</h3>
+    <p>A level raises the plot <b>cap</b> — it never grants the plot itself; every plot beyond the free starter allotment still has to be bought separately in the Garden. Upgrade cost and cooldown ladder:</p>
+    <table>
+      <tr><th>Target level</th><th>Cost ($GREEN, USD-pegged)</th><th>Build time</th></tr>
+      <tr><td class="num">2</td><td class="num">$10.00</td><td class="num">2 days</td></tr>
+      <tr><td class="num">3</td><td class="num">$10.00</td><td class="num">3 days</td></tr>
+      <tr><td class="num">4</td><td class="num">$10.00</td><td class="num">4 days</td></tr>
+      <tr><td class="num">5</td><td class="num">$10.00</td><td class="num">5 days</td></tr>
+    </table>
+    <p>A flat $10/level after Lv1 (unlike GREEN LIFE's escalating SOL ladder — Cody's explicit call to leave it flat). Upgrade cost is paid via <code>burnGreenFull()</code> — a straight 100% burn, no referral cut (see §16, §23). Farm-level cooldowns are compressed to a flat <b>20 seconds</b> under the <code>TESTING_FAST_COOLDOWN</code> flag in the current build (real durations shown above are what production would use).</p>
+  </section>
+
+  <!-- 06 -->
+  <section id="garden">
+    <div class="sec-num">06</div>
+    <h2>Garden Tiers &amp; the Multiplier Mechanic</h2>
+    <p class="lede">Five garden tiers behind one pill selector, each one screen's worth of plots at a time — "mixing five different multipliers on one screen is exactly how a player ends up not understanding the multiplier at all."</p>
+    <div class="scrollx">
+    <table>
+      <tr><th>Tier id</th><th>Label</th><th>Multiplier</th><th>Plots / farm level</th><th>SOL / plot</th><th>Free at start</th><th>Color</th></tr>
+      <tr><td class="num">g1</td><td>1X Garden</td><td class="num">1×</td><td class="num">4</td><td class="num">0 (free)</td><td class="num">4</td><td>#8fbf5a</td></tr>
+      <tr><td class="num">g2</td><td>2X Garden</td><td class="num">2×</td><td class="num">3</td><td class="num">0.025</td><td class="num">3</td><td>#57d364</td></tr>
+      <tr><td class="num">g5</td><td>5X Garden</td><td class="num">5×</td><td class="num">2</td><td class="num">0.05</td><td class="num">2</td><td>#4da6ff</td></tr>
+      <tr><td class="num">g10</td><td>10X Garden</td><td class="num">10×</td><td class="num">1</td><td class="num">0.1</td><td class="num">1</td><td>#b06ad0</td></tr>
+      <tr><td class="num">g100</td><td>☢️ Toxic Area</td><td class="num">100×</td><td class="num">flat 1 (ever)</td><td class="num">0.25</td><td class="num">0</td><td>#ffd700</td></tr>
+    </table>
+    </div>
+    <p><code>tierCap(tier, farmLevel) = tier.flat ?? tier.capPerLevel × farmLevel</code>. The Toxic Area is capped flat at exactly 1 plot forever regardless of farm level — every other tier's cap scales linearly.</p>
+
+    <h3>The multiplier math</h3>
+    <div class="callout locked">
+      <b>Locked rule</b>
+      A garden's multiplier scales a planted card's farm power UP by that factor AND divides its harvest cycle DOWN by the same factor. Net effect: <b>a single harvest pays exactly the same total whichever tier it's in</b> — rate doubled while time halved cancels out. The real benefit of a higher tier is THROUGHPUT: over a fixed stretch of real time you finish more cycles, so total earnings scale linearly with the multiplier, not exponentially.
+      <br><br>Cody's own words: <i>"if a veggie is 7days 1x on 2x it should be 3.5days and earn the same amount it would from 7 days but in 3.5 days."</i>
+    </div>
+    <p>Formulas: <code>cycleMs(cropKey, mult) = (CROPS[cropKey].days / mult) × growDayMs()</code>; <code>plantPower(cropKey, mult, boostPct) = CROPS[cropKey].power × mult × (1 + boostPct/100)</code>.</p>
+
+    <h3>Slot ownership &amp; unlocking</h3>
+    <ul>
+      <li><b>The 1X Garden auto-unlocks</b> the moment the farm level allows it — no purchase, no button. It is the only tier with <code>solPerSlot === 0</code>, so <code>owned</code> just tracks the level-derived cap directly.</li>
+      <li>Every other tier requires an explicit SOL purchase per plot, <b>one at a time, strictly in order</b> — the game only ever offers the next unbought plot for sale; tapping ahead in the queue is blocked with "take plot N first."</li>
+      <li>Purchases route through the real SOL/USDC/USDT pay-with picker and a wallet-sign screen (fixed in the 2026-08-24 audit — it used to charge SOL directly with no confirmation).</li>
+      <li>The Garden screen renders every plot the tier could ever reach at farm Level 5, not just what's unlocked today — locked cells show what farm level unlocks them and at what price, so a player can see what leveling up actually buys.</li>
+    </ul>
+
+    <h3>Planting — a staged batch that signs once</h3>
+    <div class="callout locked">
+      <b>Cody, 2026-08-24</b>
+      "when planting cards in the game make sure there is a sign to complete the task at the end they can do multiple in and out but they have to sign to finalize it. that is a final decision. weed game has this but simple farmer needs it."</div>
+    <p>A card tapped into a plot becomes <b>PENDING</b> — not a real plant, not earning yet — until one signature commits the whole batch. Tapping a pending card again pulls it back out for free, no signature either way; only the final "🔐 Confirm &amp; Sign" commits. The staging bar shows the GLOBAL staged count across every garden tier at once, not just the one currently on screen, since one signature commits all of them together.</p>
+
+    <h3>Boosts on a growing plant</h3>
+    <p>One active boost per plant, no stacking, no cancelling, no swapping. A boost lasts exactly as long as the plant's own harvest cycle — not a fixed day count, since cycle length itself changes with garden tier. Applying a boost is deliberately not offered on a fully-grown (ready) plant, since a finished plant has already stopped earning and the card would be burned for zero effect.</p>
+  </section>
+
+  <!-- 07 -->
+  <section id="crops">
+    <div class="sec-num">07</div>
+    <h2>Crops — Full 16-Card Roster &amp; Pack Odds</h2>
+    <p class="lede">Common/Uncommon/Rare each carry 4 cards (2 veggie + 2 fruit); Epic/Legendary carry 2 each (1 veggie + 1 fruit). Harvest time steps +2.5 days per rarity slot, 10 → 30 days at the base 1X garden. <code>power</code> below is base farm power at 1X; a garden multiplier scales it linearly.</p>
+    <div class="scrollx">
+    <table>
+      <tr><th>Key</th><th>Name</th><th>Type</th><th>Rarity</th><th>Days (1X)</th><th>Power (1X)</th></tr>
+      <tr><td class="num">potato</td><td>🥔 Potato</td><td>Veggie</td><td><span class="tag common">Common</span></td><td class="num">10</td><td class="num">100</td></tr>
+      <tr><td class="num">banana</td><td>🍌 Banana</td><td>Fruit</td><td><span class="tag common">Common</span></td><td class="num">10</td><td class="num">250</td></tr>
+      <tr><td class="num">carrot</td><td>🥕 Carrot</td><td>Veggie</td><td><span class="tag common">Common</span></td><td class="num">12.5</td><td class="num">500</td></tr>
+      <tr><td class="num">orange</td><td>🍊 Orange</td><td>Fruit</td><td><span class="tag common">Common</span></td><td class="num">12.5</td><td class="num">700</td></tr>
+      <tr><td class="num">cucumber</td><td>🥒 Cucumber</td><td>Veggie</td><td><span class="tag uncommon">Uncommon</span></td><td class="num">15</td><td class="num">1,000</td></tr>
+      <tr><td class="num">apple</td><td>🍎 Apple</td><td>Fruit</td><td><span class="tag uncommon">Uncommon</span></td><td class="num">15</td><td class="num">1,500</td></tr>
+      <tr><td class="num">tomato</td><td>🍅 Tomato</td><td>Veggie</td><td><span class="tag uncommon">Uncommon</span></td><td class="num">17.5</td><td class="num">5,000</td></tr>
+      <tr><td class="num">mango</td><td>🥭 Mango</td><td>Fruit</td><td><span class="tag uncommon">Uncommon</span></td><td class="num">17.5</td><td class="num">7,500</td></tr>
+      <tr><td class="num">sprouts</td><td>🥬 Brussel Sprouts</td><td>Veggie</td><td><span class="tag rare">Rare</span></td><td class="num">20</td><td class="num">10,000</td></tr>
+      <tr><td class="num">kiwano</td><td>🥝 Kiwano</td><td>Fruit</td><td><span class="tag rare">Rare</span></td><td class="num">20</td><td class="num">20,000</td></tr>
+      <tr><td class="num">romanesco</td><td>🥦 Romanesco Broccoli</td><td>Veggie</td><td><span class="tag rare">Rare</span></td><td class="num">22.5</td><td class="num">50,000</td></tr>
+      <tr><td class="num">dragonfruit</td><td>🐉 Dragon Fruit</td><td>Fruit</td><td><span class="tag rare">Rare</span></td><td class="num">22.5</td><td class="num">75,000</td></tr>
+      <tr><td class="num">ghostpepper</td><td>🌶️ Ghost Pepper</td><td>Veggie</td><td><span class="tag epic">Epic</span></td><td class="num">25</td><td class="num">100,000</td></tr>
+      <tr><td class="num">pinkpine</td><td>🍍 Pink Pineapple</td><td>Fruit</td><td><span class="tag epic">Epic</span></td><td class="num">25</td><td class="num">200,000</td></tr>
+      <tr><td class="num">glassgem</td><td>🌽 Glass Gem Corn</td><td>Veggie</td><td><span class="tag legend">Legendary</span></td><td class="num">30</td><td class="num">500,000</td></tr>
+      <tr><td class="num">yubari</td><td>🍈 Yubari King Melon</td><td>Fruit</td><td><span class="tag legend">Legendary</span></td><td class="num">30</td><td class="num">750,000</td></tr>
+    </table>
+    </div>
+    <p>Card art: one Grok-generated photo per crop, <code>/crops/&lt;key&gt;.jpg</code> — unlike GREEN LIFE's plants, no separate 3D-room cutout is needed, since the farm scene is an illustrated SVG map, not a walkable room.</p>
+
+    <h3>Pack tier odds (Stage 1 — which rarity a pack lands on)</h3>
+    <table>
+      <tr><th>Rarity</th><th>Odds</th></tr>
+      <tr><td><span class="tag common">Common</span></td><td class="num">42%</td></tr>
+      <tr><td><span class="tag uncommon">Uncommon</span></td><td class="num">35%</td></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">20%</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">2.5%</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">0.5%</td></tr>
+    </table>
+
+    <h3>In-tier pick odds (Stage 2 — which specific card within that rarity) — a genuinely new mechanic</h3>
+    <div class="callout note">
+      <b>Different from GREEN LIFE on purpose</b>
+      Cody: <i>"you do the odds for in class pick based on the cards value."</i> Each card's weight within its tier is <code>1/power</code>, normalized to 100% — half the power, twice as likely. Fruit and veggie share ONE pool per tier (a tier's 4 Common cards are one 4-way weighted draw, not two separate 2-way draws). GREEN LIFE instead uses a flat 60/30/10 within-tier split — this is not that.</div>
+    <p>Worked example for Common (Potato 100 / Banana 250 / Carrot 500 / Orange 700 power):</p>
+    <table>
+      <tr><th>Card</th><th>In-tier odds</th><th>End-to-end pack odds (× 42%)</th></tr>
+      <tr><td>🥔 Potato</td><td class="num">57.4%</td><td class="num">≈24.1%</td></tr>
+      <tr><td>🍌 Banana</td><td class="num">23.0%</td><td class="num">≈9.7%</td></tr>
+      <tr><td>🥕 Carrot</td><td class="num">11.5%</td><td class="num">≈4.8%</td></tr>
+      <tr><td>🍊 Orange</td><td class="num">8.2%</td><td class="num">≈3.4%</td></tr>
+    </table>
+  </section>
+
+  <!-- 08 -->
+  <section id="boosts">
+    <div class="sec-num">08</div>
+    <h2>Boosts — Full Item Table</h2>
+    <p class="lede">Boosts use the identical rarity odds as crops (the same tier-odds table, one flat % per tier) — Cody: <i>"use my numbers with same % to get as the veggie/plants."</i> Much gentler than GREEN LIFE's boosts (which top out at +100%), because the garden multiplier system (1×–100×) already does the heavy lifting on power here.</p>
+    <table>
+      <tr><th>Key</th><th>Name</th><th>Rarity</th><th>Power bonus</th></tr>
+      <tr><td class="num">compost</td><td>🪱 Compost</td><td><span class="tag common">Common</span></td><td class="num">+1%</td></tr>
+      <tr><td class="num">mulch</td><td>👒 Scarecrow</td><td><span class="tag uncommon">Uncommon</span></td><td class="num">+3%</td></tr>
+      <tr><td class="num">drip</td><td>💧 Drip Line</td><td><span class="tag rare">Rare</span></td><td class="num">+5%</td></tr>
+      <tr><td class="num">beehive</td><td>🐝 Beehive</td><td><span class="tag epic">Epic</span></td><td class="num">+10%</td></tr>
+      <tr><td class="num">sunlamp</td><td>☀️ Solar Array</td><td><span class="tag legend">Legendary</span></td><td class="num">+20%</td></tr>
+    </table>
+    <p>Exactly one boost item per rarity tier — <code>boostOfRarity(rarity)</code> is a direct 1:1 lookup, not a weighted pick. Duration = the host plant's own harvest cycle, never a fixed day count. Art: <code>/farmer-boosts/&lt;key&gt;.jpg</code>, a deliberately separate folder from GREEN LIFE's own boost art.</p>
+    <h3>Consolation boost on a failed crossbreed</h3>
+    <p>A failed breed salvages exactly one boost card, drawn from the same pack tier-odds table as an ordinary Boost Pack pull — heavily weighted toward Common/Uncommon (42%/35%), only 2.5%/0.5% chance of Epic/Legendary.</p>
+  </section>
+
+  <!-- 09 -->
+  <section id="breed">
+    <div class="sec-num">09</div>
+    <h2>Crossbreeding</h2>
+    <p class="lede">Two parent slots, a live outcome panel, and one button. Three rules are enforced BOTH in the picker UI (so an illegal pairing is never even tappable) and again inside the actual breed handler (belt and suspenders) — deliberately not only inside the handler, since a rule the player can only discover after tapping "reads as a broken button."</p>
+    <div class="stepper">
+      <div class="step"><div class="step-title">Rule 1 — category gate</div><div class="step-body">Veggie×Veggie and Fruit×Fruit only, never across. New logic vs. GREEN LIFE, which lets any strain breed any strain.</div></div>
+      <div class="step"><div class="step-title">Rule 2 — Legendary can never be a parent</div><div class="step-body"><code>BREED_PARENT_MAX_RARITY = "Epic"</code>. Cody: <i>"breeding can make a legendary just can't use them to breed its pointless."</i> Since no parent can exceed Epic, the "one tier above" outcome branch naturally tops out at Legendary with no special clamp needed.</div></div>
+      <div class="step"><div class="step-title">Rule 3 — no self-pairing</div><div class="step-body">The same physical card can't fill both slots. With duplicates, a second copy works fine — this only blocks when there is no spare copy.</div></div>
+    </div>
+
+    <h3>Cost table by parent rarity</h3>
+    <table>
+      <tr><th>Rarity</th><th>USD cost</th></tr>
+      <tr><td><span class="tag common">Common</span></td><td class="num">$0.10</td></tr>
+      <tr><td><span class="tag uncommon">Uncommon</span></td><td class="num">$0.25</td></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">$1.00</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">$5.00</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">— cannot be a parent</td></tr>
+    </table>
+    <p>Total cost = sum of both parents' own tier cost. Full pair matrix (all 10 unordered pairs, Common through Epic):</p>
+    <table>
+      <tr><th>Pair</th><th>USD</th><th>Pair</th><th>USD</th></tr>
+      <tr><td>Common + Common</td><td class="num">$0.20</td><td>Uncommon + Rare</td><td class="num">$1.25</td></tr>
+      <tr><td>Common + Uncommon</td><td class="num">$0.35</td><td>Uncommon + Epic</td><td class="num">$5.25</td></tr>
+      <tr><td>Common + Rare</td><td class="num">$1.10</td><td>Rare + Rare</td><td class="num">$2.00</td></tr>
+      <tr><td>Common + Epic</td><td class="num">$5.10</td><td>Rare + Epic</td><td class="num">$6.00</td></tr>
+      <tr><td>Uncommon + Uncommon</td><td class="num">$0.50</td><td>Epic + Epic</td><td class="num">$10.00</td></tr>
+    </table>
+    <p>Paid in $GREEN, converted at <code>usdToGreen(usd) = usd / 0.00001</code> (i.e. USD × 100,000). Paid via <code>burnGreenFull()</code> — a straight 100% burn, <b>no referral cut</b>, matching the locked rule Cody stated for both games: <i>"cross breeds should 100% burn green no refer fee."</i></p>
+
+    <h3>Success chance</h3>
+    <p><b>Flat 50%</b> for every pairing (<code>BREED_BASE_SUCCESS = 50</code>), regardless of rarity. The fail chance is deliberate: <i>"with breeding always succeeding there'd be no reason to buy a pack. A 50% fail keeps packs as the reliable way to get a card, and breeding as the risky way to climb."</i> On failure, both parent cards are consumed and the player salvages exactly one boost card (§08).</p>
+
+    <h3>Offspring rarity table (on success)</h3>
+    <table>
+      <tr><th>Branch</th><th>Weight</th><th>Resolves to</th></tr>
+      <tr><td>Lower parent's rarity</td><td class="num">55%</td><td>The lower-rarity parent's own tier</td></tr>
+      <tr><td>Higher parent's rarity</td><td class="num">25%</td><td>The higher-rarity parent's own tier</td></tr>
+      <tr><td>One tier BELOW lower</td><td class="num">12%</td><td>Clamped at Common — never below it</td></tr>
+      <tr><td>One tier ABOVE higher</td><td class="num">8%</td><td>Clamped at Legendary — never above it</td></tr>
+    </table>
+    <p>Each output card independently rolls one of these 4 branches. A Common×Common pairing collapses three of the four branches onto Common itself (55% + 25% + 12%, since "one tier below Common" folds back to Common) — a 92% chance of a Common offspring card on any single roll, with only the 8% "above" branch reaching Uncommon. Only a pairing where the higher parent is already Epic can ever reach Legendary as an offspring (via the 8% "above" branch), since the branch is clamped at the ceiling.</p>
+
+    <h3>How many cards come out</h3>
+    <table>
+      <tr><th>Cards</th><th>Odds</th></tr>
+      <tr><td class="num">1</td><td class="num">50%</td></tr>
+      <tr><td class="num">2</td><td class="num">35%</td></tr>
+      <tr><td class="num">3</td><td class="num">15%</td></tr>
+    </table>
+    <p>Expected offspring count = 1.65 cards. Offspring are restricted to the same category (veggie/fruit) as the parents; the specific crop within the resolved rarity+category is chosen via the same value-inverse in-tier weighting used by packs (§07).</p>
+
+    <h3>Guaranteed-breed promo (admin toggle)</h3>
+    <div class="callout locked">
+      <b>Ported from GREEN LIFE, 2026-08-24</b>
+      An admin toggle that makes every breed where BOTH parents are Common, Uncommon, or Rare (<code>BREED_PROMO_MAX_TIER = 2</code>, i.e. index ≤ Rare) a guaranteed 100% success. Only the SUCCESS roll is skipped — the offspring rarity table and the card-count table still roll exactly normally, so the promo burns cheap cards and removes the sting of a fail without inflating what comes out. <b>Hard-capped at Rare</b> — Epic pairs, the ones that mint real value, can never be made free-win.</div>
+    <p>The breed screen shows a live "expected value" panel — average cards × average floor-priced value per card, deliberately excluding the fail-case consolation boost (erring conservative) — added specifically because a simulated player-focus-group pass independently worked out that pricier pairs are negative-EV and concluded "never breed above Uncommon." This is stated as working as designed (breeding is meant to be the cheap gamble; the fix was showing the number honestly, not changing the odds).</p>
+  </section>
+
+  <!-- 10 -->
+  <section id="shop">
+    <div class="sec-num">10</div>
+    <h2>Packs, Shop System &amp; Currency Routing</h2>
+    <p class="lede"><b>One card per pack, always</b> — Cody, 2026-08-18: <i>"buying a seed and boost pack only get 1 card per pack."</i> Every ordinary pull is a single clean moment, and it makes the tier odds mean exactly what they say (0.5% Legendary is 0.5% per pack, not per card in a bundle). No pack in Simple Farmer carries a daily purchase cap — a deliberate difference from GREEN LIFE, where Seed/Mystery/Weapons packs are all level-capped.</p>
+    <table>
+      <tr><th>Pack id</th><th>Name</th><th>Cards</th><th>Roll</th><th>Daily cap</th></tr>
+      <tr><td class="num">plant</td><td>🌱 Seed Pack</td><td class="num">1</td><td>Always a crop card, full tier odds</td><td>None</td></tr>
+      <tr><td class="num">boost</td><td>✨ Boost Pack</td><td class="num">1</td><td>Always a boost card, full tier odds</td><td>None</td></tr>
+      <tr><td class="num">mystery</td><td>❓ Mystery Pack</td><td class="num">1</td><td>60% boost / 40% crop, then normal tier odds</td><td>None (and it's the free daily pack)</td></tr>
+      <tr><td class="num">starter</td><td>🎁 Starter Pack</td><td class="num">1</td><td>Always a crop card, full tier odds — never subject to the 60/40 roll</td><td>Once, at onboarding, auto-opened</td></tr>
+    </table>
+
+    <h3>Live shop prices — the actual dial (SHOP_CONFIG)</h3>
+    <table>
+      <tr><th>Item</th><th>Live price</th><th>Normal price</th><th>Default currency</th></tr>
+      <tr><td>Seed Pack</td><td class="num">$1.50</td><td class="num">$1.50</td><td class="num">$GREEN (burned)</td></tr>
+      <tr><td>Mystery Pack</td><td class="num">$1.00</td><td class="num">$1.00</td><td class="num">$GREEN (burned)</td></tr>
+      <tr><td>Boost Pack</td><td class="num">$0.50</td><td class="num">$0.50</td><td class="num">$GREEN (burned)</td></tr>
+      <tr><td>PRIMO Pack</td><td class="num">$7.99</td><td class="num">$11.99</td><td class="num">SOL (into the LP)</td></tr>
+    </table>
+    <div class="callout note">
+      <b>Two duplicate-source-of-truth traps, resolved deliberately</b>
+      <code>PACKS[id]</code> and <code>PRIMO</code> both carry a numeric field that is <b>not</b> the real charged price — the live price always comes from <code>SHOP_CONFIG</code> via <code>shopUsd()</code>/<code>shopBase()</code>/<code>shopSol()</code>/<code>shopGreen()</code>/<code>shopPay()</code>/<code>shopOffPct()</code>. Every screen in this game is written to read those helper functions, never the raw table's own price field, specifically so a button can never advertise a price the checkout no longer charges.</div>
+
+    <h3>Currency modes — how a pack is paid for</h3>
+    <table>
+      <tr><th>Mode</th><th>What happens</th><th>Consequence copy shown to the player</th></tr>
+      <tr><td><code>green</code></td><td>Charged in $GREEN, 100% burned</td><td>"burned forever · shrinks supply"</td></tr>
+      <tr><td><code>sol</code></td><td>Charged in SOL (or USDC/USDT, auto-swapped) → LP-phase routed</td><td>"into the LP · lifts the price floor"</td></tr>
+      <tr><td><code>both</code></td><td>The player picks at checkout — a currency sheet shows both options with their consequence stated in plain English</td><td>Both lines shown together</td></tr>
+    </table>
+    <p>Every pack but PRIMO burns $GREEN by default; PRIMO defaults to SOL — matching GREEN LIFE's identical rationale: at launch nobody will hold enough $GREEN yet, and forcing them to buy tokens just to burn them would spike a thin pool.</p>
+
+    <h3>LP routing rule (SOL branch)</h3>
+    <p>SOL, USDC, and USDT purchases all follow the same table — stablecoins auto-swap to SOL in the same transaction, then whatever SOL lands is routed by total pool depth, never by market cap (a separate table governs milestone burns elsewhere in the platform's design):</p>
+    <table>
+      <tr><th>Total pool depth</th><th>Liquidity Pool share</th><th>Treasury share</th></tr>
+      <tr><td>$0 – $25,000</td><td class="num">100%</td><td class="num">0%</td></tr>
+      <tr><td>$25,000 – $100,000</td><td class="num">75%</td><td class="num">25%</td></tr>
+      <tr><td>$100,000+</td><td class="num">50%</td><td class="num">50%</td></tr>
+    </table>
+    <p>The $GREEN branch never touches this table at all — those tokens are burned, not routed anywhere.</p>
+
+    <h3>The pack carousel</h3>
+    <p>Coverflow layout: Seed → Mystery → Boost, then PRIMO appended as a fourth slide (colored gold, with its own gradient border treatment carried over from when it was a standalone banner). The carousel opens centered on PRIMO by default ("the premium option is still the first thing you see when shopping"). Each per-pack color: Seed = accent green, Mystery = brand purple, Boost = brand blue, PRIMO = gold. A quantity stepper (arrows + type-in + MAX) is shared by all four slides, capped by wallet balance and, for PRIMO only, by the remaining daily allowance.</p>
+  </section>
+
+  <!-- 11 -->
+  <section id="primo">
+    <div class="sec-num">11</div>
+    <h2>PRIMO Pack (Prime Crate)</h2>
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Cards per pull</td><td class="num">1</td></tr>
+      <tr><td>Currency</td><td class="num">SOL only</td></tr>
+      <tr><td>Live price</td><td class="num">$7.99 (repriced 2026-08-24, was $9.99)</td></tr>
+      <tr><td>Normal/base price</td><td class="num">$11.99</td></tr>
+      <tr><td>Daily allowance</td><td class="num">= farm level, clamped 1–5 (Lv1 buys 1/day, Lv5 buys 5/day)</td></tr>
+    </table>
+    <p><code>primoPerDay(farmLevel) = max(1, min(5, farmLevel))</code> — the best pack in the game gets more available as a player progresses, so leveling up buys access as well as plot capacity, and a brand-new account can never bulk-buy its way past the early game on day one.</p>
+
+    <h3>Rarity odds — the floor is Rare, no Common or Uncommon possible</h3>
+    <table>
+      <tr><th>Rarity</th><th>Odds</th></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">25%</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">50%</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">25%</td></tr>
+    </table>
+
+    <h3>The 2026-08-24 reprice</h3>
+    <blockquote>"primo pack is made for the players, they should have the edge on that" — Cody, 2026-08-24</blockquote>
+    <p>At the old $9.99, PRIMO's 1-card pull at these odds was barely positive EV against real marketplace floor prices (0.25 × $3.80 + 0.50 × $11.40 + 0.25 × $19.00 = $11.40 expected value), and flat-out negative at the never-actually-charged $14.99 base that briefly existed. $7.99 restores a real, un-thin edge (roughly +43% over cost) at the same odds — the odds table was deliberately left untouched rather than touching two variables in one pass.</p>
+
+    <div class="callout warn">
+      <b>Flagged, unresolved balance concern — the game's own source says so</b>
+      The 25% Legendary rate is the weed game's exact PRIMO number, ported for parity. But Simple Farmer has only <b>two</b> Legendary crops total (Glass Gem Corn and Yubari King Melon), and PRIMO is the very top of the ladder — one crate a day at these odds mints Legendaries far faster than the base pack's 0.5% rate does. The source comment explicitly flags this as "easy to dial down… flagged rather than silently changed, since matching the weed game was the ask" — it has not been fixed as of this document.</div>
+
+    <h3>The exclusion callout (shown live in the pack carousel)</h3>
+    <p>Every claim about what PRIMO can and can't roll is computed live off the two odds tables (never hand-typed), so a repricing or reordering can't leave the screen naming one rarity and quoting another's number. Because Common and Uncommon aren't in PRIMO's table at all, the carousel states this directly and contrasts it against a normal pack's own lowest/highest tier odds for context.</p>
+  </section>
+
+  <!-- 12 -->
+  <section id="reveal">
+    <div class="sec-num">12</div>
+    <h2>Pack-Opening Reveal Cinematics</h2>
+    <p class="lede">Ported and reskinned from GREEN LIFE's own <code>PackRipOverlay</code>/<code>PrimoRevealOverlay</code>, per Cody's explicit brief: <i>"make sure all the packs open and reveal with animations… it needs to be on the same level as weed game mechanically, visually, and game flow, so do what you need, full freedom."</i> Every animation is transform/opacity only — the same hard-learned performance rule GREEN LIFE's reveal screens follow (animating letter-spacing or text-shadow caused real, measurable jank).</p>
+
+    <h3>PackRipOverlay — the standard pack cinematic (all packs except PRIMO)</h3>
+    <p>A strict 3-phase timeline, in milliseconds from pack tap:</p>
+    <table>
+      <tr><th>Phase</th><th>Window</th><th>What happens</th></tr>
+      <tr><td><b>0 — Charge</b></td><td class="num">0 – 650ms</td><td>Pack art bounces in with an overshoot ease, a radial glow halo grows behind it, then the pack visibly vibrates in place from ~320ms onward — the "about to explode" tension beat.</td></tr>
+      <tr><td><b>1 — Detonate</b></td><td class="num">650 – 950ms (300ms)</td><td>A full-screen theme-colored flash fires; the pack art itself blasts outward and vanishes (scale + brightness ramp); a conic-gradient ray burst and two expanding shockwave rings fire outward from center, with a screen-shake on the whole container.</td></tr>
+      <tr><td><b>2 — Burst</b></td><td class="num">950 – 1750ms (800ms)</td><td>A central glow orb fades outward while 22 particle streaks fire radially in a staggered 6-group cascade (18ms apart), so the burst reads as a spray rather than one simultaneous pop.</td></tr>
+    </table>
+    <p><code>onComplete()</code> fires at exactly <b>1750ms</b>, handing off to the actual card-reveal screen — this component never renders the pulled card itself, only the rip.</p>
+
+    <h3>Per-pack-type theme (RIP_THEME)</h3>
+    <table>
+      <tr><th>Pack type</th><th>Glow color</th><th>On-screen label</th></tr>
+      <tr><td>plant / starter</td><td class="num">#52e300 (accent green)</td><td>SEED PACK / STARTER PACK</td></tr>
+      <tr><td>mystery / daily</td><td class="num">#c86bff (purple)</td><td>MYSTERY PACK / DAILY FREE PACK</td></tr>
+      <tr><td>boost</td><td class="num">#4dfff0 (cyan)</td><td>BOOST PACK</td></tr>
+      <tr><td>breed</td><td class="num">#52e300 (accent green)</td><td>CROSSBREED</td></tr>
+      <tr><td>breedfail</td><td class="num">#8a8a92 (grey)</td><td>CROSSBREED (fail)</td></tr>
+    </table>
+
+    <h3>PrimoRevealOverlay — PRIMO's own elevated gold cinematic</h3>
+    <p>A two-stage timeline, "gold title wipe, then an explosion the single card bursts out of" — sized to Simple Farmer's own 1-card PRIMO pull (GREEN LIFE's version bursts 3 cards).</p>
+    <table>
+      <tr><th>Stage</th><th>Duration</th><th>What happens</th></tr>
+      <tr><td><b>Title</b></td><td class="num">0 – 2,500ms</td><td>"PRIMO PACK" fades in as a shimmering gold gradient title (continuous shimmer sweep), subtitle "1 PREMIUM CARD" fades in beneath it, then in the final 550ms the whole title block explodes outward (scale + brightness ramp with a gold drop-shadow).</td></tr>
+      <tr><td><b>Burst</b></td><td class="num">2,500 – 3,650ms (1,150ms)</td><td>An expanding white-to-gold ring plus 22 particles (alternating gold/accent-green) fire outward in a tighter 5-group stagger (20ms apart); text "★ PRIMO PULL ★" fades in.</td></tr>
+    </table>
+    <p><b>Total non-interactive runtime: 3,650ms</b> unless skipped. The title stage cannot be skipped by tapping (the explosion is timed to land right as the burst stage begins); the burst stage CAN be skipped by tapping anywhere on screen — this is documented in-code as fixing a real bug where a player who didn't think to tap a blank gold screen could get stuck.</p>
+  </section>
+
+  <!-- 13 -->
+  <section id="market">
+    <div class="sec-num">13</div>
+    <h2>Marketplace</h2>
+    <p class="lede">Everything is SOL-priced, because the fee split is denominated in SOL. Two halves: BUY (browse listings, filter, sort, buy) and SELL (list one of your own cards at a price you type). Its own dedicated tab, unlike GREEN LIFE where Market lives inside World.</p>
+
+    <h3>The fee split — design target</h3>
+    <table>
+      <tr><th>Share</th><th>Percent</th><th>Destination</th></tr>
+      <tr><td>Seller</td><td class="num">90%</td><td>The listing owner</td></tr>
+      <tr><td>Buyback &amp; burn</td><td class="num">5%</td><td>$GREEN bought back and burned</td></tr>
+      <tr><td>Treasury</td><td class="num">5%</td><td>Treasury wallet</td></tr>
+    </table>
+    <div class="callout warn">
+      <b>What the simulated build actually executes today (honestly disclosed on-screen)</b>
+      Every listing available to buy right now is NPC-seeded, not a real counterparty — so there is no real seller to pay a 90% share to. The buy-side wallet-sign confirmation states plainly that the current build books the <b>entire</b> 10% fee to treasury on a purchase (not the 5/5 split), with the design's real 90/5/5 split shown as the target once real players are trading. A <code>🧪 SIMULATED</code> badge and a sub-line under the fee panel both disclose this directly on the Market screen — this exact honesty gap (system disclosed in source comments but nowhere a player could see it) was found and fixed across the marketplace, lottery, and referral screens in the 2026-08-24 audit.</div>
+
+    <h3>Listing mechanics</h3>
+    <ul>
+      <li><b>7-day listing window</b> (<code>LISTING_TTL_MS</code>), and a listing <b>cannot be cancelled</b> once posted — an intentional design choice, stated plainly on-screen rather than offering a cancel button that would fail.</li>
+      <li>An unsold listing auto-returns to the seller's bag after 7 days, no loss beyond the time spent listed.</li>
+      <li>Sell flow pre-fills the item's floor price as a suggestion; the seller is free to type any price.</li>
+      <li>Listing sign sheet shows the full fee breakdown (10% = 5% burn + 5% treasury) and the exact net the seller will receive — the design target, shown at point of sale even though the current build's buy-side doesn't yet execute a real burn (no live counterparty to trigger one against).</li>
+    </ul>
+
+    <h3>Floor prices — crop cards</h3>
+    <p>Deliberately anchored to GREEN LIFE's own floor schedule (Cody: <i>"refer to weed game as a key since all the GP are very similar on the plants"</i>) — both games pay out of the same $GREEN and trade on the same LP, so a mismatched floor between them would be a real arbitrage, not a design choice.</p>
+    <table>
+      <tr><th>Rarity</th><th>Floor (SOL)</th></tr>
+      <tr><td><span class="tag common">Common</span></td><td class="num">0.01</td></tr>
+      <tr><td><span class="tag uncommon">Uncommon</span></td><td class="num">0.025</td></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">0.05</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">0.15</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">0.25</td></tr>
+    </table>
+    <h3>Floor prices — boost items</h3>
+    <p>A cheaper, boost-specific ladder — a boost is consumed and gone, so it's worth a fraction of a crop card that keeps earning forever.</p>
+    <table>
+      <tr><th>Rarity</th><th>Floor (SOL)</th></tr>
+      <tr><td><span class="tag common">Common</span></td><td class="num">0.005</td></tr>
+      <tr><td><span class="tag uncommon">Uncommon</span></td><td class="num">0.01</td></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">0.025</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">0.05</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">0.10</td></tr>
+    </table>
+
+    <div class="callout gap">
+      <b>Gap in the research</b>
+      The source research does not show any mechanism by which a player's own listing (<code>myListings</code>) is ever purchased by a simulated buyer — the buy path only operates against the NPC-seeded pool. As built today, a player-listed item appears to always run its full 7 days and return unsold rather than genuinely sell, even though the sell-flow UI is written as if a sale is a live possibility. This is not called out anywhere in the source comments as a known limitation — flagged here rather than asserted as confirmed broken, since it was not exhaustively traced end to end.</div>
+  </section>
+
+  <!-- 14 -->
+  <section id="harvest">
+    <div class="sec-num">14</div>
+    <h2>Harvest, Emissions &amp; Early-Pull Mechanics</h2>
+    <h3>The emissions engine</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td>Farm emissions pool</td><td class="num">150,000,000,000 (150B)</td></tr>
+      <tr><td>Decay rate</td><td class="num">0.069%/day of whatever remains (working number, admin-dialable)</td></tr>
+      <tr><td>Hard cap on the dial</td><td class="num">2.0%/day, contract-enforced ceiling, never higher</td></tr>
+      <tr><td>Simulated network power baseline</td><td class="num">5,000,000</td></tr>
+      <tr><td>Instant stream share</td><td class="num">70%</td></tr>
+      <tr><td>Harvest-pot share</td><td class="num">30%</td></tr>
+    </table>
+    <p><code>emissionDay(pool, rate) = pool × (rate/100)</code>; <code>playerPerSecond = emissionSecond × (myEarningPower / totalNetworkPower)</code>. Every second, 70% of a player's share streams straight into their claimable balance; the other 30% accrues into each individual growing plant's own pot, split across a player's plants by their relative share of that player's own power. A finished (ready) plant stops earning entirely and is excluded from earning-power calculations — it still counts toward total farm power on the leaderboard, but not toward the emissions share.</p>
+
+    <h3>Early-pull outcome curve</h3>
+    <p>Fractions of a plant's own cycle — deliberately a percentage, not a fixed day count, because a garden multiplier can shrink a plant's real cycle length by up to 100×; a fixed-day rule would wrongly call a 100X plant "pulled too early" when it had actually finished.</p>
+    <table>
+      <tr><th>Grown</th><th>Outcome</th></tr>
+      <tr><td>Under 73.33% of cycle (22/30)</td><td class="num">Plant DIES — card and pot both lost</td></tr>
+      <tr><td>73.33% – 100%</td><td>Survives, pot penalty slides linearly from 100% loss down to 0%</td></tr>
+      <tr><td>100%+</td><td class="num">Full pot, no penalty</td></tr>
+    </table>
+    <p>This mirrors GREEN LIFE's locked day-22-of-30 curve, expressed as a fraction so it scales correctly across every garden multiplier. Forfeited pot amounts (from death or penalty) are BURNED, never returned to the emissions pool.</p>
+
+    <h3>Referral cut on claim/harvest</h3>
+    <p>Only applied when the player was actually referred (<code>referredBy</code> set) — an organic player with no referrer pays nothing extra either way. The cut is <b>4.01%</b> total, carved out of the player's own payout, same rate as the pack-purchase cut (see §16, §23).</p>
+    <h3>Idempotency &amp; double-submission guard</h3>
+    <p>The harvest handler re-verifies its targets against a live ref of current plants before crediting anything, specifically to make a rapid double-click a clean no-op rather than a real double-credit — found and fixed in the 2026-08-24 audit as a real risk, not a hypothetical one.</p>
+  </section>
+
+  <!-- 15 -->
+  <section id="lottery">
+    <div class="sec-num">15</div>
+    <h2>Lottery — Four Standing Pools</h2>
+    <p class="lede">A straight port of GREEN LIFE's 4 standing pools — one panel, a 2×2 grid, sitting on the Farm screen above the pack carousel. Each pool is a weighted raffle: buy tickets, more tickets improve odds, one weighted-random winner takes the whole pot when the clock hits zero, then the pool immediately starts its next round.</p>
+    <table>
+      <tr><th>Pool</th><th>Currency</th><th>Ticket price</th><th>Period</th></tr>
+      <tr><td>🎟️ Daily $GREEN</td><td class="num">$GREEN</td><td class="num">$0.10 (USD-pegged)</td><td class="num">1 day</td></tr>
+      <tr><td>🎫 Weekly $GREEN</td><td class="num">$GREEN</td><td class="num">$0.25 (USD-pegged)</td><td class="num">7 days</td></tr>
+      <tr><td>◎ Daily SOL</td><td class="num">SOL</td><td class="num">0.005 SOL flat</td><td class="num">1 day</td></tr>
+      <tr><td>💎 Weekly SOL</td><td class="num">SOL</td><td class="num">0.015 SOL flat</td><td class="num">7 days</td></tr>
+    </table>
+    <div class="callout locked">
+      <b>Fee is 100% treasury, deliberately never burned</b>
+      A flat 5% (<code>LOTTERY_FEE_PCT</code>) is taken from the pot and credited entirely to the treasury, funding future giveaways and events. This is a deliberate exception to the game's otherwise burn-heavy spend model: a lottery ticket is a wager pooled between players and redistributed, the same shape as any other PvP-style ante — not a spend that consumes an item, so it doesn't burn like one.</div>
+    <p>Pot = ticket price × total tickets (player + simulated bot tickets). Payout = pot minus the 5% fee, computed by rounding the fee first and deriving the payout by subtraction — never rounding both independently, so the difference can never vanish into nowhere. Bot tickets seed every pool between 40–199 so it never reads empty; a background 5-second tick resolves any pool whose clock has hit zero.</p>
+    <div class="callout warn">
+      <b>Explicitly disclosed as simulated, on-screen</b>
+      <i>"Bot tickets fill every pool and the draw runs client-side — real money must not enter this until that changes."</i> Shown via a visible <code>🧪 SIMULATED</code> badge directly on the Farm screen's lottery block.</div>
+  </section>
+
+  <!-- 16 -->
+  <section id="referral">
+    <div class="sec-num">16</div>
+    <h2>Referral &amp; Invite System</h2>
+    <p class="lede">Ported from GREEN LIFE's own referral shape — each game runs its own separate graph. "build same referral system as weed game, each game has its own." Entry is invite-only (§04); every player has a referrer somewhere in the chain.</p>
+
+    <h3>The 3-level rate table</h3>
+    <table>
+      <tr><th>Level</th><th>Rate</th></tr>
+      <tr><td>Level 1 — direct referrer</td><td class="num">3%</td></tr>
+      <tr><td>Level 2 — their referrer</td><td class="num">1%</td></tr>
+      <tr><td>Level 3 — one more level down</td><td class="num">0.01%</td></tr>
+      <tr><td><b>Total chain cut</b></td><td class="num">4.01%</td></tr>
+    </table>
+    <p>It stops dead at 3 levels — a 4th-level ancestor gets nothing, ever. This is not an endless downline. The cut is carved out of money that was already moving (a pack purchase, a claim, a harvest); it never mints a single new token.</p>
+
+    <h3>Which flows carry the cut, and which don't</h3>
+    <table>
+      <tr><th>Flow</th><th>Referral cut applied?</th></tr>
+      <tr><td>$GREEN pack purchases (Seed/Mystery/Boost/PRIMO's $GREEN branch)</td><td class="num">Yes — via <code>spendGreen()</code></td></tr>
+      <tr><td>Claim (unclaimed $GREEN → balance)</td><td class="num">Yes — only if the claiming player was referred</td></tr>
+      <tr><td>Harvest payout</td><td class="num">Yes — only if the harvesting player was referred</td></tr>
+      <tr><td>Crossbreeding</td><td class="num">No — 100% burn via <code>burnGreenFull()</code></td></tr>
+      <tr><td>Farm-level upgrades</td><td class="num">No — 100% burn via <code>burnGreenFull()</code></td></tr>
+    </table>
+
+    <h3>The bootstrap chain (this game's own — separate from GREEN LIFE's)</h3>
+    <table>
+      <tr><th>Code</th><th>Label</th><th>Referred by</th><th>Burn sink?</th></tr>
+      <tr><td class="num">SFROOT1</td><td>Burn seed</td><td class="num">— (genesis)</td><td class="num">Yes</td></tr>
+      <tr><td class="num">SFROOT2</td><td>Dev seed</td><td class="num">SFROOT1</td><td class="num">No</td></tr>
+      <tr><td class="num">SFROOT3</td><td>(unlabeled)</td><td class="num">SFROOT2</td><td class="num">No</td></tr>
+      <tr><td class="num">SFROOT4</td><td>(unlabeled)</td><td class="num">SFROOT3</td><td class="num">No</td></tr>
+      <tr><td class="num">SFROOT5</td><td>(unlabeled)</td><td class="num">SFROOT4</td><td class="num">No</td></tr>
+    </table>
+    <p><b>The referral roulette pool is exactly <code>[SFROOT3, SFROOT4, SFROOT5]</code></b> — codes #1 and #2 are structurally excluded, matching the locked rule carried over from GREEN LIFE: "#1 and #2 will not show on the roulette button, they are just the top of the game so the refers can end." Any cut walking up to <code>SFROOT1</code> (the burn seed) is destroyed rather than paid, for exactly the same reason the platform's other burn sinks exist: sending it to an unspendable marker would leave those tokens in circulating supply forever, which the fixed-supply guarantee cannot afford.</p>
+
+    <h3>Where earnings actually live</h3>
+    <div class="callout locked">
+      <b>Structurally isolated pot</b>
+      Referral earnings live in their own separate pot (<code>refEarnings</code>), claimed via its own button, never mixed into the player's own farmed <code>unclaimed</code>/<code>balance</code>. Nothing that can drain a farmed balance can reach it.</div>
+    <p>A code that resolves to a real (non-bootstrap) referrer — i.e. an actual player's own generated code, once a backend exists — only resolves one level deep in this single-device simulation; the remainder is tracked in <code>refChainPayout</code> as "owed to a real player, not paid yet," while any share that reaches the burn seed is destroyed for real, right now, regardless of backend status (burning needs no backend to be correct).</p>
+    <p>My Stuff → Invite includes a dashed-border <b>"🧪 Testing tool — not a real feature"</b> panel with a <b>"Simulate a friend joining"</b> button — it fakes one referral activation (credits exactly the Level-1 3% rate against a hardcoded $10 simulated spend) purely so the earnings UI can be seen working without a second device.</p>
+  </section>
+
+  <!-- 17 -->
+  <section id="gift">
+    <div class="sec-num">17</div>
+    <h2>Gift-a-Farm, Claim Codes &amp; Credit-Card On-Ramp</h2>
+    <p class="lede">Ported from GREEN LIFE 2026-08-24 — "all game will be able to gift other players using this exact setup." Escrowed at purchase, never repriced at redemption: the price locked in at the moment the code was bought is exactly what the redeemer gets, whatever the token price does later.</p>
+
+    <h3>Gift-a-Farm — always on, never gated</h3>
+    <table>
+      <tr><th>Product</th><th>Price</th><th>Grants</th></tr>
+      <tr><td>🎁 Gift a Farm</td><td class="num">$25.00</td><td>Free Level 1 farm + $5.00 $GREEN</td></tr>
+      <tr><td>🎁 Gift a Farm + SOL</td><td class="num">$30.00</td><td>Free Level 1 farm + $5.00 $GREEN + $5.00 SOL</td></tr>
+    </table>
+    <p>The +SOL version is framed for someone new to web3 — "real spending money to play with while they learn the swap widget." Gasless claiming means either version redeems on a zero-SOL wallet regardless. Codes are generated in the format <code>GIFT-XXXX-XX</code>. <b>Always available, regardless of the credit-card on/off switch below</b> — a locked rule carried over unchanged from GREEN LIFE.</p>
+
+    <h3>$GREEN top-off gift cards (behind the credit-card switch)</h3>
+    <p>Four fixed denominations: <b>$5 / $10 / $25 / $100</b>. Redeemed by an existing player in My Profile — straight $GREEN credit at the live price, no wallet-sign step (they already paid by card outside the game; this is a claim, not a purchase).</p>
+
+    <h3>Credit-card on-ramp — built, OFF by default</h3>
+    <p>Ported from GREEN LIFE 2026-08-24, kept off per Cody: "add the Credit Card stuff also but keep it turned off like weed game is." This is bookkeeping only — no real Stripe/checkout integration exists in this build.</p>
+    <ul>
+      <li><b>A sale is private</b> — no buyer info ever exposed publicly, recorded with no sign sheet.</li>
+      <li><b>A top-up is public</b> — the real crypto deposit that backs sales, logged publicly since it's the only verifiable half of the ledger.</li>
+      <li>A warning banner fires if sales run ahead of what's been topped up by more than a rounding threshold, prompting a deposit before more codes get redeemed.</li>
+    </ul>
+    <div class="callout gap">
+      <b>Single-device limitation, disclosed in the game's own honesty list</b>
+      <code>genClaimCode()</code> and the credit-card ledger are real client logic, but there is no shared server yet — a code generated in one browser can only be redeemed in that same browser tab (plus a small built-in demo list: <code>FREEFARM</code>, <code>GREENGIFT</code>, <code>WELCOME420</code> for a plain farm grant; <code>FARM5SOL</code>, <code>GIFT5SOL</code> for the +SOL version).</div>
+  </section>
+
+  <!-- 18 -->
+  <section id="stuff">
+    <div class="sec-num">18</div>
+    <h2>My Stuff — Open Now, Crops, Boosts, Invite, Activity</h2>
+    <p class="lede">Five tabs behind one nav slot: 📦 Open Now · 🌾 Crops · ✨ Boosts · 👥 Invite · 📜 Activity. Default tab is Open Now if anything sealed or claimable is waiting, else Crops.</p>
+
+    <h3>📦 Open Now — where sealed items land</h3>
+    <div class="callout locked">
+      <b>Structural no-sell rule</b>
+      A sealed pack lives in its own <code>pending</code> array, deliberately never merged into <code>inventory</code>/<code>boostInv</code>. Every marketplace listing path only reads those two arrays, so a sealed item is structurally unsellable — not unsellable by convention, but because the sell flow literally cannot see it.</div>
+    <p>What lands here: admin support grants and claimed event drops. A pack bought in the shop opens on the spot instead and never queues here. Identical items are grouped by pack id into one tile with a ×N badge; "OPEN ALL" resolves every sealed item in one combined reveal cinematic, themed off the first item's own pack type.</p>
+    <p><b>🎁 READY TO CLAIM</b> — a separate section for published event drops this player is eligible for; claiming moves the item into Open Now, sealed like anything else, with no wallet-sign step (a claim is a pull, not a purchase). Unclaimed drops that pass their expiry window are simply never minted.</p>
+
+    <h3>🌾 Crops &amp; ✨ Boosts tabs</h3>
+    <p>Idle (unplanted, unlisted) cards, grouped by identical card into one tile with a ×N badge, sorted rarest-first (crops secondarily by power). Each tile shows the item's floor price, how many are currently on the market, and how many of those are the player's own listings. A persistent callout on the Boosts tab restates the one-boost-per-plant, no-stacking, no-swap rule.</p>
+
+    <h3>👥 Invite tab — the referral hub</h3>
+    <p>Player's own referral code (minted once at farm creation, never regenerated), a copy-code/copy-link pair, the full 3-level rate table (§16), a live "Referral Earnings" claimable panel, a friends-activated counter, and — a visible testing-only control — "🧪 Simulate a friend joining."</p>
+
+    <h3>📜 Activity tab</h3>
+    <p>Every economically meaningful action in the game (purchase, harvest, claim, burn, drop claim, code generation) lands here newest-first, kept in memory only — a refresh clears it. Timestamps use a relative "Xs/Xm/Xh/Xd ago" formatter distinct from the countdown formatter used for grow timers (which would otherwise print the nonsense word "ready" on a completed log entry).</p>
+  </section>
+
+  <!-- 19 -->
+  <section id="world">
+    <div class="sec-num">19</div>
+    <h2>World Screen — Leaderboard &amp; Pool-Life Projection</h2>
+    <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms, how long the pool lasts, and the full simulated-systems disclosure list. Four sections in this fixed order: Global Stats, Leaderboard, Pool Life projection, Simulated Systems.</p>
+
+    <h3>Emissions pool panel</h3>
+    <p>Live pool balance vs. the original 150B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend).</p>
+
+    <h3>Leaderboard — 10 simulated rivals + the player's live row</h3>
+    <p>A fixed roster of 10 named rival farms (SunnyAcres, TractorTom, RootRunner, BeetBoss, PlowQueen, MudMagnet, CornDog99, SoilSister, GourdLord, HayFever), each assigned a power multiplier relative to the player's own current power (from 4.2× down to 0.22×, jittered ±15%). Deliberately generated <b>once per page load at module scope</b> (not per-visit) so the fake board doesn't reshuffle every time the World tab is reopened — the on-screen "resets when you refresh" disclosure is thereby literally true rather than a lie of convenience.</p>
+    <p>Ranking is by total farm power, including plants that have finished and stopped earning — explicitly disclosed on-screen, since it differs from the "earning power" figure used for the actual emissions split.</p>
+
+    <h3>Pool-life decay projection</h3>
+    <p>Standard exponential decay compounding: <code>poolLeft(days) = pool × (1 − rate/100)^days</code>, projected at 1/2/5/10-year horizons, plus a computed half-life (<code>ln(0.5) / ln(keep)</code>). Reads the <b>live</b> admin-set emissions rate, not the hardcoded default, so the projection can never disagree with a rate an admin has actually dialed in (e.g. during a promo weekend).</p>
+
+    <h3>🧪 What's simulated</h3>
+    <p>Renders the complete <code>SIM_FLAGS</code> list verbatim (see §25) directly on a player-visible screen — the game's own framing: "A disclaimer nobody reads is the same as no disclaimer, so the fake systems get a real section on a real screen."</p>
+  </section>
+
+  <!-- 20 -->
+  <section id="admin">
+    <div class="sec-num">20</div>
+    <h2>Admin Console</h2>
+    <p class="lede">Built to mirror GREEN LIFE's admin console exactly — "those are proven and tested" — with everything specific to systems Simple Farmer doesn't have (emotes, clans, tournaments) deliberately omitted, since a control for a nonexistent system reads as a broken feature. Gate: <code>IS_ADMIN = true</code>, currently open to anyone loading the page — see §25/§27.</p>
+    <div class="callout locked">
+      <b>Every admin change signs</b>
+      Nothing mutates the instant a button is tapped. Every change routes through the same wallet-sign sheet a player sees buying a pack, badged gold 👑, naming which of several admin keys signs it (Price dial key / Emissions dial key / Support-grant key / Treasury key / Content key) — mirroring a deliberate multi-key split so one stolen key can't become every problem.</div>
+
+    <h3>11 tabs</h3>
+    <table>
+      <tr><th>Tab</th><th>Purpose</th></tr>
+      <tr><td>📊 Overview</td><td>Pool balance, LIVE/SIM-tagged stat grid</td></tr>
+      <tr><td>🎫 Tickets</td><td>Player-filed support tickets, each carrying the player's last 5 logged actions so most answer themselves</td></tr>
+      <tr><td>👤 Players</td><td>Search roster (simulated), player card with a "🛠 Grant an item" flow and badge awarding</td></tr>
+      <tr><td>🛒 Items</td><td>Per-item price/currency dial for Seed, Mystery, Boost, PRIMO</td></tr>
+      <tr><td>💰 Economy</td><td>Breed promo toggle, emissions rate dial, pool-decay projection, floor-price ladders, marketing codes, credit-card ledger</td></tr>
+      <tr><td>🏅 Badges</td><td>Cosmetic badge library — build, publish, delete</td></tr>
+      <tr><td>🎁 Drops</td><td>Publish claimable event drops by audience/window</td></tr>
+      <tr><td>🛠 Grants</td><td>Read-only public log of every support grant issued, with its reason</td></tr>
+      <tr><td>👛 Wallets</td><td>Read-only registry of every game wallet, its kind, and its risk if empty</td></tr>
+      <tr><td>🚩 Pre-launch</td><td>The full SIM_FLAGS checklist, read-only, unticked</td></tr>
+      <tr><td>📜 Feed</td><td>Read-only stream of every signed action in the game</td></tr>
+    </table>
+
+    <h3>🛒 Items — the price/currency dial</h3>
+    <p>Per item: a typed-USD price draft (never applied live until signed), a 3-way currency toggle (SOL / $GREEN / Both), and −25%/−50%/Reset sale chips measured against the item's <i>normal</i> price (never the current live price, so stacking discounts can never silently compound).</p>
+
+    <h3>💰 Economy tab</h3>
+    <ul>
+      <li><b>🧬 Guaranteed-breed promo toggle</b> — see §09.</li>
+      <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.069%) and "2× promo weekend" (0.138%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement.</li>
+      <li><b>📉 Pool decay projection</b> — the same math as §19, computed off the live-typed (unsigned) draft rate so the projection updates as the admin types, before it's even signed.</li>
+      <li><b>🏷️ Item floor prices</b> — two independently editable ladders (crop / boost), anchored to GREEN LIFE's own numbers on purpose; the panel explicitly warns that drifting one game's floor far from the other's opens a cross-game arbitrage.</li>
+      <li><b>🎟️ Marketing codes</b> — free admin-generated Gift-a-Farm codes (plain or +SOL), tracked in their own array separate from player-purchased codes.</li>
+      <li><b>💳 Credit-card on-ramp panel</b> — the on/off toggle plus the sale/top-up ledger forms described in §17.</li>
+    </ul>
+
+    <h3>🏅 Badges — cosmetic library</h3>
+    <div class="callout locked">
+      <b>Locked, stated repeatedly and verbatim</b>
+      "Badges are cosmetic only — no stats, no perks, ever. The moment a badge grants something, it stops being a gift Cody can hand out freely and becomes an economy lever players demand, trade for, and spin up alt accounts to farm."</div>
+    <p>3 categories (⭐ Status / 📊 Contests / 🌾 Farming), 12 starter badges. A newly-built badge starts <b>staged</b> (not awardable, no signature required to design it); publishing it live signs, as does deleting it (which also strips it from every player currently holding it).</p>
+
+    <h3>🛠 Support grants</h3>
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Grantable items</td><td>PRIMO Pack · Seed Pack · Mystery Pack · Boost Pack — the exact 4-item <code>GRANTABLE</code> list</td></tr>
+      <tr><td>Daily cap</td><td class="num">50, contract-enforced concept even in this simulated build</td></tr>
+      <tr><td>Rule</td><td>Items only — never $GREEN, never farm power, never anything taken from another player</td></tr>
+      <tr><td>Where it lands</td><td>The <code>pending</code> array (Open Now), sealed — a granted pack can never be flipped for tokens while sealed</td></tr>
+    </table>
+    <p>Every grant is published to a public, in-game grant log with its reason and (if it fixed a ticket) the ticket id — "'it's all on-chain' is true and useless on its own, because nobody reads a block explorer... a list of anonymous handouts proves nothing, a list where each one says what it fixed can be argued with."</p>
+
+    <h3>🎁 Event drops</h3>
+    <p>One published offer — item, audience, claim window, message — claimed by players themselves rather than pushed to wallets, so cost stays flat regardless of player count and anything unclaimed at expiry is never minted. Windows: 24h / 48h / 72h / 1 week. Audiences: All farm owners · Active in last 7 days · Farm level 3+ · Joined in last 30 days.</p>
+
+    <h3>👛 Wallets registry</h3>
+    <table>
+      <tr><th>Wallet</th><th>Kind</th><th>Alert threshold</th><th>What it does</th></tr>
+      <tr><td>🎲 VRF Wallet</td><td class="num">Operational</td><td class="num">3 SOL</td><td>Funds every randomness draw — pack pulls and breed outcomes</td></tr>
+      <tr><td>🎁 Gift Wallet</td><td class="num">Operational</td><td class="num">2 SOL</td><td>Holds unredeemed gift value, pays gas on gasless claims</td></tr>
+      <tr><td>🏦 Treasury</td><td class="num">Cold</td><td class="num">—</td><td>Receives market fee, lottery fee, treasury slice of SOL purchases</td></tr>
+      <tr><td>💧 LP Reserve</td><td class="num">Vault</td><td class="num">—</td><td>The $GREEN side of the pool, pairs with incoming SOL</td></tr>
+      <tr><td>🌾 Emissions Pool</td><td class="num">Vault</td><td class="num">—</td><td>The 150B this game pays out of — its address is public, anyone can top it up</td></tr>
+    </table>
+    <p>All addresses currently render as literal placeholders ("— not created yet" / "PDA — derived at deploy") — deliberately never a fake-real-looking address, and balances render as a plain em-dash ("— not wired") rather than a misleading "0," since a zero would look like a real reading.</p>
+
+    <h3>🚩 Pre-launch checklist</h3>
+    <p>Renders the full <code>SIM_FLAGS</code> list (§25) as read-only, permanently-unticked checkboxes — "a checkbox that clears a blocker without changing any code would let the console lie about whether the game is ready. A box only clears when the entry leaves the flag list in the code — never by tapping it here."</p>
+  </section>
+
+  <!-- 21 -->
+  <section id="ui">
+    <div class="sec-num">21</div>
+    <h2>Visual &amp; UI Component System</h2>
+    <p class="lede">A deliberately separate component file from GREEN LIFE's own UI layer — reusing that file would import strain art and weapon tables and tie the two games together at the code level for no benefit. Every screen in the game is built from this one shared set of primitives.</p>
+
+    <h3>Rarity-scaled card shimmer</h3>
+    <table>
+      <tr><th>Rarity</th><th>Sweep opacity</th><th>Glow opacity</th><th>Animation duration</th></tr>
+      <tr><td><span class="tag common">Common</span></td><td colspan="3">No shimmer at all — "a still-nice card, not a show"</td></tr>
+      <tr><td><span class="tag uncommon">Uncommon</span></td><td class="num">0.10</td><td class="num">0.10</td><td class="num">5.5s</td></tr>
+      <tr><td><span class="tag rare">Rare</span></td><td class="num">0.16</td><td class="num">0.18</td><td class="num">4.5s</td></tr>
+      <tr><td><span class="tag epic">Epic</span></td><td class="num">0.22</td><td class="num">0.28</td><td class="num">3.5s</td></tr>
+      <tr><td><span class="tag legend">Legendary</span></td><td class="num">0.30</td><td class="num">0.40</td><td class="num">2.6s</td></tr>
+    </table>
+    <p>Both intensity and animation speed scale with rarity — Legendary's shimmer is roughly 3× as opaque and sweeps nearly 2× faster than Uncommon's. Only opacity/duration are animated (no layout-triggering properties), the same performance discipline applied to the reveal cinematics (§12).</p>
+
+    <h3>Core primitives</h3>
+    <ul>
+      <li><b>Panel / Pill / Modal</b> — the single shell, single button (6 kinds: accent, green, gold, light, ghost, danger), and single modal implementation used everywhere in the game.</li>
+      <li><b>CropCard / BoostCard</b> — the single card renderer for the whole game; every screen routes through these two so real art (once swapped in) updates everywhere in a single file change.</li>
+      <li><b>CropThumb / BoostThumb</b> — deliberately shimmer-free small thumbnails for dense rows (inventory counts, breed pickers) — a field of many simultaneously-animating cards is exactly the "tune against a maxed screen" trap the game avoids.</li>
+      <li><b>Bar / TimeChip</b> — shared progress bar and countdown chip, used by grow timers, the egg-style ticker, and lottery clocks alike.</li>
+      <li><b><code>SimBadge</code></b> — a visible, on-screen "this system is simulated" disclosure component, added 2026-08-24 specifically because several systems (marketplace, lottery, referral downline) were honestly disclosed in source comments but nowhere a player could actually see it.</li>
+      <li><b>LogoTile</b> — the game's own icon, a pre-cropped, alpha-masked transparent PNG (not a CSS-clipped square) — a direct cross-game lesson reuse from a real bug GREEN LIFE hit twice with its own platform-splash icon.</li>
+    </ul>
+  </section>
+
+  <!-- 22 -->
+  <section id="scene">
+    <div class="sec-num">22</div>
+    <h2>The Farm Scene (Overhead Map)</h2>
+    <p class="lede">This is what GREEN LIFE's 3D room becomes in Simple Farmer — and it is deliberately NOT 3D. No Three.js, no canvas, no image files for the world itself: one inline SVG drawn from plain shapes, scaled by viewBox to any screen size, computed live off real game state.</p>
+    <blockquote>"this map would go where the 3d room is. just a visual with action abilities like harvest, plant, boost." — Cody's spec, quoted directly in the source</blockquote>
+    <h3>Three reasons it's deliberately not 3D</h3>
+    <ol>
+      <li>GREEN LIFE's 3D room is the single heaviest thing in that codebase (draw calls, textures, shadow maps, a whole documented lag-fix history) — a picture that costs nothing to render keeps Simple Farmer the genuinely simple game.</li>
+      <li>An SVG scales to any phone with no art pipeline and no asset loading — nothing to go missing, nothing to wait on.</li>
+      <li>Every number on it is read live from game state, so the picture can never drift out of step with reality the way a pre-made image would.</li>
+    </ol>
+    <h3>What's real vs. what's pure decoration</h3>
+    <div class="callout note">
+      The five garden patches, their plot dots, and the plants in them are REAL — sourced directly from live game state and updated as the player plays. The barn, farmhouse, dirt path, sun and clouds are <b>pure decoration</b> — no mechanics behind them at all, nothing to click, nothing to buy, nothing to upgrade. They exist purely so the screen reads as a farm and not a chart.</div>
+    <p>Each garden patch is drawn at a fixed layout position, keyed by tier id (not list order), so an unreachable/reordered tier is simply skipped rather than silently drawn on top of another one. Plots pack into a grid sized to fit the patch, with the last row centered rather than left-hugging. Toxic Area gets a distinct pulsing sickly glow and diagonal hazard-stripe border, since it is one plot at 100× power and should visually read as the dangerous corner of the farm.</p>
+    <p>A planted crop's emoji physically grows in size as it matures (from ~1.05× to ~1.6× the plot's own dot radius) — "the fastest way to read a whole field at a glance without putting a number on every plot." A ready-to-harvest plot gets a pulsing gold ring and switches its fill/border to gold, so finished plants are findable without reading anything.</p>
+    <h3>Empty-state routing (4 distinct branches)</h3>
+    <p>The scene picks its empty-state message and call-to-action based on exactly why the farm is empty — not a generic "plant something": no plots owned yet routes to the Garden; plots owned but a card in hand routes to the Garden; plots owned but everything is still sealed in a pack routes to My Stuff; a genuine fallback (nothing owned, nothing in hand) points at the pack carousel. This exists specifically because a brand-new player's first card is locked inside the sealed Starter Pack — sending them straight to an empty Garden with an empty inventory would be a dead end.</p>
+  </section>
+
+  <!-- 23 -->
+  <section id="money">
+    <div class="sec-num">23</div>
+    <h2>Money Flow &amp; Burn Discipline</h2>
+    <h3>Two distinct $GREEN spend paths</h3>
+    <table>
+      <tr><th>Function</th><th>Referral cut?</th><th>Used by</th></tr>
+      <tr><td><code>burnGreenFull(amount, reason)</code></td><td class="num">Never — straight 100% burn</td><td>Crossbreeding, farm-level upgrades</td></tr>
+      <tr><td><code>spendGreen(amount, reason)</code></td><td class="num">Yes — 4.01% carved off the top, remainder burned</td><td>$GREEN-priced pack purchases</td></tr>
+    </table>
+    <p>Cody's own words on the split, quoted directly in source: <i>"cross breeds should 100% burn green no refer fee"</i> and (for GREEN LIFE, mirrored here) <i>"no refer cut on farm level upgrades for both games."</i> The pack-purchase quote: <i>"the green paid packs should take the refer cut off the top and then burn the rest."</i></p>
+    <h3>SOL spend routing</h3>
+    <p><code>spendSol(amount, reason)</code> routes every SOL charge (or an auto-swapped USDC/USDT charge) through the same LP-phase table used at farm entry (§04/§10) — whatever the current total pool depth is decides the LP-vs-treasury split at the moment of the transaction.</p>
+    <h3>Where the referral cut actually goes when it can't be paid</h3>
+    <p>In this single-device simulation, a cut owed to a real (non-bootstrap) referrer has nobody live to pay — it accumulates in <code>refChainPayout</code>, an honestly-tracked running total, rather than being silently dropped or wrongly credited to the paying player's own referral-earnings pot (a different pot entirely — that one is what a player earns <i>as</i> a referrer, not what they pay <i>as</i> someone who was referred). Any portion of the cut that resolves all the way up to the bootstrap chain's burn seed is destroyed for real, immediately, regardless of backend status.</p>
+    <h3>Burn sources, consolidated</h3>
+    <ul>
+      <li>$GREEN pack purchases (remainder after the referral cut)</li>
+      <li>Crossbreeding (100%, no cut)</li>
+      <li>Farm-level upgrades (100%, no cut)</li>
+      <li>Forfeited harvest pots (a plant that died or was penalized) — burned, never returned to the pool</li>
+      <li>The referral cut's own portion that reaches the bootstrap chain's burn seed</li>
+    </ul>
+    <h3>What is NOT burned</h3>
+    <ul>
+      <li>Any SOL-priced purchase — routed to the LP/treasury split instead</li>
+      <li>The lottery fee — 100% treasury, a deliberate exception (§15)</li>
+      <li>The marketplace fee's design-target 5% treasury share (the burn half of the marketplace fee is not currently executed in the simulated build — see §13)</li>
+    </ul>
+  </section>
+
+  <!-- 24 -->
+  <section id="numbers">
+    <div class="sec-num">24</div>
+    <h2>Numbers Reference — Master Table</h2>
+    <p class="lede">Every constant this report could confirm, with its exact value and the constant name it comes from. Organized by system, matching the section it's discussed in.</p>
+
+    <h3>Onboarding &amp; entry</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>FARM_ENTRY_USD</code></td><td class="num">$25.00</td></tr>
+      <tr><td><code>FARM_ENTRY_SOL</code></td><td class="num">25 / 76 ≈ 0.328947 SOL</td></tr>
+      <tr><td><code>SOL_USD</code></td><td class="num">76</td></tr>
+      <tr><td><code>GREEN_USD</code></td><td class="num">0.00001</td></tr>
+      <tr><td><code>STARTER_GREEN_USD</code></td><td class="num">$5.00 → 500,000 $GREEN</td></tr>
+      <tr><td><code>STARTER_PACKS</code></td><td>1× Starter Pack, auto-opened</td></tr>
+      <tr><td>Free starting plots</td><td class="num">10 (4+3+2+1+0 across the 5 garden tiers)</td></tr>
+      <tr><td><code>REF_CODE_LEN</code></td><td>4 letters + 3 digits = 7 characters</td></tr>
+      <tr><td>Invite-screen minimum code length to continue</td><td class="num">4 characters</td></tr>
+    </table>
+
+    <h3>Farm level &amp; garden</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>MAX_FARM_LEVEL</code></td><td class="num">5</td></tr>
+      <tr><td><code>UPGRADE_COST_USD</code> (Lv2–5)</td><td class="num">$10.00 flat each</td></tr>
+      <tr><td><code>UPGRADE_COOLDOWN_DAYS</code></td><td class="num">2 / 3 / 4 / 5 days for Lv2 / 3 / 4 / 5</td></tr>
+      <tr><td><code>TESTING_FAST_COOLDOWN</code></td><td class="num">true → 20 seconds flat in the current build</td></tr>
+      <tr><td>Garden tiers &amp; multipliers</td><td class="num">1× / 2× / 5× / 10× / 100× — see §06 for the full table</td></tr>
+    </table>
+
+    <h3>Emissions</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>FARM_EMISSIONS_POOL</code></td><td class="num">150,000,000,000</td></tr>
+      <tr><td><code>EMISSION_DECAY_PCT_PER_DAY</code></td><td class="num">0.069%/day</td></tr>
+      <tr><td><code>EMISSION_RATE_HARD_CAP</code></td><td class="num">2.0%/day</td></tr>
+      <tr><td><code>NETWORK_POWER_BASE</code></td><td class="num">5,000,000</td></tr>
+      <tr><td><code>HARVEST_SPLIT_INSTANT</code> / <code>HARVEST_SPLIT_POT</code></td><td class="num">70% / 30%</td></tr>
+      <tr><td><code>DEATH_BEFORE_FRAC</code></td><td class="num">22/30 ≈ 73.33%</td></tr>
+      <tr><td><code>TESTING_FAST_GROW</code></td><td class="num">true → 1 game-day = 60 real seconds</td></tr>
+    </table>
+
+    <h3>Packs &amp; shop</h3>
+    <table>
+      <tr><th>Item</th><th>Live price</th><th>Currency</th></tr>
+      <tr><td>Seed Pack</td><td class="num">$1.50</td><td class="num">$GREEN</td></tr>
+      <tr><td>Mystery Pack</td><td class="num">$1.00</td><td class="num">$GREEN</td></tr>
+      <tr><td>Boost Pack</td><td class="num">$0.50</td><td class="num">$GREEN</td></tr>
+      <tr><td>PRIMO Pack</td><td class="num">$7.99 (base $11.99)</td><td class="num">SOL</td></tr>
+      <tr><td><code>FREE_PACK_ID</code></td><td colspan="2">"mystery" — the daily free pack IS a Mystery Pack</td></tr>
+      <tr><td><code>MYSTERY_TYPE_ODDS</code></td><td colspan="2">60% boost / 40% crop</td></tr>
+      <tr><td><code>MAX_QTY_PER_BUY</code></td><td colspan="2">99 (a UI safety rail, not a game rule)</td></tr>
+    </table>
+
+    <h3>Crossbreeding</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>BREED_PARENT_MAX_RARITY</code></td><td class="num">Epic</td></tr>
+      <tr><td><code>BREED_BASE_SUCCESS</code></td><td class="num">50%</td></tr>
+      <tr><td><code>BREED_PROMO_MAX_TIER</code></td><td class="num">Rare (index 2)</td></tr>
+      <tr><td><code>BREED_COST_USD</code></td><td class="num">$0.10 / $0.25 / $1.00 / $5.00 (Common/Uncommon/Rare/Epic)</td></tr>
+      <tr><td><code>BREED_COUNT_WEIGHTS</code></td><td class="num">1 card 50% / 2 cards 35% / 3 cards 15%</td></tr>
+      <tr><td><code>BREED_RARITY_TABLE</code></td><td class="num">lower 55% / higher 25% / below 12% / above 8%</td></tr>
+    </table>
+
+    <h3>Marketplace</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>MARKET_FEE_PCT</code></td><td class="num">10%</td></tr>
+      <tr><td><code>MARKET_FEE_BURN_PCT</code> / <code>MARKET_FEE_TREASURY_PCT</code></td><td class="num">5% / 5%</td></tr>
+      <tr><td><code>LISTING_TTL_MS</code></td><td class="num">7 days</td></tr>
+      <tr><td>Crop floors (Com/Unc/Rare/Epic/Leg)</td><td class="num">0.01 / 0.025 / 0.05 / 0.15 / 0.25 SOL</td></tr>
+      <tr><td>Boost floors (Com/Unc/Rare/Epic/Leg)</td><td class="num">0.005 / 0.01 / 0.025 / 0.05 / 0.10 SOL</td></tr>
+    </table>
+
+    <h3>Lottery</h3>
+    <table>
+      <tr><th>Pool</th><th>Price</th><th>Period</th></tr>
+      <tr><td>Daily $GREEN</td><td class="num">$0.10</td><td class="num">1 day</td></tr>
+      <tr><td>Weekly $GREEN</td><td class="num">$0.25</td><td class="num">7 days</td></tr>
+      <tr><td>Daily SOL</td><td class="num">0.005 SOL</td><td class="num">1 day</td></tr>
+      <tr><td>Weekly SOL</td><td class="num">0.015 SOL</td><td class="num">7 days</td></tr>
+      <tr><td colspan="3"><code>LOTTERY_FEE_PCT</code> = 5%, 100% to treasury, never burned</td></tr>
+    </table>
+
+    <h3>Referral &amp; gifting</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>REF_RATES</code></td><td class="num">[3, 1, 0.01]</td></tr>
+      <tr><td><code>REF_CHAIN_TOTAL_PCT</code></td><td class="num">4.01%</td></tr>
+      <tr><td><code>GIFT_FARM_USD</code></td><td class="num">$25.00</td></tr>
+      <tr><td><code>GIFT_SOL_BONUS_USD</code></td><td class="num">$5.00</td></tr>
+      <tr><td><code>GREEN_GIFTCARD_DENOMS</code></td><td class="num">$5 / $10 / $25 / $100</td></tr>
+    </table>
+
+    <h3>Admin</h3>
+    <table>
+      <tr><th>Constant</th><th>Value</th></tr>
+      <tr><td><code>GRANT_DAILY_CAP</code></td><td class="num">50</td></tr>
+      <tr><td><code>GRANTABLE</code></td><td class="num">4 items — primo, plant, mystery, boost</td></tr>
+      <tr><td><code>DROP_AUDIENCES</code></td><td class="num">4 — all / active7 / lvl3 / new30</td></tr>
+      <tr><td><code>BADGE_LIBRARY</code></td><td class="num">12 starter badges across 3 categories</td></tr>
+      <tr><td><code>ADMIN_DEMO_PLAYERS</code></td><td class="num">12 deterministically-seeded fake players</td></tr>
+      <tr><td><code>GAME_WALLETS</code></td><td class="num">5 registered wallets (2 operational, 1 cold, 2 vault)</td></tr>
+    </table>
+  </section>
+
+  <!-- 25 -->
+  <section id="simflags">
+    <div class="sec-num">25</div>
+    <h2>What's Simulated vs. What's Real</h2>
+    <p class="lede">Reproduced from the game's own <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code>, quoted faithfully — this is the authoritative, in-code list, rendered live on the player-visible World screen and again on the Admin Console's Pre-launch tab. Header comment: "the same discipline as GREEN LIFE's pre-launch checklist: anything fake gets listed HERE, in the code, in the same commit that adds it. A checklist that silently omits an item is worse than no checklist, because it gets trusted."</p>
+    <table>
+      <tr><th>id</th><th>Label</th><th>Note</th></tr>
+      <tr><td class="num">no-chain</td><td>No wallet / no chain</td><td>Every balance, payment and signature is local state. Nothing touches Solana.</td></tr>
+      <tr><td class="num">no-backend</td><td>No backend</td><td>Referrals, marketplace and leaderboard are in-memory. Refresh resets them.</td></tr>
+      <tr><td class="num">cpu-random</td><td>CPU random, not VRF</td><td>Pack, breed and lottery rolls use Math.random(). On-chain these must be VRF.</td></tr>
+      <tr><td class="num">fast-grow</td><td>TESTING_FAST_GROW</td><td>A "day" is 60 seconds so a full grow is watchable. Revert before launch.</td></tr>
+      <tr><td class="num">fast-cd</td><td>TESTING_FAST_COOLDOWN</td><td>Farm upgrade cooldowns are 20s, not 2–5 days. Revert before launch.</td></tr>
+      <tr><td class="num">sim-market</td><td>Simulated marketplace</td><td>NPC listings are generated locally; there is no real counterparty.</td></tr>
+      <tr><td class="num">sim-network</td><td>Simulated network power</td><td>Other players' farm power is a constant, so your emission share is approximate.</td></tr>
+      <tr><td class="num">seeded-lp</td><td>Seeded LP pool</td><td>The pool starts at 120 SOL so the LP-phase split has something to work against. Real pool depth comes from the chain.</td></tr>
+      <tr><td class="num">admin-open</td><td>Admin console is open to all</td><td>No wallet gate — anyone can open the Admin tab. Must be locked to Cody's wallet before launch.</td></tr>
+      <tr><td class="num">ref-chain-untracked</td><td>Referral chain payout is deferred, not paid</td><td>The 3-level cut is correctly deducted from claims, harvests and $GREEN pack purchases, and resolved through the seeded bootstrap chain — a share that reaches the burn seed IS burned for real. But there's no live upline player on a single device, so any share owed to a real (non-bootstrap) referrer is tracked in refChainPayout rather than paid. Breeding and farm-level upgrades are correctly exempt from the cut — this line is only about packs/claims/harvests.</td></tr>
+      <tr><td class="num">sim-gift-codes</td><td>Gift-a-Farm codes are single-device</td><td>genClaimCode() and the credit-card ledger are real client logic, but there is no shared server yet — a code generated in this browser can only be redeemed in this same browser (plus the small built-in demo list).</td></tr>
+      <tr><td class="num">single-player-graph</td><td>Referral graph is one seeded chain</td><td>The whole referral tree right now is the 5-code bootstrap chain plus whatever a player types by hand. A real backend has real other players as ancestors instead.</td></tr>
+      <tr><td class="num">sim-lottery</td><td>Simulated lottery</td><td>Bot tickets and client-side draws. Real money must never enter this.</td></tr>
+      <tr><td class="num">sim-players</td><td>Admin Players tab is a fake roster</td><td>ADMIN_DEMO_PLAYERS is deterministically generated, not real accounts. Cody can't look up, message, or badge a real player until there's a backend to read one from.</td></tr>
+      <tr><td class="num">sim-friend-join</td><td>"Simulate a friend joining" test button</td><td>My Stuff → Invite ships a player-visible testing control that fakes a referral activation, so it gets its own line rather than hiding inside single-player-graph.</td></tr>
+    </table>
+    <div class="tip"><b>Verified count: 15.</b> Directly counted against the live <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code> and cross-checked against the running game's own World-screen and Admin Pre-launch-tab footers, both of which read "15 items on the list." An earlier draft of this section flagged a "14 vs. 15 vs. 16" discrepancy across the research passes that produced it — that was drift in the intermediate research notes, not in the game itself; the array has held exactly these 15 entries since the stale 16th ("no animated pack/harvest reveal yet") was removed the same session the reveal cinematics in §12 were built.</div>
+  </section>
+
+  <!-- 26 -->
+  <section id="audit">
+    <div class="sec-num">26</div>
+    <h2>Session Audit Log — Bugs Found &amp; Fixed</h2>
+    <p class="lede">A running record of real defects the 2026-08-24 release/QA/audit pass found in this build and fixed in the same pass — useful both as a change record and as evidence of where the design's stated promises and the actual code had drifted apart before the fix.</p>
+    <table>
+      <tr><th>Area</th><th>What was wrong</th><th>Fix</th></tr>
+      <tr><td>Claim button</td><td>Gated on <code>unclaimed &gt; 0</code>, so a sub-1 balance opened a real sign sheet for a visibly-zero result</td><td>Gate raised to <code>unclaimed &gt;= 1</code></td></tr>
+      <tr><td>Farm-level "levels remaining"</td><td>Off-by-one — counted the upgrade about to be bought as still outstanding</td><td>Measured from the target level, not the current one</td></tr>
+      <tr><td>Plant staging</td><td>Nothing checked whether a destination plot was already taken by another staged card or a real plant</td><td><code>stagePlant()</code> now guards both collisions and out-of-range slot indices</td></tr>
+      <tr><td>Harvest double-submission</td><td>A rapid double-click could fire a second, stale-closured harvest call for plants a first call already removed</td><td>Re-verified against a live plants ref before crediting anything</td></tr>
+      <tr><td>Buy-in LP/treasury credit</td><td>Fired unconditionally, so a $0-cost admin marketing grant inflated the pool exactly as much as a real $25 entry</td><td>Gated on an explicit <code>paid</code> flag, false on free claims</td></tr>
+      <tr><td>Gift-a-Farm payment</td><td>A bare <code>setSol</code> decrement with no matching LP/treasury credit anywhere</td><td>Routed through <code>spendSol()</code> like every other SOL charge</td></tr>
+      <tr><td>Marketplace buy fee</td><td>Routed the FULL sale price through the generic LP-phase split, silently contradicting the fee panel's own 10%/5%/5% promise</td><td>Treasury now explicitly credited its real 5% share</td></tr>
+      <tr><td>Lottery $GREEN-pool fee</td><td>Charged the 5% fee twice — once at ticket purchase, again at draw time</td><td>Fee now taken exactly once, at draw</td></tr>
+      <tr><td>Lottery SOL-pool fee</td><td>Computed and subtracted from the pot every draw but never credited to any treasury balance — silently vanishing</td><td>Now credited to a dedicated SOL treasury figure</td></tr>
+      <tr><td>Listing expiry</td><td>No sweep existed at all — an expired unsold listing would sit forever, the card gone for good (a bug GREEN LIFE hit twice with two different item types before its own fix)</td><td>7-day auto-return sweep built in from the start</td></tr>
+      <tr><td>Garden patch taps</td><td>Every patch shared one handler with no tier passed through — tapping any patch (including Toxic) always opened the 1X garden</td><td>Threaded the tapped tier id through to the Garden screen's initial view</td></tr>
+      <tr><td>Empty-farm stat sub-lines</td><td>Read "still growing" / "all plants earning" next to a literal zero when nothing was planted</td><td>Added an explicit zero-plants branch</td></tr>
+      <tr><td><code>pendingItemMeta()</code> for granted PRIMO</td><td>PRIMO lives outside the PACKS table, so a granted/drop-claimed PRIMO's lookup failed silently — it got stuck in Open Now forever, and "Open All" would clear it with zero cards awarded</td><td>Resolver now special-cases PRIMO's id explicitly</td></tr>
+      <tr><td>My Stuff → Invite deep link</td><td>A one-shot navigation request to land directly on the Invite tab was ignored, always defaulting to whichever tab was default instead</td><td>Read and cleared on mount</td></tr>
+      <tr><td>Badge deletion</td><td>No delete path existed at all — a badge could be created and published but never removed, even from players holding it</td><td>Added, with an explicit sweep to strip the badge from every holder</td></tr>
+      <tr><td>Pack art</td><td>The Starter Pack — the very first thing every new player sees — had no art file of its own</td><td>Reuses the Seed Pack's art (identical contents: "1 crop card")</td></tr>
+      <tr><td>Plant popup art</td><td>The one remaining screen still showing a bare emoji instead of the crop's real photo</td><td>Now shows the real card art with an emoji fallback on load error</td></tr>
+      <tr><td>"How to Play" modal</td><td>Hardcoded a currency label ("all paid in $GREEN") despite the modal's own stated promise that nothing here can drift — a genuinely self-aware documented lesson</td><td>Now reads the live per-pack currency via <code>shopPay()</code></td></tr>
+      <tr><td>Shop "both"-currency affordability</td><td>Screen priced/charged strictly in SOL terms even for items whose default currency had changed to $GREEN; in "both" mode it silently only ever offered SOL, hiding an affordable $GREEN option from a SOL-poor player</td><td>Currency preference and affordability now check both branches</td></tr>
+    </table>
+    <p class="lede" style="margin-top:28px;">A second, larger batch — a 26-agent dimension-based audit (5 finder dimensions, every finding independently re-verified against the real source before counting) run after this report's own critique pass. 21 raw findings, 14 confirmed real, all 14 fixed the same session.</p>
+    <table>
+      <tr><th>Area</th><th>What was wrong</th><th>Fix</th></tr>
+      <tr><td>Harvest pot accounting</td><td>The sign sheet has no timeout; the emissions tick keeps growing an unripe plant's pot the whole time it sits open (already pulled from the shared pool each tick) — the payout was computed once at click-time and never reconciled, so pot accrued while the sheet was open simply vanished on confirm</td><td><code>doIt()</code> now re-derives the payout from each plant's LIVE pot at confirm time</td></tr>
+      <tr><td>Open Now double-tap</td><td><code>openPending()</code> had no re-entrancy guard — a rapid double-tap on OPEN duplicated a sealed pack's contents</td><td>Guarded + consumed against a new <code>pendingRef</code>, same shape as harvest's own fix above</td></tr>
+      <tr><td>Referral-earnings double-claim</td><td><code>claimRefEarnings()</code> read its guard and credited amount off closured state with no confirm gate — a double-tap could credit the pot twice</td><td>Rewritten as one atomic functional <code>setRefEarnings</code> update</td></tr>
+      <tr><td>Event-drop double-claim</td><td><code>claimDrop()</code>'s guard read the closured <code>claimedDrops</code> array — a double-tap could push a drop's items into <code>pending</code> twice</td><td>Guarded + consumed against a new <code>claimedDropsRef</code></td></tr>
+      <tr><td>Gift-code double-redeem</td><td><code>redeemGreenGiftCode()</code>'s guard read closured <code>greenGiftCodes</code> — a double-tap could credit the same code twice (feature is off by default)</td><td>Guarded + consumed against a new <code>greenGiftCodesRef</code></td></tr>
+      <tr><td>Support-grant daily cap</td><td>Counted grant RECORDS, not the qty each grant handed out — an admin (or stolen key) could issue far more than the advertised 50 items/day</td><td>Now sums <code>gr.qty</code></td></tr>
+      <tr><td>Boost card shimmer</td><td><code>BoostCard</code> referenced <code>farmerCardGlow</code>/<code>farmerCardSweep</code> but never defined the <code>@keyframes</code> — silently relied on a <code>CropCard</code> elsewhere on screen; My Stuff/Market's Boosts tabs mount none, so the shimmer did nothing there</td><td>Defined the same keyframes inside <code>BoostCard</code> too</td></tr>
+      <tr><td>Paused-emissions display (×3 sites)</td><td><code>Number(g.emissionRate) || EMISSION_DECAY_PCT_PER_DAY</code> treated a genuinely-paused 0%/day rate as falsy, silently showing the default rate instead</td><td>Falls back only on null/undefined now</td></tr>
+      <tr><td>Top Farms disclosure</td><td>The fabricated 10-row leaderboard used a small plain-text line while every other simulated system (Market, Lottery) uses the shared bold <code>SimBadge</code></td><td>Matched to <code>SimBadge</code></td></tr>
+      <tr><td>Claim button sizing</td><td>Sized smaller than every other primary CTA on the same screen despite being this file's own "emotional centre of the game"</td><td>Matched (13px/18px padding, 13.5px font)</td></tr>
+      <tr><td>"Burned" stat color</td><td>Gold on the Farm screen (reads as claimable/ready everywhere else there) vs. the established orange (<code>#ff9b6b</code>) on World/Admin</td><td>Matched to the majority</td></tr>
+      <tr><td>Badge-emoji truncation</td><td><code>.slice(0, 2)</code> cuts by UTF-16 code unit, mangling flag/ZWJ emoji into broken glyphs; the identical bug also exists in GREEN LIFE's own badge builder</td><td>Grapheme-safe helper here (<code>Intl.Segmenter</code>); GREEN LIFE's copy flagged as a separate follow-up task, not fixed in this codebase</td></tr>
+      <tr><td>Wallets panel "Signer" category</td><td>A whole wallet category existed in the UI with zero data behind it — none of the 5 real named admin keys were ever listed, so "every wallet the game touches" was false</td><td>Added all 5 (Content/Price dial/Emissions dial/Support-grant/Treasury) with real does/risk copy</td></tr>
+      <tr><td>Broken "see SIM_FLAGS" pointer</td><td><code>DEMO_EXISTING_FARM</code>'s code comment pointed at a checklist entry that didn't exist</td><td>Added one</td></tr>
+    </table>
+  </section>
+
+  <!-- 27 -->
+  <section id="open">
+    <div class="sec-num">27</div>
+    <h2>Open Questions &amp; Flagged Concerns</h2>
+    <p class="lede">Issues the game's own source explicitly flags as unresolved, plus gaps in the research this report is honest about rather than papering over.</p>
+    <div class="callout warn">
+      <b>PRIMO's Legendary rate vs. this game's thin Legendary roster</b>
+      25% Legendary on PRIMO was ported directly from GREEN LIFE for parity, but Simple Farmer has only two Legendary crops total. One crate a day at 25% mints Legendaries far faster than the base pack's 0.5% rate — explicitly flagged in the source as an easy dial to turn down, not yet turned.</div>
+    <div class="callout warn">
+      <b>The marketplace's own buyer sign-sheet vs. its fee panel disagree on the current split</b>
+      The buy-side wallet-sign screen states the entire 10% fee books to treasury today; the fee panel elsewhere on the same screen still shows the target 90/5/5 breakdown. Both are individually honest about what they're describing (one is "what happens right now," the other is "the real design"), but a player reading only one of the two could come away with a different understanding of where their money went on a purchase they just made.</div>
+    <div class="callout gap">
+      <b>No confirmed path for a player's own listing to actually sell</b>
+      The buy handler only operates against the NPC-seeded pool; no mechanism was found in the research for a simulated buyer to purchase a player's own <code>myListings</code> entry. As built, a player listing appears to always run its full 7 days and auto-return rather than genuinely sell — not confirmed as broken end-to-end, but not confirmed as working either, and not called out anywhere in the source as a known limitation.</div>
+    <div class="callout gap">
+      <b>SIM_FLAGS total-count drift</b>
+      See §25 — the list content is consistent (15 entries) everywhere it was captured, but the total-count figure quoted alongside it disagrees between research passes ("14," "15," and a rendered "16").</div>
+    <div class="callout gap">
+      <b>Stale documentation inside the game's own code</b>
+      At least two comments in <code>farmer-constants.js</code> were found to describe numbers that had already moved on: a PRIMO-pricing rationale comment still compares against a "$10 entry" figure after farm entry was raised to $25, and the buy-in-split comment in <code>mintFarm()</code> still literally says "$10 entry" in its prose even though every actual number it computes uses $25. Neither affects behavior — both are comment-only drift — but both are worth a cleanup pass.</div>
+    <div class="callout gap">
+      <b>Everything under §03 about the wider GLG platform (Weed 200B / Dino 250B, the 690B three-game total)</b>
+      This report's picture of the platform beyond Simple Farmer itself comes entirely from what Simple Farmer's own source comments say about the shared plan — no GREEN LIFE or other GLG-game source file was part of the research this report draws from, so treat any cross-game figures here as Simple Farmer's own stated understanding, not independently cross-checked against those other games' code.</div>
+    <div class="callout note">
+      <b>Reminder for whoever picks this document up next</b>
+      This is a snapshot of a fully simulated dev preview. §25's SIM_FLAGS list and §20's Admin Console (currently open to anyone, per <code>admin-open</code>) are the two most load-bearing sections for anyone deciding whether any part of this build is close to handling real value — it is not, by the game's own explicit and repeated disclosure.</div>
+  </section>
+
+  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN + its LP with GREEN LIFE</div>
+
+</div>
+</body>
+</html>

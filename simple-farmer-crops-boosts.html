@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Simple Farmer — Crops &amp; Boosts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Every crop and boost in Simple Farmer — exact power, grow-cycle days, and computed pull odds for all 16 crops across five rarity tiers, the five boost items, and how the five garden tiers trade power for speed.">
+<meta property="og:title" content="Simple Farmer — Crops &amp; Boosts">
+<meta property="og:description" content="16 crops, 5 boosts, 5 garden tiers — every number, straight from the game.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0e; --bg2:#0e0e14; --panel:#14141c; --panel2:#191922;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eef0f5; --mut:#9a9aa8; --mut2:#6d6d7a;
+    --p:#c86bff; --b:#4da6ff; --g:#52e300;
+    --grad:linear-gradient(115deg,#c86bff,#4da6ff,#52e300);
+    --disp:"Arial Black","Archivo Black",Archivo,system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(1100px 620px at 50% -10%, #16240c 0%, transparent 60%),
+      radial-gradient(900px 520px at 100% 12%, #0c1c10 0%, transparent 55%),
+      radial-gradient(820px 460px at 0% 58%, #180f2c 0%, transparent 52%),
+      repeating-linear-gradient(120deg, rgba(82,227,0,.022) 0px, rgba(82,227,0,.022) 1px, transparent 1px, transparent 46px),
+      var(--bg);
+    color:var(--ink); font-family:var(--body); line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  a{color:var(--b);text-decoration:none}
+  a:hover{color:var(--ink)}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:2px solid var(--g);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 90px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:rgba(8,8,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,40px);display:flex;align-items:center;gap:16px}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:16px;letter-spacing:.02em}
+  .nav-logo img{width:30px;height:30px;border-radius:8px}
+  .nav-logo .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .nav-links{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--mut);font-size:13px;font-weight:600;transition:color .15s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.cur{color:var(--g)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* hero */
+  .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:56px 0 8px}
+  .hero .tile{width:104px;height:104px;border-radius:24px;box-shadow:0 0 50px rgba(82,227,0,.35)}
+  .eyebrow{font-family:var(--disp);letter-spacing:.34em;font-size:12px;color:var(--mut);text-transform:uppercase}
+  .wordmark{font-family:var(--disp);font-weight:900;font-size:clamp(38px,8vw,72px);letter-spacing:.01em;line-height:.95;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-wrap:balance;margin:2px 0 0}
+  .subwm{font-family:var(--disp);font-weight:900;font-size:clamp(26px,5.6vw,42px);letter-spacing:.01em;line-height:1;margin:0;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{max-width:62ch;color:#c7c8d2;font-size:clamp(15px,2.1vw,17px)}
+  .lede b{color:var(--ink)}
+
+  .quick{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .qf{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:10px 20px;min-width:100px}
+  .qf b{display:block;font-family:var(--mono);font-size:19px;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .qf span{display:block;font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+  /* how it works */
+  .how{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:38px 0 6px}
+  .how .box{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+  .how h4{margin:0 0 6px;font-family:var(--disp);font-weight:900;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+  .how p{margin:0;color:var(--mut);font-size:13.5px}
+  .how b{color:var(--ink)}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 4px}
+  .chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;background:var(--panel);
+    border:1px solid var(--line2);font-size:12px;font-weight:700}
+  .chip i{width:8px;height:8px;border-radius:99px;background:var(--cc);box-shadow:0 0 8px var(--cc)}
+  .chip small{color:var(--mut);font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* tier sections */
+  .tier{margin-top:46px}
+  .tier-h{display:flex;align-items:baseline;gap:11px;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tier-dot{width:11px;height:11px;border-radius:99px;background:var(--rc);box-shadow:0 0 12px var(--rc);align-self:center}
+  .tier-h h2{margin:0;font-family:var(--disp);font-weight:900;font-size:clamp(20px,4vw,28px);color:var(--rc)}
+  .tier-stars{color:var(--rc);letter-spacing:2px;font-size:13px;text-shadow:0 0 8px var(--rc)}
+  .tier-odds{color:var(--mut);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  .tier-count{margin-left:auto;color:var(--mut2);font-size:12px;font-variant-numeric:tabular-nums}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+
+  /* card */
+  .item{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-top:3px solid var(--rc);
+    border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 26px rgba(0,0,0,.35);transition:transform .18s}
+  .item:hover{transform:translateY(-3px)}
+  .art{position:relative;aspect-ratio:1/1;overflow:hidden;background:#000}
+  .art img{width:100%;height:100%;object-fit:cover;display:block}
+  .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(14,14,20,.92) 100%)}
+  .info{padding:13px 15px 15px}
+  .nameline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .nameline h3{margin:0;font-family:var(--disp);font-weight:900;font-size:16.5px;letter-spacing:.005em;text-wrap:balance}
+  .typ{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;flex-shrink:0}
+  .stars{color:var(--rc);letter-spacing:1.5px;font-size:11px;white-space:nowrap;text-shadow:0 0 8px var(--rc);flex-shrink:0}
+  .badges{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .rar{font-family:var(--disp);font-weight:900;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#0b0b0e;
+    background:var(--rc);padding:3px 9px;border-radius:6px}
+  .odds{font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+
+  .stats{margin-top:11px;padding-top:10px;border-top:1px dashed var(--line2)}
+  .row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:3px 0}
+  .row span{color:var(--mut)}
+  .row b{color:var(--ink);font-weight:700;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+
+  /* section heads */
+  .section-head{margin-top:60px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+
+  /* garden tiers */
+  .gardens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:28px}
+  .gtier{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-top:3px solid var(--tc);
+    border-radius:16px;padding:17px 18px;transition:transform .18s}
+  .gtier:hover{transform:translateY(-3px)}
+  .gt-h{display:flex;align-items:baseline;gap:9px;margin-bottom:11px}
+  .gt-mult{font-family:var(--disp);font-weight:900;font-size:21px;color:var(--tc)}
+  .gt-h h3{margin:0;font-family:var(--disp);font-weight:900;font-size:13.5px;letter-spacing:.02em}
+  .gt-note{margin:11px 0 0;color:var(--mut2);font-size:11.5px;font-style:italic;line-height:1.5}
+
+  .formula{display:flex;flex-direction:column;gap:7px;margin:24px auto 0;max-width:440px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:12px;padding:15px 20px}
+  .formula code{font-family:var(--mono);font-size:12.5px;color:var(--g)}
+
+  .worked{margin:22px auto 0;max-width:760px;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line2);
+    border-radius:14px;padding:16px 22px;text-align:center;color:var(--mut);font-size:13px;line-height:1.6}
+  .worked b{color:var(--ink)}
+
+  .note{max-width:760px;margin:20px auto 0;text-align:center;color:var(--mut2);font-size:11.5px;font-style:italic;line-height:1.6}
+
+  footer{border-top:1px solid var(--line);padding:46px 0 6px;margin-top:74px}
+  .disclaimer{background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px;margin-bottom:24px}
+  .disclaimer h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f}
+  .disclaimer p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.6}
+  .foot-social{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+  .foot-social a{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
+    border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink);transition:border-color .15s,color .15s}
+  .foot-social a:hover{border-color:var(--g);color:var(--g)}
+  .foot-b{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-bottom:18px}
+  .foot-b .fm{font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:13px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .foot-b .fine{color:var(--mut2);font-size:12px}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html#glgHub"><img src="img/glg/glg-icon.png" alt="GreenLifeGame"><span class="wm">GREENLIFEGAME</span></a>
+    <div class="nav-links">
+      <a href="index.html#glgHub">🎮 All Games</a>
+      <a href="simple-farmer.html">Simple Farmer</a>
+      <a class="cur" href="#top">Crops &amp; Boosts</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <header class="hero">
+    <img class="tile" src="img/farmer-brand/simple-farmer-icon.png" alt="Simple Farmer">
+    <div class="eyebrow">Field Guide</div>
+    <h1 class="wordmark">Crops &amp; Boosts</h1>
+    <p class="lede">Every crop and boost that grows in <b>Simple Farmer</b>, the Easy-tier farming game on the GreenLifeGame platform. Each card's <b>power</b> sets how fast it earns from the daily $GREEN release — paired here with its grow-cycle length and its exact, computed odds of being the card you pull once its rarity tier is rolled.</p>
+    <div class="quick">
+      <div class="qf"><b>16</b><span>Crops</span></div>
+      <div class="qf"><b>5</b><span>Boosts</span></div>
+      <div class="qf"><b>5</b><span>Garden tiers</span></div>
+      <div class="qf"><b>1×–100×</b><span>Garden range</span></div>
+    </div>
+  </header>
+
+  <div class="how">
+    <div class="box"><h4 style="color:var(--g)">🎲 Tier Roll</h4><p>Every pack rolls a rarity tier first, then a specific card inside it. <b>Common 42% · Uncommon 35% · Rare 20% · Epic 2.5% · Legendary 0.5%</b> — one table, used by every ordinary pack and by boosts too.</p></div>
+    <div class="box"><h4 style="color:var(--b)">⚖️ In-Tier Weighting</h4><p>Inside a tier the cards aren't equal odds — each one's weight is <b>1 ÷ its own power</b>, normalized against its tier-mates. Half the power is twice the pull chance. Fruit and veggie share one pool, never split.</p></div>
+    <div class="box"><h4 style="color:var(--p)">🌱 Garden Multiplier</h4><p>A higher garden tier scales a crop's power up and its grow time down by the <b>same factor</b>. One harvest pays the identical total either way — a faster tier just means more harvests per week. Full table below.</p></div>
+  </div>
+
+  <div class="legend">
+    <span class="chip" style="--cc:#c9a27a"><i></i>Common <small>42% tier roll</small></span>
+    <span class="chip" style="--cc:#57d364"><i></i>Uncommon <small>35% tier roll</small></span>
+    <span class="chip" style="--cc:#4da6ff"><i></i>Rare <small>20% tier roll</small></span>
+    <span class="chip" style="--cc:#c86bff"><i></i>Epic <small>2.5% tier roll</small></span>
+    <span class="chip" style="--cc:#ffc94d"><i></i>Legendary <small>0.5% tier roll</small></span>
+  </div>
+
+  <!-- COMMON -->
+  <section class="tier" id="common" style="--rc:#c9a27a">
+    <div class="tier-h">
+      <span class="tier-dot"></span>
+      <h2>Common</h2>
+      <span class="tier-stars">★</span>
+      <span class="tier-odds">42% tier roll</span>
+      <span class="tier-count">4 crops</span>
+    </div>
+    <div class="grid">
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/potato.jpg" alt="Potato"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥔 Potato</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Common</span><span class="odds">57.4% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>100</b></div>
+            <div class="row"><span>Grow cycle</span><b>10 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/banana.jpg" alt="Banana"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍌 Banana</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Common</span><span class="odds">23.0% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>250</b></div>
+            <div class="row"><span>Grow cycle</span><b>10 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/carrot.jpg" alt="Carrot"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥕 Carrot</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Common</span><span class="odds">11.5% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>500</b></div>
+            <div class="row"><span>Grow cycle</span><b>12.5 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/orange.jpg" alt="Orange"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍊 Orange</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Common</span><span class="odds">8.2% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>700</b></div>
+            <div class="row"><span>Grow cycle</span><b>12.5 days</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- UNCOMMON -->
+  <section class="tier" id="uncommon" style="--rc:#57d364">
+    <div class="tier-h">
+      <span class="tier-dot"></span>
+      <h2>Uncommon</h2>
+      <span class="tier-stars">★★</span>
+      <span class="tier-odds">35% tier roll</span>
+      <span class="tier-count">4 crops</span>
+    </div>
+    <div class="grid">
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/cucumber.jpg" alt="Cucumber"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥒 Cucumber</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Uncommon</span><span class="odds">50.0% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>1,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>15 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/apple.jpg" alt="Apple"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍎 Apple</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Uncommon</span><span class="odds">33.3% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>1,500</b></div>
+            <div class="row"><span>Grow cycle</span><b>15 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/tomato.jpg" alt="Tomato"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍅 Tomato</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Uncommon</span><span class="odds">10.0% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>5,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>17.5 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/mango.jpg" alt="Mango"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥭 Mango</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Uncommon</span><span class="odds">6.7% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>7,500</b></div>
+            <div class="row"><span>Grow cycle</span><b>17.5 days</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- RARE -->
+  <section class="tier" id="rare" style="--rc:#4da6ff">
+    <div class="tier-h">
+      <span class="tier-dot"></span>
+      <h2>Rare</h2>
+      <span class="tier-stars">★★★</span>
+      <span class="tier-odds">20% tier roll</span>
+      <span class="tier-count">4 crops</span>
+    </div>
+    <div class="grid">
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/sprouts.jpg" alt="Brussel Sprouts"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥬 Brussel Sprouts</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Rare</span><span class="odds">54.5% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>10,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>20 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/kiwano.jpg" alt="Kiwano"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥝 Kiwano</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Rare</span><span class="odds">27.3% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>20,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>20 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/romanesco.jpg" alt="Romanesco Broccoli"></div>
+        <div class="info">
+          <div class="nameline"><h3>🥦 Romanesco Broccoli</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Rare</span><span class="odds">10.9% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>50,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>22.5 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/dragonfruit.jpg" alt="Dragon Fruit"></div>
+        <div class="info">
+          <div class="nameline"><h3>🐉 Dragon Fruit</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Rare</span><span class="odds">7.3% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>75,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>22.5 days</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EPIC -->
+  <section class="tier" id="epic" style="--rc:#c86bff">
+    <div class="tier-h">
+      <span class="tier-dot"></span>
+      <h2>Epic</h2>
+      <span class="tier-stars">★★★★</span>
+      <span class="tier-odds">2.5% tier roll</span>
+      <span class="tier-count">2 crops</span>
+    </div>
+    <div class="grid">
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/ghostpepper.jpg" alt="Ghost Pepper"></div>
+        <div class="info">
+          <div class="nameline"><h3>🌶️ Ghost Pepper</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Epic</span><span class="odds">66.7% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>100,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>25 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/pinkpine.jpg" alt="Pink Pineapple"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍍 Pink Pineapple</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Epic</span><span class="odds">33.3% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>200,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>25 days</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- LEGENDARY -->
+  <section class="tier" id="legendary" style="--rc:#ffc94d">
+    <div class="tier-h">
+      <span class="tier-dot"></span>
+      <h2>Legendary</h2>
+      <span class="tier-stars">★★★★★</span>
+      <span class="tier-odds">0.5% tier roll</span>
+      <span class="tier-count">2 crops</span>
+    </div>
+    <div class="grid">
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/glassgem.jpg" alt="Glass Gem Corn"></div>
+        <div class="info">
+          <div class="nameline"><h3>🌽 Glass Gem Corn</h3><span class="typ">Veggie</span></div>
+          <div class="badges"><span class="rar">Legendary</span><span class="odds">60.0% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>500,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>30 days</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item">
+        <div class="art"><img loading="lazy" src="img/farmer-crops/yubari.jpg" alt="Yubari King Melon"></div>
+        <div class="info">
+          <div class="nameline"><h3>🍈 Yubari King Melon</h3><span class="typ">Fruit</span></div>
+          <div class="badges"><span class="rar">Legendary</span><span class="odds">40.0% in-tier</span></div>
+          <div class="stats">
+            <div class="row"><span>Power</span><b>750,000</b></div>
+            <div class="row"><span>Grow cycle</span><b>30 days</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <p class="note">In-tier percentages are each card's computed pull chance once its rarity tier is already rolled — weight = 1 ÷ power, normalized against its tier-mates, rounded to one decimal place. A tier's cards may sum to 99.9–100.1% because of that rounding, not a math error.</p>
+
+  <!-- BOOSTS -->
+  <div class="section-head" id="boosts">
+    <div class="eyebrow" style="color:var(--g)">Boost Items</div>
+    <h2 class="subwm">Boosts</h2>
+    <p class="lede">Five consumables, one per rarity tier, each raising a single planted crop's power for exactly as long as that crop's own grow cycle runs. One boost per plant — no stacking, no swapping once it's applied, and it can't be used on a crop that's already finished growing.</p>
+  </div>
+  <section class="tier" style="margin-top:26px">
+    <div class="grid">
+      <article class="item" style="--rc:#c9a27a">
+        <div class="art"><img loading="lazy" src="img/farmer-boosts/compost.jpg" alt="Compost"></div>
+        <div class="info">
+          <div class="nameline"><h3>🪱 Compost</h3><span class="stars">★</span></div>
+          <div class="badges"><span class="rar">Common</span><span class="odds">+1% power</span></div>
+          <div class="stats">
+            <div class="row"><span>Effect</span><b>+1% power</b></div>
+            <div class="row"><span>Duration</span><b>Plant's full cycle</b></div>
+            <div class="row"><span>Pull odds</span><b>42%</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item" style="--rc:#57d364">
+        <div class="art"><img loading="lazy" src="img/farmer-boosts/mulch.jpg" alt="Scarecrow"></div>
+        <div class="info">
+          <div class="nameline"><h3>👒 Scarecrow</h3><span class="stars">★★</span></div>
+          <div class="badges"><span class="rar">Uncommon</span><span class="odds">+3% power</span></div>
+          <div class="stats">
+            <div class="row"><span>Effect</span><b>+3% power</b></div>
+            <div class="row"><span>Duration</span><b>Plant's full cycle</b></div>
+            <div class="row"><span>Pull odds</span><b>35%</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item" style="--rc:#4da6ff">
+        <div class="art"><img loading="lazy" src="img/farmer-boosts/drip.jpg" alt="Drip Line"></div>
+        <div class="info">
+          <div class="nameline"><h3>💧 Drip Line</h3><span class="stars">★★★</span></div>
+          <div class="badges"><span class="rar">Rare</span><span class="odds">+5% power</span></div>
+          <div class="stats">
+            <div class="row"><span>Effect</span><b>+5% power</b></div>
+            <div class="row"><span>Duration</span><b>Plant's full cycle</b></div>
+            <div class="row"><span>Pull odds</span><b>20%</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item" style="--rc:#c86bff">
+        <div class="art"><img loading="lazy" src="img/farmer-boosts/beehive.jpg" alt="Beehive"></div>
+        <div class="info">
+          <div class="nameline"><h3>🐝 Beehive</h3><span class="stars">★★★★</span></div>
+          <div class="badges"><span class="rar">Epic</span><span class="odds">+10% power</span></div>
+          <div class="stats">
+            <div class="row"><span>Effect</span><b>+10% power</b></div>
+            <div class="row"><span>Duration</span><b>Plant's full cycle</b></div>
+            <div class="row"><span>Pull odds</span><b>2.5%</b></div>
+          </div>
+        </div>
+      </article>
+      <article class="item" style="--rc:#ffc94d">
+        <div class="art"><img loading="lazy" src="img/farmer-boosts/sunlamp.jpg" alt="Solar Array"></div>
+        <div class="info">
+          <div class="nameline"><h3>☀️ Solar Array</h3><span class="stars">★★★★★</span></div>
+          <div class="badges"><span class="rar">Legendary</span><span class="odds">+20% power</span></div>
+          <div class="stats">
+            <div class="row"><span>Effect</span><b>+20% power</b></div>
+            <div class="row"><span>Duration</span><b>Plant's full cycle</b></div>
+            <div class="row"><span>Pull odds</span><b>0.5%</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- GARDEN TIERS -->
+  <div class="section-head" id="tiers">
+    <div class="eyebrow" style="color:var(--b)">Garden Tiers</div>
+    <h2 class="subwm">Same Payout, Your Speed</h2>
+    <p class="lede">A garden multiplies a crop's power up by its tier and divides the grow cycle down by that exact same number — one finished harvest pays the identical total at any tier. What changes is throughput: a higher tier just finishes more cycles in the same stretch of real time.</p>
+  </div>
+
+  <div class="formula">
+    <code>power(tier) = base power × multiplier</code>
+    <code>cycle(tier) = base days ÷ multiplier</code>
+  </div>
+
+  <div class="gardens-grid">
+    <article class="gtier" style="--tc:#8fbf5a">
+      <div class="gt-h"><span class="gt-mult">1×</span><h3>1X Garden</h3></div>
+      <div class="stats" style="margin-top:0;padding-top:0;border-top:none">
+        <div class="row"><span>Plots per farm level</span><b>4</b></div>
+        <div class="row"><span>Cost per plot</span><b>Free</b></div>
+        <div class="row"><span>Free at start</span><b>4</b></div>
+      </div>
+      <p class="gt-note">Every farm level opens 4 more plots at no cost — the only tier that never needs a purchase.</p>
+    </article>
+    <article class="gtier" style="--tc:#57d364">
+      <div class="gt-h"><span class="gt-mult">2×</span><h3>2X Garden</h3></div>
+      <div class="stats" style="margin-top:0;padding-top:0;border-top:none">
+        <div class="row"><span>Plots per farm level</span><b>3</b></div>
+        <div class="row"><span>Cost per plot</span><b>0.025 SOL</b></div>
+        <div class="row"><span>Free at start</span><b>3</b></div>
+      </div>
+      <p class="gt-note">Double power, half the wait. 3 plots unlock per farm level.</p>
+    </article>
+    <article class="gtier" style="--tc:#4da6ff">
+      <div class="gt-h"><span class="gt-mult">5×</span><h3>5X Garden</h3></div>
+      <div class="stats" style="margin-top:0;padding-top:0;border-top:none">
+        <div class="row"><span>Plots per farm level</span><b>2</b></div>
+        <div class="row"><span>Cost per plot</span><b>0.05 SOL</b></div>
+        <div class="row"><span>Free at start</span><b>2</b></div>
+      </div>
+      <p class="gt-note">Five times the pace. 2 plots unlock per farm level.</p>
+    </article>
+    <article class="gtier" style="--tc:#b06ad0">
+      <div class="gt-h"><span class="gt-mult">10×</span><h3>10X Garden</h3></div>
+      <div class="stats" style="margin-top:0;padding-top:0;border-top:none">
+        <div class="row"><span>Plots per farm level</span><b>1</b></div>
+        <div class="row"><span>Cost per plot</span><b>0.1 SOL</b></div>
+        <div class="row"><span>Free at start</span><b>1</b></div>
+      </div>
+      <p class="gt-note">Serious ground. 1 plot unlocks per farm level.</p>
+    </article>
+    <article class="gtier" style="--tc:#ffd700">
+      <div class="gt-h"><span class="gt-mult">100×</span><h3>☢️ Toxic Area</h3></div>
+      <div class="stats" style="margin-top:0;padding-top:0;border-top:none">
+        <div class="row"><span>Total plots</span><b>1, ever</b></div>
+        <div class="row"><span>Cost per plot</span><b>0.25 SOL</b></div>
+        <div class="row"><span>Free at start</span><b>0</b></div>
+      </div>
+      <p class="gt-note">One plot. Ever — it never scales with farm level, unlike the other four tiers. 100× power, 1/100th the wait.</p>
+    </article>
+  </div>
+
+  <div class="worked">
+    <b>Worked example — Potato:</b> 100 power on a 10-day cycle in the 1X Garden. Move the same card to a 5X Garden and it becomes <b>500 power on a 2-day cycle</b> — the same total $GREEN per harvest, but five times as many harvests in the same week.
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      <h4>⚠️ Important — please read</h4>
+      <p>Simple Farmer is a play-to-earn video game on Solana, part of the GreenLifeGame (GLG) platform. This page is for informational purposes only — it is not financial, investment, or legal advice, and not an offer or solicitation to buy or sell any token, security, or asset. Do your own research.</p>
+    </div>
+    <div class="foot-social">
+      <a href="index.html#glgHub">🎮 All GLG Games</a>
+      <a href="simple-farmer.html">🌾 Simple Farmer</a>
+      <a href="index.html#top">🌿 GREEN LIFE</a>
+    </div>
+    <div class="foot-b">
+      <div class="fm">GREENLIFEGAME</div>
+      <div class="fine">$GREEN · shared across the GLG platform · built on Solana</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

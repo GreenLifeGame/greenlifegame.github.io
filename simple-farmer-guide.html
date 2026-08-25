@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Farmer — Player Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Archivo',sans-serif;background:#fff;color:#141416;line-height:1.65;font-size:15px;}
+
+  /* Cover */
+  .cover{background:linear-gradient(160deg,#0d1108,#1a2410 55%,#141416);color:#f2f5ee;padding:80px 40px 60px;text-align:center;}
+  .cover h1{font-size:48px;font-weight:900;letter-spacing:5px;color:#52e300;text-shadow:0 0 40px rgba(82,227,0,0.45);margin:20px 0 6px;}
+  .cover .doc-type{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:#52e300;opacity:0.7;text-transform:uppercase;margin-bottom:4px;}
+  .cover .tagline{font-size:17px;color:#c7cdc0;max-width:520px;margin:0 auto 40px;}
+  .cover-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+  .cover-pill{background:rgba(82,227,0,0.12);border:1px solid rgba(82,227,0,0.3);color:#9adf6a;border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;}
+
+  /* Body */
+  .body{max-width:720px;margin:0 auto;padding:56px 28px 100px;}
+
+  /* Honesty banner */
+  .honest{border:1px solid #ffd70066;border-left:4px solid #ffd700;background:#fffaea;border-radius:0 10px 10px 0;padding:16px 20px;margin:0 0 44px;font-size:14px;color:#3a3320;}
+  .honest b{color:#9a6f00;}
+
+  /* TOC */
+  .toc{border:1px solid #dfe3da;border-radius:12px;padding:28px 32px;margin-bottom:60px;background:#f9fbf7;}
+  .toc-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#7a8a6a;text-transform:uppercase;margin-bottom:16px;}
+  .toc-row{margin-bottom:4px;}
+  .toc-row a{display:flex;align-items:baseline;gap:8px;width:100%;text-decoration:none;color:#141416;font-size:14px;padding:4px 0;border-bottom:1px solid #eef0eb;}
+  .toc-row a:hover .toc-title{color:#2f8a00;}
+  .toc-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a8a6a;min-width:22px;}
+  .toc-em{min-width:22px;font-size:14px;}
+  .toc-title{font-weight:700;}
+  .toc-dots{flex:1;border-bottom:2px dotted #c8d0c0;margin:0 10px;position:relative;top:-3px;min-width:20px;}
+  .toc-pg{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#52e300;min-width:24px;text-align:right;}
+
+  /* Sections */
+  .sec{margin-bottom:68px;scroll-margin-top:24px;}
+  .sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#52e300;text-transform:uppercase;margin-bottom:8px;}
+  .sec h2{font-size:24px;font-weight:900;letter-spacing:.2px;border-bottom:3px solid #52e300;padding-bottom:10px;margin-bottom:20px;text-wrap:balance;}
+  h3{font-size:15px;font-weight:800;margin:28px 0 10px;color:#141416;}
+  h4{font-size:13.5px;font-weight:800;margin:18px 0 8px;color:#2f8a00;}
+  p{margin-bottom:14px;color:#2b2e28;}
+  ul,ol{margin:0 0 16px 20px;color:#2b2e28;}
+  li{margin-bottom:7px;}
+  strong{color:#141416;}
+  a{color:#2f8a00;}
+
+  /* Tip / callout boxes */
+  .tip{border-left:4px solid #52e300;background:#f4faf0;border-radius:0 10px 10px 0;padding:13px 18px;margin:18px 0;font-size:14px;color:#2b2e28;}
+  .tip b{color:#2f8a00;}
+  .tip.warn{border-left-color:#c8960a;background:#fdf8ec;}
+  .tip.warn b{color:#9a6f00;}
+  .tip.danger{border-left-color:#cc3322;background:#fdf0ee;}
+  .tip.danger b{color:#aa2211;}
+  .tip.purple{border-left-color:#c86bff;background:#faf4ff;}
+  .tip.purple b{color:#8a3fc0;}
+
+  /* Step boxes */
+  .steps{display:flex;flex-direction:column;gap:0;margin:16px 0 24px;}
+  .step{display:flex;gap:16px;}
+  .step-left{display:flex;flex-direction:column;align-items:center;width:32px;flex-shrink:0;}
+  .step-num{width:32px;height:32px;border-radius:50%;background:#52e300;color:#0c1404;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-line{width:2px;flex:1;background:#e8ece4;min-height:16px;}
+  .step-body{padding:0 0 24px 0;}
+  .step-title{font-weight:800;font-size:15px;margin-bottom:4px;padding-top:5px;}
+  .step-desc{font-size:14px;color:#5a5f57;}
+
+  /* Tables */
+  .twrap{overflow-x:auto;margin:14px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{text-align:left;background:#141416;color:#eef2ea;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:9px 12px;font-weight:700;white-space:nowrap;}
+  td{padding:9px 12px;border-bottom:1px solid #e8ece4;vertical-align:top;}
+  tr:nth-child(even) td{background:#f9fbf7;}
+  .mono{font-family:'JetBrains Mono',monospace;font-weight:700;font-variant-numeric:tabular-nums;}
+
+  /* Rarity badges — 5 tiers, no Mythical in this game */
+  .r-common{color:#8a6a45;font-weight:800;}
+  .r-uncommon{color:#2f8a44;font-weight:800;}
+  .r-rare{color:#2a6bb8;font-weight:800;}
+  .r-epic{color:#7a3aac;font-weight:800;}
+  .r-legendary{color:#9a7000;font-weight:800;}
+
+  /* Stat pills */
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px;}
+  .pill{border-radius:99px;padding:6px 14px;font-size:12px;font-weight:800;letter-spacing:.3px;}
+  .pill-green{background:#e4f7d8;color:#2f8a00;border:1px solid #b8e0a0;}
+  .pill-gold{background:#fdf3d0;color:#9a6f00;border:1px solid #f0d896;}
+  .pill-purple{background:#f3e8ff;color:#7a3aac;border:1px solid #d4a8f0;}
+  .pill-cyan{background:#e0fbfa;color:#0a7a75;border:1px solid #8aeae5;}
+
+  /* Card grid (for garden tiers / packs) */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:16px 0 24px;}
+  .g-card{border:1px solid #dfe3da;border-radius:10px;padding:13px 15px;}
+  .g-card.accent{border-color:#52e30055;background:#f4faf0;}
+  .g-name{font-weight:800;font-size:14px;margin-bottom:3px;}
+  .g-sub{font-size:12px;color:#5a5f57;margin-bottom:6px;}
+  .g-price{font-size:11px;color:#7a8a6a;font-family:'JetBrains Mono',monospace;}
+
+  /* Footer */
+  .footer{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9aa0;padding:40px 0;border-top:1px solid #e8ece4;margin-top:40px;}
+
+  /* Print */
+  @media print{
+    @page{margin:18mm 16mm;size:A4;}
+    body{font-size:12px;}
+    .cover{padding:50px 28px 40px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .body{padding:32px 0 60px;}
+    .toc{page-break-after:always;}
+    .sec{page-break-inside:avoid;}
+    h2,h3{page-break-after:avoid;}
+    .tip{background:#f5f5f5!important;border-left-color:#1a6600!important;}
+    .tip.warn{border-left-color:#b8860b!important;}
+    .tip.danger{border-left-color:#cc2200!important;}
+    th{background:#222!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <svg width="56" height="56" viewBox="0 0 40 40">
+    <rect x="4" y="4" width="32" height="32" rx="8" fill="#52e300"/>
+    <path d="M20 32 L20 18" stroke="#0c1404" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M20 22 C14 22 11 18 11 12 C17 12 20 15 20 22Z" fill="#0c1404"/>
+    <path d="M20 19 C26 19 29 15 29 10 C23 10 20 13 20 19Z" fill="#0c1404" opacity="0.75"/>
+  </svg>
+  <div class="doc-type" style="margin-top:18px;">Player Guide</div>
+  <h1>SIMPLE FARMER</h1>
+  <p class="tagline">Plant real crops, wait out the grow, cash the harvest — the easy‑going farm game on the GreenLifeGame platform.</p>
+  <div class="cover-pills">
+    <div class="cover-pill">🌾 Plant &amp; Harvest</div>
+    <div class="cover-pill">🧬 Crossbreed</div>
+    <div class="cover-pill">🏪 Trade in SOL</div>
+    <div class="cover-pill">🎟️ Lottery</div>
+    <div class="cover-pill">💰 Earn $GREEN</div>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="honest">
+    <b>Read this first — this is a preview build.</b> Simple Farmer's current build is a fully <b>simulated</b> dev preview. The wallet is simulated, nothing connects to Solana, and no signature in this build is real — exactly what the game's own landing screen tells you. No real money moves anywhere in this version. Every number in this guide is the game's real, live design — the prices, odds, and mechanics you'll actually see on screen — but until the on‑chain build ships, none of it is backed by real SOL or real $GREEN. We'll flag the handful of places that matter most as we go.
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-label">Table of Contents</div>
+    <div class="toc-row"><a href="#start"><span class="toc-n">1</span><span class="toc-em">🚀</span><span class="toc-title">Getting Started</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#platform"><span class="toc-n">2</span><span class="toc-em">🔗</span><span class="toc-title">The GLG Platform &amp; $GREEN</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#earning"><span class="toc-n">3</span><span class="toc-em">💰</span><span class="toc-title">How You Earn $GREEN</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#farm"><span class="toc-n">4</span><span class="toc-em">🏡</span><span class="toc-title">Your Farm &amp; Garden Tiers</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#crops"><span class="toc-n">5</span><span class="toc-em">🌱</span><span class="toc-title">Crops &amp; Rarity</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#packs"><span class="toc-n">6</span><span class="toc-em">📦</span><span class="toc-title">Packs — Free, Paid &amp; PRIMO</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#grow"><span class="toc-n">7</span><span class="toc-em">🌾</span><span class="toc-title">Growing &amp; Harvesting</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#boosts"><span class="toc-n">8</span><span class="toc-em">✨</span><span class="toc-title">Boosts</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#breed"><span class="toc-n">9</span><span class="toc-em">🧬</span><span class="toc-title">Crossbreeding</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#market"><span class="toc-n">10</span><span class="toc-em">🏪</span><span class="toc-title">The Marketplace</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#lottery"><span class="toc-n">11</span><span class="toc-em">🎟️</span><span class="toc-title">The Lottery</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#invite"><span class="toc-n">12</span><span class="toc-em">👥</span><span class="toc-title">Invite &amp; Referrals</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#gift"><span class="toc-n">13</span><span class="toc-em">🎁</span><span class="toc-title">Gift a Farm</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+    <div class="toc-row"><a href="#faq"><span class="toc-n">14</span><span class="toc-em">❓</span><span class="toc-title">FAQ &amp; Tips for New Farmers</span><span class="toc-dots"></span><span class="toc-pg">›</span></a></div>
+  </div>
+
+  <!-- 1. GETTING STARTED -->
+  <div class="sec" id="start">
+    <div class="sec-eyebrow">01 — Getting Started</div>
+    <h2>🚀 How to Join</h2>
+    <p>Simple Farmer is <strong>invite‑only</strong> — you need a code from an existing player to get in, the same way GREEN LIFE works. There's no skipping this step, but there's also no way to get stuck: a roulette button will match you to a real active grower if you don't know anyone.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body"><div class="step-title">Connect your wallet</div><div class="step-desc">In this preview build the wallet is simulated — tapping Connect just gives you a placeholder address so you can play through the whole flow. Nothing real is signed.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body"><div class="step-title">Enter your invite code</div><div class="step-desc">Type a code from a friend, or tap <strong>🎲 No code? Generate a random player's code</strong> to get matched to an active grower automatically. Every player has a referrer — there's no "skip" option.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body"><div class="step-title">Pay the $25 entry (or redeem a free claim code)</div><div class="step-desc">A one‑time entry — about <strong>0.329 SOL</strong> at the game's $76/SOL rate — pay in <strong>SOL, USDC, or USDT</strong>. It mints your Level 1 farm, opens your Starter Pack immediately, and drops <strong>$5 of $GREEN</strong> (500,000 tokens) into your wallet to start spending. That $5 comes out of the $25 — it isn't extra. Got a claim code instead? It waives the $25 entirely and you still get the same $5 bonus.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body"><div class="step-title">Watch your Starter Pack open itself</div><div class="step-desc">The moment your farm mints, your one free Starter Pack opens automatically — a guaranteed <strong>crop card</strong>, so you always have something to plant on day one. No sealed pack to go hunt down.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">5</div></div>
+        <div class="step-body"><div class="step-title">Plant it and start earning</div><div class="step-desc">Your Level 1 farm starts with <strong>10 free plots</strong> already unlocked across four garden tiers. Head to Garden, tap your card, and it starts earning $GREEN immediately.</div></div>
+      </div>
+    </div>
+
+    <div class="tip"><b>What "$5 of $GREEN" actually means:</b> at the game's default $GREEN price ($0.00001), $5 is exactly <strong>500,000 tokens</strong> — enough to buy your first few Seed or Mystery packs while your first crop is still growing.</div>
+
+    <h3>Getting Around — the Bottom Nav</h3>
+    <div class="twrap"><table>
+      <tr><th>Tab</th><th>What's There</th></tr>
+      <tr><td>🏡 <strong>Farm</strong></td><td>Your home screen — the live earnings ticker, farm level, the Daily block, the Lottery, and the pack carousel.</td></tr>
+      <tr><td>🌱 <strong>Garden</strong></td><td>Five garden tiers behind one picker — plant cards, harvest, boost, and buy plots.</td></tr>
+      <tr><td>🧬 <strong>Breed</strong></td><td>Pair two crop cards and gamble on stronger offspring.</td></tr>
+      <tr><td>🏪 <strong>Market</strong></td><td>Buy and sell crop and boost cards with other farmers, priced in SOL.</td></tr>
+      <tr><td>🎒 <strong>Stuff</strong></td><td>📦 Open Now (sealed packs &amp; claimable drops), your Crops, your Boosts, 👥 Invite, and your Activity log.</td></tr>
+      <tr><td>🌍 <strong>World</strong></td><td>The shared emissions pool, a leaderboard, a pool‑life projection, and an honest list of what's still simulated.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- 2. PLATFORM -->
+  <div class="sec" id="platform">
+    <div class="sec-eyebrow">02 — The Platform</div>
+    <h2>🔗 Simple Farmer &amp; the GLG Platform</h2>
+    <p>Simple Farmer is one game on the <strong>GreenLifeGame (GLG)</strong> platform — a family of separate Solana play‑to‑earn games that share exactly <strong>one</strong> thing: the <strong>$GREEN</strong> token and its liquidity pool. Nothing else crosses over. Simple Farmer's sister game is <strong>GREEN LIFE</strong>, a much deeper cannabis‑farming game — different cards, different mechanics, its own farm, its own referral tree. The two games never share code, and progress in one never touches the other.</p>
+    <p>Where GREEN LIFE is the platform's full‑depth game, Simple Farmer is deliberately the <strong>simple, easy‑going</strong> one: fewer systems, a gentler economy, built for players who want to plant, wait, and harvest without a wall of mechanics to learn first.</p>
+    <div class="tip"><b>Why that matters for your wallet:</b> $GREEN earned or spent in Simple Farmer is the exact same token you'd hold in GREEN LIFE — same price, same pool. Farming here shrinks the same total supply everyone else's play shrinks too.</div>
+  </div>
+
+  <!-- 3. EARNING -->
+  <div class="sec" id="earning">
+    <div class="sec-eyebrow">03 — How You Earn</div>
+    <h2>💰 How $GREEN Gets Into Your Wallet</h2>
+    <p>Simple Farmer pays out of its own dedicated rewards pool — <strong>150 billion $GREEN</strong>, Simple Farmer's slice of a <strong>690 billion</strong> supply split across the three GLG games (Farm 150B · the weed game 200B · a third game 250B). Every 24 hours, a slice of whatever's <em>left</em> in that pool — currently <strong>0.069% a day</strong> — is split between every farm by its share of total planted power. That's a geometric decay, so the pool trickles for years instead of running dry: taking a percentage of a shrinking number shrinks a little slower every day.</p>
+    <div class="tip warn"><b>This rate is a working number, not locked yet.</b> It's the same 0.069%/day rate the platform's other games run, but Simple Farmer's own docs are explicit that it hasn't been finalized. It can move — up or down — but it is <strong>hard‑capped at 2% a day, on‑chain, forever</strong>. It can never mint a new token; it only changes how fast the same fixed 150B pool pays out.</div>
+
+    <p><strong>Farm power</strong> is the number that decides your slice — every crop you plant adds its power to your total. But only crops that are still <em>growing</em> count toward your live earning share: the moment a crop finishes its cycle, it stops earning until you harvest it — even though it still counts on the leaderboard.</p>
+
+    <div class="tip"><b>Your earn rate ≈ (your earning power ÷ everyone's earning power) × today's pool release.</b> A bigger garden multiplier, more plots, and stronger crops all grow your share — but remember: raising everyone's power raises the denominator too, so the real levers on total payout are the pool size and the daily rate, not any one crop's stats.</div>
+
+    <h3>Two Income Streams — the 70/30 Split</h3>
+    <p>Every second you earn, it splits into two buckets that always add to 100%:</p>
+    <div class="twrap"><table>
+      <tr><th>Stream</th><th>Your Cut</th><th>When You Get It</th></tr>
+      <tr><td><strong>Instant balance</strong></td><td class="mono">70%</td><td>Streams every second into your Current Estimate. Claim any time — always safe, even from a plant you later pull early.</td></tr>
+      <tr><td><strong>Harvest pot</strong></td><td class="mono">30%</td><td>Builds up inside the specific plant that earned it, and only pays out when you harvest that plant.</td></tr>
+    </table></div>
+    <div class="tip warn"><b>Claiming has a floor.</b> The Claim button stays greyed out below <strong>1 $GREEN</strong> unclaimed — under that, every display in the game would round the number down to "0" anyway, so there's nothing meaningful to sign for yet.</div>
+  </div>
+
+  <!-- 4. FARM & GARDEN TIERS -->
+  <div class="sec" id="farm">
+    <div class="sec-eyebrow">04 — Your Farm</div>
+    <h2>🏡 Farm Levels &amp; Garden Tiers</h2>
+    <p>Your farm has a level (1 through <strong>5</strong>) and five separate garden tiers underneath it. A farm level raises the <em>cap</em> on how many plots of each tier you're <em>allowed</em> to own — it never hands you a plot for free (except the 1X Garden, see below). You still buy each plot yourself.</p>
+
+    <h3>Farm Level Upgrades</h3>
+    <div class="twrap"><table>
+      <tr><th>Level</th><th>Cost</th><th>Build Time</th></tr>
+      <tr><td>1 → entry</td><td>$25 one‑time entry</td><td>instant</td></tr>
+      <tr><td>2</td><td class="mono">$10 in $GREEN</td><td>2 days</td></tr>
+      <tr><td>3</td><td class="mono">$10 in $GREEN</td><td>3 days</td></tr>
+      <tr><td>4</td><td class="mono">$10 in $GREEN</td><td>4 days</td></tr>
+      <tr><td>5</td><td class="mono">$10 in $GREEN</td><td>5 days</td></tr>
+    </table></div>
+    <p>Upgrade cost is a flat $10 every level (unlike GREEN LIFE's climbing ladder) — only the build time grows, one extra day per level. Upgrade fees are <strong>100% burned</strong>, and — like breeding — carry <strong>no referral cut</strong>, even if you were invited by someone.</p>
+
+    <h3>The Five Garden Tiers</h3>
+    <p>Every garden tier has a power <strong>multiplier</strong>. Here's the one rule that matters most: a ×N garden multiplies a crop's power by N <em>and</em> divides its grow time by N. Those cancel out — a single harvest pays exactly the <strong>same total</strong> in every tier. What a higher tier actually buys you is <strong>throughput</strong>: you finish that many more harvests in the same stretch of real time.</p>
+    <div class="card-grid">
+      <div class="g-card accent"><div class="g-name">1X Garden</div><div class="g-sub">Baseline. 4 free plots per farm level.</div><div class="g-price">0 SOL — always free</div></div>
+      <div class="g-card"><div class="g-name">2X Garden</div><div class="g-sub">Double power, half the wait. 3 plots/level.</div><div class="g-price">0.025 SOL per plot</div></div>
+      <div class="g-card"><div class="g-name">5X Garden</div><div class="g-sub">Five times the pace. 2 plots/level.</div><div class="g-price">0.05 SOL per plot</div></div>
+      <div class="g-card"><div class="g-name">10X Garden</div><div class="g-sub">Serious ground. 1 plot/level.</div><div class="g-price">0.1 SOL per plot</div></div>
+      <div class="g-card"><div class="g-name">☢️ Toxic Area</div><div class="g-sub">One plot. Ever. 100× power, 1/100th the wait.</div><div class="g-price">0.25 SOL — flat 1 plot total</div></div>
+    </div>
+    <p>At Level 1 you start with <strong>10 free plots</strong> already unlocked: 4 in the 1X Garden, 3 in the 2X, 2 in the 5X, and 1 in the 10X — the Toxic Area's single plot always has to be bought separately. The <strong>1X Garden auto‑unlocks</strong> every plot your farm level allows, with nothing to buy; every other tier still needs a SOL purchase per plot, one at a time, in the order they unlock.</p>
+    <div class="tip"><b>Worked example:</b> a 🥔 Potato takes 10 days at 1X for its full 100 power. Plant the same card in a 5X Garden and it finishes in <strong>2 days</strong> at <strong>500 power</strong> — same total payout, five times the harvests per week.</div>
+  </div>
+
+  <!-- 5. CROPS -->
+  <div class="sec" id="crops">
+    <div class="sec-eyebrow">05 — Crops &amp; Rarity</div>
+    <h2>🌱 Crops &amp; Rarity</h2>
+    <p>Simple Farmer has <strong>five</strong> rarity tiers — Legendary is the ceiling, full stop, no Mythical tier here.</p>
+    <div class="pill-row">
+      <div class="pill pill-green">● Common</div>
+      <div class="pill" style="background:#e4f5e8;color:#2a6b3a;border:1px solid #a8dab5;">● Uncommon</div>
+      <div class="pill" style="background:#e4eeff;color:#1a4fa0;border:1px solid #a8c4f0;">● Rare</div>
+      <div class="pill pill-purple">● Epic</div>
+      <div class="pill pill-gold">● Legendary</div>
+    </div>
+
+    <h3>All 16 Crops</h3>
+    <p>Common, Uncommon, and Rare each have 4 crops (2 veggies + 2 fruits). Epic and Legendary have 2 each (1 veggie + 1 fruit). Grow time climbs +2.5 days per rarity step, 10 days up to 30. Power shown is at the 1X Garden — a higher tier multiplies it.</p>
+    <div class="twrap"><table>
+      <tr><th>Rarity</th><th>Crop</th><th>Type</th><th>Days (1X)</th><th>Power (1X)</th></tr>
+      <tr><td><span class="r-common">Common</span></td><td>🥔 Potato</td><td>Veggie</td><td class="mono">10</td><td class="mono">100</td></tr>
+      <tr><td><span class="r-common">Common</span></td><td>🍌 Banana</td><td>Fruit</td><td class="mono">10</td><td class="mono">250</td></tr>
+      <tr><td><span class="r-common">Common</span></td><td>🥕 Carrot</td><td>Veggie</td><td class="mono">12.5</td><td class="mono">500</td></tr>
+      <tr><td><span class="r-common">Common</span></td><td>🍊 Orange</td><td>Fruit</td><td class="mono">12.5</td><td class="mono">700</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td>🥒 Cucumber</td><td>Veggie</td><td class="mono">15</td><td class="mono">1,000</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td>🍎 Apple</td><td>Fruit</td><td class="mono">15</td><td class="mono">1,500</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td>🍅 Tomato</td><td>Veggie</td><td class="mono">17.5</td><td class="mono">5,000</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td>🥭 Mango</td><td>Fruit</td><td class="mono">17.5</td><td class="mono">7,500</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td>🥬 Brussel Sprouts</td><td>Veggie</td><td class="mono">20</td><td class="mono">10,000</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td>🥝 Kiwano</td><td>Fruit</td><td class="mono">20</td><td class="mono">20,000</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td>🥦 Romanesco Broccoli</td><td>Veggie</td><td class="mono">22.5</td><td class="mono">50,000</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td>🐉 Dragon Fruit</td><td>Fruit</td><td class="mono">22.5</td><td class="mono">75,000</td></tr>
+      <tr><td><span class="r-epic">Epic</span></td><td>🌶️ Ghost Pepper</td><td>Veggie</td><td class="mono">25</td><td class="mono">100,000</td></tr>
+      <tr><td><span class="r-epic">Epic</span></td><td>🍍 Pink Pineapple</td><td>Fruit</td><td class="mono">25</td><td class="mono">200,000</td></tr>
+      <tr><td><span class="r-legendary">Legendary</span></td><td>🌽 Glass Gem Corn</td><td>Veggie</td><td class="mono">30</td><td class="mono">500,000</td></tr>
+      <tr><td><span class="r-legendary">Legendary</span></td><td>🍈 Yubari King Melon</td><td>Fruit</td><td class="mono">30</td><td class="mono">750,000</td></tr>
+    </table></div>
+
+    <h3>Pack Odds — Which Rarity, Then Which Crop</h3>
+    <p>Any pack pull first rolls a rarity, then a specific crop inside that rarity:</p>
+    <div class="twrap"><table>
+      <tr><th>Rarity</th><th>Chance</th></tr>
+      <tr><td><span class="r-common">Common</span></td><td class="mono">42%</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td class="mono">35%</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td class="mono">20%</td></tr>
+      <tr><td><span class="r-epic">Epic</span></td><td class="mono">2.5%</td></tr>
+      <tr><td><span class="r-legendary">Legendary</span></td><td class="mono">0.5%</td></tr>
+    </table></div>
+    <div class="tip purple"><b>The specific crop is weighted by value, not a flat split.</b> Inside a rarity tier, a crop's odds are inversely tied to its power — half the power, twice as likely. In the Common tier, for example, that works out to roughly Potato 57.4% · Banana 23.0% · Carrot 11.5% · Orange 8.2%. The weaker crop in a tier is always the one you're most likely to pull.</div>
+  </div>
+
+  <!-- 6. PACKS -->
+  <div class="sec" id="packs">
+    <div class="sec-eyebrow">06 — Packs</div>
+    <h2>📦 Every Way to Get a Pack</h2>
+    <p>Every ordinary pack — free or paid — hands over exactly <strong>one card</strong>. That keeps the odds honest: 0.5% Legendary is 0.5% per pack, not spread across a bundle.</p>
+    <div class="twrap"><table>
+      <tr><th>Pack</th><th>Price</th><th>Daily Limit</th><th>Contents</th></tr>
+      <tr><td><strong>🌱 Seed Pack</strong></td><td class="mono">$1.50 in $GREEN</td><td>None</td><td>1 crop card, full rarity odds</td></tr>
+      <tr><td><strong>❓ Mystery Pack</strong></td><td class="mono">$1.00 in $GREEN</td><td>None</td><td>1 card — 60% boost / 40% crop, then rarity rolls normally</td></tr>
+      <tr><td><strong>✨ Boost Pack</strong></td><td class="mono">$0.50 in $GREEN</td><td>None</td><td>1 boost card, full rarity odds</td></tr>
+      <tr><td><strong>📦 PRIMO Pack</strong></td><td class="mono">$7.99 <span style="opacity:.6">(normally $11.99)</span><br><span style="opacity:.7">paid in SOL</span></td><td>Your farm level, per day (1 at Lv 1 up to 5 at Lv 5)</td><td>1 crop card — floored at Rare: Rare 25% · Epic 50% · Legendary 25%</td></tr>
+    </table></div>
+    <p>Every price above lives on a live, admin‑editable dial — currency and price can both change, so always trust the number on screen over anything printed here.</p>
+
+    <div class="tip"><b>🎁 Free daily pack.</b> Once every 24 hours you can claim a free pack from the Farm screen — and it's the exact same Mystery Pack sold in the shop, same 60% boost / 40% crop split, same rarity odds. There's no separate "free" table; it's simply handed over instead of sold.</div>
+
+    <div class="tip warn"><b>Starter Pack is always a crop.</b> Your one welcome pack skips the usual boost/crop coin‑flip on purpose — a brand‑new farm with nothing to plant would be a dead start, so your very first pack always guarantees a crop card.</div>
+
+    <h3>📦 Open Now — Where Free Stuff Lands</h3>
+    <p>Anything <em>given</em> to you rather than bought — an event drop, a support fix, a tournament prize — arrives sealed in <strong>Stuff → 📦 Open Now</strong>. Two rows: <strong>Ready to Claim</strong> (drops with a real claim window, so don't sit on one) and <strong>Ready to Open</strong> (tap OPEN, or OPEN ALL to open everything sealed in one combined reveal). A sealed item can never be listed on the Marketplace — it has to be opened first, and whatever comes out is used or resold one card at a time.</p>
+  </div>
+
+  <!-- 7. GROWING -->
+  <div class="sec" id="grow">
+    <div class="sec-eyebrow">07 — Growing &amp; Harvesting</div>
+    <h2>🌾 The Grow Loop</h2>
+    <p>Tap a card, put it in an open plot, and it starts growing the instant you sign. <strong>There's no watering in Simple Farmer</strong> — a planted crop grows purely on elapsed time, nothing to check in on until it's ready.</p>
+
+    <h3>Planting Is a Two‑Step, Batch‑Signed Action</h3>
+    <p>Tapping a card into a plot doesn't plant it right away — it goes in as <strong>pending</strong>, sitting there unsigned. You can stage as many cards as you like across every garden, tap a pending card again to pull it back out for free, and when you're happy with the batch, hit <strong>Confirm &amp; Sign</strong> to commit everything in one signature.</p>
+
+    <h3>Harvesting</h3>
+    <p>Once a crop hits 100% grown, it's ready — and it <strong>stops earning</strong> the moment it does, so leaving it sitting there costs you emissions share, not just a payout. Harvest it (single card or in bulk) and you get:</p>
+    <ul>
+      <li>The full harvest pot for that plant.</li>
+      <li>The card back in your bag, ready to plant again — a normal harvest never destroys the card.</li>
+    </ul>
+
+    <h3>⚠️ Pulling a Plant Early — Read Before You Pull</h3>
+    <p>Every plant's cycle has three zones, measured as a <em>fraction</em> of that specific plant's own cycle length — not a fixed day count, since a garden multiplier can shrink a cycle by up to 100×.</p>
+    <div class="tip danger"><b>Under 73.3% grown — the plant dies.</b> Pull it now and you lose the card <em>and</em> the entire harvest pot. (73.3% ≈ day 22 of a 30‑day cycle.)</div>
+    <div class="tip warn"><b>73.3%–100% grown — a sliding penalty.</b> The plant survives and you keep the card, but the pot pays out on a shrinking scale — the earlier you pull inside this window, the more of the pot you lose. Wait to 100% for the whole thing.</div>
+    <div class="tip"><b>100%+ grown — full payout, no penalty.</b> This is a clean harvest — no sign‑off warning, no loss, card returned.</div>
+    <p>Whatever's forfeited on an early pull is <strong>burned</strong>, never returned to the pool. Your 70% instant stream is untouched either way — only the 30% pot is ever at risk.</p>
+  </div>
+
+  <!-- 8. BOOSTS -->
+  <div class="sec" id="boosts">
+    <div class="sec-eyebrow">08 — Boosts</div>
+    <h2>✨ Boost Items</h2>
+    <p>A boost card raises one planted crop's power for as long as that plant's own cycle runs — not a fixed number of days, since cycle length itself changes with garden tier. <strong>One boost per plant, no stacking, no swapping once it's on.</strong></p>
+    <div class="twrap"><table>
+      <tr><th>Boost</th><th>Rarity</th><th>Power Bonus</th></tr>
+      <tr><td>🪱 Compost</td><td><span class="r-common">Common</span></td><td class="mono">+1%</td></tr>
+      <tr><td>👒 Scarecrow</td><td><span class="r-uncommon">Uncommon</span></td><td class="mono">+3%</td></tr>
+      <tr><td>💧 Drip Line</td><td><span class="r-rare">Rare</span></td><td class="mono">+5%</td></tr>
+      <tr><td>🐝 Beehive</td><td><span class="r-epic">Epic</span></td><td class="mono">+10%</td></tr>
+      <tr><td>☀️ Solar Array</td><td><span class="r-legendary">Legendary</span></td><td class="mono">+20%</td></tr>
+    </table></div>
+    <p>Boosts are deliberately gentler than a garden multiplier — the 1×–100× tiers already do the heavy lifting on power here. Get them from Boost Packs, the 30/40 split inside a Mystery Pack, or a failed crossbreed's consolation prize.</p>
+    <div class="tip warn"><b>Don't boost a finished crop.</b> A boost raises what a plant earns <em>while</em> it's growing — a plant already at 100% has stopped earning, so applying one there burns the card for nothing. The game blocks it and tells you to harvest first.</div>
+  </div>
+
+  <!-- 9. BREEDING -->
+  <div class="sec" id="breed">
+    <div class="sec-eyebrow">09 — Crossbreeding</div>
+    <h2>🧬 Crossbreeding, Explained Simply</h2>
+    <p>Pick two crop cards you own, pay a fee, and gamble on stronger offspring. Two rules that are easy to miss:</p>
+    <ul>
+      <li><strong>Veggie × Veggie or Fruit × Fruit only</strong> — you can never cross a veggie with a fruit.</li>
+      <li><strong>Legendary can never be a parent</strong> — Epic is the highest rarity you can breed <em>with</em>. It can absolutely still come <em>out</em> of a breed.</li>
+    </ul>
+
+    <h3>Cost Table</h3>
+    <p>You pay for both parents added together:</p>
+    <div class="twrap"><table>
+      <tr><th>Parent Rarity</th><th>Cost</th></tr>
+      <tr><td><span class="r-common">Common</span></td><td class="mono">$0.10</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td class="mono">$0.25</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td class="mono">$1.00</td></tr>
+      <tr><td><span class="r-epic">Epic</span></td><td class="mono">$5.00</td></tr>
+    </table></div>
+    <p><em>Example:</em> an Epic + Common pairing costs $5.00 + $0.10 = <strong>$5.10</strong>. Paid in $GREEN and <strong>100% burned</strong> — breeding, like farm‑level upgrades, carries no referral cut even if you were invited by someone.</p>
+
+    <h3>Success Chance — Flat 50%</h3>
+    <p>Every pairing has the same <strong>50% success rate</strong>, whatever the rarity. That's deliberate — if breeding always worked, nobody would ever buy a pack. Fail, and both parent cards are gone, but you salvage one random boost card as a consolation.</p>
+
+    <h3>If It Succeeds — 1 to 3 Cards, Rarity Rolled Per Card</h3>
+    <div class="twrap"><table>
+      <tr><th>Offspring Count</th><th>Chance</th></tr>
+      <tr><td>1 card</td><td class="mono">50%</td></tr>
+      <tr><td>2 cards</td><td class="mono">35%</td></tr>
+      <tr><td>3 cards</td><td class="mono">15%</td></tr>
+    </table></div>
+    <p>Each card independently rolls its own rarity branch:</p>
+    <div class="twrap"><table>
+      <tr><th>Branch</th><th>Chance</th><th>Lands On</th></tr>
+      <tr><td>Lower parent's rarity</td><td class="mono">55%</td><td>the weaker parent's tier</td></tr>
+      <tr><td>Higher parent's rarity</td><td class="mono">25%</td><td>the stronger parent's tier</td></tr>
+      <tr><td>One tier below the lower</td><td class="mono">12%</td><td>a step down (floors at Common)</td></tr>
+      <tr><td>One tier above the higher</td><td class="mono">8%</td><td>a step up (can reach Legendary)</td></tr>
+    </table></div>
+    <p>Only the "one tier above" branch can ever produce a Legendary — and only when your higher‑rarity parent is already Epic.</p>
+
+    <div class="tip"><b>🔥 Guaranteed‑breed promos.</b> When one's running, any pairing of <strong>Common, Uncommon, or Rare</strong> parents succeeds 100% of the time — you'll see a green banner on the Breed screen and the Success‑chance row will read 100%. Only the success roll is skipped: what you actually get still rolls the normal offspring table above. Epic pairings are never included.</div>
+  </div>
+
+  <!-- 10. MARKET -->
+  <div class="sec" id="market">
+    <div class="sec-eyebrow">10 — The Marketplace</div>
+    <h2>🏪 Buying &amp; Selling</h2>
+    <p>Every trade on the Market tab is priced in <strong>SOL</strong>, never $GREEN — that's where the fee split lives. A <strong>10% fee</strong> applies to every sale: 90% to the seller, 5% buys back and burns $GREEN, 5% to the treasury.</p>
+
+    <h3>Floor Prices</h3>
+    <div class="twrap"><table>
+      <tr><th>Rarity</th><th>Crop Floor</th><th>Boost Floor</th></tr>
+      <tr><td><span class="r-common">Common</span></td><td class="mono">0.01 SOL</td><td class="mono">0.005 SOL</td></tr>
+      <tr><td><span class="r-uncommon">Uncommon</span></td><td class="mono">0.025 SOL</td><td class="mono">0.01 SOL</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td class="mono">0.05 SOL</td><td class="mono">0.025 SOL</td></tr>
+      <tr><td><span class="r-epic">Epic</span></td><td class="mono">0.15 SOL</td><td class="mono">0.05 SOL</td></tr>
+      <tr><td><span class="r-legendary">Legendary</span></td><td class="mono">0.25 SOL</td><td class="mono">0.10 SOL</td></tr>
+    </table></div>
+    <p>The floor is only a reference point — every seller types their own asking price, which can sit above or below it.</p>
+
+    <div class="tip warn"><b>Listings can't be cancelled.</b> Once you list a card it runs for a full <strong>7 days</strong>. If nobody buys it, it returns to your bag automatically — nothing is lost, you just can't pull it back early to re‑price it. Only spare, idle cards can be listed — anything planted, staged, or otherwise in use has to be freed up first.</div>
+
+    <div class="honest" style="margin:18px 0;"><b>Honest note on this build:</b> right now every listing you buy from is a simulated counterparty seeded by the game, not a real other player. The 10%/5%/5% split above is the real, permanent design — but in this preview, a buy's fee currently books to the treasury as one number since there's no real seller to pay a 90% share to. That changes the moment real players are trading against each other.</div>
+  </div>
+
+  <!-- 11. LOTTERY -->
+  <div class="sec" id="lottery">
+    <div class="sec-eyebrow">11 — The Lottery</div>
+    <h2>🎟️ Four Standing Pools</h2>
+    <p>The Farm screen has a 2×2 grid of four lottery pools, split by speed and currency. Buy tickets any time — more tickets, better odds — and when the clock hits zero, one weighted‑random winner takes the whole prize.</p>
+    <div class="twrap"><table>
+      <tr><th>Pool</th><th>Ticket Price</th><th>Draws Every</th></tr>
+      <tr><td>🎟️ Daily $GREEN</td><td class="mono">$0.10 in $GREEN</td><td>24 hours</td></tr>
+      <tr><td>🎫 Weekly $GREEN</td><td class="mono">$0.25 in $GREEN</td><td>7 days</td></tr>
+      <tr><td>◎ Daily SOL</td><td class="mono">0.005 SOL</td><td>24 hours</td></tr>
+      <tr><td>💎 Weekly SOL</td><td class="mono">0.015 SOL</td><td>7 days</td></tr>
+    </table></div>
+    <p>The pot is every ticket sold, minus a flat <strong>5% fee that goes entirely to the treasury</strong> — deliberately no burn split here, since a ticket is a wager pooled between players and handed back out, not a spend that consumes an item. That 5% is what funds future giveaways.</p>
+    <div class="honest" style="margin:18px 0;"><b>Honest note:</b> in this preview, bot tickets fill every pool so it never sits empty, and the draw runs on this device. Real money must never enter a client‑resolved random draw — a real launch needs real escrow and verifiable randomness first.</div>
+  </div>
+
+  <!-- 12. INVITE -->
+  <div class="sec" id="invite">
+    <div class="sec-eyebrow">12 — Referrals</div>
+    <h2>👥 Invite &amp; Referrals, Explained Simply</h2>
+    <p>Every player has a referrer — entry is invite‑only, so the whole game is one connected tree with no orphans. Your own code is minted the moment your farm mints, and it's yours forever.</p>
+
+    <h3>The 3‑Level Earnings Table</h3>
+    <div class="twrap"><table>
+      <tr><th>Level</th><th>Who</th><th>Your Cut</th></tr>
+      <tr><td>1</td><td>Someone you invited directly</td><td class="mono">3%</td></tr>
+      <tr><td>2</td><td>Someone <em>they</em> invited</td><td class="mono">1%</td></tr>
+      <tr><td>3</td><td>One level deeper still</td><td class="mono">0.01%</td></tr>
+    </table></div>
+    <p>It <strong>stops dead at 3 levels</strong> — a 4th‑level ancestor gets nothing, ever. This cut is carved out of $GREEN that's already moving (claims, harvests, and $GREEN‑paid pack purchases), so it never mints a new token. It applies only when you were actually referred by someone — an organic player pays nothing extra.</p>
+    <div class="tip purple"><b>Referral earnings sit in their own separate pot</b> — never mixed into your farmed $GREEN balance. Find your code, your invite link, and your unclaimed referral earnings under <strong>Stuff → 👥 Invite</strong>.</div>
+    <p><strong>Breeding and farm‑level upgrades are exempt</strong> from the referral cut entirely — those always burn 100%, no slice taken, whether or not you were invited.</p>
+  </div>
+
+  <!-- 13. GIFT -->
+  <div class="sec" id="gift">
+    <div class="sec-eyebrow">13 — Gifting</div>
+    <h2>🎁 Gift a Farm</h2>
+    <p>Don't have a friend to invite you, or want to bring one in yourself? Buy a code, hand it over, and they redeem it for a free farm — the price locks in the moment you buy it, not when they use it.</p>
+    <div class="twrap"><table>
+      <tr><th>Gift Type</th><th>Price</th><th>What They Get</th></tr>
+      <tr><td>🎁 Plain gift</td><td class="mono">$25.00</td><td>Free Level 1 farm + $5.00 of $GREEN</td></tr>
+      <tr><td>🎁 + SOL top‑up</td><td class="mono">$30.00</td><td>Free Level 1 farm + $5.00 of $GREEN + $5.00 of SOL</td></tr>
+    </table></div>
+    <p>The plain gift suits a crypto friend who already holds SOL. The +SOL version is for someone brand new to web3 — real spending money to play with while they learn the swap tool (the claim itself is always gasless, so even a zero‑SOL wallet can redeem a code).</p>
+  </div>
+
+  <!-- 14. FAQ -->
+  <div class="sec" id="faq">
+    <div class="sec-eyebrow">14 — Wrapping Up</div>
+    <h2>❓ FAQ &amp; Tips for New Farmers</h2>
+
+    <h4>Do I need to water my crops?</h4>
+    <p>No. Unlike some GLG games, Simple Farmer has no watering mechanic at all — a planted crop grows purely on elapsed time. Just remember to harvest once it's ready, since a finished crop stops earning.</p>
+
+    <h4>What's the single biggest new‑player mistake?</h4>
+    <p>Pulling a plant before it's grown 73.3% of its cycle. That's an outright loss of the card <em>and</em> the entire harvest pot — always let a plant reach at least that mark, and reach 100% if you want the full payout.</p>
+
+    <h4>Should I plant in the biggest garden tier right away?</h4>
+    <p>Not necessarily. Remember: any tier pays the same total per harvest — the multiplier only changes how many harvests you fit into a week. A 100X Toxic Area plot is a bigger up‑front SOL cost for one crop's worth of speed; a handful of cheap 2X or 5X plots often gets you more total throughput for the same money.</p>
+
+    <h4>Can I list a card I just planted?</h4>
+    <p>No — only idle cards sitting in your bag can be listed. Harvest or unstage it first.</p>
+
+    <h4>What happens if I don't have anything to breed with?</h4>
+    <p>Grab a Seed Pack, your free daily Mystery Pack, or buy a spare on the Market — you always need <em>two</em> same‑category (veggie or fruit) cards to breed, and neither can be Legendary.</p>
+
+    <h4>Is any of this backed by real money right now?</h4>
+    <p>No — see the note at the very top of this guide. This build's wallet, chain, and marketplace counterparties are all simulated. Every price, odds table, and mechanic here is the real design, but nothing you earn or spend in this preview is real $GREEN or real SOL yet.</p>
+
+    <h3>Quick Tips</h3>
+    <ul>
+      <li><strong>Fill every free plot first.</strong> Your 10 starter plots are free — plant something in all of them before spending SOL on more ground.</li>
+      <li><strong>Grab your free daily pack every day.</strong> It costs nothing and it's the exact same odds as a paid Mystery Pack.</li>
+      <li><strong>Don't hoard low‑tier crops.</strong> A spare Common or Uncommon is perfect breeding fuel — the fee is small and a fail only costs you a boost card's worth of value.</li>
+      <li><strong>Watch the "ready" state.</strong> A finished crop stops earning the instant it hits 100% — harvest promptly instead of letting it sit.</li>
+      <li><strong>Invite people you actually expect to play.</strong> The referral cut only pays out on real activity — claims, harvests, and pack buys — so an inactive invite earns you nothing.</li>
+    </ul>
+  </div>
+
+  <div class="footer">Simple Farmer Player Guide · part of the GreenLifeGame platform · plant more · harvest more · grow the pool</div>
+</div>
+</body>
+</html>
