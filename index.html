@@ -421,6 +421,31 @@
   .glg-jump .soon{opacity:.55}
   .glg-jump .soon:hover{transform:none;border-color:var(--line2);color:var(--ink)}
   .glg-jump-hint{font-size:11.5px;color:var(--mut2);margin-top:12px}
+  /* Tokenomics band — sits ABOVE the game tiles so the supply story is the
+     first real information on the page, not something buried at the bottom. */
+  .tok{margin:38px 0 6px;text-align:left;background:linear-gradient(180deg,var(--panel),var(--bg2));
+    border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3.4vw,32px)}
+  .tok-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;margin-bottom:6px}
+  .tok-eyebrow{font-family:var(--disp);letter-spacing:.26em;font-size:10.5px;color:var(--mut);text-transform:uppercase}
+  .tok-big{font-family:var(--disp);font-weight:900;font-size:clamp(28px,5.4vw,46px);line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tok-note{color:var(--mut);font-size:13px;max-width:70ch;margin:10px 0 22px}
+  .tok-rows{display:flex;flex-direction:column;gap:9px}
+  .tok-row{display:grid;grid-template-columns:minmax(120px,1.5fr) minmax(64px,auto) minmax(56px,auto);
+    gap:10px;align-items:center;font-size:13px}
+  .tok-row .nm{color:var(--ink);font-weight:700;display:flex;align-items:center;gap:8px;min-width:0}
+  .tok-row .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tok-row .amt{font-family:var(--mono);font-weight:800;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+  .tok-row .rate{font-family:var(--mono);font-size:11.5px;color:var(--mut);text-align:right;font-variant-numeric:tabular-nums}
+  .tok-bar{grid-column:1/-1;height:5px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:-2px}
+  .tok-bar i{display:block;height:100%;border-radius:99px;background:var(--bc,var(--g))}
+  .tok-total{display:flex;justify-content:space-between;gap:12px;margin-top:16px;padding-top:14px;
+    border-top:1px solid var(--line2);font-family:var(--disp);font-size:14px}
+  .tok-total .v{font-family:var(--mono);font-weight:900;color:var(--g)}
+  .tok-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:22px}
+  .tok-fact{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+  .tok-fact b{display:block;font-size:12.5px;margin-bottom:4px}
+  .tok-fact p{margin:0;font-size:12px;color:var(--mut);line-height:1.5}
   .glg-modal{position:fixed;inset:0;z-index:200;background:rgba(4,4,8,.86);backdrop-filter:blur(6px);
     display:none;align-items:center;justify-content:center;padding:20px}
   .glg-modal.open{display:flex}
@@ -446,6 +471,65 @@
       <button class="soon" type="button" data-soon="Dino Island" data-desc="Raise and race prehistoric creatures. Dino Island is on the GLG roadmap — check back soon.">🦖 Dino Island</button>
       <button class="soon" type="button" data-soon="Free Lounge Fun" data-desc="A casual, no-buy-in hangout of mini-games. Free Lounge Fun is on the GLG roadmap — check back soon.">🛋️ Free Lounge Fun</button>
     </nav>
+    <!-- $GREEN TOKENOMICS — locked 2026-08-25. Every figure here matches
+         GLG-PLATFORM.md, which is the single source of truth. If they ever
+         disagree, that file is right and this is wrong. -->
+    <div class="tok">
+      <div class="tok-head">
+        <span class="tok-eyebrow">$GREEN Tokenomics</span>
+      </div>
+      <div class="tok-big">1 TRILLION</div>
+      <p class="tok-note">Minted once at launch, then the mint authority is destroyed — so no team, key, or admin action can ever create another token. One supply, shared by every game on the platform. Each game gets its own emissions pool and nothing else; liquidity, treasury and giveaways are held once, at platform level, for all of them.</p>
+
+      <div class="tok-rows">
+        <div class="tok-row" style="--bc:#57d364">
+          <div class="nm">🌾 <span>Simple Farmer — emissions</span></div>
+          <div class="amt">200B</div><div class="rate">0.05%/day</div>
+          <div class="tok-bar"><i style="width:20%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#ffc94d">
+          <div class="nm">⛏️ <span>Mother Lode — emissions</span></div>
+          <div class="amt">200B</div><div class="rate">0.05%/day</div>
+          <div class="tok-bar"><i style="width:20%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#52e300">
+          <div class="nm">🌿 <span>GREEN LIFE — emissions</span></div>
+          <div class="amt">250B</div><div class="rate">0.069%/day</div>
+          <div class="tok-bar"><i style="width:25%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#c86bff">
+          <div class="nm">🦖 <span>Dino Island — emissions</span></div>
+          <div class="amt">250B</div><div class="rate">0.069%/day</div>
+          <div class="tok-bar"><i style="width:25%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#4da6ff">
+          <div class="nm">💧 <span>Liquidity Pool — shared</span></div>
+          <div class="amt">50B</div><div class="rate">—</div>
+          <div class="tok-bar"><i style="width:5%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#8ad0ff">
+          <div class="nm">🎁 <span>Giveaways / Contests — shared</span></div>
+          <div class="amt">25B</div><div class="rate">—</div>
+          <div class="tok-bar"><i style="width:2.5%"></i></div>
+        </div>
+        <div class="tok-row" style="--bc:#9a9aa8">
+          <div class="nm">🏛️ <span>Treasury — shared</span></div>
+          <div class="amt">25B</div><div class="rate">—</div>
+          <div class="tok-bar"><i style="width:2.5%"></i></div>
+        </div>
+      </div>
+
+      <div class="tok-total"><span>Total supply</span><span class="v">1,000,000,000,000</span></div>
+
+      <div class="tok-facts">
+        <div class="tok-fact"><b>🔒 Minted once, never again</b><p>The mint authority is revoked immediately after launch. Not a promise — the network itself rejects any further mint.</p></div>
+        <div class="tok-fact"><b>🔥 Spending burns it</b><p>Every $GREEN spent inside any GLG game is destroyed. Supply only ever moves one direction.</p></div>
+        <div class="tok-fact"><b>🚫 No sell tax</b><p>Classic SPL token, no transfer fee. A tax was considered and dropped — it can't be sell-only, so it would hit buys and payouts too.</p></div>
+        <div class="tok-fact"><b>📉 Pools decay, never refill</b><p>Each game's pool releases a small share of what's left each day, so it tapers instead of running dry on a cliff.</p></div>
+      </div>
+
+      <p class="tok-note" style="margin:20px 0 0;font-size:11.5px">Bigger pools decay faster on purpose — GREEN LIFE and Dino Island ask more of a player's time, so they pay more. No $GREEN token exists yet and nothing here is for sale.</p>
+    </div>
     <div class="glg-jump-hint">Tap a game above, or pick a card below — they go to the same place.</div>
     <div class="glg-tiles">
       <a class="glg-tile" href="green-life.html">
