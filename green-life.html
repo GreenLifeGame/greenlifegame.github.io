@@ -45,23 +45,6 @@
   @media(max-width:760px){.nav-links{display:none}}
 
   /* wallet connect */
-  .wallet-wrap{position:relative;margin-left:14px}
-  .wallet-btn{font-family:var(--body);font-weight:800;font-size:12.5px;color:var(--ink);
-    background:var(--panel2);border:1px solid var(--line2);border-radius:999px;
-    padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
-    transition:border-color .15s,transform .12s}
-  .wallet-btn:hover{border-color:#666;transform:translateY(-1px)}
-  .wallet-btn.is-connected{border-color:rgba(82,227,0,.5);background:rgba(82,227,0,.1)}
-  .wallet-btn .dot{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);flex:none}
-  .wallet-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:210px;
-    background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:6px;
-    box-shadow:0 16px 40px rgba(0,0,0,.5);display:none;z-index:60}
-  .wallet-menu.open{display:block}
-  .wallet-menu button,.wallet-menu a{display:flex;align-items:center;gap:8px;width:100%;text-align:left;
-    background:none;border:none;color:var(--ink);font-family:var(--body);font-size:13px;font-weight:600;
-    padding:9px 10px;border-radius:8px;cursor:pointer}
-  .wallet-menu button:hover,.wallet-menu a:hover{background:var(--panel)}
-  .wallet-menu .addr{font-family:var(--mono);font-size:11.5px;color:var(--mut);padding:8px 10px 4px;word-break:break-all}
 
   /* status ribbon */
   .ribbon{background:linear-gradient(90deg,rgba(200,107,255,.14),rgba(82,227,0,.14));
@@ -70,15 +53,6 @@
 
   /* hero */
   .hero{text-align:center;padding:clamp(48px,9vw,96px) 0 clamp(30px,5vw,56px)}
-  .signup-bg{
-    background:
-      linear-gradient(180deg, rgba(8,8,12,.55) 0%, rgba(8,8,12,.72) 55%, var(--bg) 100%),
-      url("img/grow-room-bg.jpg");
-    background-size:cover; background-position:center 30%;
-    border-radius:24px; margin:0 clamp(-16px,-4vw,-40px) clamp(20px,4vw,40px);
-    padding:0 clamp(16px,4vw,40px) 1px;
-  }
-  @media(max-width:900px){ .signup-bg{border-radius:0; margin:0 0 clamp(20px,4vw,40px)} }
   .hero .logo{width:clamp(120px,22vw,168px);height:clamp(120px,22vw,168px);border-radius:30px;margin:0 auto 22px;
     box-shadow:0 0 70px rgba(120,90,255,.45)}
   .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border-radius:99px;
@@ -314,42 +288,19 @@
   .foot-social span.soon{opacity:.55;cursor:default}
   .foot-social .tag{font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--mut2);
     background:rgba(255,255,255,.06);border-radius:999px;padding:2px 7px}
+  /* Game guide pills — one row, same three destinations on every game page, so
+     a reader always knows a guide exists and which page they're on. The nav
+     above collapses under 760px; this row never does. */
+  .gpills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 clamp(18px,3vw,28px)}
+  .gpills a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;
+    padding:8px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line2);
+    color:var(--mut);transition:transform .15s,border-color .15s,color .15s}
+  .gpills a:hover{transform:translateY(-2px);color:var(--ink);border-color:var(--g)}
+  .gpills a.cur{color:#0a0a0e;background:var(--grad);border-color:transparent}
 </style>
 </head>
 <body>
 
-<!-- INTRO GATE — plays once on load, tap/click anywhere (or video end) skips straight to the page -->
-<div id="introGate">
-  <video id="introVideo" src="video/intro-teaser.mp4" autoplay muted playsinline></video>
-  <div id="introSkip">tap to skip</div>
-</div>
-<style>
-  #introGate{position:fixed;inset:0;z-index:9999;background:#050308;
-    display:flex;align-items:center;justify-content:center;cursor:pointer;
-    transition:opacity .5s ease;}
-  #introGate video{width:100%;height:100%;object-fit:cover;display:block}
-  #introSkip{position:absolute;left:0;right:0;bottom:clamp(20px,5vw,40px);text-align:center;
-    color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.15em;text-transform:uppercase;
-    font-family:var(--body);pointer-events:none}
-  #introGate.leaving{opacity:0}
-</style>
-<script>
-(function(){
-  var gate = document.getElementById("introGate");
-  var vid = document.getElementById("introVideo");
-  var done = false;
-  function finish(){
-    if(done) return;
-    done = true;
-    gate.classList.add("leaving");
-    setTimeout(function(){ gate.remove(); }, 520);
-  }
-  gate.addEventListener("click", finish);
-  if(vid){ vid.addEventListener("ended", finish); }
-  // safety net — never let a stalled/blocked video trap a visitor on the gate
-  setTimeout(finish, 14000);
-})();
-</script>
 <nav>
   <div class="nav-in">
     <a class="nav-logo" href="index.html#glgHub"><img src="img/glg/glg-icon.png" alt="GreenLifeGame"><span class="wm">GREENLIFEGAME</span></a>
@@ -363,34 +314,34 @@
       <a href="player-guide.html">Player Guide</a>
       <a href="plants-boosts-weapons-shields.html">Plants &amp; Boosts</a>
     </div>
-    <div class="wallet-wrap" id="walletWrap">
-      <button class="wallet-btn" id="walletBtn" type="button">👛 Connect Wallet</button>
-      <div class="wallet-menu" id="walletMenu"></div>
-    </div>
   </div>
 </nav>
 
 <div class="ribbon">🥚 <b>Pre-launch head start is open</b> — connect your X below and start banking Weedster Egg ticks before day one. No wallet, no cost.</div>
 
 <div class="wrap" id="top">
+    <nav class="gpills" aria-label="GREEN LIFE pages">
+      <a class="cur" href="green-life.html">📄 Overview</a>
+      <a href="player-guide.html">📖 Player Guide</a>
+      <a href="plants-boosts-weapons-shields.html">📊 Full Stats</a>
+    </nav>
 
-  <div class="signup-bg">
-  <!-- HERO -->
+  <!-- HERO — same shape as Simple Farmer and Mother Lode so the three read as
+       one platform: logo tile, tier badge, wordmark, one-line tagline, short
+       subline, two CTAs. The photo backdrop that used to wrap this was removed:
+       its own lettering collided with the wordmark and neither page sibling has
+       one. -->
   <header class="hero">
     <img class="logo" src="img/logo.png" alt="GREEN LIFE logo">
-    <div class="badge"><i></i> Pre-launch · Solana</div>
+    <div class="badge"><i></i> In Development · GLG Platform · Easy / Medium / Degen</div>
     <h1 class="wm">GREEN&nbsp;LIFE</h1>
-    <p class="tagline">Grow, breed, and earn on Solana — a <b style="color:var(--ink)">fixed-supply</b> play-to-earn game.</p>
-    <p class="subline">Fixed supply. Zero inflation. Play-to-earn on Solana — Rip Packs, Grow, Harvest, Breed Plants and earn <b>$GREEN</b>. Arm your farm with weapons, trade on the marketplace, and Rob or Bet Other Growers in Raids and Mini Games! 1 trillion tokens minted once, at launch, never again. Every token spent in-game is burned forever, for good.</p>
+    <p class="tagline">Grow. Breed. Raid. Earn.</p>
+    <p class="subline">Rip packs, grow and breed strains, arm your farm, raid rivals, and trade on the open marketplace. Runs on <b style="color:var(--ink)">$GREEN</b> — the same token every GreenLifeGame title shares — and every one spent in-game is burned forever.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="#headstart" style="display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3">
-        <span><span style="color:#ffc94d">$</span> Sign Up Now</span>
-        <span style="font-size:10.5px;font-weight:700;opacity:.75">Refer and earn ticks</span>
-      </a>
-      <a class="btn btn-ghost" href="plants-boosts-weapons-shields.html">🌿 See the Plants &amp; Boosts</a>
+      <a class="btn btn-primary" href="plants-boosts-weapons-shields.html">🌿 See the Plants &amp; Boosts</a>
+      <a class="btn btn-ghost" href="#headstart">🥚 Bank your head start</a>
     </div>
   </header>
-
   <!-- PRE-LAUNCH HEAD START -->
   <section id="headstart" style="padding-top:clamp(20px,4vw,40px)">
     <div class="headstart">
@@ -486,7 +437,6 @@
       </div>
     </div>
   </section>
-  </div>
 
   <!-- ABOUT -->
   <section id="about">
@@ -1071,140 +1021,6 @@
 })();
 </script>
 
-<script>
-(function(){
-  // Read-only connect for now (public key + a link-out later) — no transaction signing lives
-  // here. Plain injected-provider JS on purpose: this is a static site with no build step, and
-  // this same pattern is what the in-game wallet connect will build on top of later.
-  var TRUST_KEY = "gl_wallet_trusted";
-  var btn = document.getElementById("walletBtn");
-  var menu = document.getElementById("walletMenu");
-  var wrap = document.getElementById("walletWrap");
-  if(!btn || !menu || !wrap) return;
-
-  var state = { provider:null, name:null, pubkey:null };
-
-  function getPhantom(){
-    if(window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return window.phantom.solana;
-    if(window.solana && window.solana.isPhantom) return window.solana;
-    return null;
-  }
-  function getSolflare(){ return (window.solflare && window.solflare.isSolflare) ? window.solflare : null; }
-  function getBackpack(){ return (window.backpack && window.backpack.isBackpack) ? window.backpack : null; }
-  function available(){
-    var list = [];
-    var p = getPhantom(); if(p) list.push({ name:"Phantom", provider:p });
-    var s = getSolflare(); if(s) list.push({ name:"Solflare", provider:s });
-    var b = getBackpack(); if(b) list.push({ name:"Backpack", provider:b });
-    return list;
-  }
-  function short(addr){ return addr.slice(0,4) + "…" + addr.slice(-4); }
-
-  function renderDisconnected(){
-    btn.innerHTML = "👛 Connect Wallet";
-    btn.classList.remove("is-connected");
-    menu.classList.remove("open");
-    menu.innerHTML = "";
-  }
-  function renderConnected(){
-    btn.innerHTML = '<span class="dot"></span> ' + short(state.pubkey);
-    btn.classList.add("is-connected");
-  }
-
-  function buildPickerMenu(){
-    var list = available();
-    menu.innerHTML = "";
-    if(list.length === 0){
-      var none = document.createElement("div");
-      none.className = "addr";
-      none.textContent = "No Solana wallet found";
-      menu.appendChild(none);
-      [["Get Phantom","https://phantom.app/download"],["Get Solflare","https://solflare.com/download"]].forEach(function(pair){
-        var a = document.createElement("a");
-        a.href = pair[1]; a.target = "_blank"; a.rel = "noopener";
-        a.textContent = pair[0];
-        menu.appendChild(a);
-      });
-      return;
-    }
-    list.forEach(function(w){
-      var b = document.createElement("button");
-      b.type = "button";
-      b.textContent = "Connect " + w.name;
-      b.addEventListener("click", function(){ doConnect(w); });
-      menu.appendChild(b);
-    });
-  }
-
-  function buildConnectedMenu(){
-    menu.innerHTML = "";
-    var addr = document.createElement("div");
-    addr.className = "addr";
-    addr.textContent = state.pubkey;
-    menu.appendChild(addr);
-
-    var copy = document.createElement("button");
-    copy.type = "button";
-    copy.textContent = "📋 Copy address";
-    copy.addEventListener("click", function(){
-      if(navigator.clipboard) navigator.clipboard.writeText(state.pubkey).catch(function(){});
-      copy.textContent = "✓ Copied";
-      setTimeout(function(){ copy.textContent = "📋 Copy address"; }, 1400);
-    });
-    menu.appendChild(copy);
-
-    var disc = document.createElement("button");
-    disc.type = "button";
-    disc.textContent = "Disconnect";
-    disc.addEventListener("click", doDisconnect);
-    menu.appendChild(disc);
-  }
-
-  function doConnect(w){
-    w.provider.connect().then(function(resp){
-      var pk = (resp && resp.publicKey) || w.provider.publicKey;
-      state.provider = w.provider;
-      state.name = w.name;
-      state.pubkey = pk.toString();
-      localStorage.setItem(TRUST_KEY, w.name);
-      renderConnected();
-      menu.classList.remove("open");
-    }).catch(function(){ /* user closed the wallet popup — nothing to do */ });
-  }
-
-  function doDisconnect(){
-    if(state.provider && state.provider.disconnect){ try{ state.provider.disconnect(); }catch(e){} }
-    state.provider = null; state.name = null; state.pubkey = null;
-    localStorage.removeItem(TRUST_KEY);
-    renderDisconnected();
-  }
-
-  btn.addEventListener("click", function(e){
-    e.stopPropagation();
-    if(state.pubkey) buildConnectedMenu(); else buildPickerMenu();
-    menu.classList.toggle("open");
-  });
-  document.addEventListener("click", function(e){
-    if(!wrap.contains(e.target)) menu.classList.remove("open");
-  });
-
-  // Silent reconnect: only fires if this wallet already trusts this site from a prior visit,
-  // so returning players don't get a popup on every page load.
-  var trusted = localStorage.getItem(TRUST_KEY);
-  if(trusted){
-    var match = available().filter(function(w){ return w.name === trusted; })[0];
-    if(match){
-      match.provider.connect({ onlyIfTrusted:true }).then(function(resp){
-        var pk = (resp && resp.publicKey) || match.provider.publicKey;
-        state.provider = match.provider;
-        state.name = match.name;
-        state.pubkey = pk.toString();
-        renderConnected();
-      }).catch(function(){ localStorage.removeItem(TRUST_KEY); });
-    }
-  }
-})();
-</script>
 
 </body>
 </html>

@@ -116,9 +116,24 @@
     .tip.danger{border-left-color:#cc2200!important;}
     th{background:#222!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
+  /* Game guide pills — one row, same three destinations on every game page, so
+     a reader always knows a guide exists and which page they're on. The nav
+     above collapses under 760px; this row never does. */
+  .gpills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 clamp(18px,3vw,28px)}
+  .gpills a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;
+    padding:8px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line2);
+    color:var(--mut);transition:transform .15s,border-color .15s,color .15s}
+  .gpills a:hover{transform:translateY(-2px);color:var(--ink);border-color:var(--g)}
+  .gpills a.cur{color:#0a0a0e;background:var(--grad);border-color:transparent}
 </style>
 </head>
 <body>
+
+    <nav class="gpills" aria-label="Simple Farmer pages" style="max-width:1180px;margin:0 auto clamp(18px,3vw,28px);padding:18px clamp(16px,4vw,40px) 0">
+      <a href="simple-farmer.html">📄 Overview</a>
+      <a class="cur" href="simple-farmer-guide.html">📖 Player Guide</a>
+      <a href="simple-farmer-crops-boosts.html">📊 Full Stats</a>
+    </nav>
 
 <!-- COVER -->
 <div class="cover">
