@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>GREEN LIFE — Fixed-Supply P2E on Solana</title>
+<title>GreenLifeGame (GLG) — The Platform</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="GREEN LIFE is a cannabis farming play-to-earn game on Solana, powered by $GREEN — 420 billion tokens minted once, never again. In development, targeting launch in ~3–6 months.">
-<meta property="og:title" content="GREEN LIFE — Fixed-Supply P2E on Solana">
-<meta property="og:description" content="Grow, breed, and earn $GREEN on Solana. 420B fixed supply, minted once, never again. Every token spent in-game is burned forever. In development.">
+<meta name="description" content="GreenLifeGame (GLG) is a platform of play-to-earn games on Solana, sharing one token — $GREEN — 420 billion minted once, never again. GREEN LIFE and Simple Farmer are in development, with more games on the roadmap.">
+<meta property="og:title" content="GreenLifeGame (GLG) — The Platform">
+<meta property="og:description" content="One shared token, $GREEN, across a growing lineup of play-to-earn games on Solana. 420B fixed supply, minted once, never again.">
 <meta property="og:type" content="website">
 <style>
   :root{
@@ -318,25 +318,42 @@
 </head>
 <body>
 
-<!-- INTRO GATE — plays once on load, tap/click anywhere (or video end) skips straight to the page -->
-<div id="introGate">
-  <video id="introVideo" src="video/intro-teaser.mp4" autoplay muted playsinline></video>
-  <div id="introSkip">tap to skip</div>
+<!-- GLG INTRO SPLASH — plays once on load, mirrors the in-game IntroSplash (GLG mark +
+     wordmark + fixed-supply facts, pure CSS, no video). Tap anywhere or wait to skip. -->
+<div id="glgIntro">
+  <div class="glg-intro-ring"></div>
+  <img class="glg-intro-icon" src="img/glg/glg-icon.png" alt="GreenLifeGame">
+  <div class="glg-intro-wm">GREENLIFEGAME</div>
+  <div class="glg-intro-fact">FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA</div>
+  <div class="glg-intro-fact2">420B · MINTED ONCE · NEVER AGAIN</div>
+  <div class="glg-intro-tap">tap to enter</div>
 </div>
 <style>
-  #introGate{position:fixed;inset:0;z-index:9999;background:#050308;
-    display:flex;align-items:center;justify-content:center;cursor:pointer;
-    transition:opacity .5s ease;}
-  #introGate video{width:100%;height:100%;object-fit:cover;display:block}
-  #introSkip{position:absolute;left:0;right:0;bottom:clamp(20px,5vw,40px);text-align:center;
-    color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.15em;text-transform:uppercase;
-    font-family:var(--body);pointer-events:none}
-  #introGate.leaving{opacity:0}
+  #glgIntro{position:fixed;inset:0;z-index:9999;background:#050308;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+    transition:opacity .5s ease;text-align:center;padding:24px}
+  #glgIntro.leaving{opacity:0;pointer-events:none}
+  .glg-intro-ring{position:absolute;width:120px;height:120px;border-radius:50%;
+    border:1px solid rgba(120,90,255,.5);animation:glgRing 2.6s ease-out infinite}
+  @keyframes glgRing{0%{width:120px;height:120px;opacity:.9}100%{width:420px;height:420px;opacity:0}}
+  .glg-intro-icon{position:relative;width:clamp(72px,16vw,104px);height:clamp(72px,16vw,104px);border-radius:22px;
+    margin-bottom:22px;box-shadow:0 0 60px rgba(120,90,255,.55);animation:glgPop .9s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes glgPop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+  .glg-intro-wm{position:relative;font-family:var(--disp);font-weight:900;font-size:clamp(28px,7vw,52px);
+    letter-spacing:.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:glgFadeUp .8s ease .15s both}
+  .glg-intro-fact{position:relative;margin-top:16px;font-size:clamp(10.5px,2vw,12.5px);font-weight:800;letter-spacing:.16em;
+    color:#cdd0da;text-transform:uppercase;animation:glgFadeUp .8s ease .35s both}
+  .glg-intro-fact2{position:relative;margin-top:6px;font-size:clamp(10.5px,2vw,12.5px);font-weight:800;letter-spacing:.16em;
+    color:var(--mut);text-transform:uppercase;animation:glgFadeUp .8s ease .5s both}
+  @keyframes glgFadeUp{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+  .glg-intro-tap{position:absolute;left:0;right:0;bottom:clamp(20px,5vw,40px);text-align:center;
+    color:rgba(255,255,255,.5);font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+    font-family:var(--body);animation:glgFadeUp .8s ease .7s both}
 </style>
 <script>
 (function(){
-  var gate = document.getElementById("introGate");
-  var vid = document.getElementById("introVideo");
+  var gate = document.getElementById("glgIntro");
   var done = false;
   function finish(){
     if(done) return;
@@ -345,9 +362,7 @@
     setTimeout(function(){ gate.remove(); }, 520);
   }
   gate.addEventListener("click", finish);
-  if(vid){ vid.addEventListener("ended", finish); }
-  // safety net — never let a stalled/blocked video trap a visitor on the gate
-  setTimeout(finish, 14000);
+  setTimeout(finish, 3400);
 })();
 </script>
 
@@ -356,16 +371,8 @@
     <a class="nav-logo" href="#glgHub"><img src="img/glg/glg-icon.png" alt="GreenLifeGame"><span class="wm">GREENLIFEGAME</span></a>
     <div class="nav-links">
       <a href="#glgHub">🎮 All Games</a>
-      <a href="#about">GreenLife Overview</a>
-      <a href="#token">Tokenomics</a>
-      <a href="#roadmap">Roadmap</a>
+      <a href="green-life.html">🌿 GREEN LIFE</a>
       <a href="simple-farmer.html">🌾 Simple Farmer</a>
-      <a href="player-guide.html">Player Guide</a>
-      <a href="plants-boosts-weapons-shields.html">Plants &amp; Boosts</a>
-    </div>
-    <div class="wallet-wrap" id="walletWrap">
-      <button class="wallet-btn" id="walletBtn" type="button">👛 Connect Wallet</button>
-      <div class="wallet-menu" id="walletMenu"></div>
     </div>
   </div>
 </nav>
@@ -420,14 +427,14 @@
     <h1 class="wm">GREENLIFEGAME</h1>
     <p class="hub-sub">One shared token, <b style="color:var(--ink)">$GREEN</b> — a growing lineup of play-to-earn games on Solana, from easy-to-learn to true degen. Pick a world below.</p>
     <div class="glg-tiles">
-      <a class="glg-tile" href="#top">
+      <a class="glg-tile" href="green-life.html">
         <span class="pill dev">In Development</span>
         <img class="art" src="img/logo.png" alt="GREEN LIFE">
         <h3>GREEN LIFE</h3>
         <p>Cannabis farming P2E — breed strains, defend your farm, raid rivals. The flagship game.</p>
       </a>
       <a class="glg-tile" href="simple-farmer.html">
-        <span class="pill live">Live · Play Now</span>
+        <span class="pill dev">In Development</span>
         <img class="art" src="img/farmer-brand/simple-farmer-icon.png" alt="Simple Farmer">
         <h3>SIMPLE FARMER</h3>
         <p>Grow real produce, keep it easy. The GLG platform's Easy-tier entry point — same $GREEN token.</p>
@@ -481,841 +488,23 @@
 })();
 </script>
 
-<div class="ribbon">🥚 <b>Pre-launch head start is open</b> — connect your X below and start banking Weedster Egg ticks before day one. No wallet, no cost.</div>
-
-<div class="wrap" id="top">
-
-  <div class="signup-bg">
-  <!-- HERO -->
-  <header class="hero">
-    <img class="logo" src="img/logo.png" alt="GREEN LIFE logo">
-    <div class="badge"><i></i> Pre-launch · Solana</div>
-    <h1 class="wm">GREEN&nbsp;LIFE</h1>
-    <p class="tagline">Grow, breed, and earn on Solana — a <b style="color:var(--ink)">fixed-supply</b> play-to-earn game.</p>
-    <p class="subline">Fixed supply. Zero inflation. Play-to-earn on Solana — Rip Packs, Grow, Harvest, Breed Plants and earn <b>$GREEN</b>. Arm your farm with weapons, trade on the marketplace, and Rob or Bet Other Growers in Raids and Mini Games! 420 billion tokens minted once, at launch, never again. Every token spent in-game is burned forever, for good.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#headstart" style="display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3">
-        <span><span style="color:#ffc94d">$</span> Sign Up Now</span>
-        <span style="font-size:10.5px;font-weight:700;opacity:.75">Refer and earn ticks</span>
-      </a>
-      <a class="btn btn-ghost" href="plants-boosts-weapons-shields.html">🌿 See the Plants &amp; Boosts</a>
-    </div>
-  </header>
-
-  <!-- PRE-LAUNCH HEAD START -->
-  <section id="headstart" style="padding-top:clamp(20px,4vw,40px)">
-    <div class="headstart">
-      <div class="hs-grid">
-        <div>
-          <div class="hs-pill"><i></i> Pre-launch · earn before day one</div>
-          <h2 style="margin-bottom:12px">Start earning <span class="g">before the game even opens.</span></h2>
-          <p class="lede" style="margin-bottom:16px">In GREEN LIFE, <b>15 ticks = a Weedster Egg</b> — and every egg cracks a guaranteed <b style="color:var(--p)">Epic, Legendary, or Mythical</b> strain, the rarest cards in the game. You earn ticks by posting and referring friends. Connect your X now and you can <b>bank those ticks today</b>, so you walk into launch with eggs already waiting to crack.</p>
-          <div style="background:rgba(82,227,0,.14);border:1px solid rgba(82,227,0,.45);border-radius:12px;padding:14px 16px;margin:0 0 18px;box-shadow:0 0 20px rgba(82,227,0,.15)">
-            <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#a6ff8f;margin-bottom:10px">⚠️ Rules for Refer</div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <span style="font-size:13px;font-weight:800;color:#a6ff8f;letter-spacing:.01em">1. Following <a href="https://x.com/GreenLifeGame" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">@GreenLifeGame</a> on X to earn ticks</span>
-              <span style="font-size:13px;font-weight:800;color:#a6ff8f;letter-spacing:.01em">2. <a href="https://t.me/GreenLifeGame" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Join Chat Now</a></span>
-              <span style="font-size:13px;font-weight:800;color:#a6ff8f;letter-spacing:.01em;opacity:.55">3. Discord Coming Soon</span>
-            </div>
-          </div>
-          <div class="facts" style="margin-top:18px;grid-template-columns:1fr 1fr">
-            <div class="fact"><div class="fic">📣</div><h3>Post = +2 ticks</h3><p>Share the daily drop on X for <b>2 ticks</b> a day.</p></div>
-            <div class="fact"><div class="fic">🤝</div><h3>Refer = +1 tick</h3><p>Each friend who joins <b>and activates</b> at launch = <b>1 tick</b> — no cap.</p></div>
-          </div>
-        </div>
-
-        <div class="hs-panel" id="hsPanel">
-          <!-- disconnected -->
-          <div id="hsConnect">
-            <div class="hs-egg">🥚</div>
-            <h3 style="font-family:var(--disp);font-weight:900;font-size:19px;margin:12px 0 6px">Connect X to begin</h3>
-            <p style="color:var(--mut);font-size:13px;margin:0 0 16px">Just your public @handle — no login, no password, no wallet.</p>
-            <button class="x-btn" id="xShowInput">𝕏&nbsp; Connect X</button>
-            <div class="x-in" id="xInputRow" style="display:none">
-              <input id="xHandle" type="text" placeholder="yourhandle" autocomplete="off" spellcheck="false">
-              <button id="xGo">Go</button>
-            </div>
-            <p class="hs-note">Preview — tracked to your <b>X handle</b>, no wallet needed yet. Referral ticks land once each friend actually signs into the real game and activates their farm at launch — not the moment you share your link. Nothing here costs money or touches a wallet.</p>
-          </div>
-          <!-- connected -->
-          <div id="hsEarn" style="display:none">
-            <div class="hs-me">
-              <img id="hsPic" src="" alt="">
-              <div class="h" id="hsName" style="text-align:left">@you<small>your head start</small></div>
-            </div>
-            <div class="tickwrap">
-              <div class="tickbar" id="tickBar"></div>
-              <div class="tickcount"><span class="g" id="tickNum">0</span> / 15 ticks · <span id="eggNum">0</span> 🥚 banked</div>
-            </div>
-            <div class="hs-stats" style="grid-template-columns:repeat(3,1fr)">
-              <div class="hs-stat"><div class="n" id="totalTicksNum">0</div><div class="l">TOTAL TICKS EARNED</div></div>
-              <div class="hs-stat"><div class="n" id="referCountNum">0</div><div class="l">FRIENDS SIGNED UP</div></div>
-              <div class="hs-stat"><div class="n" id="referActivatedNum">0</div><div class="l">FRIENDS ACTIVATED</div></div>
-            </div>
-            <div class="earn-row">
-              <button class="earn-btn done" id="earnPost">📣 Post today <span class="soon-tag">+2 coming soon</span></button>
-              <button class="earn-btn" id="earnRefer">🤝 Copy invite link</button>
-            </div>
-            <div class="hs-egg-won" id="eggWon" style="display:none"></div>
-            <button class="hs-disconnect" id="hsDisconnect">Disconnect</button>
-            <p class="hs-note">At launch, connect the same X in-game to claim your eggs. Posts are re-checked — delete them and those ticks don't count. <b>"Friends signed up" counts anyone who's ever used your link</b> — no waiting on anything. <b>Referral ticks (and "friends activated") land once that friend actually connects the same X in-game and activates their own farm</b> — the same activation-only rule the real in-game referral system runs on, no exceptions.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- X FACTS — a rotating list Cody can post from any time, no daily gate (unlike the
-       in-game once-a-day tip). Purely a hype/share tool, not tied to the tick system. -->
-  <section id="xfacts" style="padding-top:clamp(16px,3vw,32px)">
-    <div class="hs-panel xfacts-panel">
-      <div class="hs-pill"><i></i> Something to post</div>
-      <h3 style="font-family:var(--disp);font-weight:900;font-size:19px;margin:0">GREEN LIFE fact</h3>
-      <p id="factText">Loading…</p>
-      <div class="xfacts-row">
-        <button class="x-btn" id="factPost" disabled>𝕏&nbsp; Post this <span class="soon-tag">+2 ticks coming soon</span></button>
-        <button class="xfacts-ghost" id="factShuffle">🔀 Show another</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- LEADERBOARD — public, no connect needed. Own block, separate from the head-start panel
-       and the facts panel above (Cody, 2026-07-31). Ranked by signups, since that's the metric
-       most likely to actually move before launch. -->
-  <section id="leaderboard" style="padding-top:clamp(16px,3vw,32px)">
-    <div class="center" style="max-width:560px">
-      <div class="hs-pill"><i></i> Real activity, right now</div>
-      <h2 style="margin-bottom:8px">Top referrers <span class="g">so far.</span></h2>
-      <p class="lede" style="margin-bottom:18px">Everyone banking a head start, ranked live — no connecting needed to see it.</p>
-    </div>
-    <div style="max-width:640px;margin:0 auto;overflow-x:auto">
-      <div id="lbLoading" style="text-align:center;color:var(--mut);font-size:13px;padding:20px">Loading leaderboard…</div>
-      <div id="lbEmpty" style="display:none;text-align:center;color:var(--mut);font-size:13px;padding:20px">Nobody's on the board yet — connect your X above and be the first.</div>
-      <div id="lbBox" style="display:none;min-width:420px">
-        <div class="lb-head"><span>#</span><span>Player</span><span>Signed up</span><span>Activated</span><span>Ticks</span></div>
-        <div id="lbRows" class="lb-scroll"></div>
-      </div>
-    </div>
-  </section>
-  </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="center" style="max-width:760px">
-      <div class="eyebrow">What is GREEN LIFE</div>
-      <h2>A play-to-earn grow game <span class="g">built to last</span>.</h2>
-      <p class="lede">GREEN LIFE is a cannabis farming game on the Solana blockchain. You start a grow, plant strains, water and tend them, then harvest for <b>$GREEN</b> — the game's token. Trade cards on a player marketplace, breed rare Mythical strains, open packs, and take on other growers in PvP. It plays like a game first — the earning is baked into the growing.</p>
-    </div>
-    <div class="stats">
-      <div class="stat"><div class="n">420B</div><div class="l">Fixed $GREEN supply</div></div>
-      <div class="stat"><div class="n">1×</div><div class="l">Minted once, never again</div></div>
-      <div class="stat"><div class="n">0%</div><div class="l">Inflation after launch</div></div>
-      <div class="stat"><div class="n">100%</div><div class="l">Of in-game spend is burned</div></div>
-    </div>
-  </section>
-
-  <!-- FIXED SUPPLY -->
-  <section id="token">
-    <div class="eyebrow">Tokenomics</div>
-    <h2>Fixed supply. <span class="g">Real scarcity.</span></h2>
-    <p class="lede">Most emission games print tokens forever until the reward is worthless. GREEN LIFE does the opposite: the entire <b>420,000,000,000 $GREEN</b> supply is minted <b>one time</b> at launch and the contract can never mint again. Rewards come out of a single shared <b>emissions pool</b> that drains slowly over years — and everything players spend in-game is <b>burned</b>, permanently shrinking the supply.</p>
-    <div class="grid g3" style="margin-top:34px">
-      <div class="card"><span class="ic">🔒</span><h3>Minted once</h3><p>420B $GREEN created at launch. The mint authority is burned — no team faucet, no surprise inflation, ever.</p></div>
-      <div class="card"><span class="ic">🔥</span><h3>Deflationary by design</h3><p>Breeding, packs, upgrades, marketplace fees — every $GREEN spent in-game is burned forever, not recycled.</p></div>
-      <div class="card"><span class="ic">🌊</span><h3>Slow, fair emissions</h3><p>Rewards flow from one pool that decays ~0.025%/day (about a 7.6-year half-life), so early growers don't drain it and there's runway for years.</p></div>
-    </div>
-  </section>
-
-  <!-- HOW TO PLAY -->
-  <section id="play">
-    <div class="eyebrow">How to play</div>
-    <h2>Plant → Grow → <span class="g">Harvest → Earn.</span></h2>
-    <p class="lede">Your farm's total <b>Grow Power</b> is your share of the emissions pool — the more power you grow, the more $GREEN you farm every second. Choose how you want to grow:</p>
-    <div class="grid g3" style="margin-top:30px">
-      <div class="card plant-card" style="--rc:#52e300"><span class="tag">Steady</span><span class="ic">🌿</span><h3>Normal Plants</h3><p>A 30-day grow cycle. The only plant you can supercharge with boost items. The steady, long-game backbone of your farm.</p></div>
-      <div class="card plant-card" style="--rc:#ffb24d"><span class="tag">Fast</span><span class="ic">⚡</span><h3>Fast Autos</h3><p>A flat 7-day grow-once. Earns a full month's payout in a week, but can't be boosted and pulls a one-and-done harvest. High speed, high commitment.</p></div>
-      <div class="card plant-card" style="--rc:#c86bff"><span class="tag">Rare</span><span class="ic">🧬</span><h3>Mythicals</h3><p>Bred from two strains or cracked from a Weedster Egg — never found in packs. One-of-a-kind power that you climb through breeding.</p></div>
-    </div>
-    <p class="lede" style="margin-top:22px">Plants need water or they wilt. Pull too early and you forfeit the grow. Let one finish and you claim the full payout — then reinvest into more plants, upgrades, and rarer genetics.</p>
-  </section>
-
-  <!-- ART SHOWCASE -->
-  <section>
-    <div class="eyebrow">The strains</div>
-    <h2>16 strains, <span class="g">every one hand-crafted.</span></h2>
-    <p class="lede">From bottom-shelf Dirt Weed to god-tier Mythical crossbreeds — each strain has its own original key-art. Full stats and Grow Power for every card live on the <a href="plants-boosts-weapons-shields.html">Plants &amp; Boosts</a> page.</p>
-    <div class="gallery">
-      <div class="gitem"><img loading="lazy" src="img/strains/dirtweed.jpg" alt="Dirt Weed"><span>Dirt Weed</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/runtz.jpg" alt="Runtz"><span>Runtz</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/bluedream.jpg" alt="Blue Dream"><span>Blue Dream</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/ogkush.jpg" alt="OG Kush"><span>OG Kush</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/sourdiesel.jpg" alt="Sour Diesel"><span>Sour Diesel</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/gorilla.jpg" alt="Gorilla Glue"><span>Gorilla Glue</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/pineapple.jpg" alt="Pineapple Express"><span>Pineapple Express</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/whitewidow.jpg" alt="White Widow"><span>White Widow</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/garypayton.jpg" alt="Gary Payton"><span>Gary Payton</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/gdp.jpg" alt="Grand Daddy Purple"><span>Grand Daddy Purple</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/fireasf.jpg" alt="Fire As Fuck"><span>Fire As F*ck</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/mexibrick.jpg" alt="Mexi-Brick"><span>Mexi-Brick</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/midsters.jpg" alt="Midsters"><span>Midsters</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/mauiwaui.jpg" alt="Maui Waui"><span>Maui Waui</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/singapore.jpg" alt="Singapore Sling"><span>Singapore Sling</span></div>
-      <div class="gitem"><img loading="lazy" src="img/strains/crossbreed.jpg" alt="Mythical strain art"><span>Mythical</span></div>
-    </div>
-    <div style="text-align:center;margin-top:24px"><a class="btn btn-ghost" href="plants-boosts-weapons-shields.html">See full stats for all 16 strains + 10 boosts →</a></div>
-  </section>
-
-  <!-- BOOSTS SHOWCASE -->
-  <section>
-    <div class="eyebrow">The boosts</div>
-    <h2>10 boosts to <span class="g">supercharge your grow.</span></h2>
-    <p class="lede">Five <b>plant boosts</b> pump a single plant's Grow Power; five <b>grower boosts</b> (cooked in the Kitchen) multiply your entire operation. Each has its own art — full effects live on the <a href="plants-boosts-weapons-shields.html">Plants &amp; Boosts</a> page.</p>
-    <div class="gallery-group-label">🌱 Plant Boosts — pump one plant's Grow Power</div>
-    <div class="gallery">
-      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/boosts/nutrient.jpg" alt="Nutrient Mix"><span>Nutrient Mix</span></div>
-      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/boosts/co2.jpg" alt="CO2 Burst"><span>CO₂ Burst</span></div>
-      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/boosts/spectrum.jpg" alt="Full Spectrum LEDs"><span>Full Spectrum LEDs</span></div>
-      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/boosts/root.jpg" alt="Root Stimulant"><span>Root Stimulant</span></div>
-      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/boosts/serum.jpg" alt="Mystery Serum"><span>Mystery Serum</span></div>
-    </div>
-    <div class="gallery-group-label">🍳 Grower Boosts — cooked in the Kitchen, multiply your whole operation</div>
-    <div class="gallery">
-      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/boosts/edibles.jpg" alt="Edibles"><span>Edibles</span></div>
-      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/boosts/wax.jpg" alt="Wax"><span>Wax</span></div>
-      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/boosts/hash.jpg" alt="Hash"><span>Hash</span></div>
-      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/boosts/carts.jpg" alt="Carts"><span>Carts</span></div>
-      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/boosts/thciv.jpg" alt="THC IV Line"><span>THC IV Line</span></div>
-    </div>
-  </section>
-
-  <!-- DEFEND SHOWCASE -->
-  <section>
-    <div class="eyebrow">Defend your farm</div>
-    <h2>Arm up. <span class="g">Guard your $GREEN.</span></h2>
-    <p class="lede">When rival growers raid you, your <b>weapons</b> add hidden Defense Power the attacker can't see, and <b>shields</b> make you flat-out un-raidable. Pull them from the Weapons/Defend pack or forge the top ones on the Combine bench — 10 weapons and 3 shields, all with original art.</p>
-    <div class="gallery">
-      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/weapons/deadbolt.jpg" alt="Dead Bolt"><span>Dead Bolt</span></div>
-      <div class="gitem"><b class="rc rC">Common</b><img loading="lazy" src="img/weapons/dog.jpg" alt="Guard Dog"><span>Guard Dog</span></div>
-      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/weapons/shank.jpg" alt="Shank"><span>Shank</span></div>
-      <div class="gitem"><b class="rc rU">Uncommon</b><img loading="lazy" src="img/weapons/cam.jpg" alt="Security Cam"><span>Security Cam</span></div>
-      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/weapons/pistol.jpg" alt="Pistol"><span>Pistol</span></div>
-      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/weapons/fence.jpg" alt="Razor Fence"><span>Razor Fence</span></div>
-      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/weapons/turret.jpg" alt="Auto-Turret"><span>Auto-Turret</span></div>
-      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/weapons/rpg.jpg" alt="RPG"><span>RPG</span></div>
-      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/weapons/drone.jpg" alt="Attack Drone"><span>Attack Drone</span></div>
-      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/weapons/gator.jpg" alt="Gator Pit"><span>Gator Pit</span></div>
-      <div class="gitem"><b class="rc rR">Rare</b><img loading="lazy" src="img/shields/shield8.jpg" alt="8-Hour Shield"><span>8-Hour Shield</span></div>
-      <div class="gitem"><b class="rc rE">Epic</b><img loading="lazy" src="img/shields/shield12.jpg" alt="12-Hour Shield"><span>12-Hour Shield</span></div>
-      <div class="gitem"><b class="rc rL">Legendary</b><img loading="lazy" src="img/shields/shield24.jpg" alt="24-Hour Shield"><span>24-Hour Shield</span></div>
-    </div>
-  </section>
-
-  <!-- MEET THE CREW -->
-  <section>
-    <div class="eyebrow">Meet the crew</div>
-    <h2>10 growers, <span class="g">each with a personality.</span></h2>
-    <p class="lede">Pick an avatar to run your farm — every one carries a permanent stat boost that stacks and never expires. Five are free (one unlocked per farm level); the rest are collectible. They also hang out in your 3D grow room and star in the game's videos.</p>
-    <p class="hs-note" style="margin-top:-8px;margin-bottom:4px">Hover a grower to hear them talk · tap to watch full screen
-      <button class="sound-toggle" id="crewSound" aria-pressed="true">🔊 Sound on</button>
-    </p>
-    <div class="crew" id="crewGrid">
-      <div class="c" data-name="Grower Girl" data-video="video/growergirl.mp4"><video muted loop playsinline preload="none" poster="img/avatars/growergirl_pic.jpg" src="video/growergirl.mp4"></video><span class="play-hint">▶</span><span>Grower Girl</span></div>
-      <div class="c" data-name="Grower Boy" data-video="video/growerboy.mp4"><video muted loop playsinline preload="none" poster="img/avatars/growerboy_pic.jpg" src="video/growerboy.mp4"></video><span class="play-hint">▶</span><span>Grower Boy</span></div>
-      <div class="c" data-name="Kong" data-video="video/kong.mp4"><video muted loop playsinline preload="none" poster="img/avatars/kong_pic.jpg" src="video/kong.mp4"></video><span class="play-hint">▶</span><span>Kong</span></div>
-      <div class="c" data-name="Puff Panda" data-video="video/panda.mp4"><video muted loop playsinline preload="none" poster="img/avatars/panda_pic.jpg" src="video/panda.mp4"></video><span class="play-hint">▶</span><span>Puff Panda</span></div>
-      <div class="c" data-name="Penguin" data-video="video/penguin.mp4"><video muted loop playsinline preload="none" poster="img/avatars/penguin_pic.jpg" src="video/penguin.mp4"></video><span class="play-hint">▶</span><span>Penguin</span></div>
-      <div class="c" data-name="Professor Chaos" data-video="video/professor.mp4"><video muted loop playsinline preload="none" poster="img/avatars/professor_pic.jpg" src="video/professor.mp4"></video><span class="play-hint">▶</span><span>Professor Chaos</span></div>
-      <div class="c" data-name="Bot" data-video="video/robot.mp4"><video muted loop playsinline preload="none" poster="img/avatars/robot_pic.jpg" src="video/robot.mp4"></video><span class="play-hint">▶</span><span>Bot</span></div>
-      <div class="c" data-name="Ribbit" data-video="video/frog.mp4"><video muted loop playsinline preload="none" poster="img/avatars/frog_pic.jpg" src="video/frog.mp4"></video><span class="play-hint">▶</span><span>Ribbit</span></div>
-      <div class="c" data-name="Cat" data-video="video/cat.mp4"><video muted loop playsinline preload="none" poster="img/avatars/cat_pic.jpg" src="video/cat.mp4"></video><span class="play-hint">▶</span><span>Cat</span></div>
-      <div class="c" data-name="Dog" data-video="video/dog.mp4"><video muted loop playsinline preload="none" poster="img/avatars/dog_pic.jpg" src="video/dog.mp4"></video><span class="play-hint">▶</span><span>Dog</span></div>
-    </div>
-  </section>
-
-  <!-- crew video lightbox -->
-  <div class="lightbox" id="crewLightbox">
-    <div class="lb-name" id="lbName"></div>
-    <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
-    <video id="lbVideo" controls autoplay loop playsinline></video>
-  </div>
-
-  <!-- PVP GAMES -->
-  <section>
-    <div class="eyebrow">Bet against other growers</div>
-    <h2>5 PvP games, <span class="g">all wagered in $GREEN.</span></h2>
-    <p class="lede">Every game runs on the same simple rule: a small house fee (2.5% burned · 2.5% treasury, 10% on Rob) — everything else goes to the winner.</p>
-    <div class="games">
-      <div class="gamecard"><img loading="lazy" src="img/pvp/rob_hero.jpg" alt="Rob"><span class="gc-fee">10% fee</span>
-        <div class="gc-body"><h3>🥷 Rob</h3><p>Send your combined power to raid a rival's farm for their $GREEN — full cinematic faceoff, anti-grief shields protect newcomers.</p></div></div>
-      <div class="gamecard"><img loading="lazy" src="img/pvp/bong_hero.jpg" alt="Spin The Bong"><span class="gc-fee">5% fee</span>
-        <div class="gc-body"><h3>💨 Spin The Bong</h3><p>2–10 growers ante the same bet, the bong spins, and it picks a winner — Heads Up, Winner Take All, or Elimination.</p></div></div>
-      <div class="gamecard"><img loading="lazy" src="img/pvp/rps_hero.jpg" alt="Rock Paper Scissors"><span class="gc-fee">5% fee</span>
-        <div class="gc-body"><h3>✊ Rock Paper Scissors</h3><p>Heads-up — lock in your 7 moves in secret, then watch them reveal turn by turn. First to 3 points takes the pot.</p></div></div>
-      <div class="gamecard"><img loading="lazy" src="img/pvp/bud_hero.jpg" alt="Closest to the Bud"><span class="gc-fee">5% fee</span>
-        <div class="gc-body"><h3>🎯 Closest to the Bud</h3><p>Up to 25 players each pick a number 1–420. Closest guesses split the prize nugs — you can win more than one.</p></div></div>
-      <div class="gamecard"><img loading="lazy" src="img/pvp/burn_hero.jpg" alt="Greedy Smoker"><span class="gc-fee">5% fee</span>
-        <div class="gc-body"><h3>🔥 Greedy Smoker</h3><p>Everyone antes into the circle and passes the joint. Hold it too long and you bust — cash out before it burns out to keep your share.</p></div></div>
-    </div>
-    <p class="lede" style="margin-top:20px">All 5 also run as scheduled <b>Tournaments</b> — bigger pools, a countdown, and a live broadcast alert when it's time to play.</p>
-  </section>
-
-  <!-- COOL FACTS -->
-  <section>
-    <div class="eyebrow">Why it's different</div>
-    <h2>Cool things about <span class="g">GREEN LIFE.</span></h2>
-    <div class="facts">
-      <div class="fact"><div class="fic">🔒</div><h3>The team can't rug it</h3><p>The huge held-back token reserve lives in a contract vault with <b>no withdraw key</b> — not the devs, not anyone. It can only ever fund liquidity or get burned.</p></div>
-      <div class="fact"><div class="fic">👛</div><h3>The game never holds your tokens</h3><p>There's no custodial wallet. Every buy and payout signs <b>straight from your own wallet</b>, so a hack can't drain the players.</p></div>
-      <div class="fact"><div class="fic">🔥</div><h3>420B, then it only shrinks</h3><p>Minted <b>once</b>, never again — and every token spent in-game is burned forever. Supply tightens as the game grows.</p></div>
-      <div class="fact"><div class="fic">🧬</div><h3>Mythicals are truly rare</h3><p>The top tier is never in a normal pack. You only get one by <b>breeding</b> or cracking a Weedster Egg — each one unique.</p></div>
-      <div class="fact"><div class="fic">🎲</div><h3>Nothing is rigged</h3><p>Packs, breeds, and PvP all roll on-chain through a <b>Verifiable Random Function</b>. No one can predict or fix an outcome.</p></div>
-      <div class="fact"><div class="fic">⚙️</div><h3>Self-sufficient after launch</h3><p>Once it's live the economy runs itself — locked vaults, auto burns, per-trade fees. The team just steers the treasury.</p></div>
-      <div class="fact"><div class="fic">🎮</div><h3>A game first</h3><p>Grow, breed, cook, raid, spin the bong, run tournaments, decorate a 3D room. The earning is baked into playing, not bolted on.</p></div>
-      <div class="fact"><div class="fic">◎</div><h3>Built on Solana</h3><p>Fast and cheap, so growing, trading, and PvP feel like a game — not a gas bill.</p></div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="eyebrow">Features</div>
-    <h2>A whole game, <span class="g">not just a farm.</span></h2>
-    <div class="grid g3" style="margin-top:30px">
-      <div class="card"><span class="ic">🧬</span><h3>Breeding</h3><p>Cross two strains to chase a one-of-a-kind Mythical. Rarer parents, better odds — the only way to mint the top tier.</p></div>
-      <div class="card"><span class="ic">🎴</span><h3>Packs &amp; Reveals</h3><p>Rip Seed, Mystery, Booster, Weapons/Defend, and the premium daily PRIMO 3-Pack — every one with its own cinematic reveal. Mystery packs roll plants, boosts, or defend gear.</p></div>
-      <div class="card"><span class="ic">🔧</span><h3>The Combine Bench</h3><p>Trade a stack of your lowest cards up into a top-tier prize — forge a Mystery Serum, a THC IV Line, a Gator Pit, or a shield from your spare commons.</p></div>
-      <div class="card"><span class="ic">🥚</span><h3>Weedster Egg</h3><p>Earn eggs by posting and referring friends. Crack them for guaranteed Epic+ pulls — the only non-breed path to a Mythical.</p></div>
-      <div class="card"><span class="ic">🎮</span><h3>PvP — Rob &amp; Raid</h3><p>Send crews to raid rival farms for $GREEN, with anti-grief shields so newcomers aren't farmed.</p></div>
-      <div class="card"><span class="ic">🎰</span><h3>PvP — Spin The Bong</h3><p>2–10 growers ante up and the bong spins to pick winners across three game modes. Winner takes the pot.</p></div>
-      <div class="card"><span class="ic">🍳</span><h3>The Kitchen</h3><p>Cook plant cards into grower boosts — premium, scarce consumables that multiply your whole operation.</p></div>
-      <div class="card"><span class="ic">🏪</span><h3>Player Marketplace</h3><p>List and buy strains, boosts, and eggs peer-to-peer. Live floor prices per rarity; a flat fee funds buyback-and-burn.</p></div>
-      <div class="card"><span class="ic">🤝</span><h3>Referrals</h3><p>Invite growers and earn 3% of what they earn and spend, 1% from their referrals, 0.01% one level deeper — capped there, never further. Every share link is baked in, feeding both your rewards and your egg progress.</p></div>
-      <div class="card"><span class="ic">🏙️</span><h3>3D Grow Rooms</h3><p>Watch your plants and companions in real 3D rooms that level up from a bedroom to a full warehouse.</p></div>
-    </div>
-  </section>
-
-  <!-- TRUST -->
-  <section>
-    <div class="eyebrow">Built to be fair</div>
-    <h2>Provably fair, <span class="g">on-chain.</span></h2>
-    <div class="grid g2" style="margin-top:30px">
-      <div class="card"><span class="ic">🎲</span><h3>Verifiable randomness (VRF)</h3><p>Every random outcome — packs, breeds, PvP spins — resolves on-chain through a Verifiable Random Function. No one, not even the house, can rig a result.</p></div>
-      <div class="card"><span class="ic">🔗</span><h3>On-chain ownership</h3><p>Your farm, cards, and $GREEN live on Solana — yours to hold, trade, or sell. Temporary accounts refund their rent back to you on settle.</p></div>
-      <div class="card"><span class="ic">🔥</span><h3>Burn-on-spend</h3><p>Forfeited and spent $GREEN is burned, not pocketed. The economy tightens as the game grows.</p></div>
-      <div class="card"><span class="ic">🔒</span><h3>No infinite mint</h3><p>420B, one time. The math is fixed at launch and can't be changed to dilute holders later.</p></div>
-    </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <section id="roadmap">
-    <div class="eyebrow">Roadmap</div>
-    <h2>Where we are — <span class="g">and where we're headed.</span></h2>
-    <p class="lede">GREEN LIFE is being built carefully, in the open. Below is the honest state of things. <b>Timelines are estimates, not promises</b> — we'd rather launch right than launch fast.</p>
-    <div class="road">
-      <div class="phase now" style="--pc:rgba(82,227,0,.12)">
-        <div class="dot">✅</div>
-        <div><div class="when">Now · In progress</div><h3>The game is built &amp; in testing</h3>
-          <p>Core farming loop, three plant types, breeding, five pack types (incl. the daily PRIMO 3-Pack), the Weedster Egg, PvP (Rob/Raid &amp; Spin The Bong), Weapons &amp; shields to defend your farm, the Combine bench, the Kitchen, the player marketplace, referrals, 3D grow rooms, and original art for every strain, boost, weapon, and shield — all playable in an internal build.</p></div>
-      </div>
-      <div class="phase" style="--pc:rgba(77,166,255,.12)">
-        <div class="dot">⚙️</div>
-        <div><div class="when">Next</div><h3>Solana smart contracts &amp; audits</h3>
-          <p>Moving the farm, emissions, breeding, marketplace, and PvP on-chain with Anchor, wiring up VRF for fair randomness, then testing hard on devnet and putting the contracts through review.</p></div>
-      </div>
-      <div class="phase" style="--pc:rgba(200,107,255,.14)">
-        <div class="dot">🚀</div>
-        <div><div class="when">Launch · ~3–6 months out</div><h3>Public launch &amp; token generation</h3>
-          <p>The one-time mint of 420B $GREEN and the public opening of GREEN LIFE. This is an estimated window, not a fixed date — <b>the game is not live yet and there is nothing to buy today.</b></p></div>
-      </div>
-      <div class="phase" style="--pc:rgba(255,178,77,.12)">
-        <div class="dot">🍄</div>
-        <div><div class="when">After launch</div><h3>New worlds to grow</h3>
-          <p>Fully on-chain PvP loot, deeper 3D rooms, and a post-launch <b>Mushroom Farm</b> expansion for new ways to earn — plus whatever the community grows into.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section>
-    <div class="cta-band">
-      <div class="eyebrow" style="color:#d7c4ff">Follow the grow</div>
-      <h2 style="margin-bottom:12px">Early, but <span class="g">real.</span></h2>
-      <p class="lede center" style="max-width:52ch">GREEN LIFE isn't live yet — but the game is built and the genetics are ready. Bank your Weedster Egg head start now, then dig into every strain while we finish the on-chain build.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="#headstart" style="display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3">
-          <span><span style="color:#ffc94d">$</span> Sign Up Now</span>
-          <span style="font-size:10.5px;font-weight:700;opacity:.75">Refer and earn ticks</span>
-        </a>
-        <a class="btn btn-ghost" href="plants-boosts-weapons-shields.html">🌿 Explore the Plants &amp; Boosts</a>
-        <span class="locked-teaser" title="Opens at launch">🔒 Buy Your Farm — opens at launch</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section>
-    <div class="eyebrow">FAQ</div>
-    <h2>Straight answers.</h2>
-    <div style="margin-top:26px">
-      <details><summary>Is GREEN LIFE live? Can I buy the token?</summary><p>No. The game is in active development, targeting launch in roughly 3–6 months. No $GREEN token exists yet, nothing is for sale, and anyone claiming to sell $GREEN today is not us.</p></details>
-      <details><summary>What makes it "fixed-supply"?</summary><p>The full 420 billion $GREEN is minted a single time at launch and the mint authority is burned. No inflation, no team faucet, no way to print more later.</p></details>
-      <details><summary>How do I actually earn?</summary><p>You grow plants. Your total Grow Power is your share of a shared emissions pool, paying out $GREEN over time. You can also trade cards, breed rare Mythicals, and win PvP.</p></details>
-      <details><summary>What stops it from crashing like other P2E games?</summary><p>No infinite minting, a pool that emits slowly over years, and a burn on everything spent in-game — so supply tightens instead of ballooning as more people play.</p></details>
-      <details><summary>Which blockchain?</summary><p>Solana — fast and cheap, so growing, trading, and PvP feel like a game, not a gas bill.</p></details>
-      <details><summary>Is it fair / can outcomes be rigged?</summary><p>Random outcomes resolve on-chain via a Verifiable Random Function (VRF). No one — player, team, or validator — can predict or fix a result.</p></details>
-    </div>
-  </section>
-
-</div>
-
-<footer>
+<footer style="border-top:1px solid var(--line);padding:40px 0 60px;margin-top:20px">
   <div class="wrap">
-    <div class="foot-social">
-      <a href="https://x.com/GreenLifeGame" target="_blank" rel="noopener">𝕏 @GreenLifeGame</a>
-      <a href="https://t.me/GreenLifeGame" target="_blank" rel="noopener">✈️ Telegram</a>
-      <span class="soon">💬 Discord <span class="tag">Coming soon</span></span>
+    <div style="background:rgba(255,178,77,.05);border:1px solid rgba(255,178,77,.2);border-radius:14px;padding:18px 20px;margin-bottom:26px">
+      <h4 style="margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffcf8f">⚠️ Important — please read</h4>
+      <p style="margin:0;color:var(--mut);font-size:12.5px;line-height:1.6">GreenLifeGame (GLG) is a platform of play-to-earn video games on Solana. Every game listed above is in some stage of development — as of now there is no $GREEN token in existence, nothing for sale, and no live game with real players. This page is for informational purposes only. It is not financial, investment, or legal advice, and it is not an offer or solicitation to buy or sell any token, security, or asset. Do your own research. Beware of scams and imposters.</p>
     </div>
-    <div class="disclaimer">
-      <h4>⚠️ Important — please read</h4>
-      <p>GREEN LIFE is an in-development video game and is <b>not yet launched</b>. As of now there is <b>no $GREEN token in existence, nothing for sale, and no live game</b>. Any launch window mentioned (currently an estimated ~3–6 months) is a goal, not a guarantee, and may change. This page is for informational purposes only. It is not financial, investment, or legal advice, and it is not an offer or solicitation to buy or sell any token, security, or asset. Do your own research. Beware of scams and imposters — this project has no token sale, presale, or airdrop at this time.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <a href="https://x.com/GreenLifeGame" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink)">𝕏 @GreenLifeGame</a>
+      <a href="https://t.me/GreenLifeGame" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink)">✈️ Telegram</a>
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--mut);opacity:.55">💬 Discord — Coming soon</span>
     </div>
-    <div class="foot-b">
-      <div class="fm">GREEN LIFE</div>
-      <div class="fine">420,000,000,000 $GREEN · minted once · burned forever · built on Solana</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-family:var(--disp);font-weight:900;letter-spacing:.24em;font-size:13px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">GREENLIFEGAME</div>
+      <div style="color:var(--mut2);font-size:12px">One shared token, $GREEN · fixed supply, minted once · built on Solana</div>
     </div>
   </div>
 </footer>
-
-<script>
-(function(){
-  // ── Pre-launch head start: connect X (public handle only, no login) + bank Weedster Egg ticks.
-  // Saved in localStorage so a visitor's progress persists on their device. Real cross-device
-  // crediting to the connected X happens at launch via the backend (see note in the panel).
-  var TARGET = 15, POST = 2, DAY = 864e5;
-  var KEY = "gl_headstart_v1";
-  var GAME_URL = location.origin + location.pathname; // referral link base
-  var el = function(id){ return document.getElementById(id); };
-  var load = function(){ try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){ return null; } };
-  var save = function(s){ try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){} };
-  var state = load(); // { handle, ticks, eggs, lastPost, refCount, referActivated, accountId }
-  // Two different counters, on purpose (Cody, 2026-07-31): refCount is a pure headcount — everyone
-  // who ever used your code, no gate, no tick attached, since it's the only thing that CAN happen
-  // before the game launches. referActivated is the one that actually pays a tick out (via
-  // credit_referral, once that friend later mints a real farm) — never conflate the two. Neither
-  // is ever bumped by this device's own clicks; both only ever come back from account-link.
-
-  // ── Real backend (Supabase Edge Functions) — LIVE 2026-07-31 ──────────────
-  // The anon key below is SAFE to ship in plain HTML: every table has RLS on
-  // with no policies, so this key can read/write nothing directly — it only
-  // authenticates the call to account-link, which does the real work
-  // server-side with the service-role key. See supabase/functions/account-link.
-  var SUPABASE_URL = "https://uvwvcioeqxnxahijlbau.supabase.co";
-  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2d3ZjaW9lcXhueGFoaWpsYmF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyOTAzNDIsImV4cCI6MjEwMDg2NjM0Mn0.CNP0GnnvWBsvOeDJj1cqG88S6YtjqgNN3YEwKV1f9HE";
-  // Capture ?ref= once at page load — a person who arrived via a friend's
-  // invite link gets that code applied the moment they connect X below.
-  var refFromUrl = (function(){
-    var m = location.search.match(/[?&]ref=([^&]+)/);
-    return m ? decodeURIComponent(m[1]) : null;
-  })();
-  function linkAccount(kind, value, referredByCode){
-    return fetch(SUPABASE_URL + "/functions/v1/account-link", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + SUPABASE_ANON_KEY },
-      body: JSON.stringify(referredByCode ? { kind: kind, value: value, referred_by_code: referredByCode } : { kind: kind, value: value }),
-    }).then(function(r){ return r.json(); }).then(function(j){ return j && j.ok ? j : null; }).catch(function(){ return null; });
-    // Fails silent on purpose — an unreachable backend must never block connecting X or
-    // strand a visitor; the local ticks/eggs/link still work, only the real friend count
-    // and the permanent account linkage wait for the next successful call.
-  }
-
-  function render(){
-    if(!state){ el("hsConnect").style.display="block"; el("hsEarn").style.display="none"; return; }
-    el("hsConnect").style.display="none";
-    el("hsEarn").style.display="block";
-    el("hsPic").src = "https://unavatar.io/twitter/" + encodeURIComponent(state.handle);
-    el("hsPic").onerror = function(){ this.onerror=null; this.src="img/logo.png"; };
-    el("hsName").innerHTML = "@"+state.handle+"<small>your head start</small>";
-    var into = state.ticks % TARGET;
-    el("tickNum").textContent = into;
-    el("eggNum").textContent = state.eggs;
-    // tick bar
-    var bar = el("tickBar"); bar.innerHTML = "";
-    for(var i=0;i<TARGET;i++){ var d=document.createElement("div"); d.className="t"+(i<into?" on":""); bar.appendChild(d); }
-    // lifetime counters — state.ticks is already the running total (never reset by the modulo
-    // bar above), so it's real right now. refCount/referActivated stay honestly at 0 until the
-    // backend's had a chance to answer (see connect()'s linkAccount call below).
-    el("totalTicksNum").textContent = state.ticks;
-    el("referCountNum").textContent = state.refCount || 0;
-    el("referActivatedNum").textContent = state.referActivated || 0;
-    // earnPost stays permanently greyed (class="earn-btn done" in the HTML, "+2 coming soon")
-    // until real X-post verification is live — render() must NEVER touch its class/label here,
-    // or it would un-grey itself the next time this function runs (e.g. right after connecting).
-    // egg banner
-    el("eggWon").style.display = state.eggs>0 ? "block" : "none";
-    if(state.eggs>0) el("eggWon").textContent = "🥚 " + state.eggs + " Weedster Egg" + (state.eggs>1?"s":"") + " banked — waiting for you at launch!";
-  }
-
-  function addTicks(n){
-    var before = Math.floor(state.ticks / TARGET);
-    state.ticks += n;
-    var after = Math.floor(state.ticks / TARGET);
-    if(after > before) state.eggs += (after - before);
-    save(state); render();
-  }
-
-  // connect flow
-  el("xShowInput").addEventListener("click", function(){
-    el("xInputRow").style.display="flex"; el("xHandle").focus();
-  });
-  function connect(){
-    var h = (el("xHandle").value||"").trim().replace(/^@+/,"").replace(/\s+/g,"");
-    if(!h) return;
-    state = { handle:h, ticks:0, eggs:0, lastPost:0, refCount:0, referActivated:0, accountId:null };
-    save(state); render();
-    // Real account link — creates (or finds) this X handle's permanent account, and if they
-    // arrived via a friend's ?ref= link, records that pending referral (credited only once
-    // THIS handle later activates a real farm in-game — see credit_referral in schema.sql).
-    linkAccount("x_handle", h, refFromUrl).then(function(linked){
-      if(!linked || !state || state.handle !== h) return; // stale response (e.g. disconnected meanwhile)
-      state.accountId = linked.account_id;
-      state.refCount = linked.referred_signup_count;
-      state.referActivated = linked.referred_activated_count;
-      save(state); render();
-    });
-  }
-  el("xGo").addEventListener("click", connect);
-  el("xHandle").addEventListener("keydown", function(e){ if(e.key==="Enter") connect(); });
-
-  // earn: post on X (+2, once/day) — opens a real tweet with the referral link baked in.
-  // GREYED OUT / not live yet: the "done" class only blocks pointer clicks (pointer-events:none
-  // doesn't stop a keyboard Enter/Space on a focused button), so this early return is the real
-  // guard. Remove it — and the "done" class + "coming soon" label in the HTML — together, once
-  // X-post verification actually ships.
-  el("earnPost").addEventListener("click", function(){
-    return; // TODO: remove once real X-post verification (12h check) is live
-    if(state.lastPost && (Date.now()-state.lastPost < DAY)) return;
-    var ref = GAME_URL + "?ref=" + encodeURIComponent(state.handle);
-    var text = "🌿 I'm banking my head start for GREEN LIFE — fixed-supply, zero-inflation P2E on Solana. 420B minted once, never again. Grow, breed & earn $GREEN 👇\n" + ref + "\n#GREENLIFE #Solana";
-    window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text), "_blank", "noopener");
-    state.lastPost = Date.now();
-    addTicks(POST);
-  });
-
-  // earn: copy invite link. No instant tick here — clicking your OWN copy button isn't a
-  // friend signing up, so it would be dishonest to reward it. The real +1 lands later, via the
-  // backend's credit_referral(), the moment that friend actually activates their own farm.
-  el("earnRefer").addEventListener("click", function(){
-    var ref = GAME_URL + "?ref=" + encodeURIComponent(state.handle);
-    try { navigator.clipboard.writeText(ref); } catch(e){}
-    var b = el("earnRefer"); var old = b.innerHTML;
-    b.innerHTML = "✓ Link copied!";
-    setTimeout(function(){ b.innerHTML = old; }, 1400);
-  });
-
-  // ── LEADERBOARD — public, no connect needed, its own block (Cody, 2026-07-31: "make a
-  //    leader board with all 3 stats... that way everyone can see overall stats"). Hits the
-  //    leaderboard Edge Function once on load; every visitor sees it, connected or not.
-  function loadLeaderboard(){
-    fetch(SUPABASE_URL + "/functions/v1/leaderboard", {
-      headers: { "Authorization": "Bearer " + SUPABASE_ANON_KEY },
-    }).then(function(r){ return r.json(); }).then(function(j){
-      el("lbLoading").style.display = "none";
-      var rows = (j && j.ok) ? j.rows : [];
-      if(!rows.length){ el("lbEmpty").style.display = "block"; return; }
-      var top = ["top1","top2","top3"];
-      var html = "";
-      rows.forEach(function(row, i){
-        html += '<div class="lb-row">'
-          + '<div class="lb-rank' + (top[i] ? " " + top[i] : "") + '">' + (i+1) + '</div>'
-          + '<div class="lb-handle">@' + row.handle + '</div>'
-          + '<div class="lb-stat">' + row.signups + '</div>'
-          + '<div class="lb-stat">' + row.activated + '</div>'
-          + '<div class="lb-stat">' + row.ticks + '</div>'
-          + '</div>';
-      });
-      el("lbRows").innerHTML = html;
-      el("lbBox").style.display = "block";
-    }).catch(function(){
-      el("lbLoading").textContent = "Couldn't load the leaderboard right now.";
-    });
-  }
-  loadLeaderboard();
-
-  el("hsDisconnect").addEventListener("click", function(){
-    if(!confirm("Disconnect and clear your saved head start on this device?")) return;
-    state = null; try { localStorage.removeItem(KEY); } catch(e){}
-    el("xInputRow").style.display="none"; el("xHandle").value="";
-    render();
-  });
-
-  render();
-  // Returning visitor — re-sync their real counts. Referral credits land whenever the friend
-  // THEY referred eventually activates (could be days later), so the numbers saved from their
-  // last visit are frozen until this runs. Silent no-op if unreachable or not yet connected.
-  if(state && state.accountId){
-    linkAccount("x_handle", state.handle).then(function(linked){
-      if(!linked || !state) return;
-      state.refCount = linked.referred_signup_count;
-      state.referActivated = linked.referred_activated_count;
-      save(state); render();
-    });
-  }
-
-  // ── X FACTS — a growing list Cody can post from any time, no daily gate. Purely a hype/
-  //    share tool; posting here does NOT earn ticks (that's what the "Post today" button is
-  //    for) — this is just an easy way to keep fresh, factual content going out on X.
-  //    Add more facts any time: just append a string to this array.
-  var SITE_FACTS = [
-    "420,000,000,000 $GREEN mints once at launch. The mint authority gets revoked right after — no team faucet, no surprise inflation, ever.",
-    "Every $GREEN spent in-game — packs, breeding, upgrades — gets burned forever. Not recycled, not returned to anyone.",
-    "10% of every marketplace trade splits automatically: 5% buys back and burns $GREEN, 5% goes to treasury. No manual step, no delay.",
-    "The emissions pool decays about 0.025% a day — a ~7.6 year half-life. Built to last for years, not drain in a month.",
-    "Breeding two Mythicals together ALWAYS fuses into a bigger one — guaranteed, no coin flip.",
-    "Fast Autos harvest a full cycle in just 7 days instead of 30 — built for players who want a faster turnaround.",
-    "5 PvP mini-games at launch: Rob/Raid, Spin The Bong, Rock Paper Scissors, Closest to the Bud, and Greedy Smoker.",
-    "A Weedster Egg always cracks an Epic, Legendary, or Mythical plant — no weak pulls, ever.",
-    "Buy-in SOL doesn't sit with the team — it routes straight into the liquidity pool, by design.",
-    "GREEN LIFE's economy has ONE emissions rate dial, and it's hard-capped at 2% forever — even a compromised key can't mint past that ceiling."
-  ];
-  var lastFactIdx = -1;
-  function pickFact(){
-    if(SITE_FACTS.length <= 1) return 0;
-    var i;
-    do { i = Math.floor(Math.random()*SITE_FACTS.length); } while(i === lastFactIdx);
-    lastFactIdx = i;
-    return i;
-  }
-  function showFact(){ el("factText").textContent = SITE_FACTS[pickFact()]; }
-  el("factShuffle").addEventListener("click", showFact);
-  // factPost is `disabled` in the HTML for now (+2 ticks coming soon, greyed out) — a disabled
-  // button never fires click, so this handler is inert until the disabled attribute is removed
-  // once fact-posting actually earns ticks.
-  el("factPost").addEventListener("click", function(){
-    var text = "🌿 " + el("factText").textContent + "\n\n" + GAME_URL + "\n#GREENLIFE #Solana";
-    window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text), "_blank", "noopener");
-  });
-  showFact();
-})();
-</script>
-
-<script>
-(function(){
-  // ── Crew gallery: hover plays the preview inline, click opens a full-screen lightbox.
-  // Videos use preload="none" — nothing downloads until you actually hover/click a card.
-  var grid = document.getElementById("crewGrid");
-  if(!grid) return;
-  var lightbox = document.getElementById("crewLightbox");
-  var lbVideo = document.getElementById("lbVideo");
-  var lbName = document.getElementById("lbName");
-  var lbClose = document.getElementById("lbClose");
-
-  // Hover plays WITH sound. Browsers refuse unmuted playback until the visitor has
-  // interacted with the page at least once, so the first hover falls back to silent
-  // and we retry with sound as soon as any click/key/scroll gives us permission.
-  var soundBtn = document.getElementById("crewSound");
-  var soundOn = true;      // what the visitor wants
-  var canSound = false;    // what the browser currently allows
-  var nowPlaying = null;
-
-  function markGesture(){
-    if(canSound) return;
-    canSound = true;
-    // if they're already hovering something silent, bring the sound in immediately
-    if(nowPlaying && soundOn) nowPlaying.muted = false;
-  }
-  ["pointerdown","keydown","touchstart"].forEach(function(evt){
-    document.addEventListener(evt, markGesture, { once:false, passive:true });
-  });
-
-  function stopCard(v){
-    if(!v) return;
-    v.pause(); v.currentTime = 0; v.muted = true;
-    if(v.parentElement) v.parentElement.classList.remove("playing");
-  }
-
-  if(soundBtn){
-    soundBtn.addEventListener("click", function(){
-      soundOn = !soundOn;
-      soundBtn.textContent = soundOn ? "🔊 Sound on" : "🔇 Sound off";
-      soundBtn.setAttribute("aria-pressed", String(soundOn));
-      if(nowPlaying) nowPlaying.muted = !soundOn || !canSound;
-    });
-  }
-
-  grid.querySelectorAll(".c").forEach(function(card){
-    var v = card.querySelector("video");
-    card.addEventListener("mouseenter", function(){
-      if(nowPlaying && nowPlaying !== v) stopCard(nowPlaying);   // only one voice at a time
-      nowPlaying = v;
-      card.classList.add("playing");
-      v.currentTime = 0;
-      v.muted = !(soundOn && canSound);
-      v.play().catch(function(){
-        // unmuted play refused — drop to silent so the preview still runs
-        v.muted = true;
-        v.play().catch(function(){});
-      });
-    });
-    card.addEventListener("mouseleave", function(){
-      stopCard(v);
-      if(nowPlaying === v) nowPlaying = null;
-    });
-    card.addEventListener("click", function(){
-      stopCard(v);                      // don't let the hover preview talk over the lightbox
-      if(nowPlaying === v) nowPlaying = null;
-      lbVideo.src = card.dataset.video;
-      lbName.textContent = card.dataset.name;
-      lightbox.classList.add("open");
-      lbVideo.currentTime = 0;
-      lbVideo.play().catch(function(){});
-    });
-  });
-
-  function closeLightbox(){
-    lightbox.classList.remove("open");
-    lbVideo.pause();
-    lbVideo.removeAttribute("src");
-    lbVideo.load();
-  }
-  lbClose.addEventListener("click", closeLightbox);
-  lightbox.addEventListener("click", function(e){ if(e.target === lightbox) closeLightbox(); });
-  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLightbox(); });
-})();
-</script>
-
-<script>
-(function(){
-  // Read-only connect for now (public key + a link-out later) — no transaction signing lives
-  // here. Plain injected-provider JS on purpose: this is a static site with no build step, and
-  // this same pattern is what the in-game wallet connect will build on top of later.
-  var TRUST_KEY = "gl_wallet_trusted";
-  var btn = document.getElementById("walletBtn");
-  var menu = document.getElementById("walletMenu");
-  var wrap = document.getElementById("walletWrap");
-  if(!btn || !menu || !wrap) return;
-
-  var state = { provider:null, name:null, pubkey:null };
-
-  function getPhantom(){
-    if(window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return window.phantom.solana;
-    if(window.solana && window.solana.isPhantom) return window.solana;
-    return null;
-  }
-  function getSolflare(){ return (window.solflare && window.solflare.isSolflare) ? window.solflare : null; }
-  function getBackpack(){ return (window.backpack && window.backpack.isBackpack) ? window.backpack : null; }
-  function available(){
-    var list = [];
-    var p = getPhantom(); if(p) list.push({ name:"Phantom", provider:p });
-    var s = getSolflare(); if(s) list.push({ name:"Solflare", provider:s });
-    var b = getBackpack(); if(b) list.push({ name:"Backpack", provider:b });
-    return list;
-  }
-  function short(addr){ return addr.slice(0,4) + "…" + addr.slice(-4); }
-
-  function renderDisconnected(){
-    btn.innerHTML = "👛 Connect Wallet";
-    btn.classList.remove("is-connected");
-    menu.classList.remove("open");
-    menu.innerHTML = "";
-  }
-  function renderConnected(){
-    btn.innerHTML = '<span class="dot"></span> ' + short(state.pubkey);
-    btn.classList.add("is-connected");
-  }
-
-  function buildPickerMenu(){
-    var list = available();
-    menu.innerHTML = "";
-    if(list.length === 0){
-      var none = document.createElement("div");
-      none.className = "addr";
-      none.textContent = "No Solana wallet found";
-      menu.appendChild(none);
-      [["Get Phantom","https://phantom.app/download"],["Get Solflare","https://solflare.com/download"]].forEach(function(pair){
-        var a = document.createElement("a");
-        a.href = pair[1]; a.target = "_blank"; a.rel = "noopener";
-        a.textContent = pair[0];
-        menu.appendChild(a);
-      });
-      return;
-    }
-    list.forEach(function(w){
-      var b = document.createElement("button");
-      b.type = "button";
-      b.textContent = "Connect " + w.name;
-      b.addEventListener("click", function(){ doConnect(w); });
-      menu.appendChild(b);
-    });
-  }
-
-  function buildConnectedMenu(){
-    menu.innerHTML = "";
-    var addr = document.createElement("div");
-    addr.className = "addr";
-    addr.textContent = state.pubkey;
-    menu.appendChild(addr);
-
-    var copy = document.createElement("button");
-    copy.type = "button";
-    copy.textContent = "📋 Copy address";
-    copy.addEventListener("click", function(){
-      if(navigator.clipboard) navigator.clipboard.writeText(state.pubkey).catch(function(){});
-      copy.textContent = "✓ Copied";
-      setTimeout(function(){ copy.textContent = "📋 Copy address"; }, 1400);
-    });
-    menu.appendChild(copy);
-
-    var disc = document.createElement("button");
-    disc.type = "button";
-    disc.textContent = "Disconnect";
-    disc.addEventListener("click", doDisconnect);
-    menu.appendChild(disc);
-  }
-
-  function doConnect(w){
-    w.provider.connect().then(function(resp){
-      var pk = (resp && resp.publicKey) || w.provider.publicKey;
-      state.provider = w.provider;
-      state.name = w.name;
-      state.pubkey = pk.toString();
-      localStorage.setItem(TRUST_KEY, w.name);
-      renderConnected();
-      menu.classList.remove("open");
-    }).catch(function(){ /* user closed the wallet popup — nothing to do */ });
-  }
-
-  function doDisconnect(){
-    if(state.provider && state.provider.disconnect){ try{ state.provider.disconnect(); }catch(e){} }
-    state.provider = null; state.name = null; state.pubkey = null;
-    localStorage.removeItem(TRUST_KEY);
-    renderDisconnected();
-  }
-
-  btn.addEventListener("click", function(e){
-    e.stopPropagation();
-    if(state.pubkey) buildConnectedMenu(); else buildPickerMenu();
-    menu.classList.toggle("open");
-  });
-  document.addEventListener("click", function(e){
-    if(!wrap.contains(e.target)) menu.classList.remove("open");
-  });
-
-  // Silent reconnect: only fires if this wallet already trusts this site from a prior visit,
-  // so returning players don't get a popup on every page load.
-  var trusted = localStorage.getItem(TRUST_KEY);
-  if(trusted){
-    var match = available().filter(function(w){ return w.name === trusted; })[0];
-    if(match){
-      match.provider.connect({ onlyIfTrusted:true }).then(function(resp){
-        var pk = (resp && resp.publicKey) || match.provider.publicKey;
-        state.provider = match.provider;
-        state.name = match.name;
-        state.pubkey = pk.toString();
-        renderConnected();
-      }).catch(function(){ localStorage.removeItem(TRUST_KEY); });
-    }
-  }
-})();
-</script>
 
 </body>
 </html>
