@@ -446,6 +446,14 @@
   .tok-fact{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
   .tok-fact b{display:block;font-size:12.5px;margin-bottom:4px}
   .tok-fact p{margin:0;font-size:12px;color:var(--mut);line-height:1.5}
+  .tok-fact p+p{margin-top:8px}
+  .tok-fact.wide{grid-column:span 2}
+  @media (max-width:520px){.tok-fact.wide{grid-column:span 1}}
+  .tok-bracket{display:flex;flex-direction:column;gap:5px;margin:9px 0}
+  .tok-bracket div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    font-size:11.5px;padding:6px 9px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px}
+  .tok-bracket span{color:var(--mut)}
+  .tok-bracket b{font-family:var(--mono);font-weight:800;color:var(--g);white-space:nowrap}
   .glg-modal{position:fixed;inset:0;z-index:200;background:rgba(4,4,8,.86);backdrop-filter:blur(6px);
     display:none;align-items:center;justify-content:center;padding:20px}
   .glg-modal.open{display:flex}
@@ -526,8 +534,17 @@
         <div class="tok-fact"><b>🔥 Spending burns it</b><p>Every $GREEN spent inside any GLG game is destroyed. Supply only ever moves one direction.</p></div>
         <div class="tok-fact"><b>🚫 No sell tax</b><p>Classic SPL token, no transfer fee. A tax was considered and dropped — it can't be sell-only, so it would hit buys and payouts too.</p></div>
         <div class="tok-fact"><b>📉 Pools decay, never refill</b><p>Each game's pool releases a small share of what's left each day, so it tapers instead of running dry on a cliff.</p></div>
-        <div class="tok-fact"><b>💱 SOL, USDC or USDT</b><p>Every SOL-priced purchase can be paid in any of the three — stablecoins auto-swap to SOL in the same transaction via Jupiter. The economy always settles in SOL underneath; the swap fee is the payer's, not the game's.</p></div>
-        <div class="tok-fact"><b>💧 Depth first, then buyback-burn</b><p>Early SOL goes straight into LP depth — 100% while the pool's under $25K, tapering to 50% once it's deep — so one big buy can't thin it out. Every marketplace trade also auto-buys and burns $GREEN with a slice of its fee, real demand pressure, not a scheduled event.</p></div>
+        <div class="tok-fact"><b>💱 SOL, USDC or USDT</b><p>Every SOL-priced purchase can be paid in any of the three — stablecoins auto-swap to SOL in the same transaction via Jupiter. Whichever you pay with, it lands in the same place: the LP Curve, below.</p></div>
+        <div class="tok-fact wide">
+          <b>💧 The LP Curve — depth first, then buyback-burn</b>
+          <p>Every purchase's SOL is paired with $GREEN pulled from the platform's shared 50B LP Reserve, at the pool's live ratio, and added straight to the real on-chain pool. That's a balanced deposit, not a trade — it deepens the pool without moving price. Where each dollar splits depends on how deep the pool already is, not market cap:</p>
+          <div class="tok-bracket">
+            <div><span>Pool under $25K</span><b>100% → LP</b></div>
+            <div><span>$25K – $100K</span><b>75% LP · 25% Treasury</b></div>
+            <div><span>$100K and up</span><b>50% LP · 50% Treasury</b></div>
+          </div>
+          <p>Buyback-burn is separate and it's the one thing that DOES move price: every marketplace trade's 10% fee sends 5% back through the pool as a real swap — buying $GREEN with SOL and burning it on the spot — so trading volume itself is what pushes price up over time.</p>
+        </div>
       </div>
 
       <p class="tok-note" style="margin:20px 0 0;font-size:11.5px">Bigger pools decay faster on purpose — GREEN LIFE and Dino Island ask more of a player's time, so they pay more. No $GREEN token exists yet and nothing here is for sale.</p>
