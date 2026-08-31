@@ -449,6 +449,11 @@
   .tok-fact p+p{margin-top:8px}
   .tok-fact.wide{grid-column:span 2}
   @media (max-width:520px){.tok-fact.wide{grid-column:span 1}}
+  /* .centered: always its own full-width row (regardless of how many cards
+     precede it or how wide the viewport is — a plain span:2 wraps
+     unpredictably depending on odd/even card count), then capped narrower
+     and margin-centered within that row. Overrides .wide's span. */
+  .tok-fact.centered{grid-column:1/-1;max-width:640px;margin:0 auto}
   .tok-bracket{display:flex;flex-direction:column;gap:5px;margin:9px 0}
   .tok-bracket div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
     font-size:11.5px;padding:6px 9px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px}
@@ -531,11 +536,12 @@
 
       <div class="tok-facts">
         <div class="tok-fact"><b>🔒 Minted once, never again</b><p>The mint authority is revoked immediately after launch. Not a promise — the network itself rejects any further mint.</p></div>
+        <div class="tok-fact"><b>🚫 No tax</b><p>Classic SPL token — no transfer fee, no buy tax, no sell tax. One was considered and dropped: it can't be one-sided, so it would hit buys and payouts too.</p></div>
+        <div class="tok-fact"><b>📉 Pools decay — the only way out</b><p>Each game's pool releases a small share of what's left every day, and that daily release is the ONLY way $GREEN ever leaves it — no admin withdraw, no other drain. It tapers instead of running dry on a cliff.</p></div>
         <div class="tok-fact"><b>🔥 Spending burns it</b><p>Every $GREEN spent inside any GLG game is destroyed. Supply only ever moves one direction.</p></div>
-        <div class="tok-fact"><b>🚫 No sell tax</b><p>Classic SPL token, no transfer fee. A tax was considered and dropped — it can't be sell-only, so it would hit buys and payouts too.</p></div>
-        <div class="tok-fact"><b>📉 Pools decay, never refill</b><p>Each game's pool releases a small share of what's left each day, so it tapers instead of running dry on a cliff.</p></div>
+        <div class="tok-fact"><b>🔄 Marketplace &amp; swap</b><p>Every player-to-player trade runs through the in-game marketplace — a 10% fee splits 90% to the seller, 5% buyback-burn, 5% treasury. Need SOL ↔ $GREEN directly instead? The in-game swap widget routes through the same live pool, no other app required.</p></div>
         <div class="tok-fact"><b>💱 SOL, USDC or USDT</b><p>Every SOL-priced purchase can be paid in any of the three — stablecoins auto-swap to SOL in the same transaction via Jupiter. Whichever you pay with, it lands in the same place: the LP Curve, below.</p></div>
-        <div class="tok-fact wide">
+        <div class="tok-fact wide centered">
           <b>💧 The LP Curve — depth first, then buyback-burn</b>
           <p>Every purchase's SOL is paired with $GREEN pulled from the platform's shared 50B LP Reserve, at the pool's live ratio, and added straight to the real on-chain pool. That's a balanced deposit, not a trade — it deepens the pool without moving price. Where each dollar splits depends on how deep the pool already is, not market cap:</p>
           <div class="tok-bracket">
