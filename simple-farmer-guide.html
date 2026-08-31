@@ -116,24 +116,9 @@
     .tip.danger{border-left-color:#cc2200!important;}
     th{background:#222!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
-  /* Game guide pills — one row, same three destinations on every game page, so
-     a reader always knows a guide exists and which page they're on. The nav
-     above collapses under 760px; this row never does. */
-  .gpills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 clamp(18px,3vw,28px)}
-  .gpills a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;
-    padding:8px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line2);
-    color:var(--mut);transition:transform .15s,border-color .15s,color .15s}
-  .gpills a:hover{transform:translateY(-2px);color:var(--ink);border-color:var(--g)}
-  .gpills a.cur{color:#0a0a0e;background:var(--grad);border-color:transparent}
 </style>
 </head>
 <body>
-
-    <nav class="gpills" aria-label="Simple Farmer pages" style="max-width:1180px;margin:0 auto clamp(18px,3vw,28px);padding:18px clamp(16px,4vw,40px) 0">
-      <a href="simple-farmer.html">📄 Overview</a>
-      <a class="cur" href="simple-farmer-guide.html">📖 Player Guide</a>
-      <a href="simple-farmer-crops-boosts.html">📊 Full Stats</a>
-    </nav>
 
 <!-- COVER -->
 <div class="cover">
@@ -216,7 +201,7 @@
     <h3>Getting Around — the Bottom Nav</h3>
     <div class="twrap"><table>
       <tr><th>Tab</th><th>What's There</th></tr>
-      <tr><td>🏡 <strong>Farm</strong></td><td>Your home screen — the live earnings ticker, farm level, the pack carousel, GLG Raffle, and GLG Lottery.</td></tr>
+      <tr><td>🏡 <strong>Farm</strong></td><td>Your home screen — the live earnings ticker, farm level, the pack carousel, Simple Farmer Raffle, and GLG Lottery.</td></tr>
       <tr><td>🌱 <strong>Garden</strong></td><td>Five garden tiers behind one picker — plant cards, harvest, boost, and buy plots.</td></tr>
       <tr><td>🧬 <strong>Breed</strong></td><td>Pair two crop cards and gamble on stronger offspring.</td></tr>
       <tr><td>🏪 <strong>Market</strong></td><td>Buy and sell crop and boost cards with other farmers, priced in SOL.</td></tr>
@@ -299,7 +284,7 @@
     </div>
 
     <h3>All 16 Crops</h3>
-    <p>Common, Uncommon, and Rare each have 4 crops (2 veggies + 2 fruits). Epic and Legendary have 2 each (1 veggie + 1 fruit). Grow time climbs +2.5 days per rarity step, 10 days up to 30. Power shown is at the 1X Garden — a higher tier multiplies it.</p>
+    <p>Common, Uncommon, and Rare each have 4 crops (2 veggies + 2 fruits). Epic and Legendary have 2 each (1 veggie + 1 fruit). Grow time climbs +2.5 days per step within Common/Uncommon/Rare (10 → 12.5, 15 → 17.5, 20 → 22.5), then +2.5 again crossing each of those tiers — except the last jump, Epic to Legendary, which is +5 days (25 → 30), since Epic and Legendary each only have one grow-time value instead of two. Power shown is at the 1X Garden — a higher tier multiplies it.</p>
     <div class="twrap"><table>
       <tr><th>Rarity</th><th>Crop</th><th>Type</th><th>Days (1X)</th><th>Power (1X)</th></tr>
       <tr><td><span class="r-common">Common</span></td><td>🥔 Potato</td><td>Veggie</td><td class="mono">10</td><td class="mono">100</td></tr>
@@ -310,7 +295,7 @@
       <tr><td><span class="r-uncommon">Uncommon</span></td><td>🍎 Apple</td><td>Fruit</td><td class="mono">15</td><td class="mono">1,500</td></tr>
       <tr><td><span class="r-uncommon">Uncommon</span></td><td>🍅 Tomato</td><td>Veggie</td><td class="mono">17.5</td><td class="mono">5,000</td></tr>
       <tr><td><span class="r-uncommon">Uncommon</span></td><td>🥭 Mango</td><td>Fruit</td><td class="mono">17.5</td><td class="mono">7,500</td></tr>
-      <tr><td><span class="r-rare">Rare</span></td><td>🥬 Brussel Sprouts</td><td>Veggie</td><td class="mono">20</td><td class="mono">10,000</td></tr>
+      <tr><td><span class="r-rare">Rare</span></td><td>🥬 Brussels Sprouts</td><td>Veggie</td><td class="mono">20</td><td class="mono">10,000</td></tr>
       <tr><td><span class="r-rare">Rare</span></td><td>🥝 Kiwano</td><td>Fruit</td><td class="mono">20</td><td class="mono">20,000</td></tr>
       <tr><td><span class="r-rare">Rare</span></td><td>🥦 Romanesco Broccoli</td><td>Veggie</td><td class="mono">22.5</td><td class="mono">50,000</td></tr>
       <tr><td><span class="r-rare">Rare</span></td><td>🐉 Dragon Fruit</td><td>Fruit</td><td class="mono">22.5</td><td class="mono">75,000</td></tr>
@@ -397,7 +382,7 @@
       <tr><td>🐝 Beehive</td><td><span class="r-epic">Epic</span></td><td class="mono">+10%</td></tr>
       <tr><td>☀️ Solar Array</td><td><span class="r-legendary">Legendary</span></td><td class="mono">+20%</td></tr>
     </table></div>
-    <p>Boosts are deliberately gentler than a garden multiplier — the 1×–100× tiers already do the heavy lifting on power here. Get them from Boost Packs, the 30/40 split inside a Mystery Pack, or a failed crossbreed's consolation prize.</p>
+    <p>Boosts are deliberately gentler than a garden multiplier — the 1×–100× tiers already do the heavy lifting on power here. Get them from Boost Packs, the 60% boost / 40% crop split inside a Mystery Pack, or a failed crossbreed's consolation prize.</p>
     <div class="tip warn"><b>Don't boost a finished crop.</b> A boost raises what a plant earns <em>while</em> it's growing — a plant already at 100% has stopped earning, so applying one there burns the card for nothing. The game blocks it and tells you to harvest first.</div>
   </div>
 
@@ -470,7 +455,7 @@
 
   <!-- 11. LOTTERY -->
   <div class="sec" id="lottery">
-    <div class="sec-eyebrow">11 — GLG Lottery &amp; GLG Raffle</div>
+    <div class="sec-eyebrow">11 — GLG Lottery &amp; Simple Farmer Raffle</div>
     <h2>🎟️ GLG Lottery — Four Standing Pools</h2>
     <p>Each Lottery is shared between all GLG games — Simple Farmer, Mother Lode, and GREEN LIFE all buy into the exact same four pools, not four separate ones per game. Buy tickets any time — more tickets, better odds — and when the clock hits zero, one weighted‑random winner takes the whole prize.</p>
     <div class="twrap"><table>
@@ -484,25 +469,25 @@
     <div class="tip">The pot can also grow without a single extra ticket sold — admins can drop a bonus straight into a pool's prize pot, $GREEN or SOL, no ticket bought and no fee taken. It splits proportionally among whoever's already holding a ticket when the round draws.</div>
     <div class="honest" style="margin:18px 0;"><b>Honest note:</b> ticket purchases and admin bonus top‑ups are now recorded for real, instantly, in a shared server ledger across all three GLG games — a ticket bought here and one bought in another GLG game land in the literal same pool. What you actually <em>see</em>, though — the countdown, the winner, the payout — still runs on this device: bot tickets fill the rest of the pool and the draw itself is resolved client‑side. Real money must never enter a client‑resolved random draw, so that last piece waits on the real draw going live.</div>
 
-    <h2>🎁 GLG Raffle — Three Standing Pools</h2>
-    <p>Don't mix this up with the Lottery above — it works the opposite way. GLG Raffle is <strong>free to enter and entirely funded by GLG itself</strong>, and it's <strong>Simple Farmer's own</strong> — these 3 pools have nothing to do with GREEN LIFE's or Mother Lode's copies of the same feature.</p>
+    <h2>🎁 Simple Farmer Raffle — Three Standing Pools</h2>
+    <p>Don't mix this up with the Lottery above — it works the opposite way. Simple Farmer Raffle is <strong>free to enter and entirely funded by GLG itself</strong>, and it's <strong>Simple Farmer's own</strong> — these 3 pools have nothing to do with GREEN LIFE's or Mother Lode's copies of the same feature.</p>
     <div class="twrap"><table>
       <tr><th>Pool</th><th>Draws Every</th></tr>
       <tr><td>🍀 GLG Daily Raffle</td><td>24 hours</td></tr>
       <tr><td>⭐ GLG Weekly Raffle</td><td>7 days</td></tr>
       <tr><td>👑 GLG Monthly Raffle</td><td>30 days</td></tr>
     </table></div>
-    <p>You need a <strong>GLG Raffle Ticket</strong> to enter — one universal ticket that works on any of the 3 pools, not a separate ticket per pool. Spending one into a pool costs nothing extra; the only cost, if any, is getting the ticket itself. Buy tickets on Marketplace → 🎫 Pass for <strong>$0.25 each</strong>, or earn free ones from the Season Pass — see the next section. Tap or hold a pool's tile any time to see exactly what it's paying out before you commit a ticket.</p>
+    <p>You need a <strong>Simple Farmer Raffle Ticket</strong> to enter — one universal ticket that works on any of the 3 pools, not a separate ticket per pool. Spending one into a pool costs nothing extra; the only cost, if any, is getting the ticket itself. Buy tickets on Marketplace → 🎫 Pass for <strong>$0.25 each</strong>, or earn free ones from the Season Pass — see the next section. Tap or hold a pool's tile any time to see exactly what it's paying out before you commit a ticket.</p>
     <div class="tip">Every prize is hand‑picked by admin, not built from ticket sales — $GREEN, packs, or even a specific named crop card, sometimes several at once. Admin can also drop in a one‑off surprise pool alongside the usual 3 that draws once and vanishes — keep an eye out for a 4th tile.</div>
-    <div class="honest" style="margin:18px 0;"><b>Honest note:</b> unlike GLG Lottery above, GLG Raffle has no shared backend at all right now — every pool, every ticket, and every draw lives only on this device, and Simple Farmer's pools never touch GREEN LIFE's or Mother Lode's.</div>
+    <div class="honest" style="margin:18px 0;"><b>Honest note:</b> unlike GLG Lottery above, Simple Farmer Raffle has no shared backend at all right now — every pool, every ticket, and every draw lives only on this device, and Simple Farmer's pools never touch GREEN LIFE's or Mother Lode's.</div>
 
     <h2>🎫 GLG Master Pass — One Pass, Every GLG Game, For Life</h2>
     <p>Sits right below the Raffle panel on <strong>Marketplace → 🎫 Pass</strong>. It's a <strong>one-time buy, one per wallet, that never expires and can never be sold or traded</strong> — the opposite of a collectible: nothing to flip, nothing to speculate on, just a real, permanent perk. Own it in Simple Farmer and it's already recognized in GREEN LIFE and Mother Lode too, since all three games check the exact same account.</p>
     <div class="twrap"><table>
-      <tr><th>Starting price</th><th>Rises</th><th>Price ceiling</th><th>Total supply</th></tr>
-      <tr><td class="mono">$25</td><td class="mono">+$5 every 100 sold</td><td class="mono">$100 (forever, once hit)</td><td class="mono">1,000 units</td></tr>
+      <tr><th>Starting price</th><th>Rises</th><th>Config safety ceiling</th><th>Total supply</th></tr>
+      <tr><td class="mono">$25</td><td class="mono">+$5 every 100 sold</td><td class="mono">$100 (never actually reached — see below)</td><td class="mono">1,000 units</td></tr>
     </table></div>
-    <p>Paid in SOL. The tab shows the live current price and how many units are left in real time — it's the same one shared pool of 1,000 across all 3 GLG games, so watching that count matters if you're on the fence. Once it's gone, it's gone; there's no waiting for the price to drop back down.</p>
+    <p>Paid in SOL. The tab shows the live current price and how many units are left in real time — it's the same one shared pool of 1,000 across all 3 GLG games, so watching that count matters if you're on the fence. Once it's gone, it's gone; there's no waiting for the price to drop back down. In practice the 1,000-unit supply cap always sells out first — the last pass ever sold (#1,000) goes for $70, so the $100 figure is a config safety ceiling on the price dial itself, not a price you'll ever actually see charged.</p>
     <p>What you get: your normal perk in every GLG game you actually play (the same bonus a game's own perk system would give you), plus a bonus-pack-rate boost that gets bigger the more of the 3 GLG games you're active in — the tab shows you exactly which games you're covered in and what your current rate is.</p>
     <div class="tip">Already own it? My Profile shows "GLG Master Game Pass Owned" right under your picture instead of the usual ad for it.</div>
   </div>
@@ -518,7 +503,7 @@
       <tr><td>👑 Premium</td><td>4 bonus bundles</td><td class="mono">$4.99 (SOL)</td><td>One extra bundled reward at the end of each week, on top of Free, never instead of it. Buy it and claim your weekly bundle right from the Season Pass popup, or from <strong>Marketplace → 🎫 Pass</strong> — both show the same thing.</td></tr>
       <tr><td>🌟 Welcome</td><td>5</td><td>Free</td><td>One-time onboarding ladder for new players — 35 points per tier, only 175 points needed even though the full task list adds up to far more. Its own <strong>🌱 Welcome Tasks</strong> pill sits right under your picture on My Profile — not part of the Season Pass popup below.</td></tr>
     </table></div>
-    <p>Rewards span the same things you'd pull from a pack — plant cards, boost cards, Seed/Mystery/Boost/PRIMO packs, and GLG Raffle Tickets — building up to bigger multi-item bundles at the later tiers.</p>
+    <p>Rewards span the same things you'd pull from a pack — plant cards, boost cards, Seed/Mystery/Boost/PRIMO packs, and Simple Farmer Raffle Tickets — building up to bigger multi-item bundles at the later tiers.</p>
     <h3>Where points come from</h3>
     <div class="twrap"><table>
       <tr><th>Type</th><th>Resets</th><th>Tasks (20–40 pts each)</th></tr>
@@ -526,7 +511,7 @@
       <tr><td>Weekly</td><td>Every real week</td><td>List anything on the Marketplace · CrossBreed once · Buy or open a paid pack</td></tr>
       <tr><td>Welcome (one-time)</td><td>Never resets</td><td>Mint your farm, plant/harvest/boost your first time, plant or harvest multiple at once, list something, share your invite, and buy one of each pack type</td></tr>
     </table></div>
-    <div class="tip">Check your points, daily/weekly tasks, and Free-track claims by tapping "Open Season Pass" right under your picture on My Profile; it opens as its own popup, so you never lose your place. Your <strong>Welcome ladder</strong> now has its own separate <strong>🌱 Welcome Tasks</strong> pill right above it on My Profile — its own popup too. <strong>Premium</strong> shows in two places — right in that same Season Pass popup, above the Free track, or on <strong>Marketplace → 🎫 Pass</strong> alongside the Master Pass and GLG Raffle tickets — whichever you happen to be looking at.</div>
+    <div class="tip">Check your points, daily/weekly tasks, and Free-track claims by tapping "Open Season Pass" right under your picture on My Profile; it opens as its own popup, so you never lose your place. Your <strong>Welcome ladder</strong> now has its own separate <strong>🌱 Welcome Tasks</strong> pill right above it on My Profile — its own popup too. <strong>Premium</strong> shows in two places — right in that same Season Pass popup, above the Free track, or on <strong>Marketplace → 🎫 Pass</strong> alongside the Master Pass and Simple Farmer Raffle tickets — whichever you happen to be looking at.</div>
     <div class="honest" style="margin:18px 0;"><b>Honest note:</b> like every other reward system in this game, Season Pass points and claims live only on this device — nothing here is backed by a shared server yet.</div>
   </div>
 
@@ -568,17 +553,17 @@
     <p>Find it on the <strong>World</strong> screen, below the Marketplace block. Six separate leaderboards, each tracking a different way to be good at Simple Farmer — you don't have to pick one, every board updates from the same account at once.</p>
     <div class="twrap"><table>
       <tr><th>Board</th><th>What it ranks</th></tr>
-      <tr><td>🚜 Farm Power</td><td>Your total farming strength</td></tr>
+      <tr><td>🏆 Farm Power</td><td>Your total farming strength</td></tr>
       <tr><td>🌾 Lifetime Harvest</td><td>Total $GREEN ever harvested</td></tr>
       <tr><td>🧬 Breeding Legacy</td><td>How many crossbreeds you've completed</td></tr>
       <tr><td>💎 Rarest Collection</td><td>Your count of Epic + Legendary cards</td></tr>
       <tr><td>👥 Top Recruiter</td><td>How many of your referrals actually activated a farm</td></tr>
-      <tr><td>🏪 Marketplace Mogul</td><td>Total SOL you've earned selling on the Marketplace</td></tr>
+      <tr><td>🏪 Market Mogul</td><td>Total SOL you've earned selling on the Marketplace</td></tr>
     </table></div>
     <p>Every board is <strong>lifetime</strong> by default — it never resets, and it never punishes you for taking a break.</p>
 
     <h3>Event windows — how a new player competes with a 3‑month veteran</h3>
-    <p>Admin can start a <strong>timed event</strong> on any board (or several at once — say, Rarest Collection and Marketplace Mogul running together as one themed weekend). The moment an event starts, everyone's counter for that board resets to <strong>zero for the duration of the event only</strong> — your lifetime total keeps counting in the background, untouched, and comes right back once the event ends. While an event is live, the board shows a 🔥 EVENT LIVE banner with the event's name and how long it's been running, sitting right above the regular lifetime board.</p>
+    <p>Admin can start a <strong>timed event</strong> on any board (or several at once — say, Rarest Collection and Market Mogul running together as one themed weekend). The moment an event starts, everyone's counter for that board resets to <strong>zero for the duration of the event only</strong> — your lifetime total keeps counting in the background, untouched, and comes right back once the event ends. While an event is live, the board shows a 🔥 EVENT LIVE banner with the event's name and how long it's been running, sitting right above the regular lifetime board.</p>
     <div class="tip">Because the event score is "how much you've gained <em>since the event started</em>," a player who joined 3 months ago and a player who joined this morning start that event on exactly equal footing — lifetime totals never carry over into an event window.</div>
     <div class="honest" style="margin:18px 0;"><b>Honest note:</b> rival scores on every board are simulated for now — there's no backend ranking service yet, so you're competing against a plausible-looking simulated field rather than every real Simple Farmer player. Your own score is always the real one.</div>
   </div>
