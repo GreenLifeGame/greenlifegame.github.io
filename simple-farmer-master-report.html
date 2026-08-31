@@ -206,11 +206,11 @@
       <li><a href="#reveal">12 · Pack-Opening Reveal Cinematics</a></li>
       <li><a href="#market">13 · Marketplace</a></li>
       <li><a href="#harvest">14 · Harvest, Emissions &amp; Early-Pull Mechanics</a></li>
-      <li><a href="#lottery">15 · Lottery — Four Standing Pools</a></li>
+      <li><a href="#lottery">15 · GLG Lottery &amp; GLG Raffle</a></li>
       <li><a href="#referral">16 · Referral &amp; Invite System</a></li>
       <li><a href="#gift">17 · Gift-a-Farm, Claim Codes &amp; Credit-Card On-Ramp</a></li>
       <li><a href="#stuff">18 · My Stuff — Open Now, Crops, Boosts, Invite, Activity</a></li>
-      <li><a href="#world">19 · World Screen — Leaderboard &amp; Pool-Life Projection</a></li>
+      <li><a href="#world">19 · World Screen — World Rankings &amp; Pool-Life Projection</a></li>
       <li><a href="#admin">20 · Admin Console</a></li>
       <li><a href="#ui">21 · Visual &amp; UI Component System</a></li>
       <li><a href="#scene">22 · The Farm Scene (Overhead Map)</a></li>
@@ -219,6 +219,8 @@
       <li><a href="#simflags">25 · What's Simulated vs. What's Real</a></li>
       <li><a href="#audit">26 · Session Audit Log — Bugs Found &amp; Fixed</a></li>
       <li><a href="#open">27 · Open Questions &amp; Flagged Concerns</a></li>
+      <li><a href="#seasonpass">28 · Season Pass (Added 2026-08-29)</a></li>
+      <li><a href="#rankings">29 · World Rankings (Added 2026-08-30)</a></li>
     </ol>
   </div>
 
@@ -268,6 +270,7 @@
       <tr><td>One card per pack</td><td>Every ordinary pack (paid or free) hands over exactly one card, always. PRIMO is also one card.</td><td>§10, §11</td></tr>
       <tr><td>Breed category gate</td><td>Veggie×Veggie or Fruit×Fruit only — never across categories. New rule, not present in GREEN LIFE.</td><td>§09</td></tr>
       <tr><td>Legendary can never be a breed parent</td><td>Epic is the highest rarity that can go IN to a breed; Legendary can still come OUT.</td><td>§09</td></tr>
+      <tr><td>Breeding always yields exactly 1 card</td><td>Changed 2026-08-28 from a random 1/2/3 spread — locked the same way across every GLG game with breeding (Cody: "make sure thats the same across all games").</td><td>§09</td></tr>
       <tr><td>Breeding &amp; farm-level upgrades burn 100%, no referral cut</td><td>Only PACKS carve a referral cut off the top before burning the remainder.</td><td>§16, §23</td></tr>
       <tr><td>Guaranteed-breed promo capped at Rare</td><td>An admin toggle that makes Common/Uncommon/Rare pairs a guaranteed success — Epic pairs can never be made free-win.</td><td>§09, §20</td></tr>
       <tr><td>Listings can never be cancelled</td><td>A market listing runs 7 days flat and auto-returns to the seller if unsold — no cancel button exists, on purpose.</td><td>§13</td></tr>
@@ -284,6 +287,7 @@
       <tr><td>A farm level raises the plot CAP, never grants the plot</td><td>Every non-free tier still requires a separate SOL purchase per plot, in order.</td><td>§06</td></tr>
       <tr><td>Planting requires a sign-to-commit batch</td><td>Cards staged into plots are pending (unsigned, free to undo) until one signature commits the whole batch.</td><td>§06</td></tr>
       <tr><td>Lottery fee is 100% treasury, never burned</td><td>Deliberate exception to the game's burn-heavy spend model — a ticket is a wager pooled and redistributed, not a spend that consumes an item.</td><td>§15</td></tr>
+      <tr><td>GLG Raffle is never player-funded and never shared cross-game</td><td>The opposite shape from GLG Lottery on both axes — every prize is admin-funded, and this game's 3 pools are entirely separate state from the other GLG games' own copies.</td><td>§15</td></tr>
     </table>
   </section>
 
@@ -291,28 +295,28 @@
   <section id="platform">
     <div class="sec-num">03</div>
     <h2>Relationship to GREEN LIFE &amp; the GLG Platform</h2>
-    <p class="lede">GreenLifeGame (GLG) is the shared platform brand across every GLG title. Simple Farmer is one of at least two confirmed real games under it (its sister is GREEN LIFE, the cannabis-farming game); the platform's own supply plan reserves pools for a total of three games at minimum.</p>
+    <p class="lede">GreenLifeGame (GLG) is the shared platform brand across every GLG title. Simple Farmer is one of four confirmed real games under it (GREEN LIFE, the cannabis-farming game; Dino Island; and Mother Lode); the platform's supply plan reserves an emissions pool for each of the four.</p>
     <div class="callout locked">
       <b>The one and only thing shared between games</b>
-      GLG games share ONLY the $GREEN token and the platform-level buckets behind it — the shared liquidity pool, the shared treasury, and the shared giveaway/contest/float buffer. Never code, never a repo, never mechanics. A game gets an emissions pool and nothing else. Simple Farmer is its own file set (<code>farmer-*.jsx</code>/<code>farmer-*.js</code>), its own React entry point (<code>farmer-main.jsx</code> mounting into <code>farmer.html</code>), and imports nothing from GREEN LIFE's <code>constants.js</code>/<code>green-game.jsx</code>. The reverse is also true. This is stated as a deliberate isolation choice — reusing GREEN LIFE's UI file, for example, would pull in strain art and weapon tables and "tie the two games together at the code level for no benefit."</div>
+      GLG games share ONLY the $GREEN token and its liquidity pool — never code, never a repo, never mechanics. Simple Farmer is its own file set (<code>farmer-*.jsx</code>/<code>farmer-*.js</code>), its own React entry point (<code>farmer-main.jsx</code> mounting into <code>farmer.html</code>), and imports nothing from GREEN LIFE's <code>constants.js</code>/<code>green-game.jsx</code>. The reverse is also true. This is stated as a deliberate isolation choice — reusing GREEN LIFE's UI file, for example, would pull in strain art and weapon tables and "tie the two games together at the code level for no benefit."</div>
     <h3>Shared token, separate everything else</h3>
     <table>
       <tr><th>Aspect</th><th>Simple Farmer</th><th>GREEN LIFE</th></tr>
       <tr><td>Token</td><td colspan="2" class="num">$GREEN — one shared token, one shared LP, one shared price</td></tr>
       <tr><td>In-code symbol</td><td class="num">"$GREEN" (single dollar sign — deliberate)</td><td>"$GREEN$" (double dollar sign, GREEN LIFE's own convention)</td></tr>
-      <tr><td>Emissions pool</td><td class="num">200,000,000,000 (200B)</td><td>Its own separate pool (250B)</td></tr>
-      <tr><td>Platform supply split</td><td colspan="2">Total supply <b>1,000,000,000,000 (1 trillion)</b>, minted once. Game emissions pools: Simple Farmer 200B · Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B. Shared platform buckets: Liquidity Pool 50B · Giveaways/Contest/Float 25B · Treasury 25B. A game gets an emissions pool and nothing else.</td></tr>
-      <tr><td>Emissions decay rate</td><td class="num">0.05%/day (locked 2026-08-25, ceiling 2% forever)</td><td>0.069%/day (locked, ceiling 2% forever)</td></tr>
+      <tr><td>Emissions pool</td><td class="num">200,000,000,000 (200B)</td><td>Its own separate pool — 250B</td></tr>
+      <tr><td>Platform supply split</td><td colspan="2">Simple Farmer 200B · Mother Lode 200B · GREEN LIFE 250B · Dino Island 250B — 900B across the four game pools, plus a shared 50B liquidity pool, 25B treasury and 25B giveaway/contest/float buffer: 1 trillion total, minted once. A game gets an emissions pool and nothing else; LP, treasury and giveaways are platform-level and shared.</td></tr>
+      <tr><td>Emissions decay rate</td><td class="num">0.05%/day (ceiling 2% forever)</td><td>0.069%/day (ceiling 2% forever)</td></tr>
       <tr><td>Referral bootstrap chain</td><td class="num">SFROOT1–SFROOT5, this game's own root</td><td>Its own separate 5-wallet chain (Burn Wallet / Dev Wallet / #3/#4/#5)</td></tr>
       <tr><td>Rarity ceiling</td><td class="num">Legendary (5 tiers)</td><td>Mythical (6 tiers, breed-only)</td></tr>
       <tr><td>Marketplace floor prices</td><td colspan="2">Deliberately anchored to the SAME per-rarity SOL values — both games pay out of the same $GREEN and trade on the same LP, so a mismatched floor between them would be a real arbitrage, not a design choice</td></tr>
     </table>
     <h3>Why the pool sizing matters mechanically</h3>
-    <blockquote>"green life and dino island will earn more i know that, and i did it on purpose as it takes more time to play that game." — Cody, 2026-08-25</blockquote>
-    <p>Pool size and decay rate are deliberately paired, not held equal: the Easy-tier games (Simple Farmer, Mother Lode) run <b>200B at 0.05%/day</b>, while the heavier games (GREEN LIFE, Dino Island) run <b>250B at 0.069%/day</b>. A player holding the same share of Simple Farmer's own network therefore earns meaningfully less per day than the same share in GREEN LIFE or Dino Island — and that gap is intentional, because those games ask far more of a player's time. The consequence worth holding onto: earning power is set by <b>pool size and rate</b>, not by Simple Farmer's own crop numbers — making crops more powerful across the board does not increase real payout, because emissions split by <i>share</i> of network power, and raising everyone's power raises the denominator too. The only levers that move real earnings here are the pool allocation and the decay rate.</p>
+    <blockquote>"the goal is for all 3 games to have similar earning power, the more advanced games will earn a little more bc it has a higher emission pool and take more player time to play." — Cody, 2026-08-18</blockquote>
+    <p>The four games split into two tiers, and the rate is paired to the pool size on purpose. Simple Farmer and Mother Lode each run a 200B pool decaying at 0.05%/day; GREEN LIFE and Dino Island each run a 250B pool decaying at 0.069%/day. That works out to roughly 100M $GREEN/day emitted by each of the lighter games against roughly 172.5M/day by each of the heavier ones — a player holding the same share of Simple Farmer's own network earns at about a 1&nbsp;:&nbsp;1.73 ratio versus the same share in GREEN LIFE or Dino Island. That gap is deliberate, not a tuning artifact: Cody's call was that <i>"green life and dino island will earn more i know that, and i did it on purpose as it takes more time to play that game."</i> The consequence worth holding onto: earning power is set by <b>pool size</b>, not by Simple Farmer's own crop numbers — making crops more powerful across the board does not increase real payout, because emissions split by <i>share</i> of network power, and raising everyone's power raises the denominator too. The only levers that move real earnings here are the pool allocation and the decay rate.</p>
     <h3>Platform-shared presentation</h3>
     <ul>
-      <li>Both games open on an identical GLG platform splash (<code>GlgIntro</code> in Simple Farmer, its own separate component from GREEN LIFE's equivalent — components are never shared, only art and copy) — same wordmark, same copy: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i> / <i>"1 TRILLION · MINTED ONCE · NEVER AGAIN"</i> / <i>"tap to enter."</i> Cody's own framing: <i>"this should be the exact intro on all games, the words should match also"</i> — these are platform-wide $GREEN facts, not game-specific ones, so they read identically everywhere.</li>
+      <li>Both games open on an identical GLG platform splash (<code>GlgIntro</code> in Simple Farmer, its own separate component from GREEN LIFE's equivalent — components are never shared, only art and copy) — same wordmark, same copy: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i> / <i>"1T · MINTED ONCE · NEVER AGAIN"</i> / <i>"tap to enter."</i> Cody's own framing: <i>"this should be the exact intro on all games, the words should match also"</i> — these are platform-wide $GREEN facts, not game-specific ones, so they read identically everywhere.</li>
       <li>Only the game's own icon art (<code>/glg-brand/glg-icon.png</code>) is shared between the two splashes — same category as sharing the token itself.</li>
       <li>Simple Farmer's own brand accent color, <code>#52e300</code>, is the exact same green GREEN LIFE uses as its own accent — pulled from the same GLG-family logo palette.</li>
     </ul>
@@ -325,7 +329,7 @@
     </ul>
     <div class="callout gap">
       <b>Gap in the research</b>
-      The research passes available for this report cover only Simple Farmer's own source files in depth. The four-game platform split above comes from the platform-level tokenomics spec locked by Cody on 2026-08-25 — no GREEN LIFE, "Dino Island" or "Mother Lode" source file was read as part of producing this document, so anything about those other games beyond the locked allocation figures should be treated as plan, not as independently verified against those games' code.</div>
+      The research passes available for this report cover only Simple Farmer's own source files in depth. The platform split (Simple Farmer 200B / Mother Lode 200B / GREEN LIFE 250B / Dino Island 250B, plus the shared 50B LP, 25B treasury and 25B giveaway buckets, out of 1 trillion) comes from the locked platform tokenomics rather than from any of those games' code — no GREEN LIFE or "Dino Island" source file was read as part of producing this document, so anything about those other games beyond what Simple Farmer's own comments state should be treated as Simple Farmer's own understanding of the plan, not independently verified against those games' code.</div>
   </section>
 
   <!-- 04 -->
@@ -335,7 +339,7 @@
     <p class="lede">Five recognized <code>stage</code> values, each rendered by <code>farmer-onboarding.jsx</code> before the real game (<code>stage === "game"</code>) exists: <code>glg</code> → <code>intro</code> → <code>checking</code> → <code>invite</code> → <code>entry</code>. An unrecognized stage falls back to the game's own splash — never a blank page or an error card, so a player always has a working Connect button.</p>
 
     <h3>Stage 0 — GLG platform splash</h3>
-    <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"1 TRILLION · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
+    <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"1T · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
 
     <h3>Stage 1 — game splash</h3>
     <p>Warm sunrise radial wash (accent green + gold, "soil and sunlight, not neon"). Logo at 190×190px (raised from an earlier 120px to match GREEN LIFE's own logo scale). Tagline: <b>"GROW. HARVEST. EARN."</b> Body copy: <i>"Plant real crops, wait out the grow, cash the harvest."</i> / <i>"Runs on the $GREEN token"</i> (rendered in the brand gradient) / <i>"Earn Every Second."</i> Two CTAs: <b>Connect Wallet</b> and <b>How to play</b> (opens a "How To" modal, §04 below). Disclosure line, exact: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></p>
@@ -363,9 +367,9 @@
     <h3>Stage 3 — "invite" (the code screen)</h3>
     <p>Split into its own screen on 2026-08-24 specifically to mirror GREEN LIFE's own two-screen invite/entry split "screenshot-for-screenshot." This screen's only job is collecting a code — no price, no wallet, no "what you get" belongs here.</p>
     <ul>
-      <li><b>Entry is invite-only, no skip.</b> Continue is hard-gated on the code being at least 4 characters — a real generated code is 4 letters + 3 digits = 7 characters, but the minimum-to-continue is looser to allow shorter/longer aliases in the future.</li>
+      <li><b>Entry is invite-only, no skip.</b> Continue is hard-gated on the code being at least 4 characters — a real generated code is 4 letters + 3 digits = 7 characters, but the minimum-to-continue is looser to allow shorter/longer aliases in the future. The field itself accepts up to 12 characters (<code>REF_CODE_MAX_LEN</code>, raised 2026-08-27 to match GREEN LIFE — see §16), room enough for a readable admin-set name, not just the generator's own 7-char shape.</li>
       <li><b>Code alphabet:</b> <code>ABCDEFGHJKLMNPQRSTUVWXYZ</code> — I and O deliberately excluded so a code read off a screen can never be confused with 1 and 0.</li>
-      <li><b>🎲 Referral roulette</b> matches a code-less player to a real seeded ancestor from the bootstrap chain (<code>SFROOT3</code>/<code>SFROOT4</code>/<code>SFROOT5</code> only — <code>SFROOT1</code>/<code>SFROOT2</code> are structurally excluded), not a throwaway random string — every code it can hand out has real, known ancestors 3 levels up, so a brand-new player's referral cut resolves correctly from their very first action.</li>
+      <li><b>🎲 Referral roulette</b> shows 5 candidates per click — 2 admin-locked identities that never rotate, plus 3 randomly-rolled real-referral-count candidates the player picks from (never auto-assigned) — the same 5-slot/2-locked pattern ported from GREEN LIFE 2026-08-27; see §16 for the full mechanic. Every candidate resolves to a real, known ancestor, so a brand-new player's referral cut resolves correctly from their very first action.</li>
       <li><b>Optional claim code field</b> — if a valid claim code is typed here, it waives the entry fee entirely on the next screen (validated live via <code>checkClaimCode()</code> before the player even continues).</li>
     </ul>
 
@@ -394,15 +398,15 @@
   <section id="farmscreen">
     <div class="sec-num">05</div>
     <h2>The Farm Screen (Dashboard)</h2>
-    <p class="lede">Render order, deliberately matching GREEN LIFE's dashboard layout per Cody's own instruction ("make the emission box and stat info match weed game by being at the top"):</p>
+    <p class="lede">Render order, deliberately matching GREEN LIFE's dashboard layout per Cody's own instruction ("make the emission box and stat info match weed game by being at the top"). <b>Reordered 2026-08-30</b> in Cody's own UI-reorg pass: the Daily block (a 7-day free-pack calendar + claim panel) was removed outright — Season Pass's Free track now covers the same retention ground with real points from real play — and the pack carousel moved ahead of both prize-pool blocks, leading with the core buy-a-pack loop instead of burying it underneath two lottery grids:</p>
     <div class="flow">
       <span>Current Estimate</span><span class="arrow">→</span>
       <span>Stat grid</span><span class="arrow">→</span>
       <span>Farm Level</span><span class="arrow">→</span>
       <span>Farm Scene (the overhead map)</span><span class="arrow">→</span>
-      <span>Daily block</span><span class="arrow">→</span>
-      <span>Lottery (4-pool grid)</span><span class="arrow">→</span>
-      <span>Pack carousel (incl. PRIMO)</span>
+      <span>Pack carousel (incl. PRIMO)</span><span class="arrow">→</span>
+      <span>GLG Raffle (3-pool row)</span><span class="arrow">→</span>
+      <span>GLG Lottery (4-pool grid)</span>
     </div>
     <p><b>Every price on this screen is read from the SHOP registry, never from the raw pack table.</b> The admin-editable <code>SHOP_CONFIG</code> is the one dial that decides what's charged; <code>PACKS</code>/<code>PRIMO</code> are only read here for name/emoji/card-count — the things that aren't price.</p>
 
@@ -436,6 +440,7 @@
       <tr><td class="num">5</td><td class="num">$10.00</td><td class="num">5 days</td></tr>
     </table>
     <p>A flat $10/level after Lv1 (unlike GREEN LIFE's escalating SOL ladder — Cody's explicit call to leave it flat). Upgrade cost is paid via <code>burnGreenFull()</code> — a straight 100% burn, no referral cut (see §16, §23). Farm-level cooldowns are compressed to a flat <b>20 seconds</b> under the <code>TESTING_FAST_COOLDOWN</code> flag in the current build (real durations shown above are what production would use).</p>
+    <p>The in-game note under this block was rewritten 2026-08-28 to state the plot math directly rather than the earlier, vaguer "you still open each plot yourself" line: <i>"Levelling raises how many plots you're allowed. 4 Free 1x Plots &amp; 6 Extra Plots to add on per level."</i> Same fact as the Garden tier table above (§06) — 4 free 1× plots plus 6 paid plots across the 2×/5×/10× tiers, 10 total unlocked per farm level — just spelled out instead of implied.</p>
   </section>
 
   <!-- 06 -->
@@ -589,25 +594,25 @@
     <table>
       <tr><th>Branch</th><th>Weight</th><th>Resolves to</th></tr>
       <tr><td>Lower parent's rarity</td><td class="num">55%</td><td>The lower-rarity parent's own tier</td></tr>
-      <tr><td>Higher parent's rarity</td><td class="num">25%</td><td>The higher-rarity parent's own tier</td></tr>
+      <tr><td>Higher parent's rarity</td><td class="num">25%</td><td>The higher-rarity parent's own tier — <b>dead weight on a same-rarity pair</b>, see below</td></tr>
       <tr><td>One tier BELOW lower</td><td class="num">12%</td><td>Clamped at Common — never below it</td></tr>
-      <tr><td>One tier ABOVE higher</td><td class="num">8%</td><td>Clamped at Legendary — never above it</td></tr>
+      <tr><td>One tier ABOVE higher</td><td class="num">8% (+25% bonus on a same-rarity pair)</td><td>Clamped at Legendary — never above it</td></tr>
     </table>
-    <p>Each output card independently rolls one of these 4 branches. A Common×Common pairing collapses three of the four branches onto Common itself (55% + 25% + 12%, since "one tier below Common" folds back to Common) — a 92% chance of a Common offspring card on any single roll, with only the 8% "above" branch reaching Uncommon. Only a pairing where the higher parent is already Epic can ever reach Legendary as an offspring (via the 8% "above" branch), since the branch is clamped at the ceiling.</p>
+    <p>Each output card independently rolls one of these 4 branches. A Common×Common pairing collapses three of the four branches onto Common itself (55% + 25% + 12%, since "one tier below Common" folds back to Common) — a 92% chance of a Common offspring card on any single roll, with only the 8% "above" branch reaching Uncommon, <b>before the same-rarity bonus below</b> (Common×Common IS a same-rarity pair, so its real split is 67% Common / 33% Uncommon — see next section). Only a pairing where the higher parent is already Epic can ever reach Legendary as an offspring (via the "above" branch), since the branch is clamped at the ceiling.</p>
+
+    <h3>Same-rarity bonus — +25 percentage points toward tiering up (added 2026-08-28)</h3>
+    <p>Cody: <i>"we need to make combing to of the same card have a better chance at getting 1 tier up then just 8%... i dont see the point combining to epics in simple farmer if its still only 8% legendary chance."</i> When both parents share a rarity, "Higher parent's rarity" was never a real fourth outcome for that pair — it resolves to the exact same tier as "Lower parent's rarity," just quietly doubling up on one bucket instead of being a distinct branch. That whole 25-point weight now redirects onto "One tier ABOVE higher" instead, so a same-rarity pair's real chance to tier up is <b>8% base + 25% bonus = 33% total</b> — an Epic×Epic pair's shot at a Legendary offspring roughly quadruples, from 8% to 33%. Mixed-rarity pairs are untouched; the redirect only fires when <code>lowIdx === highIdx</code>.</p>
+    <div class="callout warn">
+      <b>Real display bug found and fixed in the same pass</b>
+      The Breed screen originally showed BOTH a 33% "one tier above" row (the correct, already-redirected total) AND a separate "+25% bonus" line underneath it, reading as if the true combined chance were 58% (33% + 25%) rather than the real 33%. Fixed: "Higher parent's rarity" now renders struck-through in red on a same-rarity pair (dead outcome, doesn't apply), and a dedicated green "Same Rarity Bonus" line sits under "One tier above" instead — so the headline number shown is the true 33%, with the bonus called out rather than added on top of an already-inclusive total. Verified live in both games: Epic×Epic in GREEN LIFE and Ghost Pepper×Ghost Pepper in Simple Farmer both correctly show 8% base + 25% bonus = 33% combined, and Farmer's "Combined chance per tier" total matches 33%, not 58%.</div>
 
     <h3>How many cards come out</h3>
-    <table>
-      <tr><th>Cards</th><th>Odds</th></tr>
-      <tr><td class="num">1</td><td class="num">50%</td></tr>
-      <tr><td class="num">2</td><td class="num">35%</td></tr>
-      <tr><td class="num">3</td><td class="num">15%</td></tr>
-    </table>
-    <p>Expected offspring count = 1.65 cards. Offspring are restricted to the same category (veggie/fruit) as the parents; the specific crop within the resolved rarity+category is chosen via the same value-inverse in-tier weighting used by packs (§07).</p>
+    <p><b>Always exactly 1 card</b> (changed 2026-08-28 — was a random 1/2/3 spread at 50%/35%/15%, expected 1.65 cards). Cody: <i>"on breeding the result is only 1 card not multiple. make sure thats the same across all games."</i> <code>BREED_COUNT_WEIGHTS</code> stayed a weight table under the hood, now a single <code>[[1, 100]]</code> entry, so every existing <code>rollWeighted(BREED_COUNT_WEIGHTS)</code> call site needed zero logic changes for a now-deterministic outcome. The Breed screen's old percentage-pill breakdown is now one plain "Always 1 card" chip. Offspring are restricted to the same category (veggie/fruit) as the parents; the specific crop within the resolved rarity+category is chosen via the same value-inverse in-tier weighting used by packs (§07).</p>
 
     <h3>Guaranteed-breed promo (admin toggle)</h3>
     <div class="callout locked">
       <b>Ported from GREEN LIFE, 2026-08-24</b>
-      An admin toggle that makes every breed where BOTH parents are Common, Uncommon, or Rare (<code>BREED_PROMO_MAX_TIER = 2</code>, i.e. index ≤ Rare) a guaranteed 100% success. Only the SUCCESS roll is skipped — the offspring rarity table and the card-count table still roll exactly normally, so the promo burns cheap cards and removes the sting of a fail without inflating what comes out. <b>Hard-capped at Rare</b> — Epic pairs, the ones that mint real value, can never be made free-win.</div>
+      An admin toggle that makes every breed where BOTH parents are Common, Uncommon, or Rare (<code>BREED_PROMO_MAX_TIER = 2</code>, i.e. index ≤ Rare) a guaranteed 100% success. Only the SUCCESS roll is skipped — the offspring rarity table (same-rarity bonus included) still rolls exactly normally and still yields exactly 1 card, so the promo burns cheap cards and removes the sting of a fail without inflating what comes out. <b>Hard-capped at Rare</b> — Epic pairs, the ones that mint real value, can never be made free-win.</div>
     <p>The breed screen shows a live "expected value" panel — average cards × average floor-priced value per card, deliberately excluding the fail-case consolation boost (erring conservative) — added specifically because a simulated player-focus-group pass independently worked out that pricier pairs are negative-EV and concluded "never breed above Uncommon." This is stated as working as designed (breeding is meant to be the cheap gamble; the fix was showing the number honestly, not changing the odds).</p>
   </section>
 
@@ -615,14 +620,16 @@
   <section id="shop">
     <div class="sec-num">10</div>
     <h2>Packs, Shop System &amp; Currency Routing</h2>
-    <p class="lede"><b>One card per pack, always</b> — Cody, 2026-08-18: <i>"buying a seed and boost pack only get 1 card per pack."</i> Every ordinary pull is a single clean moment, and it makes the tier odds mean exactly what they say (0.5% Legendary is 0.5% per pack, not per card in a bundle). No pack in Simple Farmer carries a daily purchase cap — a deliberate difference from GREEN LIFE, where Seed/Mystery/Weapons packs are all level-capped.</p>
+    <p class="lede"><b>One card per pack, always</b> — Cody, 2026-08-18: <i>"buying a seed and boost pack only get 1 card per pack."</i> Every ordinary pull is a single clean moment, and it makes the tier odds mean exactly what they say (0.5% Legendary is 0.5% per pack, not per card in a bundle). <b>Seed Pack and Mystery Pack are now level-scaled daily caps, matching GREEN LIFE's own scale (2026-08-27)</b> — Cody: "make sure simple farmer has the same scale for the plant, boost, mystyer pack." They had been running fully uncapped; only Boost Pack keeps no daily limit, the same deliberate exception GREEN LIFE's Booster Pack has.</p>
     <table>
       <tr><th>Pack id</th><th>Name</th><th>Cards</th><th>Roll</th><th>Daily cap</th></tr>
-      <tr><td class="num">plant</td><td>🌱 Seed Pack</td><td class="num">1</td><td>Always a crop card, full tier odds</td><td>None</td></tr>
-      <tr><td class="num">boost</td><td>✨ Boost Pack</td><td class="num">1</td><td>Always a boost card, full tier odds</td><td>None</td></tr>
-      <tr><td class="num">mystery</td><td>❓ Mystery Pack</td><td class="num">1</td><td>60% boost / 40% crop, then normal tier odds</td><td>None (and it's the free daily pack)</td></tr>
+      <tr><td class="num">plant</td><td>🌱 Seed Pack</td><td class="num">1</td><td>Always a crop card, full tier odds</td><td class="num">25–50, by farm level (<code>PACK_LIMIT_BY_LEVEL</code>)</td></tr>
+      <tr><td class="num">boost</td><td>✨ Boost Pack</td><td class="num">1</td><td>Always a boost card, full tier odds</td><td>None — the one pack left uncapped</td></tr>
+      <tr><td class="num">mystery</td><td>❓ Mystery Pack</td><td class="num">1</td><td>60% boost / 40% crop, then normal tier odds</td><td class="num">25–50, by farm level, on PAID purchases only — the free daily pull is a separate uncapped clock</td></tr>
       <tr><td class="num">starter</td><td>🎁 Starter Pack</td><td class="num">1</td><td>Always a crop card, full tier odds — never subject to the 60/40 roll</td><td>Once, at onboarding, auto-opened</td></tr>
     </table>
+    <p><code>PACK_LIMIT_BY_LEVEL = { 1: 25, 2: 30, 3: 35, 4: 40, 5: 50 }</code>, read via <code>packLimit(farmLevel)</code> — Seed and Mystery share one allowance number at a given level, but each pack id ticks its own counter against it, so buying 25 Seed Packs doesn't touch how many Mystery Packs are still buyable that day. The free daily Mystery pull (<code>openFreePack</code>) runs on its own 24h clock entirely outside this cap.</p>
+    <p>The carousel's own note was reworded 2026-08-28 to lead with what's capped rather than what isn't, built off the same pack tables so a rename still propagates: <i>"Seed Pack, Mystery Pack and PRIMO Pack are capped. Your farm level sets how many you get each day. No daily limit on Boost Pack — buy as many as you like."</i> (names substituted live from the pack tables; PRIMO was already capped by its own separate daily allowance, §11, but is now named alongside Seed and Mystery instead of tacked on at the end of the sentence.)</p>
 
     <h3>Live shop prices — the actual dial (SHOP_CONFIG)</h3>
     <table>
@@ -646,7 +653,7 @@
     <p>Every pack but PRIMO burns $GREEN by default; PRIMO defaults to SOL — matching GREEN LIFE's identical rationale: at launch nobody will hold enough $GREEN yet, and forcing them to buy tokens just to burn them would spike a thin pool.</p>
 
     <h3>LP routing rule (SOL branch)</h3>
-    <p>SOL, USDC, and USDT purchases all follow the same table — stablecoins auto-swap to SOL in the same transaction, then whatever SOL lands is routed by total pool depth, never by market cap:</p>
+    <p>SOL, USDC, and USDT purchases all follow the same table — stablecoins auto-swap to SOL in the same transaction, then whatever SOL lands is routed by total pool depth, never by market cap. Both destinations are platform-level and shared across every GLG game — this game has no liquidity pool or treasury of its own:</p>
     <table>
       <tr><th>Total pool depth</th><th>Liquidity Pool share</th><th>Treasury share</th></tr>
       <tr><td>$0 – $25,000</td><td class="num">100%</td><td class="num">0%</td></tr>
@@ -691,6 +698,10 @@
 
     <h3>The exclusion callout (shown live in the pack carousel)</h3>
     <p>Every claim about what PRIMO can and can't roll is computed live off the two odds tables (never hand-typed), so a repricing or reordering can't leave the screen naming one rarity and quoting another's number. Because Common and Uncommon aren't in PRIMO's table at all, the carousel states this directly and contrasts it against a normal pack's own lowest/highest tier odds for context.</p>
+
+    <h3>🎁 PRIMO Buy 1 Get 1 Free — admin-toggleable promo (added 2026-08-27)</h3>
+    <p>Cody: <i>"is there a way to do a Buy One Get One Free button for the primo packs in the games?"</i> An Admin → Economy toggle (same shape as the guaranteed-breed promo, see §09/§20) doubles the player's <b>first PRIMO purchase of the day</b> — same price, same odds, one extra pack on the house. Unlike GREEN LIFE's flat 1/day PRIMO allowance, this game's cap scales with farm level (§11 above, up to 5/day), so the bonus is deliberately pinned to the first purchase of a fresh day rather than every purchase — a per-pack multiplier would double every buy for the rest of the day instead of granting one freebie.</p>
+    <p>Cody, on how it interacts with the daily allowance: <i>"the bogo does count 1 tick as 1 pack purchased towards the daily limit but the free pack doesnt count as a tick."</i> The paid pack(s) still consume exactly <code>n</code> against <code>primoBought</code>; the bonus pack's cards are added to the reveal but never touch that counter — so a player can never stretch the promo into extra allowance for the rest of the day.</p>
   </section>
 
   <!-- 12 -->
@@ -713,11 +724,12 @@
     <table>
       <tr><th>Pack type</th><th>Glow color</th><th>On-screen label</th></tr>
       <tr><td>plant / starter</td><td class="num">#52e300 (accent green)</td><td>SEED PACK / STARTER PACK</td></tr>
-      <tr><td>mystery / daily</td><td class="num">#c86bff (purple)</td><td>MYSTERY PACK / DAILY FREE PACK</td></tr>
+      <tr><td>mystery</td><td class="num">#c86bff (purple)</td><td>MYSTERY PACK</td></tr>
       <tr><td>boost</td><td class="num">#4dfff0 (cyan)</td><td>BOOST PACK</td></tr>
       <tr><td>breed</td><td class="num">#52e300 (accent green)</td><td>CROSSBREED</td></tr>
       <tr><td>breedfail</td><td class="num">#8a8a92 (grey)</td><td>CROSSBREED (fail)</td></tr>
     </table>
+    <p><b>Removed 2026-08-30:</b> a <code>daily</code> entry ("DAILY FREE PACK") used to live in this table for the Daily block's free-pack claim. Once that whole block was removed in Cody's UI-reorg pass, no code path ever passed <code>packType: "daily"</code> again — confirmed dead and deleted from <code>RIP_THEME</code> itself, not just from this table.</p>
 
     <h3>PrimoRevealOverlay — PRIMO's own elevated gold cinematic</h3>
     <p>A two-stage timeline, "gold title wipe, then an explosion the single card bursts out of" — sized to Simple Farmer's own 1-card PRIMO pull (GREEN LIFE's version bursts 3 cards).</p>
@@ -727,6 +739,14 @@
       <tr><td><b>Burst</b></td><td class="num">2,500 – 3,650ms (1,150ms)</td><td>An expanding white-to-gold ring plus 22 particles (alternating gold/accent-green) fire outward in a tighter 5-group stagger (20ms apart); text "★ PRIMO PULL ★" fades in.</td></tr>
     </table>
     <p><b>Total non-interactive runtime: 3,650ms</b> unless skipped. The title stage cannot be skipped by tapping (the explosion is timed to land right as the burst stage begins); the burst stage CAN be skipped by tapping anywhere on screen — this is documented in-code as fixing a real bug where a player who didn't think to tap a blank gold screen could get stuck.</p>
+
+    <h3>Legendary Reveal Video — GREEN LIFE parity, brand new to this game (added 2026-08-28)</h3>
+    <p>Cody: <i>"greenlife has a legendary visual screen trigger when they hit 1, we need to add that to simple farmer and mother lode... they need the o shit i got a legendary feel before the reveal."</i> This game had no such beat before. When a pack pull includes a Legendary-tier <b>crop</b> OR a Legendary-tier <b>boost</b> (e.g. ☀️ Solar Array, §08), a roughly 3-second full-screen video (<code>RarityRevealFx</code>, <code>RARITY_FX_VIDEO.legendary</code>) plays BEFORE the card-reveal scene: bold chrome 3D "LEGENDARY" lettering engulfed in green fire — matching this game's own green brand color rather than GREEN LIFE's orange, same trimmed ~3s beat from a 10s source. Muted+autoplay so it's guaranteed to actually play, a poster image for an instant frame before the video loads, a fallback timeout in case <code>onEnded</code> never fires, and <code>objectFit: "contain"</code> (not "cover") so the tall source frame letterboxes against a near-black background instead of getting its edges cropped.</p>
+    <p><b>One play per QUALIFYING card, not one per batch</b> (<code>TierRevealSequence</code>/<code>tierFxSequence</code>) — Cody: <i>"if they open 20 packs and get 3 legendarys the video plays 3 times."</i> Pulling 3 Legendaries from one big multi-pack purchase plays the video 3 times in a row before any of the cards are actually shown, keyed by array index rather than tier name so two back-to-back Legendary pulls each get their own mount instead of React reusing the first video element.</p>
+    <div class="callout warn">
+      <b>Real bug caught live and fixed the same session</b>
+      Cody: bought 99 packs, pulled 2 Solar Array (this game's Legendary-tier boost), and no video fired. The first version of the wiring only scanned <code>reveal.crops</code> for rarities — a Legendary boost pull was never counted, since boosts are a separate array. Fixed to scan both <code>reveal.crops</code> AND <code>reveal.boosts</code>. Verified live: forced the rarity roll, bought a Boost Pack (which only ever yields a boost, never a crop, confirming this exercises the exact code path that was broken), the video correctly played.</div>
+    <p>This game has no Mythical tier at all by design (§02) — Legendary is the ceiling, so <code>RARITY_FX_VIDEO</code> only ever needs a single <code>legendary</code> entry, unlike GREEN LIFE's Mythical-plus-Legendary version of the same mechanic. With this built, pack-opening is now at genuine parity with GREEN LIFE for the Legendary-tier moment specifically.</p>
   </section>
 
   <!-- 13 -->
@@ -750,9 +770,15 @@
     <ul>
       <li><b>7-day listing window</b> (<code>LISTING_TTL_MS</code>), and a listing <b>cannot be cancelled</b> once posted — an intentional design choice, stated plainly on-screen rather than offering a cancel button that would fail.</li>
       <li>An unsold listing auto-returns to the seller's bag after 7 days, no loss beyond the time spent listed.</li>
-      <li>Sell flow pre-fills the item's floor price as a suggestion; the seller is free to type any price.</li>
+      <li>Sell flow pre-fills the item's floor price, but the floor is now a genuinely <b>locked minimum, not a suggestion</b> (fixed 2026-08-28 — see below).</li>
       <li>Listing sign sheet shows the full fee breakdown (10% = 5% burn + 5% treasury) and the exact net the seller will receive — the design target, shown at point of sale even though the current build's buy-side doesn't yet execute a real burn (no live counterparty to trigger one against).</li>
     </ul>
+
+    <h3>Floor price enforcement is now real, not just displayed (fixed 2026-08-28)</h3>
+    <p>Cody: <i>"the floor isnt a suggestion those are locked and cant be listed under that price unless i lower it from the admin screen."</i> Before this fix, the sell modal accepted any price above 0 and its own copy literally said "price it wherever you like" — the only thing enforcing the floor was a nonbinding <code>fmtSol(floor)</code> label. Now the price input sets a real HTML <code>min</code> at the live floor, a red "Below the floor — can't list under floor" warning appears the moment a typed price dips under it, and the List button disables and relabels ("Price is below floor") until the price clears it. <b>Enforced twice, not once:</b> the actual <code>listItem()</code> function also clamps to <code>Math.max(floor, priceSol)</code> as backend defense-in-depth, so a stale UI state or a direct call can never undercut the floor either. Floor values were already a live admin dial (<code>RARITY_FLOOR_SOL</code>/<code>BOOST_FLOOR_SOL</code> via the Economy panel's Floors sub-panel, §20) — only the enforcement of that dial against a real listing was missing until now.</p>
+
+    <h3>Buy-side display — grouped tiles, not one row per listing (reworked 2026-08-27)</h3>
+    <p>Cody: <i>"if we do every card for sale it will flood the page, can you set it up like green life. 1 card shows how many cards are for sale. lowest price, you click on the card and options display... card art with stats under it... make the display like simpler farmer is."</i> The flat <code>listings</code> array is now grouped into one tile PER ITEM — rendered through the game's own <code>CropCard</code>/<code>BoostCard</code> (the same card renderer every other screen uses, real art + stats, not an imported list-row style), showing that item's lowest listed price and how many total listings exist for it. Tapping a tile opens a price-tier picker (mirrors GREEN LIFE's own buy-modal shape): pick a price tier, pick a quantity (capped at that tier's count), then <b>one signed batch purchase</b> covers the whole quantity in a single signature rather than one sign-off per card.</p>
 
     <h3>Floor prices — crop cards</h3>
     <p>Deliberately anchored to GREEN LIFE's own floor schedule (Cody: <i>"refer to weed game as a key since all the GP are very similar on the plants"</i>) — both games pay out of the same $GREEN and trade on the same LP, so a mismatched floor between them would be a real arbitrage, not a design choice.</p>
@@ -788,7 +814,7 @@
     <table>
       <tr><th>Constant</th><th>Value</th></tr>
       <tr><td>Farm emissions pool</td><td class="num">200,000,000,000 (200B)</td></tr>
-      <tr><td>Decay rate</td><td class="num">0.05%/day of whatever remains (locked 2026-08-25, admin-dialable under the cap)</td></tr>
+      <tr><td>Decay rate</td><td class="num">0.05%/day of whatever remains (admin-dialable)</td></tr>
       <tr><td>Hard cap on the dial</td><td class="num">2.0%/day, contract-enforced ceiling, never higher</td></tr>
       <tr><td>Simulated network power baseline</td><td class="num">5,000,000</td></tr>
       <tr><td>Instant stream share</td><td class="num">70%</td></tr>
@@ -810,13 +836,20 @@
     <p>Only applied when the player was actually referred (<code>referredBy</code> set) — an organic player with no referrer pays nothing extra either way. The cut is <b>4.01%</b> total, carved out of the player's own payout, same rate as the pack-purchase cut (see §16, §23).</p>
     <h3>Idempotency &amp; double-submission guard</h3>
     <p>The harvest handler re-verifies its targets against a live ref of current plants before crediting anything, specifically to make a rapid double-click a clean no-op rather than a real double-credit — found and fixed in the 2026-08-24 audit as a real risk, not a hypothetical one.</p>
+
+    <h3>Success toast on a clean harvest (added 2026-08-27)</h3>
+    <p>Cody reported harvesting felt like "nothing happens." Investigated live, real farm and real balance: the crediting itself was never broken — <code>harvest()</code> moved the balance by the exact sum of the ready plants' pots, to the fraction, every single time. The actual gap was purely visual — only a plant DEATH ever fired a toast; a clean harvest credited the balance silently with no on-screen confirmation at all. Fixed by adding a matching success toast ("harvested +N $GREEN") for the clean-harvest path, using the same <code>setToast({kind:"good", …})</code> pattern already used elsewhere in the file, so a correct credit is now visibly confirmed rather than a silent number change the player had to notice on their own.</p>
   </section>
 
   <!-- 15 -->
   <section id="lottery">
     <div class="sec-num">15</div>
-    <h2>Lottery — Four Standing Pools</h2>
+    <h2>GLG Lottery &amp; GLG Raffle</h2>
+    <p class="lede">Two standing prize systems sit stacked on the Farm screen, and despite the similar name they are opposite designs on every axis: <b>GLG Lottery</b> (below) is player-funded and shared cross-game; <b>GLG Raffle</b> (further below) is entirely GLG/treasury-funded and scoped to this game alone. The naming settled 2026-08-29 after briefly overlapping ("GLG Lotto" vs. "PVP Lotto") — Cody's own read that the two names sat too close together side by side led to the current split.</p>
+
+    <h3>GLG Lottery — Four Standing Pools</h3>
     <p class="lede">A straight port of GREEN LIFE's 4 standing pools — one panel, a 2×2 grid, sitting on the Farm screen above the pack carousel. Each pool is a weighted raffle: buy tickets, more tickets improve odds, one weighted-random winner takes the whole pot when the clock hits zero, then the pool immediately starts its next round.</p>
+    <p>The block's own header note was rewritten 2026-08-28 to name all three GLG games directly instead of a hedged "shared with every GLG game" framing: <i>"Each Lottery is shared between all GLG games. Simple Farmer, Mother Lode, and Green Life. More tickets, better odds. One winner takes the whole prize when the clock hits zero."</i> (GREEN LIFE's own matching header got the identical rewrite the same session.) The 🧪 SIMULATED disclosure directly underneath is untouched — still the honest fine print about how a draw is actually resolved today, see below.</p>
     <table>
       <tr><th>Pool</th><th>Currency</th><th>Ticket price</th><th>Period</th></tr>
       <tr><td>🎟️ Daily $GREEN</td><td class="num">$GREEN</td><td class="num">$0.10 (USD-pegged)</td><td class="num">1 day</td></tr>
@@ -828,9 +861,29 @@
       <b>Fee is 100% treasury, deliberately never burned</b>
       A flat 5% (<code>LOTTERY_FEE_PCT</code>) is taken from the pot and credited entirely to the treasury, funding future giveaways and events. This is a deliberate exception to the game's otherwise burn-heavy spend model: a lottery ticket is a wager pooled between players and redistributed, the same shape as any other PvP-style ante — not a spend that consumes an item, so it doesn't burn like one.</div>
     <p>Pot = ticket price × total tickets (player + simulated bot tickets). Payout = pot minus the 5% fee, computed by rounding the fee first and deriving the payout by subtraction — never rounding both independently, so the difference can never vanish into nowhere. Bot tickets seed every pool between 40–199 so it never reads empty; a background 5-second tick resolves any pool whose clock has hit zero.</p>
+
+    <h3>Admin bonus pot (BUILT 2026-08-27, server-registered 2026-08-28)</h3>
+    <p>Admin → Economy can add $GREEN or SOL straight to a pool's pot with no ticket issued and no fee taken — the whole amount goes to whoever wins that round; nobody, including the admin, gets extra odds for it. Splits proportionally among real ticket-holders at draw time, the same shape as a Tournament's house-funded bonus-prize field. As of 2026-08-28 a bonus top-up also registers with the real cross-game server ledger (<code>glgServerAddBonus</code>) alongside the local pool, matching how a ticket purchase now registers server-side too (below).</p>
+
+    <h3>The ticket ledger is now genuinely real; the on-screen draw still isn't (updated 2026-08-28)</h3>
     <div class="callout warn">
-      <b>Explicitly disclosed as simulated, on-screen</b>
-      <i>"Bot tickets fill every pool and the draw runs client-side — real money must not enter this until that changes."</i> Shown via a visible <code>🧪 SIMULATED</code> badge directly on the Farm screen's lottery block.</div>
+      <b>Two separate layers of "shared," only one of them a real backend</b>
+      Genuinely shared across every GLG game two ways now. <b>(1)</b> Same-origin localStorage (2026-08-24) — real cross-tab sharing on one browser, a ticket bought in GREEN LIFE in another tab really does move this pool. <b>(2)</b> A real Supabase backend (2026-08-28, <code>glg</code> schema, shared by GREEN LIFE / Simple Farmer / Mother Lode) — every ticket bought and every admin bonus is genuinely recorded server-side, atomically, across devices and games for real; proven live by watching a ticket bought in one game and one bought in another land in the literal same server-side pool, with correct weighted-draw math and the fee split. <b>What's NOT yet true:</b> the countdown/winner/payout the player actually SEES still comes from the local pool and resolves with client <code>Math.random()</code> — the real server draw is proven and callable but does not yet drive the on-screen UI. <b>Real money must never enter a client-resolved random draw.</b> Shown via a visible <code>🧪 SIMULATED</code> badge directly on the Farm screen's lottery block.</div>
+
+    <h3>GLG Raffle — Three Standing Pools, Built 2026-08-29</h3>
+    <p>A second, deliberately unrelated system that sits as a 1×3 row directly under the GLG Lottery 2×2 grid. Where GLG Lottery is player-funded and shared cross-game, GLG Raffle is <b>100% GLG/treasury-funded</b> (players never contribute to the prize), <b>free to enter</b>, and <b>scoped to Simple Farmer alone</b> — its 3 pools carry no shared state with GREEN LIFE's or Mother Lode's own copies, and there is no backend behind it at all (contrast with GLG Lottery's real shared Supabase ledger above).</p>
+    <table>
+      <tr><th>Pool</th><th>Period</th></tr>
+      <tr><td>🍀 GLG Daily Raffle</td><td class="num">1 day</td></tr>
+      <tr><td>⭐ GLG Weekly Raffle</td><td class="num">7 days</td></tr>
+      <tr><td>👑 GLG Monthly Raffle</td><td class="num">30 days</td></tr>
+    </table>
+    <p><b>One universal ticket, spent at entry, not one ticket per pool.</b> A player holds a flat count of a single "GLG Raffle Ticket" item and decides which pool to spend one or more into at the moment they enter — the entry sign-sheet carries no "Cost" row, since spending an owned ticket is a consume-from-inventory action, not a purchase. Tickets come from two places: earned free from Season Pass tiers or onboarding achievements (neither built yet), or bought outright on Marketplace → 🎫 Pass at <b>$0.25 each</b> (<code>GLG_LOTTO_TICKET_USD</code>) — that purchase routes 100% to treasury and never adds to any pool's prize. Entry is uncapped, matching GLG Lottery's own no-cap rule.</p>
+    <div class="callout locked">
+      <b>Every prize is admin-authored — never drawn from player activity</b>
+      A pool's prize is a bundle — $GREEN, specific packs (<code>GLG_LOTTO_PRIZE_PACKS</code>, this game's own <code>PACKS</code>/<code>PACK_IDS</code> vocabulary, not GREEN LIFE's), and/or specific named crops (<code>CROPS</code>/<code>CROP_KEYS</code>) — any component optional. Both pickers in Admin → Economy are real art-tile grids (<code>CropCard</code> for crops, <code>PACK_IMG</code> for packs), not text dropdowns, and the admin panel always shows each pool's live current prize rather than a blind fund-entry form. <code>glgLottoPrizeLines(pool)</code> is the single function both the admin panel and the player-facing tile call to render a bundle, so a prize can never be described two different ways.</div>
+    <p>Admin also controls a per-pool on/off toggle and reschedule, plus a <b>Daily-only pre-scheduled queue</b> (<code>glgLottoDailyQueue</code>) letting several future days' prizes be loaded in one sitting and auto-applied calendar-aligned on rollover — with an admin-controlled visibility toggle (<code>glgLottoQueueVisible</code>, off by default) for whether players see what's coming. Admin can additionally spin up a <b>one-off "random" raffle</b> — a 4th tile (defaulting to the name "🎲 Surprise Raffle") that draws once and is deleted outright, never becoming a recurring pool; it reuses every existing fund/toggle/enter handler unmodified since they already operate generically on whichever pool id is passed in. A tap or hover on a pool tile expands a truncated prize summary into the full itemized list.</p>
+    <p>Ticket art is Simple Farmer's own distinct design (not the shared GLG-branded look the Master Pass card uses) — a dark kraft-paper, deep-brown county-fair raffle ticket with the game's real produce-collage tile logo set in a neon-glow box, wired to the small icon on the Marketplace → 🎫 Pass tab's ticket-purchase panel, directly under the Master Pass hero tile. <code>🧪 SIMULATED</code> — unlike GLG Lottery above, GLG Raffle has no backend of any kind; every pool, ticket count, and draw lives entirely in this game's own in-memory client state.</p>
   </section>
 
   <!-- 16 -->
@@ -848,6 +901,9 @@
       <tr><td><b>Total chain cut</b></td><td class="num">4.01%</td></tr>
     </table>
     <p>It stops dead at 3 levels — a 4th-level ancestor gets nothing, ever. This is not an endless downline. The cut is carved out of money that was already moving (a pack purchase, a claim, a harvest); it never mints a single new token.</p>
+
+    <h3>Referral code length</h3>
+    <p><code>REF_CODE_LEN</code> (4 letters + 3 digits = 7 characters) is still the shape the real code generator produces. Separately, <code>REF_CODE_MAX_LEN</code> — the longest a code FIELD anywhere in the game will accept, typed or admin-set — was raised to <b>12 characters</b> on 2026-08-27, matching GREEN LIFE. Cody: <i>"wee need to change the ref to hold up to 12 char. so that way people can use their name if they want to"</i> — enough room for something readable (e.g. "BUFFALOBILL") wherever a code can be typed or set, without changing what the real generator itself produces.</p>
 
     <h3>Which flows carry the cut, and which don't</h3>
     <table>
@@ -868,7 +924,16 @@
       <tr><td class="num">SFROOT4</td><td>(unlabeled)</td><td class="num">SFROOT3</td><td class="num">No</td></tr>
       <tr><td class="num">SFROOT5</td><td>(unlabeled)</td><td class="num">SFROOT4</td><td class="num">No</td></tr>
     </table>
-    <p><b>The referral roulette pool is exactly <code>[SFROOT3, SFROOT4, SFROOT5]</code></b> — codes #1 and #2 are structurally excluded, matching the locked rule carried over from GREEN LIFE: "#1 and #2 will not show on the roulette button, they are just the top of the game so the refers can end." Any cut walking up to <code>SFROOT1</code> (the burn seed) is destroyed rather than paid, for exactly the same reason the platform's other burn sinks exist: sending it to an unspendable marker would leave those tokens in circulating supply forever, which the fixed-supply guarantee cannot afford.</p>
+    <p>Any cut walking up to <code>SFROOT1</code> (the burn seed) is destroyed rather than paid, for exactly the same reason the platform's other burn sinks exist: sending it to an unspendable marker would leave those tokens in circulating supply forever, which the fixed-supply guarantee cannot afford.</p>
+
+    <h3>Referral roulette — 5 slots shown per roll, 2 of them admin-locked (2026-08-27)</h3>
+    <p>Ported to match GREEN LIFE's own shape — same platform-wide pattern, independently built here, no shared code. One click shows <b>5 candidates total</b>: <b>2 admin-locked slots</b> that never rotate, prepended and always the same until an admin explicitly changes them, plus <b>3 randomly-rolled candidates</b> underneath that redraw on every re-roll. The player picks one — never auto-assigned.</p>
+    <table>
+      <tr><th>Slot type</th><th>Count</th><th>Behavior</th></tr>
+      <tr><td>🔒 Admin-locked</td><td class="num">2</td><td>Fixed identities (defaults "Buffalo Bill" / "Lucky Person"), set by Admin → Economy → 📌 Locked roulette slots (signed); never change on a re-roll</td></tr>
+      <tr><td>🎲 Rolled candidates</td><td class="num">3</td><td>Drawn from a simulated "active in the last 12 hours" pool (<code>ROULETTE_CANDIDATES</code>), each showing its code and total referral count; a re-roll draws 3 different ones without leaving the screen</td></tr>
+    </table>
+    <p>Cody, on the 2 locked slots: <i>"make give 5 names. the top 2 will be locked. 1 Buffalo Bill 2. Lucky Person. make these 2 wallets where i can lock a set person in them and they dont change. i would like that across all games."</i> The rolled-candidate pool falls back to the bootstrap chain's own <code>SFROOT3</code>/<code>SFROOT4</code>/<code>SFROOT5</code> as a reserve if it were ever thinner than 3 real candidates — codes #1 (Burn seed) and #2 (Dev seed) stay structurally excluded from ever appearing, matching the locked rule carried over from GREEN LIFE: "#1 and #2 will not show on the roulette button, they are just the top of the game so the refers can end." The referral count shown next to each candidate is the whole point of the design (Cody: "maybe someone will want to help a little guy?") — it quietly rewards picking the smallest account rather than the biggest, and a 0 reads as an invitation ("you'd be their first"), never a bare zero.</p>
 
     <h3>Where earnings actually live</h3>
     <div class="callout locked">
@@ -876,6 +941,9 @@
       Referral earnings live in their own separate pot (<code>refEarnings</code>), claimed via its own button, never mixed into the player's own farmed <code>unclaimed</code>/<code>balance</code>. Nothing that can drain a farmed balance can reach it.</div>
     <p>A code that resolves to a real (non-bootstrap) referrer — i.e. an actual player's own generated code, once a backend exists — only resolves one level deep in this single-device simulation; the remainder is tracked in <code>refChainPayout</code> as "owed to a real player, not paid yet," while any share that reaches the burn seed is destroyed for real, right now, regardless of backend status (burning needs no backend to be correct).</p>
     <p>My Stuff → Invite includes a dashed-border <b>"🧪 Testing tool — not a real feature"</b> panel with a <b>"Simulate a friend joining"</b> button — it fakes one referral activation (credits exactly the Level-1 3% rate against a hardcoded $10 simulated spend) purely so the earnings UI can be seen working without a second device.</p>
+
+    <h3>Backend infrastructure note — Supabase project consolidated, not rebuilt (2026-08-28)</h3>
+    <p>Separately from everything simulated above (which describes what a single browser tab can demonstrate with no second player present), Simple Farmer's real account/referral backend — <code>account-link</code>, <code>activate</code>, <code>credit-referral</code>, <code>referral-earnings</code>, called fail-silent from <code>farmer-game.jsx</code> via <code>SF_REFERRAL_BACKEND_ENABLED</code> — used to live in its own dedicated Supabase project. It was migrated 2026-08-28 into a <code>farmer</code> schema inside the SAME shared Supabase project GREEN LIFE and Mother Lode also use (the hosting org's free tier caps out at 2 simultaneous projects, and there are now 3 games needing one). All 4 real accounts, 8 aliases, and 1 referral were migrated with UUIDs preserved and verified zero-loss via curl and in-browser. <b>Functionally nothing changed for players</b> — same real backend, same real numbers, just relocated infrastructure; this is a pure infra move, not a feature change, and does not itself resolve the single-device limitations §25 documents above (those describe what this front-end can demonstrate locally, independent of where the real backend happens to be hosted).</p>
   </section>
 
   <!-- 17 -->
@@ -922,6 +990,8 @@
 
     <h3>🌾 Crops &amp; ✨ Boosts tabs</h3>
     <p>Idle (unplanted, unlisted) cards, grouped by identical card into one tile with a ×N badge, sorted rarest-first (crops secondarily by power). Each tile shows the item's floor price, how many are currently on the market, and how many of those are the player's own listings. A persistent callout on the Boosts tab restates the one-boost-per-plant, no-stacking, no-swap rule.</p>
+    <h4>Tap-to-view popup + Sell deep-link (added 2026-08-28)</h4>
+    <p>Cody: <i>"when you click on an item in your inventory its brings the card up with the stats and the sell item button."</i> Tapping a tile on either tab now opens a popup with the real card art, rarity/owned/floor/for-sale stats, and a 🏪 Sell button — <code>CropCard</code>/<code>BoostCard</code> already supported an <code>onClick</code> prop that nothing used before this. Since Stuff has no sell UI of its own (Market's <code>SellModal</code> is the one real listing flow), Sell hands off via a one-shot deep-link (<code>g.marketSellIntent</code>, the same shape as the existing <code>g.stuffOpenTab</code>/<code>g.gardenOpenTier</code> pattern) that lands on Market with the sell sheet already open, that exact item pre-selected, and the price pre-filled at its current rarity floor — instead of making the player navigate to Market and re-pick the item by hand.</p>
 
     <h3>👥 Invite tab — the referral hub</h3>
     <p>Player's own referral code (minted once at farm creation, never regenerated), a copy-code/copy-link pair, the full 3-level rate table (§16), a live "Referral Earnings" claimable panel, a friends-activated counter, and — a visible testing-only control — "🧪 Simulate a friend joining."</p>
@@ -933,15 +1003,14 @@
   <!-- 19 -->
   <section id="world">
     <div class="sec-num">19</div>
-    <h2>World Screen — Leaderboard &amp; Pool-Life Projection</h2>
-    <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms, how long the pool lasts, and the full simulated-systems disclosure list. Four sections in this fixed order: Global Stats, Leaderboard, Pool Life projection, Simulated Systems.</p>
+    <h2>World Screen — World Rankings &amp; Pool-Life Projection</h2>
+    <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms across 6 separate leaderboards, how long the pool lasts, and the full simulated-systems disclosure list. Four sections in this fixed order: Global Stats, World Rankings, Pool Life projection, Simulated Systems.</p>
 
     <h3>Emissions pool panel</h3>
     <p>Live pool balance vs. the original 200B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend).</p>
 
-    <h3>Leaderboard — 10 simulated rivals + the player's live row</h3>
-    <p>A fixed roster of 10 named rival farms (SunnyAcres, TractorTom, RootRunner, BeetBoss, PlowQueen, MudMagnet, CornDog99, SoilSister, GourdLord, HayFever), each assigned a power multiplier relative to the player's own current power (from 4.2× down to 0.22×, jittered ±15%). Deliberately generated <b>once per page load at module scope</b> (not per-visit) so the fake board doesn't reshuffle every time the World tab is reopened — the on-screen "resets when you refresh" disclosure is thereby literally true rather than a lie of convenience.</p>
-    <p>Ranking is by total farm power, including plants that have finished and stopped earning — explicitly disclosed on-screen, since it differs from the "earning power" figure used for the actual emissions split.</p>
+    <h3>World Rankings — 6 boards, replacing the old single Farm-Power leaderboard (rebuilt 2026-08-30)</h3>
+    <p>The original single-board leaderboard (10 fixed rival farms, ranked by total farm power only) is superseded — replaced with <b>6 independent World Rankings boards</b> (<code>WORLD_RANKINGS</code>, <code>farmer-constants.js</code>): 🚜 Farm Power, 🌾 Lifetime Harvest, 🧬 Breeding Legacy, 💎 Rarest Collection, 👥 Top Recruiter, 🏪 Marketplace Mogul. Each renders as its own <code>RankingBoard</code> component on the World screen, stacked in that order. Full detail — event-window design, the sale-tick mechanism that now makes Marketplace listings actually sell, and the admin controls — lives in §29.</p>
 
     <h3>Pool-life decay projection</h3>
     <p>Standard exponential decay compounding: <code>poolLeft(days) = pool × (1 − rate/100)^days</code>, projected at 1/2/5/10-year horizons, plus a computed half-life (<code>ln(0.5) / ln(keep)</code>). Reads the <b>live</b> admin-set emissions rate, not the hardcoded default, so the projection can never disagree with a rate an admin has actually dialed in (e.g. during a promo weekend).</p>
@@ -959,7 +1028,7 @@
       <b>Every admin change signs</b>
       Nothing mutates the instant a button is tapped. Every change routes through the same wallet-sign sheet a player sees buying a pack, badged gold 👑, naming which of several admin keys signs it (Price dial key / Emissions dial key / Support-grant key / Treasury key / Content key) — mirroring a deliberate multi-key split so one stolen key can't become every problem.</div>
 
-    <h3>11 tabs</h3>
+    <h3>12 tabs <span style="font-weight:400;font-size:0.7em;color:#888">(corrected 2026-08-30 — was stated as 11, missed 🎟️ Season added 2026-08-29)</span></h3>
     <table>
       <tr><th>Tab</th><th>Purpose</th></tr>
       <tr><td>📊 Overview</td><td>Pool balance, LIVE/SIM-tagged stat grid</td></tr>
@@ -968,8 +1037,9 @@
       <tr><td>🛒 Items</td><td>Per-item price/currency dial for Seed, Mystery, Boost, PRIMO</td></tr>
       <tr><td>💰 Economy</td><td>Breed promo toggle, emissions rate dial, pool-decay projection, floor-price ladders, marketing codes, credit-card ledger</td></tr>
       <tr><td>🏅 Badges</td><td>Cosmetic badge library — build, publish, delete</td></tr>
-      <tr><td>🎁 Drops</td><td>Publish claimable event drops by audience/window</td></tr>
-      <tr><td>🛠 Grants</td><td>Read-only public log of every support grant issued, with its reason</td></tr>
+      <tr><td>🎟️ Season</td><td>Season Pass reward-ladder + task content editor (Free/Premium/Welcome tracks) — see §28</td></tr>
+      <tr><td>🎁 Drops</td><td>Publish claimable event drops by audience/window — plus (added 2026-08-29) a "🎯 Send to one player" popup that opens the Grants form right here</td></tr>
+      <tr><td>🛠 Grants</td><td>A one-off fix for one player, plus a public log of every grant issued. Kind selector added 2026-08-29: 📦 Pack/Item (original), 🃏 a specific named crop, or 🧪 a specific named boost — closing a real gap the earlier build had (no way to hand back one exact item, only a random roll)</td></tr>
       <tr><td>👛 Wallets</td><td>Read-only registry of every game wallet, its kind, and its risk if empty</td></tr>
       <tr><td>🚩 Pre-launch</td><td>The full SIM_FLAGS checklist, read-only, unticked</td></tr>
       <tr><td>📜 Feed</td><td>Read-only stream of every signed action in the game</td></tr>
@@ -981,6 +1051,8 @@
     <h3>💰 Economy tab</h3>
     <ul>
       <li><b>🧬 Guaranteed-breed promo toggle</b> — see §09.</li>
+      <li><b>🎁 PRIMO Buy 1 Get 1 Free toggle</b> (added 2026-08-27) — doubles the first PRIMO purchase of the day; see §11.</li>
+      <li><b>📌 Locked roulette slots</b> (added 2026-08-27) — set the name/code/referral-count shown in the referral roulette's 2 fixed slots (defaults "Buffalo Bill" / "Lucky Person"); signs like every other admin change. See §16.</li>
       <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.05%) and "2× promo weekend" (0.10%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement.</li>
       <li><b>📉 Pool decay projection</b> — the same math as §19, computed off the live-typed (unsigned) draft rate so the projection updates as the admin types, before it's even signed.</li>
       <li><b>🏷️ Item floor prices</b> — two independently editable ladders (crop / boost), anchored to GREEN LIFE's own numbers on purpose; the panel explicitly warns that drifting one game's floor far from the other's opens a cross-game arbitrage.</li>
@@ -1069,6 +1141,9 @@
     <p>A planted crop's emoji physically grows in size as it matures (from ~1.05× to ~1.6× the plot's own dot radius) — "the fastest way to read a whole field at a glance without putting a number on every plot." A ready-to-harvest plot gets a pulsing gold ring and switches its fill/border to gold, so finished plants are findable without reading anything.</p>
     <h3>Empty-state routing (4 distinct branches)</h3>
     <p>The scene picks its empty-state message and call-to-action based on exactly why the farm is empty — not a generic "plant something": no plots owned yet routes to the Garden; plots owned but a card in hand routes to the Garden; plots owned but everything is still sealed in a pack routes to My Stuff; a genuine fallback (nothing owned, nothing in hand) points at the pack carousel. This exists specifically because a brand-new player's first card is locked inside the sealed Starter Pack — sending them straight to an empty Garden with an empty inventory would be a dead end.</p>
+
+    <h3>Harvest/Plant/Boost action row — removed 2026-08-27</h3>
+    <p>Cody's original spec for this screen (quoted above) called for "action abilities like harvest, plant, boost" directly on the map, and an early build did carry a row of the three. It came out once it was actually redundant: Plant and Boost were pure <code>goGarden()</code> navigation shortcuts with no action of their own, and Harvest duplicated the Garden screen's own per-tier "Harvest ready" button exactly. Cody reported the row "felt like it did nothing" — removed entirely rather than fixed, since there was no real action left for it to perform. Tapping a garden patch on the map still navigates to the Garden screen; harvesting now only happens from the Garden screen's own tabs.</p>
   </section>
 
   <!-- 23 -->
@@ -1119,6 +1194,7 @@
       <tr><td><code>STARTER_PACKS</code></td><td>1× Starter Pack, auto-opened</td></tr>
       <tr><td>Free starting plots</td><td class="num">10 (4+3+2+1+0 across the 5 garden tiers)</td></tr>
       <tr><td><code>REF_CODE_LEN</code></td><td>4 letters + 3 digits = 7 characters</td></tr>
+      <tr><td><code>REF_CODE_MAX_LEN</code></td><td class="num">12 characters (raised from the 7-char shape, 2026-08-27)</td></tr>
       <tr><td>Invite-screen minimum code length to continue</td><td class="num">4 characters</td></tr>
     </table>
 
@@ -1151,7 +1227,8 @@
       <tr><td>Mystery Pack</td><td class="num">$1.00</td><td class="num">$GREEN</td></tr>
       <tr><td>Boost Pack</td><td class="num">$0.50</td><td class="num">$GREEN</td></tr>
       <tr><td>PRIMO Pack</td><td class="num">$7.99 (base $11.99)</td><td class="num">SOL</td></tr>
-      <tr><td><code>FREE_PACK_ID</code></td><td colspan="2">"mystery" — the daily free pack IS a Mystery Pack</td></tr>
+      <tr><td><code>PACK_LIMIT_BY_LEVEL</code></td><td colspan="2">25 / 30 / 35 / 40 / 50 by farm Lv1–5 — Seed &amp; Mystery only, Boost stays uncapped (2026-08-27)</td></tr>
+      <tr><td><code>FREE_PACK_ID</code></td><td colspan="2">"mystery" — legacy identity marker only since the 2026-08-30 Daily-block removal; groups Mystery Pack with Seed Pack under the shared daily-allowance shape, no longer grants anything free</td></tr>
       <tr><td><code>MYSTERY_TYPE_ODDS</code></td><td colspan="2">60% boost / 40% crop</td></tr>
       <tr><td><code>MAX_QTY_PER_BUY</code></td><td colspan="2">99 (a UI safety rail, not a game rule)</td></tr>
     </table>
@@ -1177,7 +1254,7 @@
       <tr><td>Boost floors (Com/Unc/Rare/Epic/Leg)</td><td class="num">0.005 / 0.01 / 0.025 / 0.05 / 0.10 SOL</td></tr>
     </table>
 
-    <h3>Lottery</h3>
+    <h3>GLG Lottery</h3>
     <table>
       <tr><th>Pool</th><th>Price</th><th>Period</th></tr>
       <tr><td>Daily $GREEN</td><td class="num">$0.10</td><td class="num">1 day</td></tr>
@@ -1185,6 +1262,15 @@
       <tr><td>Daily SOL</td><td class="num">0.005 SOL</td><td class="num">1 day</td></tr>
       <tr><td>Weekly SOL</td><td class="num">0.015 SOL</td><td class="num">7 days</td></tr>
       <tr><td colspan="3"><code>LOTTERY_FEE_PCT</code> = 5%, 100% to treasury, never burned</td></tr>
+    </table>
+
+    <h3>GLG Raffle</h3>
+    <table>
+      <tr><th>Pool</th><th>Period</th></tr>
+      <tr><td>🍀 GLG Daily Raffle</td><td class="num">1 day</td></tr>
+      <tr><td>⭐ GLG Weekly Raffle</td><td class="num">7 days</td></tr>
+      <tr><td>👑 GLG Monthly Raffle</td><td class="num">30 days</td></tr>
+      <tr><td colspan="2"><code>GLG_LOTTO_TICKET_USD</code> = $0.25/ticket, 100% to treasury; entering a draw costs nothing further, no fee</td></tr>
     </table>
 
     <h3>Referral &amp; gifting</h3>
@@ -1228,7 +1314,7 @@
       <tr><td class="num">ref-chain-untracked</td><td>Referral chain payout is deferred, not paid</td><td>The 3-level cut is correctly deducted from claims, harvests and $GREEN pack purchases, and resolved through the seeded bootstrap chain — a share that reaches the burn seed IS burned for real. But there's no live upline player on a single device, so any share owed to a real (non-bootstrap) referrer is tracked in refChainPayout rather than paid. Breeding and farm-level upgrades are correctly exempt from the cut — this line is only about packs/claims/harvests.</td></tr>
       <tr><td class="num">sim-gift-codes</td><td>Gift-a-Farm codes are single-device</td><td>genClaimCode() and the credit-card ledger are real client logic, but there is no shared server yet — a code generated in this browser can only be redeemed in this same browser (plus the small built-in demo list).</td></tr>
       <tr><td class="num">single-player-graph</td><td>Referral graph is one seeded chain</td><td>The whole referral tree right now is the 5-code bootstrap chain plus whatever a player types by hand. A real backend has real other players as ancestors instead.</td></tr>
-      <tr><td class="num">sim-lottery</td><td>Simulated lottery</td><td>Bot tickets and client-side draws. Real money must never enter this.</td></tr>
+      <tr><td class="num">sim-lottery</td><td>Lottery display still draws client-side <i>(reworded 2026-08-28)</i></td><td>Genuinely shared across every GLG game two ways now. (1) Same-origin localStorage (2026-08-24) — real cross-tab sharing on one browser. (2) A real Supabase backend (2026-08-28, <code>glg</code> schema, shared by GREEN LIFE/Simple Farmer/Mother Lode) — every ticket bought and every admin bonus is genuinely recorded server-side, atomically, across devices and games for real. What's NOT yet true: the countdown/winner/payout the player actually SEES still comes from the local pool and resolves with client Math.random() — the real server draw is proven and callable but doesn't drive the on-screen UI yet. Real money must never enter a client-resolved random draw.</td></tr>
       <tr><td class="num">sim-players</td><td>Admin Players tab is a fake roster</td><td>ADMIN_DEMO_PLAYERS is deterministically generated, not real accounts. Cody can't look up, message, or badge a real player until there's a backend to read one from.</td></tr>
       <tr><td class="num">sim-friend-join</td><td>"Simulate a friend joining" test button</td><td>My Stuff → Invite ships a player-visible testing control that fakes a referral activation, so it gets its own line rather than hiding inside single-player-graph.</td></tr>
     </table>
@@ -1280,6 +1366,44 @@
       <tr><td>Wallets panel "Signer" category</td><td>A whole wallet category existed in the UI with zero data behind it — none of the 5 real named admin keys were ever listed, so "every wallet the game touches" was false</td><td>Added all 5 (Content/Price dial/Emissions dial/Support-grant/Treasury) with real does/risk copy</td></tr>
       <tr><td>Broken "see SIM_FLAGS" pointer</td><td><code>DEMO_EXISTING_FARM</code>'s code comment pointed at a checklist entry that didn't exist</td><td>Added one</td></tr>
     </table>
+
+    <p class="lede" style="margin-top:28px;">A third batch, 2026-08-27 — smaller fixes made in the course of that day's feature work rather than a dedicated audit pass.</p>
+    <table>
+      <tr><th>Area</th><th>What was wrong</th><th>Fix</th></tr>
+      <tr><td>Top-bar Swap sheet</td><td>Cody: <i>"when you go to swap, after you hit swap it stay up and you have to x it out to be able to sign."</i> <code>doSwap</code> only closed the swap sheet inside its own <code>onConfirm</code>, so the sheet stayed mounted while <code>requestSign</code> opened the sign confirmation underneath it — both used the same flat <code>zIndex:200</code>, so DOM mount order (the swap sheet mounted later) decided who painted on top, burying the sign screen the player actually needed to tap</td><td>Close the swap sheet BEFORE calling <code>requestSign</code>, matching the pattern every other modal-triggered sign flow in the file already used (the pay-picker's onPick, the sell sheet's onList)</td></tr>
+      <tr><td>Pack-reveal dismiss button</td><td>Cody: <i>"on the pack reveal nice button for simpler farmer can we make it smaller, it looks bad being big and across the screen."</i> The button was a full-bleed <code>width:100%</code> Pill stretching edge to edge</td><td>Centered and sized to its own text, reading as a normal button</td></tr>
+    </table>
+
+    <p class="lede" style="margin-top:28px;">A fourth batch, 2026-08-28 — two real bugs caught live in the same day's feature work (same-rarity breed bonus, §09; the new Legendary reveal video, §12), both fixed in the same session before either shipped in a broken state.</p>
+    <table>
+      <tr><th>Area</th><th>What was wrong</th><th>Fix</th></tr>
+      <tr><td>Breed-odds display (same-rarity bonus)</td><td>The Breed screen showed BOTH a 33% "one tier above" row (already including the redirected same-rarity bonus) AND a separate "+25% bonus" line under it, reading as a 58% combined chance — the real total was always 33%, never 58%</td><td>"Higher parent's rarity" now renders struck-through on a same-rarity pair (dead outcome), and the bonus renders as a called-out green line under the true 33% total rather than stacked on top of it; verified live that Ghost Pepper×Ghost Pepper's "Combined chance per tier" reads 33%, not 58%</td></tr>
+      <tr><td>Legendary reveal video (Legendary boosts)</td><td>Cody caught it live: bought 99 packs, pulled 2 ☀️ Solar Array (Legendary-tier boost), no video fired. The wiring only scanned <code>reveal.crops</code> for rarities — Solar Array is a boost, not a crop, so it was never counted</td><td>Now scans both <code>reveal.crops</code> AND <code>reveal.boosts</code>; verified live by forcing the rarity roll and buying a Boost Pack (which only ever yields a boost, confirming the exact broken path), video correctly played</td></tr>
+    </table>
+
+    <p class="lede" style="margin-top:28px;">A fifth batch, 2026-08-29/30 — a 6-dimension audit (money-state, ux-consistency, unread-screens, doc-vs-code, admin-simflags, security-exploit; game code AND all 3 reports in scope this time) with adversarial verification, plus a real live playtest (7 agents driving real browser sessions against the running game). 34 raw audit findings, 32 confirmed, 30 unique (2 dimensions independently caught the same Season Pass bug); 29 fixed, 1 left as a documented judgment call. The playtest separately surfaced one more real bug and two false positives that were investigated and ruled out rather than blindly fixed.</p>
+    <table>
+      <tr><th>Area</th><th>What was wrong</th><th>Fix</th></tr>
+      <tr><td>SignSheet re-entrancy (systemic)</td><td>The ONE shared confirm button behind every signed action in the game had no re-entrancy guard — <code>setSign(null)</code> is an async state update, so a rapid double-tap before React re-rendered could fire <code>onConfirm</code> twice for the same request. Found via <code>listItem</code> (would duplicate a listed card)</td><td>A <code>firedRef</code> comparing against the exact <code>sign</code> object, fixed once at <code>SignSheet</code> itself — protects every signed action in the game, not just the one that surfaced it</td></tr>
+      <tr><td>Season Pass claim re-entrancy</td><td><code>claimSeasonFree</code>/<code>claimSeasonPrem</code>/<code>claimSeasonWelcome</code> had no <code>*Ref</code> guard — the exact bug class already fixed for <code>openPending</code>/<code>claimDrop</code> in the 2026-08-24 audit, just never applied when Season Pass was built 5 days later</td><td>Added <code>seasonFreeClaimedRef</code>/<code>seasonPremClaimedRef</code>/<code>seasonWelcomeClaimedRef</code>, consumed synchronously before granting</td></tr>
+      <tr><td>Support-grant daily cap, TOCTOU</td><td><code>issueGrant</code>'s cap check ran before the sign sheet opened and was never re-validated at confirm time — another grant could land while the sheet sat open</td><td>Added a live <code>grantsRef</code>, re-checked inside <code>onConfirm</code></td></tr>
+      <tr><td>Master Pass purchase, no refund on failure</td><td>SOL was debited before confirming the real server call succeeded — a failed purchase left the player paid with nothing to show for it</td><td><code>spendSol</code> now returns its LP/treasury split so <code>refundSol</code> can reverse it exactly on failure</td></tr>
+      <tr><td>Lottery ticket purchase, charge-before-check</td><td>Currency was debited and success logged even when the shared-pool write failed (round already drew)</td><td>Now checks the pool write's result BEFORE debiting</td></tr>
+      <tr><td>Master Pass grant/drop quantity</td><td>Silently delivered exactly 1 pass regardless of requested qty, while the sign sheet and public log both claimed "qty×"</td><td>Clamped to 1 at the source (both <code>issueGrant</code> and <code>publishDrop</code>) — one pass per wallet for life makes qty&gt;1 meaningless, so the UI now says what it does</td></tr>
+      <tr><td>claimDrop's Master Pass branch</td><td>Wrote its claimed-guard only after the async server call resolved, unlike every sibling branch — a double-tap could fire two concurrent purchase calls</td><td>Guard now set synchronously, rolled back only if the call actually fails</td></tr>
+      <tr><td>GLG Raffle admin sign-coverage</td><td>Prize removal, queued-prize removal, and the queue-visibility toggle all mutated the live game with zero <code>adminSign</code> step, on the same panel where every sibling action already signs</td><td>All three now sign — verified live (removal opens a real "Remove prize from GLG Daily Raffle" sheet)</td></tr>
+      <tr><td>Referral Earnings claim (found via live playtest)</td><td><code>claimRefEarnings()</code> correctly pays exactly what the real backend reports, but silently zeroed the on-screen number with no explanation when the local value was ahead of the server (reachable via the TESTING-only "simulate a friend" button, which only ever credits local state)</td><td>Now logs/toasts why when this happens; no money was ever mishandled, this closes a trust/communication gap</td></tr>
+      <tr><td>Season Pass Premium buy, no afford-feedback</td><td>Tapping Buy with insufficient SOL did nothing visible</td><td>Now toasts the shortfall</td></tr>
+      <tr><td>Market tab-chip badges</td><td>Pass/Season tabs showed a misleading "0" — they aren't listing counts at all</td><td>Count badge now conditional per-tab (<code>showCount</code>)</td></tr>
+      <tr><td>Season Pass progress-bar color</td><td>My Profile's card used a one-off <code>BRAND_GRAD</code> fill; the Season Pass panel itself uses the shared <code>Bar</code>/<code>ACCENT</code> treatment</td><td>Matched to the panel's own treatment</td></tr>
+      <tr><td>Season Pass modal, double header</td><td>Opened from My Profile, the Modal wrapper's own title AND the panel's internal "🎟️ Season 1" header both rendered — a real duplicate, verified live</td><td><code>SeasonPassPanel</code> takes an optional <code>onClose</code> and renders its own close control (same pattern My Profile's own modal already uses); the Modal wrapper drops its redundant title</td></tr>
+      <tr><td>Breed screen "N–M cards" text</td><td>Read as "1–1 new cards" now that breeding always yields exactly 1 — technically correct data, awkward copy left over from when the count could vary</td><td>Reads "exactly 1 new card" when min=max</td></tr>
+      <tr><td>Pool half-life at a paused (0%) rate</td><td>Read "0.00 years" — backward. A paused rate means the pool never decays, not that it empties instantly</td><td>Now shows "Never" with an explanatory line</td></tr>
+      <tr><td>Dead <code>heroActive</code> state</td><td>Written in 3 places in the 3D reveal scene, read nowhere</td><td>Removed</td></tr>
+      <tr><td>Doc drift, both this report and the Full Audit</td><td>Admin Console tab count/list said 11, omitting 🎟️ Season (added 2026-08-29); grant-kind emoji documented as 🌿/✨, actual is 🃏/🧪; SIM_FLAGS count stale at 15</td><td>All corrected — see §27's "SIM_FLAGS total-count — RESOLVED" callout for the fullest account</td></tr>
+    </table>
+    <p class="lede" style="margin-top:14px;">Left as a documented judgment call rather than fixed: the Season Pass admin editor's <code>ToggleSwitch</code> uses a different visual pattern than the console's established click-to-toggle convention (<code>breedPromo</code>'s "🔥 PROMO IS LIVE" card). Low severity, and — unlike <code>breedPromo</code>, which toggles LIVE state immediately — the Season Pass toggles edit a DRAFT, so forcing it into the immediate-toggle convention would misrepresent what it actually does.</p>
+    <p class="lede" style="margin-top:14px;"><b>Two playtest reports investigated and ruled out as false positives</b> rather than fixed: a "Season Pass tier-1 under-delivers 4 of 5 items" report turned out to be the tester misreading the Welcome ladder's standard roadmap UI (all 5 tiers shown at once, only the earned one unlocked) as one combined claim preview — <code>claimSeasonWelcome</code> correctly delivers exactly the 1 item each tier promises, confirmed by re-reading both the handler and the <code>SEASON_PASS.welcome</code> slot data directly. A "phantom inventory loss after a breed" report (an untouched 3rd card vanishing alongside the 2 bred parents) was re-tested clean in a dedicated live repro on 2026-08-30 — bred 2 of 3 held cards, the untouched 3rd survived exactly as expected, confirming <code>breed()</code>'s own filter logic (<code>c.uid !== uidA &amp;&amp; c.uid !== uidB</code>) can only ever remove the two selected parents. The original report was very likely an artifact of concurrent file-editing happening during that same playtest session, not a real defect.</p>
   </section>
 
   <!-- 27 -->
@@ -1296,21 +1420,94 @@
     <div class="callout gap">
       <b>No confirmed path for a player's own listing to actually sell</b>
       The buy handler only operates against the NPC-seeded pool; no mechanism was found in the research for a simulated buyer to purchase a player's own <code>myListings</code> entry. As built, a player listing appears to always run its full 7 days and auto-return rather than genuinely sell — not confirmed as broken end-to-end, but not confirmed as working either, and not called out anywhere in the source as a known limitation.</div>
-    <div class="callout gap">
-      <b>SIM_FLAGS total-count drift</b>
-      See §25 — the list content is consistent (15 entries) everywhere it was captured, but the total-count figure quoted alongside it disagrees between research passes ("14," "15," and a rendered "16").</div>
+    <div class="callout locked">
+      <b>SIM_FLAGS total-count — RESOLVED 2026-08-30, was stale at "15"</b>
+      A direct read of the live array during the 2026-08-29/30 complete-audit pass confirms <b>20 entries</b> (<code>farmer-constants.js:1309-1329</code>). The count kept moving as the game grew — 17 → 19 with <code>sim-season-pass</code> (2026-08-29) → 20 with <code>sim-glg-raffle</code> (2026-08-30, added by that same audit to close a real gap: GLG Raffle was "Simulated v1" in its own source comments but had no checklist entry at all). Treat any hard-coded count in this document as a snapshot that will drift again the next time a simulated system ships — the live array is the only durable source of truth.</div>
     <div class="callout gap">
       <b>Stale documentation inside the game's own code</b>
       At least two comments in <code>farmer-constants.js</code> were found to describe numbers that had already moved on: a PRIMO-pricing rationale comment still compares against a "$10 entry" figure after farm entry was raised to $25, and the buy-in-split comment in <code>mintFarm()</code> still literally says "$10 entry" in its prose even though every actual number it computes uses $25. Neither affects behavior — both are comment-only drift — but both are worth a cleanup pass.</div>
     <div class="callout gap">
-      <b>Everything under §03 about the wider GLG platform (the 1-trillion supply and the four game pools)</b>
-      This report's picture of the platform beyond Simple Farmer itself comes from the platform-level tokenomics spec locked by Cody on 2026-08-25 — no GREEN LIFE, Dino Island or Mother Lode source file was part of the research this report draws from, so treat any cross-game figures here as the stated plan, not independently cross-checked against those other games' code.</div>
+      <b>Everything under §03 about the wider GLG platform (GREEN LIFE 250B / Dino Island 250B / Mother Lode 200B, the 1 trillion total)</b>
+      This report's picture of the platform beyond Simple Farmer itself comes from the locked platform tokenomics — no GREEN LIFE or other GLG-game source file was part of the research this report draws from, so treat any cross-game figures here as the stated plan, not independently cross-checked against those other games' code.</div>
     <div class="callout note">
       <b>Reminder for whoever picks this document up next</b>
       This is a snapshot of a fully simulated dev preview. §25's SIM_FLAGS list and §20's Admin Console (currently open to anyone, per <code>admin-open</code>) are the two most load-bearing sections for anyone deciding whether any part of this build is close to handling real value — it is not, by the game's own explicit and repeated disclosure.</div>
   </section>
 
-  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN and its platform-level LP / treasury / giveaway buckets with the other GLG games</div>
+  <!-- 28 -->
+  <section id="seasonpass">
+    <div class="sec-num">28</div>
+    <h2>Season Pass (Added 2026-08-29)</h2>
+    <p class="lede">A real, playable reward-ladder system — Simple Farmer only, not ported to GREEN LIFE or Mother Lode. Three ladders read from one admin-editable registry, <code>SEASON_PASS</code>, mutated in place the same way <code>SHOP_CONFIG</code>/<code>MASTER_PASS</code>/<code>BADGE_LIBRARY</code> already are.</p>
+
+    <h3>Three ladders</h3>
+    <table>
+      <tr><th>Ladder</th><th>Size</th><th>Cost</th><th>Shape</th></tr>
+      <tr><td>🌱 Free</td><td>12 tiers</td><td>Free</td><td>175 pts/tier. <b>Corrected 2026-08-30 — LOCKED:</b> claimable exactly as fast as points come in, no weekly cap. (Was capped at 3 tiers/real-week unless Premium was owned; Cody: "i dont want a cap on either 1 of them.")</td></tr>
+      <tr><td>👑 Premium</td><td>4 bonus bundles</td><td>$4.99, SOL only</td><td>One extra bundled reward at week-end tiers 3/6/9/12, stacked on top of Free — points-gated only, same as Free now. Its old second perk, "removes Free's weekly claim cap," is gone along with the cap itself. <b>Buy-and-claim UI's primary home moved off this ladder's own popup 2026-08-30, then partly came back</b> — see Entry points below.</td></tr>
+      <tr><td>🌟 Welcome</td><td>5 tiers</td><td>Free</td><td>35 pts/tier (175 total). 11 one-time tasks sum to 295 available points — deliberately over-provisioned so a player doesn't need every task to max the ladder. <b>Own pill + popup moved off this ladder's own popup too, 2026-08-30</b> — see Entry points below.</td></tr>
+    </table>
+
+    <h3>Points sources — real wall-clock, real gameplay</h3>
+    <p>Daily (20 pts, resets real calendar day): Claim $GREEN, Plant a card, Harvest a ready plant, Apply a boost. Weekly (40 pts, resets real ISO week): List on the Marketplace, CrossBreed once, Buy or open a paid pack. Welcome (15–50 pts, one-time): mint, first plant/harvest/boost, plant/harvest multiple at once, list, share invite, and one purchase of each of the 3 pack types. Deliberately real time, not the compressed <code>TESTING_FAST_GROW</code> clock — a fast-clock cooldown would let points be farmed absurdly quickly.</p>
+
+    <h3>Reward delivery — one function, all three ladders</h3>
+    <p><code>grantSeasonSlot</code> is the single path Free/Premium/Welcome all claim through. Card and boost-card rewards roll randomly within a stated rarity at claim time (<code>rollCropInTier</code>/<code>boostOfRarity</code>) — a deliberately different mechanism from the unrelated targeted-item-grant admin tool (§20), whose "specific card"/"specific boost" kinds place the exact named item with no roll at all. The two happen to call similarly-named inventory setters; don't conflate them.</p>
+
+    <h3>Entry points — split in three, then Premium partly rejoined, all 2026-08-30</h3>
+    <p><b>Originally:</b> Marketplace → 🎟️ Season sub-tab, and "Open Season Pass" on My Profile, both rendered the identical <code>SeasonPassPanel</code> component (header, tasks, Free track, Premium, and the Welcome ladder, all in one popup).</p>
+    <p><b>Split 1 — Profile entry point becomes its own popup.</b> Originally a tab-navigation deep-link into Market (flagged as wrong by Cody: "if i click view season pass from my profile tab it takes me to the market nav tab"), fixed to open as its own dedicated popup ("you should make it be its own pop up when they click view season pass") via a <code>seasonPassOpen</code> state + <code>&lt;Modal&gt;</code>, staying on whatever screen the player was already on.</p>
+    <p><b>Split 2 — Premium moves to Marketplace → 🎫 Pass.</b> A second UI-reorg pass the same day split Premium's buy-and-claim UI out of <code>SeasonPassPanel</code> entirely, into its own component (<code>SeasonPremiumPanel</code>), per Cody: "move the premium track block where you buy the season pass, to the pass tab... put it under the raffle ticket above the master pass," then "remove the season tab after" — reassured by "there is a season pass pop up in my profile so players can still see it." Result: <code>SeasonPremiumPanel</code> renders on Marketplace → 🎫 Pass (between the GLG Raffle ticket panel and Master Pass — ascending commitment order). The Marketplace's 🎟️ Season sub-tab no longer exists at all. Where <code>SeasonPassPanel</code> used to show the Premium panel inline, it now shows a one-line pointer to Marketplace → 🎫 Pass instead (worded differently for owners vs. non-owners).</p>
+    <p><b>Split 3 — Welcome ladder gets its own pill + popup, same session, immediately after Split 2.</b> Cody: "so lets add a Welcome Task Pill Button under the profile pic giving it, its own pop up and removing it from the season pass pop up." The old inline <code>WelcomeLadder</code> component is now the exported <code>WelcomeTasksPanel</code>, opened via a new pill in My Profile sitting directly under the Master Pass pill and showing live <code>claimed/5</code> progress — hidden entirely once all 5 tiers are claimed (the panel's old self-hiding <code>return null</code> moved up to the pill, so the popup itself can never render blank). Its <code>&lt;Modal&gt;</code> uses <code>Modal</code>'s own built-in <code>title</code> prop for the header/close row rather than a custom one, since — unlike <code>SeasonPassPanel</code>, which needs a countdown alongside its title — a plain title is enough here; same simpler pattern this game's Swap/Notifications/Get-help popups already use.</p>
+    <p><b>Split 4 — Premium comes back to the popup, as a SECOND location, immediately after Split 3.</b> Cody: "now when you click the season pass button on my profile, the pop page add the premium 4.99 option above the free track. just another place a player might see it." <code>SeasonPremiumPanel</code> is now called from <code>SeasonPassPanel</code> again too — same component, same props, no duplicate state — rendered between the task checklist and the Free track. Marketplace → 🎫 Pass keeps its own call to the identical component as Premium's original/primary home; this is purely additive.</p>
+    <p><b>Result:</b> <code>SeasonPassPanel</code> (reachable <b>exclusively</b> via My Profile → Open Season Pass) shows its header, the Daily/Weekly task checklist, Premium (again, as of Split 4), and the Free track — Welcome content is the only thing still fully gone from it. <b>Two</b> popups now cover what one used to: season progress + Premium (My Profile), Welcome Tasks (My Profile, its own pill) — plus Premium's standing extra appearance on Marketplace → 🎫 Pass.</p>
+
+    <h3>Admin editor</h3>
+    <p><code>SeasonPassAdminPanel</code> — draft-then-sign over the live <code>SEASON_PASS</code> object: season name, premium price, and (added mid-session per Cody) independent Free/Premium on-off <code>ToggleSwitch</code> controls. Welcome deliberately has no toggle — a one-time onboarding ladder isn't a recurring content drop worth pausing.</p>
+
+    <div class="callout gap">
+      <b>Welcome task list — revised same session</b>
+      Cody removed 3 original tasks (connect wallet, claim first daily pack, sign &amp; commit planting batch — the last a near-duplicate of "plant your first card") and replaced item 5 with "Plant multiple cards at once," then added 3 new 50-pt tasks after the invite-share step: Buy a Seed Pack, Buy a Mystery Pack, Buy a Boost Pack.</div>
+
+    <p><code>🧪 SIMULATED</code> — like every other reward/points system in this game, points, claims and Premium ownership are in-memory React state only, gone on refresh, no backend behind any of it yet.</p>
+  </section>
+
+  <!-- 29 -->
+  <section id="rankings">
+    <div class="sec-num">29</div>
+    <h2>World Rankings (Added 2026-08-30)</h2>
+    <p class="lede">Replaces the old single Farm-Power-only leaderboard covered in §19 with 6 independent leaderboards, plus an admin-controlled event-window mode so a brand-new player can compete fairly with a 3-month veteran. Built in response to the standing "Harvest Ledger" report's 7 proposed rankings — Cody approved all but Season Prestige, which was dropped from scope entirely.</p>
+
+    <h3>The 6 boards</h3>
+    <table>
+      <tr><th>Board</th><th>Tracks</th><th>Source value</th></tr>
+      <tr><td>🚜 Farm Power</td><td>Total farm power (unchanged from the old single board)</td><td>Existing farm-power calculation</td></tr>
+      <tr><td>🌾 Lifetime Harvest</td><td>Total $GREEN ever harvested, all-time</td><td><code>totalClaimed</code></td></tr>
+      <tr><td>🧬 Breeding Legacy</td><td>Completed crossbreeds, lifetime count</td><td><code>breedCount</code> (new state, incremented on every successful breed)</td></tr>
+      <tr><td>💎 Rarest Collection</td><td>Owned Epic + Legendary cards, live count</td><td><code>rareCount</code> (new <code>useMemo</code> over inventory + planted cards)</td></tr>
+      <tr><td>👥 Top Recruiter</td><td>Referrals who actually activated a farm — not just signed up</td><td><code>refActivatedCount</code>, from the account-link response's <code>referred_activated_count</code></td></tr>
+      <tr><td>🏪 Marketplace Mogul</td><td>Lifetime net SOL earned selling on the Marketplace</td><td><code>lifetimeMarketSol</code> (new state, credited whenever a listing actually sells)</td></tr>
+    </table>
+    <p><code>WORLD_RANKINGS</code> (<code>farmer-constants.js</code>) is the registry — 6 entries, each <code>{id, emoji, label, desc}</code>, plus <code>rankingById()</code>. <code>rankingLiveValues</code> (a <code>useMemo</code> in <code>farmer-game.jsx</code>) combines all 6 into one object every render, the single source both the World screen and the admin panel read from.</p>
+
+    <h3>A real gap this closed: Marketplace listings could never actually sell</h3>
+    <p>Marketplace Mogul needed a real "you sold something" event to track — and the game's own listings had none. <code>listingSellTickPct(tickMs)</code> gives every open listing an independent per-tick chance of selling, calibrated so a listing has roughly a 65% chance of selling within its full TTL window (<code>LISTING_SELL_TARGET_PCT = 0.65</code>) rather than either never selling or resolving instantly: <code>1 − (1 − TARGET)^(tickMs / LISTING_TTL_MS)</code>, a constant-hazard-rate model — same shape a radioactive-decay half-life uses. Runs on the game's existing 1-second clock tick (<code>CLOCK_TICK_MS</code>, a new shared constant so the sale-roll and the clock interval can never drift out of calibration with each other). A sold listing pays the seller their net (after the standard marketplace fee), credits the fee to the treasury, and adds the net amount to <code>lifetimeMarketSol</code> — the exact figure Marketplace Mogul ranks on.</p>
+
+    <h3>Event windows — separate from lifetime totals, admin-controlled, multi-select</h3>
+    <p>Cody's spec, verbatim: "make sure to have a way to keep it seperate from the game totals. if a even starts i should be able to chose to reset the counter for the time of the even. so that way new players can compete with players 3 months old" — then, mid-build: "make sure i can do multiple at a time, like doing rarest collection and marketplace mogul would be win/win for both sides if played at same time."</p>
+    <p><code>RANKING_EVENTS</code> holds one <code>{active, startedAt, name}</code> slot <b>per category</b>, not one shared "current event" slot — this is what makes independently-timed, independently-named simultaneous events possible, rather than only one event running at a time across the whole board set. A new admin panel, <code>RankingsEventsPanel</code> (Admin → 🏆 Rankings tab), presents all 6 categories as a checklist with one shared optional event name (e.g. "Collector's Weekend"), and one sign-and-apply action starts or resets every checked category at once with the same <code>startedAt</code> timestamp.</p>
+    <p>Each player's own event-window score is computed <b>entirely client-side</b>, never server-tracked: the first moment a player's client notices a category's <code>startedAt</code> has changed, it captures a baseline (<code>eventBaselines</code> state) — "my lifetime value right now." From then on, that category's event score is <code>current lifetime value − baseline value</code>, so a 3-month veteran and a brand-new player both start an event at exactly zero, regardless of their lifetime totals. Lifetime boards are never touched by an event starting, resetting, or ending. The World screen shows a 🔥 EVENT LIVE panel above a category's regular lifetime board whenever that category has a live, baseline-matched event running, using <code>fmtDurShort</code> for the "started N ago" line (an earlier draft used <code>fmtDur</code>, which returns the misleading string "ready" for an elapsed time of zero — caught and fixed before shipping since a just-started event would have read as "Started ready ago").</p>
+
+    <h3>Simulated boards, real player row</h3>
+    <p>Each board's rival rows are simulated (<code>LIFETIME_CACHE</code>/<code>EVENT_CACHE</code>, generic caches keyed per-category so all 6 boards reuse one mechanism instead of six copies of the old single-board code) — no ranking backend exists yet. The event-scoped cache is additionally keyed by <code>${categoryId}:${startedAt}</code>, so an admin reset naturally produces a fresh simulated field rather than needing an explicit cache-clear step. The player's own row is always their real, live value on every board, event or lifetime.</p>
+
+    <h3>Scope note — no prize payouts</h3>
+    <p>This build is rankings and visibility only. No prize-payout or reward-distribution system was built for ranking events — a category leaderboard shows standing, nothing more; anything that pays out the top of a board on event-end would be a separate, not-yet-scoped feature.</p>
+
+    <p><code>🧪 SIMULATED</code> (rival rows, no ranking backend) <code>LIVE</code> (the player's own 6 tracked values, and the admin event-window control)</p>
+  </section>
+
+  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN + its LP with GREEN LIFE · §28 (Season Pass) and the §20 grant-tool update added 2026-08-29 in a follow-up pass · §29 (World Rankings) added 2026-08-30</div>
 
 </div>
 </body>
