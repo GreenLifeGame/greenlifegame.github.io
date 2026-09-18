@@ -317,7 +317,15 @@
   </div>
 </nav>
 
-<div class="ribbon">🥚 <b>Pre-launch head start is open</b> — connect your X below and start banking Weedster Egg ticks before day one. No wallet, no cost.</div>
+<!-- DISABLED 2026-09-19, Cody: account-link's X-handle path was removed as a
+     security fix (2026-09-12) and never replaced with a safe pre-wallet
+     identity, so every real visitor's X-connect here was being silently
+     refused. Hidden via display:none rather than deleted — the underlying
+     #headstart/#leaderboard sections and their JS (search "DISABLED
+     2026-09-19" below) are untouched and this re-enables by removing the
+     style attributes, once there's a real safe-but-weaker identity path for
+     a visitor with no wallet yet. -->
+<div class="ribbon" style="display:none">🥚 <b>Pre-launch head start is open</b> — connect your X below and start banking Weedster Egg ticks before day one. No wallet, no cost.</div>
 
 <div class="wrap" id="top">
     <nav class="gpills" aria-label="GREEN LIFE pages">
@@ -339,11 +347,14 @@
     <p class="subline">Rip packs, grow and breed strains, arm your farm, raid rivals, and trade on the open marketplace. Runs on <b style="color:var(--ink)">$GREEN</b> — the same token every GreenLifeGame title shares — and every one spent in-game is burned forever.</p>
     <div class="cta">
       <a class="btn btn-primary" href="plants-boosts-weapons-shields.html">🌿 See the Plants &amp; Boosts</a>
+      <!-- DISABLED 2026-09-19 alongside the head-start section — see the note above the ribbon.
       <a class="btn btn-ghost" href="#headstart">🥚 Bank your head start</a>
+      -->
     </div>
   </header>
   <!-- PRE-LAUNCH HEAD START -->
-  <section id="headstart" style="padding-top:clamp(20px,4vw,40px)">
+  <!-- DISABLED 2026-09-19 — see the note above the ribbon near the top of this file. -->
+  <section id="headstart" style="display:none;padding-top:clamp(20px,4vw,40px)">
     <div class="headstart">
       <div class="hs-grid">
         <div>
@@ -407,7 +418,10 @@
 
   <!-- X FACTS — a rotating list Cody can post from any time, no daily gate (unlike the
        in-game once-a-day tip). Purely a hype/share tool, not tied to the tick system. -->
-  <section id="xfacts" style="padding-top:clamp(16px,3vw,32px)">
+  <!-- DISABLED 2026-09-19 alongside #headstart — its "+2 ticks coming soon"
+       button was already permanently disabled and this section explains
+       tick-earning, so it reads as orphaned with #headstart gone. -->
+  <section id="xfacts" style="display:none;padding-top:clamp(16px,3vw,32px)">
     <div class="hs-panel xfacts-panel">
       <div class="hs-pill"><i></i> Something to post</div>
       <h3 style="font-family:var(--disp);font-weight:900;font-size:19px;margin:0">GREEN LIFE fact</h3>
@@ -422,7 +436,8 @@
   <!-- LEADERBOARD — public, no connect needed. Own block, separate from the head-start panel
        and the facts panel above (Cody, 2026-07-31). Ranked by signups, since that's the metric
        most likely to actually move before launch. -->
-  <section id="leaderboard" style="padding-top:clamp(16px,3vw,32px)">
+  <!-- DISABLED 2026-09-19 alongside #headstart above. -->
+  <section id="leaderboard" style="display:none;padding-top:clamp(16px,3vw,32px)">
     <div class="center" style="max-width:560px">
       <div class="hs-pill"><i></i> Real activity, right now</div>
       <h2 style="margin-bottom:8px">Top referrers <span class="g">so far.</span></h2>
@@ -607,7 +622,7 @@
       <div class="fact"><div class="fic">👛</div><h3>The game never holds your tokens</h3><p>There's no custodial wallet. Every buy and payout signs <b>straight from your own wallet</b>, so a hack can't drain the players.</p></div>
       <div class="fact"><div class="fic">🔥</div><h3>1 trillion, then it only shrinks</h3><p>Minted <b>once</b>, never again — and every token spent in-game is burned forever. Supply tightens as the game grows.</p></div>
       <div class="fact"><div class="fic">🧬</div><h3>Mythicals are truly rare</h3><p>The top tier is never in a normal pack. You only get one by <b>breeding</b> or cracking a Weedster Egg — each one unique.</p></div>
-      <div class="fact"><div class="fic">🎲</div><h3>Nothing is rigged</h3><p>Packs, breeds, and PvP all roll on-chain through a <b>Verifiable Random Function</b>. No one can predict or fix an outcome.</p></div>
+      <div class="fact"><div class="fic">🎲</div><h3>The draws are provable</h3><p>Lottery draws, raids and hosted tournaments settle on-chain through a <b>Verifiable Random Function</b> — the seed is locked in before the draw, and anyone can re-check the result afterwards.</p></div>
       <div class="fact"><div class="fic">⚙️</div><h3>Self-sufficient after launch</h3><p>Once it's live the economy runs itself — locked vaults, auto burns, per-trade fees. The team just steers the treasury.</p></div>
       <div class="fact"><div class="fic">🎮</div><h3>A game first</h3><p>Grow, breed, cook, raid, spin the bong, run tournaments, decorate a 3D room. The earning is baked into playing, not bolted on.</p></div>
       <div class="fact"><div class="fic">◎</div><h3>Built on Solana</h3><p>Fast and cheap, so growing, trading, and PvP feel like a game — not a gas bill.</p></div>
@@ -637,7 +652,7 @@
     <div class="eyebrow">Built to be fair</div>
     <h2>Provably fair, <span class="g">on-chain.</span></h2>
     <div class="grid g2" style="margin-top:30px">
-      <div class="card"><span class="ic">🎲</span><h3>Verifiable randomness (VRF)</h3><p>Every random outcome — packs, breeds, PvP spins — resolves on-chain through a Verifiable Random Function. No one, not even the house, can rig a result.</p></div>
+      <div class="card"><span class="ic">🎲</span><h3>Verifiable randomness (VRF)</h3><p>Lottery draws, raids and hosted tournaments resolve on-chain through a Verifiable Random Function. The roster is frozen and the seed pinned <i>before</i> the oracle produces anything, so the draw can't be tuned to a known seed and the seed can't be shopped for against a known roster — and the result stays re-checkable by anyone.</p></div>
       <div class="card"><span class="ic">🔗</span><h3>On-chain ownership</h3><p>Your farm, cards, and $GREEN live on Solana — yours to hold, trade, or sell. Temporary accounts refund their rent back to you on settle.</p></div>
       <div class="card"><span class="ic">🔥</span><h3>Burn-on-spend</h3><p>Forfeited and spent $GREEN is burned, not pocketed. The economy tightens as the game grows.</p></div>
       <div class="card"><span class="ic">🔒</span><h3>No infinite mint</h3><p>1 trillion, one time. The math is fixed at launch and can't be changed to dilute holders later.</p></div>
@@ -678,12 +693,14 @@
     <div class="cta-band">
       <div class="eyebrow" style="color:#d7c4ff">Follow the grow</div>
       <h2 style="margin-bottom:12px">Early, but <span class="g">real.</span></h2>
-      <p class="lede center" style="max-width:52ch">GREEN LIFE isn't live yet — but the game is built and the genetics are ready. Bank your Weedster Egg head start now, then dig into every strain while we finish the on-chain build.</p>
+      <p class="lede center" style="max-width:52ch">GREEN LIFE isn't live yet — but the game is built and the genetics are ready. Dig into every strain while we finish the on-chain build.</p>
       <div class="cta">
+        <!-- DISABLED 2026-09-19 alongside #headstart above.
         <a class="btn btn-primary" href="#headstart" style="display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.3">
           <span><span style="color:#ffc94d">$</span> Sign Up Now</span>
           <span style="font-size:10.5px;font-weight:700;opacity:.75">Refer and earn ticks</span>
         </a>
+        -->
         <a class="btn btn-ghost" href="plants-boosts-weapons-shields.html">🌿 Explore the Plants &amp; Boosts</a>
         <span class="locked-teaser" title="Opens at launch">🔒 Buy Your Farm — opens at launch</span>
       </div>
@@ -700,7 +717,7 @@
       <details><summary>How do I actually earn?</summary><p>You grow plants. Your total Grow Power is your share of GREEN LIFE's 250B emissions pool, paying out $GREEN over time. You can also trade cards, breed rare Mythicals, and win PvP.</p></details>
       <details><summary>What stops it from crashing like other P2E games?</summary><p>No infinite minting, a pool that emits slowly over years, and a burn on everything spent in-game — so supply tightens instead of ballooning as more people play.</p></details>
       <details><summary>Which blockchain?</summary><p>Solana — fast and cheap, so growing, trading, and PvP feel like a game, not a gas bill.</p></details>
-      <details><summary>Is it fair / can outcomes be rigged?</summary><p>Random outcomes resolve on-chain via a Verifiable Random Function (VRF). No one — player, team, or validator — can predict or fix a result.</p></details>
+      <details><summary>Is it fair / can outcomes be rigged?</summary><p>Lottery draws, raids and hosted tournaments resolve on-chain via a Verifiable Random Function (VRF). The seed is locked in before the draw and the result stays re-checkable by anyone, so no one — player, team, or validator — can predict or fix one.</p></details>
     </div>
   </section>
 
@@ -724,7 +741,13 @@
   </div>
 </footer>
 
-<script>
+<!-- DISABLED 2026-09-19: type="text/plain" makes the browser treat this whole
+     block as inert data rather than executing it — content untouched below,
+     re-enable by changing the type back to "text/javascript" (or removing
+     the attribute). Matches the #headstart/#leaderboard sections this
+     script exclusively targets (xShowInput/hsName/factText/factPost/
+     lbEmpty all live inside those, per a check before disabling this). -->
+<script type="text/plain">
 (function(){
   // ── Pre-launch head start: connect X (public handle only, no login) + bank Weedster Egg ticks.
   // Saved in localStorage so a visitor's progress persists on their device. Real cross-device
