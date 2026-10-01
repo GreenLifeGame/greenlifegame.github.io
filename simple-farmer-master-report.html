@@ -1332,7 +1332,7 @@
       <tr><th>id</th><th>Label</th><th>Note</th></tr>
       <tr><td class="num">no-chain</td><td>No wallet / no chain</td><td>Every balance, payment and signature is local state. Nothing touches Solana.</td></tr>
       <tr><td class="num">no-backend</td><td>No backend</td><td>Referrals, marketplace and leaderboard are in-memory. Refresh resets them.</td></tr>
-      <tr><td class="num">cpu-random</td><td>CPU random, not VRF</td><td>Pack, breed and lottery rolls use Math.random(). On-chain these must be VRF.</td></tr>
+      <tr><td class="num">cpu-random</td><td>CPU random, not VRF</td><td>Pack, breed and lottery rolls use Math.random(). ⚠️ CORRECTED 2026-09-10: only the LOTTERY roll must become VRF. Packs and breeds deliberately stay server-side against one published odds table — VRF is for adversarial, pooled-stake ACTIONS (a raid, a lottery draw), not for content REVEALS. A pack costs the same whatever it contains, so there is nothing to rig for or against the buyer; what matters is the published odds being honoured.</td></tr>
       <tr><td class="num">fast-grow</td><td>TESTING_FAST_GROW</td><td>A "day" is 60 seconds so a full grow is watchable. Revert before launch.</td></tr>
       <tr><td class="num">fast-cd</td><td>TESTING_FAST_COOLDOWN</td><td>Farm upgrade cooldowns are 20s, not 2–5 days. Revert before launch.</td></tr>
       <tr><td class="num">sim-market</td><td>Simulated marketplace</td><td>NPC listings are generated locally; there is no real counterparty.</td></tr>
