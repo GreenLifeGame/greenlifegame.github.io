@@ -118,6 +118,46 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 
 <div class="page">
 
+<section class="sec" id="ch00">
+  <div class="sec-head"><span class="sec-num">00</span><h2>Current State — 2026-10-04 (read this first)</h2></div>
+
+  <div class="callout locked">
+    <b>Chapters 01–22 below were written 2026-08-24 to 2026-08-30, when Simple Farmer had no wallet, no chain and almost no backend.</b>
+    Their rules, numbers and screen descriptions are still a useful map, but wherever they say "simulated", "no backend", "no chain", "single-device" or "Math.random()", this chapter is the current truth. Chapter 01's snapshot table and Chapter 17's real-vs-simulated table have been corrected in place; the other chapters are kept as dated history.
+  </div>
+
+  <h3>What is real now, with a wallet connected (devnet)</h3>
+  <table>
+    <tr><th>System</th><th>State</th><th>How it works</th></tr>
+    <tr><td>Wallet + sign-in</td><td><span class="tag tag-real">REAL</span></td><td>Phantom (or any Wallet Standard wallet) connects; connecting is the login. Every payment is a real devnet transaction and the wallet's own popup is the confirm screen.</td></tr>
+    <tr><td>$25 farm entry</td><td><span class="tag tag-real">REAL</span></td><td>One transaction: the $5 $GREEN bonus is a real swap on the game's Raydium pool, the rest runs through the LP-phase split. Verified server-side by <code>farmer-buyin</code>; the SOL price it checks against is read from the server per request, so the game and the server can't disagree about what $25 is.</td></tr>
+    <tr><td>Entry is invite-only</td><td><span class="tag tag-real">REAL</span></td><td>A new account needs a referral code from a player who owns a farm (or a bootstrap code). Enforced in <code>farmer-account-link</code> and again inside <code>farm_create</code>.</td></tr>
+    <tr><td>Emissions + claims</td><td><span class="tag tag-real">REAL</span></td><td>Simple Farmer's own on-chain program <code>farmer-emissions</code> (one program for the whole game). 200B pool, 0.05%/day, 2%/day hard ceiling. Claims carve the 3% / 1% / 0.01% referral cut on chain. The pool behind "pool left" is the chain's own (vault minus what is already owed).</td></tr>
+    <tr><td>Farm, plants, cards, packs, breeding, upgrades, slots</td><td><span class="tag tag-real">REAL</span></td><td>Server-side in Simple Farmer's own Supabase schema (<code>farmer</code>), behind <code>farmer-farm</code>. Packs and breeds roll on the server from one published odds table. Paid items take a 5-minute hold before the wallet opens, so two taps can't pay twice for one item.</td></tr>
+    <tr><td>Grow time</td><td><span class="tag tag-real">REAL</span></td><td>A game-day is a real day (<code>game_config.day_secs = 86400</code>) since 2026-10-04. Only farm-upgrade cooldowns stay at 20 seconds — the one testing tool kept on purpose, same as GREEN LIFE's instant upgrades.</td></tr>
+    <tr><td>Marketplace</td><td><span class="tag tag-real">REAL</span></td><td>Real player listings; a buy pays 90% seller / 5% buyback-burn / 5% treasury in one transaction. A buyer can hold one listing for at most 20 minutes an hour, and an unsold listing returns after 7 days (with a 10-minute grace after any hold, so a late-landing payment isn't refused).</td></tr>
+    <tr><td>Referrals</td><td><span class="tag tag-real">REAL</span></td><td>The real <code>farmer.referrals</code> graph; the keeper links each new player on chain within seconds. Referral earnings are paid by the chain, not by a server ledger (the old <code>farmer-credit-referral</code> / <code>farmer-referral-earnings</code> endpoints are retired).</td></tr>
+    <tr><td>Gift a Farm + marketing codes</td><td><span class="tag tag-real">REAL</span></td><td>A real escrow purchase issues a server code any device can redeem; the keeper delivers the bonus from Simple Farmer's own Gift Wallet. Admin marketing codes are paid from the Raffle wallet.</td></tr>
+    <tr><td>Season Pass, Raffle, Rankings, Drops, Support tickets</td><td><span class="tag tag-real">REAL</span></td><td>All server-side. Tickets record whether the sender proved wallet ownership.</td></tr>
+    <tr><td>GLG Lottery + Master Pass</td><td><span class="tag tag-real">REAL</span></td><td>The two systems shared with every GLG game (the <code>glg</code> schema).</td></tr>
+    <tr><td>Swap</td><td><span class="tag tag-real">REAL</span></td><td>SOL ↔ $GREEN on the game's real Raydium pool. USDC/USDT are refused on devnet.</td></tr>
+    <tr><td>Admin console</td><td><span class="tag tag-real">REAL</span></td><td>Only in the admin build, and only for a wallet the server lists as admin. The Pre-launch tab now also checks the game's own copies of crop stats, odds, upgrade costs, garden tiers and the SOL price against the server's and lists every difference.</td></tr>
+    <tr><td>Keeper</td><td><span class="tag tag-real">REAL</span></td><td>One service on the GLG keeper droplet (<code>simple-farmer-keepers</code>), separate from GREEN LIFE's. Each row it processes is isolated, so one bad row can't stop the rest.</td></tr>
+  </table>
+
+  <h3>What is still local</h3>
+  <p>Only the <b>no-wallet practice mode</b>: without a wallet the farm lives in the browser, the market and rankings show invented players, and a refresh resets it. That mode is labelled on screen. Full list in Chapter 17.</p>
+
+  <h3>Still open</h3>
+  <table>
+    <tr><th>Item</th><th>Owner</th></tr>
+    <tr><td>Compliance wording on the site and in-game</td><td>Cody / lawyer</td></tr>
+    <tr><td>Turn farm-upgrade cooldowns back to 2–5 days (<code>TESTING_FAST_COOLDOWN</code> + <code>fast_upgrade_secs</code>)</td><td>Before mainnet</td></tr>
+    <tr><td>Full launch rehearsal across all three games</td><td>Once Mother Lode's backend catches up</td></tr>
+  </table>
+  <p class="small">Sources: <code>FIX-LOG-2026-10-03.md</code>, <code>FARMER-BACKEND-BUILD-PLAN.md</code>, <code>farmer-constants.js</code> <code>SIM_FLAGS</code>, and 42 migrations under <code>supabase/migrations/</code>.</p>
+</section>
+
 <div class="callout note">
   <b>How this document was built</b>
   This audit was assembled the same way GREEN-FULL-AUDIT.html was: every system was researched directly from raw source (<code>farmer-constants.js</code>, <code>farmer-game.jsx</code>, and every <code>farmer-screen-*.jsx</code>/<code>farmer-admin-*.jsx</code>/<code>farmer-onboarding.jsx</code>/<code>farmer-scene.jsx</code>/<code>farmer-reveal-fx.jsx</code>/<code>farmer-ui.jsx</code>/<code>farmer-main.jsx</code> file), with exact <code>file:line</code> citations. That research was then independently cross-checked against the two existing player-facing docs — FARMER-PLAYER-GUIDE.html (PG) and FARMER-MASTER-REPORT.html (MR) — claim by claim. Where source and docs agree, this document states the number once, cited. Where they disagree, or where source shows something neither doc mentions, or where the research itself was ambiguous or self-contradictory, this document says so explicitly in Chapters 18–20 rather than guessing which is right. No number below has been invented, rounded beyond what the source itself displays, or resolved by assumption.
@@ -125,7 +165,8 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 
 <div class="toc">
   <h3>Table of contents</h3>
-  <ol>
+  <ol start="0">
+    <li><a href="#ch00">Current State — 2026-10-04 (read this first)</a></li>
     <li><a href="#ch01">Executive Summary</a></li>
     <li><a href="#ch02">Relationship to GREEN LIFE &amp; the GLG Platform</a></li>
     <li><a href="#ch03">Onboarding &amp; Entry Flow</a></li>
@@ -166,7 +207,9 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 
   <p>Simple Farmer is the second game on the GreenLifeGame (GLG) platform — a fruits-and-vegetables farming P2E game, deliberately built as the simple/easy counterpart to GREEN LIFE's depth. It runs on its own dedicated file set (<code>farmer-*.jsx</code>), its own entry point (<code>farmer-main.jsx</code> → <code>farmer.html</code>), and shares essentially nothing at the code level with GREEN LIFE — see Chapter 02 for the precise boundary of what actually is shared.</p>
 
-  <p>As of this audit, Simple Farmer is <span class="tag tag-sim">CLIENT SIMULATION</span> for almost every system — no wallet, no chain, no on-chain program of any kind exists for this game yet. The one confirmed exception is its referral system, which runs against a real, deployed Supabase backend — its own schema inside the same shared multi-game Supabase project GREEN LIFE and Mother Lode also use (own database functions, own edge functions — see Chapter 12), migrated there 2026-08-28 from an earlier fully-standalone project with zero data loss — verified end-to-end with a real click-driven mint in the 2026-08-24 audit session, before the migration. The game is also live-deployed as four static subdomains under <code>greenlifegame.com</code> (see Chapter 16).</p>
+  <p><b>⚠️ Superseded 2026-10-04 — see Chapter 00.</b> With a wallet connected, every system below is now real on devnet. The original paragraph follows as history.</p>
+
+  <p>As of this audit (August 2026), Simple Farmer was <span class="tag tag-sim">CLIENT SIMULATION</span> for almost every system — no wallet, no chain, no on-chain program of any kind exists for this game yet. The one confirmed exception is its referral system, which runs against a real, deployed Supabase backend — its own schema inside the same shared multi-game Supabase project GREEN LIFE and Mother Lode also use (own database functions, own edge functions — see Chapter 12), migrated there 2026-08-28 from an earlier fully-standalone project with zero data loss — verified end-to-end with a real click-driven mint in the 2026-08-24 audit session, before the migration. The game is also live-deployed as four static subdomains under <code>greenlifegame.com</code> (see Chapter 16).</p>
 
   <table>
     <tr><th>Snapshot</th><th>Value</th><th>Citation</th></tr>
@@ -179,9 +222,9 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
     <tr><td>Emissions pool</td><td>200,000,000,000 $GREEN, decaying 0.05%/day, hard-capped 2%/day forever</td><td class="cite">farmer-constants.js:90-105</td></tr>
     <tr><td>Referral cut</td><td>3% / 1% / 0.01% over 3 levels = 4.01% total, then stops</td><td class="cite">farmer-constants.js:735-736</td></tr>
     <tr><td>Marketplace fee</td><td>10% total → 90% seller / 5% burn / 5% treasury (design target)</td><td class="cite">farmer-constants.js:672-674</td></tr>
-    <tr><td>Real backend</td><td>Shared multi-game Supabase project, own schema, referral system only</td><td class="cite">session infra record — see Ch.16</td></tr>
+    <tr><td>Real backend</td><td>Shared multi-game Supabase project, own <code>farmer</code> schema — farm, cards, packs, breeding, market, referrals, Season Pass, raffle, rankings, gifts, tickets (2026-10-04)</td><td class="cite">session infra record — see Ch.16</td></tr>
     <tr><td>Live deployment</td><td>4 subdomains under greenlifegame.com</td><td class="cite">session infra record — see Ch.16</td></tr>
-    <tr><td>On-chain programs</td><td>None deployed for this game yet</td><td class="cite">session infra record — see Ch.16</td></tr>
+    <tr><td>On-chain programs</td><td>One: <code>farmer-emissions</code> (devnet), emissions + claims + referral carve. Shared GLG programs for the LP and lottery.</td><td class="cite">session infra record — see Ch.16</td></tr>
   </table>
 
   <p>This document's purpose mirrors GREEN-FULL-AUDIT.html's own stated one for GREEN LIFE: it is meant to become the single most exhaustive, most current internal reference for Simple Farmer — built by researching every system directly from source, independently cross-checking that against the game's own existing docs, and flagging every mismatch, blind spot, and open question rather than silently resolving any of them. Chapters 01–17 are the reference itself; Chapters 18–20 are the audit findings.</p>
@@ -936,37 +979,25 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
 <section class="sec" id="ch17">
   <div class="sec-head"><span class="sec-num">17</span><h2>What's Simulated vs. What's Real</h2></div>
 
-  <p>Rendered on the player-visible World screen and the Admin Pre-launch tab, sourced from one array in the code, <code>SIM_FLAGS</code> — "kept in the code itself and updated in the same change that adds a fake system, so it can't quietly go stale." A direct, line-by-line transcription of <code>farmer-constants.js:1087-1105</code> lists <b>17</b> entries (see the count discrepancy flagged in <a href="#ch20">Open Questions §2</a> — other research passes and both existing docs report 15).</p>
+  <p><b>Updated 2026-10-04.</b> Sourced from <code>SIM_FLAGS</code> in <code>farmer-constants.js</code>, the one list the World screen and Admin → Pre-launch both render. In August it had 17 entries and nearly all of them described the whole game. Today 11 remain, and every one except the two testing-flag rows describes the <b>no-wallet practice mode only</b> — with a wallet connected, the system it names is real (see Chapter 00).</p>
 
   <table>
-    <tr><th>#</th><th>Id</th><th>Label</th><th>Note</th></tr>
-    <tr><td>1</td><td><code>no-chain</code></td><td>No wallet / no chain</td><td>Every balance, payment and signature is local state. Nothing touches Solana.</td></tr>
-    <tr><td>2</td><td><code>no-backend</code></td><td>No backend</td><td>Referrals, marketplace and leaderboard are in-memory. Refresh resets them.</td></tr>
-    <tr><td>3</td><td><code>cpu-random</code></td><td>CPU random, not VRF</td><td>Pack, breed and lottery rolls use Math.random(). ⚠️ CORRECTED 2026-09-10: only the LOTTERY roll must become VRF. Packs and breeds deliberately stay server-side against one published odds table — VRF is for adversarial, pooled-stake ACTIONS (a raid, a lottery draw), not for content REVEALS. A pack costs the same whatever it contains, so there is nothing to rig for or against the buyer; what matters is the published odds being honoured.</td></tr>
-    <tr><td>4</td><td><code>fast-grow</code></td><td>TESTING_FAST_GROW</td><td>A "day" is 60 seconds so a full grow is watchable. Revert before launch.</td></tr>
-    <tr><td>5</td><td><code>fast-cd</code></td><td>TESTING_FAST_COOLDOWN</td><td>Farm upgrade cooldowns are 20s, not 2–5 days. Revert before launch.</td></tr>
-    <tr><td>6</td><td><code>sim-market</code></td><td>Simulated marketplace</td><td>NPC listings are generated locally; there is no real counterparty.</td></tr>
-    <tr><td>7</td><td><code>sim-market-sell</code></td><td>Your own listings sell via a dice roll, not a real buyer <span style="color:#888">(fixed 2026-08-30 — was "can never sell at all")</span></td><td>Each listing gets a real per-second sell-chance roll (real proceeds, real fee split) — Math.random() just stands in for a real counterparty, and you still can't buy your own listing back or trade with another real player.</td></tr>
-    <tr><td>8</td><td><code>sim-network</code></td><td>Simulated network power</td><td>Other players' farm power is a constant, so your emission share is approximate.</td></tr>
-    <tr><td>9</td><td><code>seeded-lp</code></td><td>Seeded LP pool</td><td>The pool starts at 120 SOL so the LP-phase split has something to work against.</td></tr>
-    <tr><td>10</td><td><code>admin-open</code></td><td>Admin console is open to all</td><td>No wallet gate — anyone can open the Admin tab. Must be locked to Cody's wallet before launch.</td></tr>
-    <tr><td>11</td><td><code>ref-chain-untracked</code></td><td>Referral chain payout deferred for the bootstrap chain only</td><td>Real cross-device crediting is LIVE via Supabase; the 3-level cut is ALSO deducted locally through the seeded bootstrap chain for burn/UI accounting.</td></tr>
-    <tr><td>12</td><td><code>sim-gift-codes</code></td><td>Gift-a-Farm codes are single-device</td><td>A code generated in one browser can only be redeemed in that same browser, plus the small demo list.</td></tr>
-    <tr><td>13</td><td><code>single-player-graph</code></td><td>Referral graph is one seeded chain</td><td>The whole tree today is the 5-code bootstrap chain plus whatever a player types by hand.</td></tr>
-    <tr><td>14</td><td><code>sim-lottery</code></td><td>Simulated lottery</td><td>Ticket purchases + admin bonus top-ups now hit a real, atomic, server-side ledger shared by all 3 GLG games (2026-08-28) — but the visible countdown/draw/payout a player sees still runs client-side, same-origin-localStorage sharing underneath. Real money must never enter the visible draw until that's real too.</td></tr>
-    <tr><td>15</td><td><code>sim-players</code></td><td>Admin Players tab is a fake roster</td><td><code>ADMIN_DEMO_PLAYERS</code> is deterministically generated, not real accounts.</td></tr>
-    <tr><td>16</td><td><code>sim-friend-join</code></td><td>"Simulate a friend joining" test button</td><td>My Stuff → Invite ships a player-visible testing control that fakes a referral activation.</td></tr>
-    <tr><td>17</td><td><code>demo-existing-farm</code></td><td>"Returning owner" wallet-connect path is a stub</td><td>The existing-farm lookup always returns null today — every wallet connect onboards as new.</td></tr>
+    <tr><th>Id</th><th>Label</th><th>Current note</th></tr>
+    <tr><td><code>no-chain</code></td><td>No wallet / no chain</td><td>Practice mode only. With a wallet every payment is a real devnet transaction.</td></tr>
+    <tr><td><code>no-backend</code></td><td>No backend</td><td>Practice mode only. With a wallet the farm, cards, plants, market, referrals, Season Pass and raffle are server-side.</td></tr>
+    <tr><td><code>fast-grow</code></td><td>TESTING_FAST_GROW</td><td><span class="tag tag-real">OFF</span> since 2026-10-04 — a day is a real day on client and server. Kept listed so it shows if anyone turns it back on.</td></tr>
+    <tr><td><code>fast-cd</code></td><td>TESTING_FAST_COOLDOWN</td><td><span class="tag tag-testing">KEPT ON PURPOSE</span> — farm upgrades take 20 s on client and server. Before mainnet: set it false and <code>fast_upgrade_secs</code> to NULL.</td></tr>
+    <tr><td><code>sim-market</code></td><td>Simulated marketplace</td><td>Practice mode only. With a wallet it is the real marketplace (90/5/5 in one transaction).</td></tr>
+    <tr><td><code>sim-market-sell</code></td><td>Listings sell on a dice roll</td><td>Practice mode only. With a wallet a listing sells only when a real buyer pays.</td></tr>
+    <tr><td><code>sim-network</code></td><td>Simulated network power</td><td>Practice mode only. With a wallet the share uses the chain's own network total and real pool.</td></tr>
+    <tr><td><code>seeded-lp</code></td><td>Seeded LP pool</td><td>Practice mode only. With a wallet the LP-phase split reads the real pool tier from chain.</td></tr>
+    <tr><td><code>sim-friend-join</code></td><td>"Simulate a friend joining" button</td><td>Only in a dev build with no wallet; never shown to a wallet player and stripped from the public build.</td></tr>
+    <tr><td><code>sim-rankings-rivals</code></td><td>Generated ranking rivals</td><td>Practice mode only. With a wallet every board ranks real farms server-side.</td></tr>
+    <tr><td><code>ranking-events-no-backend</code></td><td>Local ranking events</td><td>Practice mode only. With a wallet an event is one server row with one start time for everyone.</td></tr>
   </table>
-  <p class="small">Citation: farmer-constants.js:1087-1105.</p>
 
-  <h3>Two more TESTING flags worth calling out by their real effect</h3>
-  <table>
-    <tr><th>Flag</th><th>Live value</th><th>Real effect on what a player sees right now</th></tr>
-    <tr><td><code>TESTING_FAST_GROW</code></td><td><code>true</code></td><td>1 game-day = 60 real seconds — a 10-day Potato finishes in ~10 real minutes, not 10 real days</td></tr>
-    <tr><td><code>TESTING_FAST_COOLDOWN</code></td><td><code>true</code></td><td>Every farm-level upgrade completes in a flat 20 real seconds, not 2–5 real days</td></tr>
-  </table>
-  <p class="small">Citation: farmer-constants.js:348-350, 1034-1035. Both are surfaced live in the UI right next to the real numbers, not hidden — see <a href="#ch20">Open Questions §7</a> for how this interacts with PG's own honesty claim.</p>
+  <h3>Removed since the August audit</h3>
+  <p><code>cpu-random</code>, <code>admin-open</code>, <code>ref-chain-untracked</code>, <code>sim-gift-codes</code>, <code>single-player-graph</code>, <code>sim-roulette</code>, <code>sim-lottery</code>, <code>sim-glg-raffle</code>, <code>sim-players</code>, <code>demo-existing-farm</code>, <code>sim-season-pass</code>, <code>drop-active7-unenforced</code>, <code>sim-swap</code> — each became real between 2026-10-02 and 2026-10-04. The code keeps a one-line comment where each used to be, saying what replaced it.</p>
 </section>
 
 <!-- ============================================================ -->
