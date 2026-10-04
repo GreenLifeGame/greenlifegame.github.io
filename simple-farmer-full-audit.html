@@ -598,8 +598,9 @@ ul.tight li, ol.tight li{margin-bottom:6px;}
   <table>
     <tr><th>Zone</th><th>Threshold</th><th>Outcome</th></tr>
     <tr><td>Too early</td><td>&lt; 22/30 ≈ 73.33% (<code>DEATH_BEFORE_FRAC</code>)</td><td><b>Death</b> — card AND entire pot both lost, 100%</td></tr>
-    <tr><td>Penalty zone</td><td>73.33% – 100%</td><td>Survives; pot pays out on a linear sliding scale (100%→0% loss as it nears full grow)</td></tr>
-    <tr><td>Full</td><td>≥ 100%</td><td>Full payout, zero loss, card kept</td></tr>
+    <tr><td>Penalty zone</td><td>73.33% – 100%</td><td>Survives; pot loss slides linearly 80%→0% (<code>PENALTY_MAX_LOSS_PCT</code>), rounded to whole percents. Was 100%→0% until 2026-10-02 (Cody: match GREEN LIFE)</td></tr>
+    <tr><td>Full</td><td>100% – 100% + 7 game-days</td><td>Full payout, zero loss, card kept</td></tr>
+    <tr><td>Neglected</td><td>≥ finish + 7 game-days (<code>NEGLECT_GRACE_DAYS</code>)</td><td><b>Death</b> — card lost, pot burned. Added 2026-10-02, mirrors GREEN LIFE's <code>HARVEST_NEGLECT_GRACE_MS</code>; swept every second in the emissions tick. No watering rule — GREEN LIFE-only by design.</td></tr>
   </table>
   <p class="small">Citation: farmer-constants.js:659-667. Fraction-of-cycle, not a fixed day count — necessary since garden tier can shrink cycle length up to 100×. Forfeited pot is <b>burned</b>, never returned to the shared pool; the 70% instant stream already claimed is untouched regardless of outcome.</p>
 

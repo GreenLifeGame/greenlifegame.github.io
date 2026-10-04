@@ -176,13 +176,13 @@
   <div class="cover-inner">
     <div class="cover-eyebrow">Master Technical Reference</div>
     <h1>SIMPLE FARMER</h1>
-    <p class="sub">A Solana-themed play-to-earn crop-farming web game — the deliberately EASY-tier game on the GreenLifeGame (GLG) platform. Shares only the $GREEN token and its liquidity pool with its sister game GREEN LIFE — never code, never a repo, never mechanics. This document is the single consolidated internal reference: every system, every constant, every formula, and an honest accounting of what is real vs. simulated in the current build.</p>
+    <p class="sub">A Solana-themed play-to-earn crop-farming web game — the deliberately EASY-tier game on the GreenLifeGame (GLG) platform. Shares only the $GREEN token and its liquidity pool with its sister game GREEN LIFE — never code, never a repo, never mechanics. This document is the single consolidated internal reference: every system, every constant, every formula, and an honest accounting of what is real (with a wallet, on Solana devnet) vs. what only exists in the no-wallet demo. Updated 2026-10-04 for the real backend.</p>
     <div class="cover-meta">
       <div><b>Token</b>$GREEN (single dollar sign — deliberate, matches this game's own UI copy)</div>
       <div><b>Farm emissions pool</b>200,000,000,000 — this game's own emissions pool out of the platform's fixed 1 trillion $GREEN (GREEN LIFE 250B · Dino Island 250B · Mother Lode 200B, plus the shared LP, treasury and giveaway buckets)</div>
-      <div><b>Chain</b>Solana — <u>not yet connected</u>, fully simulated build</div>
+      <div><b>Chain</b>Solana <u>devnet</u> — real with a wallet connected (its own on-chain emissions program); not on mainnet yet</div>
       <div><b>Stack</b>React (farmer-*.jsx file set, its own entry point, zero shared code with GREEN LIFE)</div>
-      <div><b>Status</b>Fully simulated dev preview — no wallet, no chain, no backend. See §25 for the complete honesty checklist.</div>
+      <div><b>Status</b>As of 2026-10-04: devnet testing. With a wallet connected the game is real on Solana devnet, backed by a server; without one it runs as a local no-wallet demo. Not on mainnet yet. See §25 for what is still demo-only or test-only, and §30 for the backend build.</div>
     </div>
   </div>
 </div>
@@ -221,6 +221,7 @@
       <li><a href="#open">27 · Open Questions &amp; Flagged Concerns</a></li>
       <li><a href="#seasonpass">28 · Season Pass (Added 2026-08-29)</a></li>
       <li><a href="#rankings">29 · World Rankings (Added 2026-08-30)</a></li>
+      <li><a href="#backend">30 · Backend Build &amp; Audit (Oct 2026)</a></li>
     </ol>
   </div>
 
@@ -229,20 +230,20 @@
     <div class="sec-num">01</div>
     <h2>Executive Summary</h2>
     <p class="lede">Simple Farmer is a Solana-themed play-to-earn crop-farming web game — the second title on the GreenLifeGame (GLG) platform, and deliberately the simpler/easier one. Where GREEN LIFE is a deep cannabis-farming economy with Mythical breeding, a 3D world, PvP games, tournaments, weapons/defend, clans and a 22,000-line codebase, Simple Farmer strips the same core shape (buy a farm, plant cards, earn a token, breed, trade, refer friends) down to fewer systems and a flatter, more approachable economy — fruits and vegetables instead of strains, a 5-tier rarity ladder with no Mythical ceiling, and an overhead SVG farm map instead of a walkable 3D room.</p>
-    <p><b>Current build status:</b> the game is a fully simulated client-side prototype. The landing screen states this outright — <i>"The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i> Every balance, purchase, harvest, breed and claim happens as in-memory React state; nothing persists past a page refresh, and no real money moves anywhere in this codebase today.</p>
+    <p><b>Current build status (2026-10-04):</b> the game runs two ways. <b>With a wallet connected</b>, it is real on Solana <b>devnet</b> — the landing screen says <i>"Connects your real Solana wallet (devnet). Every payment opens your wallet to approve — nothing moves without your signature."</i> The $25 buy-in, packs, plots, upgrades, Season Premium and raffle tickets are real payments; marketplace trades split 90/5/5 in one transaction; $GREEN is claimed on chain from Simple Farmer's own 200B pool with the 3% / 1% / 0.01% referral cut carved on chain; harvest pots are paid by a keeper service; and the farm, cards, market, referrals, Season Pass, raffle and support tickets live on a server, so they survive a refresh and work on any device. <b>Without a wallet</b>, the game is a local no-wallet demo: balances and payments are pretend and a refresh resets it. Game days are real days. The one testing tool kept on purpose is fast farm upgrades (20 seconds instead of days), to be turned off before mainnet. The game is <b>not on mainnet yet</b>. See §25 for the exact list of what is still demo-only, and §30 for how it became real.</p>
 
     <h3>Core game loop</h3>
     <div class="flow">
-      <span>Connect wallet (simulated)</span><span class="arrow">→</span>
+      <span>Connect wallet (real on devnet; no wallet = demo)</span><span class="arrow">→</span>
       <span>Invite code (roulette matches you if you have none)</span><span class="arrow">→</span>
-      <span>$25 buy-in, SOL/USDC/USDT</span><span class="arrow">→</span>
+      <span>$25 buy-in (SOL with a real wallet; SOL/USDC/USDT in the demo)</span><span class="arrow">→</span>
       <span>Farm mints + $5 $GREEN bonus + 1 Starter Pack auto-opens</span><span class="arrow">→</span>
       <span>Plant &amp; earn every second</span><span class="arrow">→</span>
       <span>Rip packs / crossbreed / boost</span><span class="arrow">→</span>
       <span>Level the farm / unlock plots</span><span class="arrow">→</span>
       <span>Trade / refer / play the lottery / repeat</span>
     </div>
-    <p>Navigation is a bottom bar of six tabs plus a conditional seventh: <b>Farm · Garden · Breed · Market · Stuff · World</b> — and, when the (currently wide-open) admin flag is set, a seventh <b>🛠 Admin</b> tab. Market is its own full tab here — unlike GREEN LIFE, where Market is a block inside World; Simple Farmer's World screen instead holds the shared emissions pool, a simulated leaderboard, a pool-life decay projection, and the honest simulated-systems disclosure list (§19, §25).</p>
+    <p>Navigation is a bottom bar of six tabs plus a conditional seventh: <b>Farm · Garden · Breed · Market · Stuff · World</b> — and, for an admin wallet on the admin build only, a seventh <b>🛠 Admin</b> tab (the server checks the wallet against the admin list; the public build leaves the console out entirely). Market is its own full tab here — unlike GREEN LIFE, where Market is a block inside World; Simple Farmer's World screen instead holds the shared emissions pool, the World Rankings leaderboards (real farms with a wallet, generated rivals in the demo), a pool-life decay projection, and the honest disclosure list of what is still demo-only (§19, §25).</p>
 
     <h3>What makes it "the simple one" — the deliberate simplifications vs. GREEN LIFE</h3>
     <ul>
@@ -274,7 +275,7 @@
       <tr><td>Breeding &amp; farm-level upgrades burn 100%, no referral cut</td><td>Only PACKS carve a referral cut off the top before burning the remainder.</td><td>§16, §23</td></tr>
       <tr><td>Guaranteed-breed promo capped at Rare</td><td>An admin toggle that makes Common/Uncommon/Rare pairs a guaranteed success — Epic pairs can never be made free-win.</td><td>§09, §20</td></tr>
       <tr><td>Listings can never be cancelled</td><td>A market listing runs 7 days flat and auto-returns to the seller if unsold — no cancel button exists, on purpose.</td><td>§13</td></tr>
-      <tr><td>Marketplace fee split</td><td>10% fee = 90% seller / 5% buyback-burn / 5% treasury (design target — see §13 for what the simulated build actually executes today).</td><td>§13</td></tr>
+      <tr><td>Marketplace fee split</td><td>10% fee = 90% seller / 5% buyback-burn / 5% treasury — executed for real, per trade, in one transaction when a wallet is connected (see §13; the no-wallet demo only imitates it).</td><td>§13</td></tr>
       <tr><td>Emissions rate hard cap</td><td>The admin dial can move the daily decay rate anywhere from 0% up to a contract-hard-coded 2% ceiling — never higher, no matter what.</td><td>§20</td></tr>
       <tr><td>Referral chain: exactly 3 levels, then it stops</td><td>3% direct / 1% level 2 / 0.01% level 3. A 4th-level ancestor gets nothing, ever.</td><td>§16</td></tr>
       <tr><td>Referral earnings live in a separate pot</td><td>Never mixed into the player's own claimable balance — structurally isolated from anything that could drain a farmed balance.</td><td>§16</td></tr>
@@ -342,7 +343,7 @@
     <p>Auto-advances after 3,500ms, or tap-anywhere to skip (500ms fade-out before the actual stage transition). Radial wash <code>#9a4fd422 → #4da6ff14 → transparent</code> — described in-code as "cooler, more neutral… this screen is the platform's, not this game's soil-and-sunlight mood," in deliberate contrast to the game's own warm sunrise splash. Exact copy, word-for-word identical to GREEN LIFE's own GLG splash: <i>"FIXED SUPPLY · ZERO INFLATION · P2E ON SOLANA"</i>, <i>"1T · MINTED ONCE · NEVER AGAIN"</i>, <i>"tap to enter."</i></p>
 
     <h3>Stage 1 — game splash</h3>
-    <p>Warm sunrise radial wash (accent green + gold, "soil and sunlight, not neon"). Logo at 190×190px (raised from an earlier 120px to match GREEN LIFE's own logo scale). Tagline: <b>"GROW. HARVEST. EARN."</b> Body copy: <i>"Plant real crops, wait out the grow, cash the harvest."</i> / <i>"Runs on the $GREEN token"</i> (rendered in the brand gradient) / <i>"Earn Every Second."</i> Two CTAs: <b>Connect Wallet</b> and <b>How to play</b> (opens a "How To" modal, §04 below). Disclosure line, exact: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></p>
+    <p>Warm sunrise radial wash (accent green + gold, "soil and sunlight, not neon"). Logo at 190×190px (raised from an earlier 120px to match GREEN LIFE's own logo scale). Tagline: <b>"GROW. HARVEST. EARN."</b> Body copy: <i>"Plant real crops, wait out the grow, cash the harvest."</i> / <i>"Runs on the $GREEN token"</i> (rendered in the brand gradient) / <i>"Earn Every Second."</i> Two CTAs: <b>Connect Wallet</b> and <b>How to play</b> (opens a "How To" modal, §04 below). Disclosure line, exact. With the real backend on: <i>"🔒 Connects your real Solana wallet (devnet). Every payment opens your wallet to approve — nothing moves without your signature."</i> In the no-wallet demo build: <i>"🔒 The wallet is simulated — nothing connects to Solana and no signature in this build is real."</i></p>
 
     <h3>The "How to Play" modal — 7 steps, every number read live</h3>
     <p>Every figure in this modal is computed from the actual live constants at render time (never hand-typed) specifically so it can never drift from what the game really charges — though the source itself documents that this exact promise was still caught failing once (a hardcoded currency label slipped through the 2026-08-24 audit; see §26).</p>
@@ -362,14 +363,14 @@
       <b>Why there is no "I already have an account" button</b>
       Connecting the wallet IS the login. A farm lives at an address derived from the wallet itself, so the game just looks: if this wallet owns one, the player is dropped straight back into it, never asked for an invite code, never asked to buy in again. A separate button for "I'm returning" can be tapped wrongly by a new player, and tapping it wrongly could walk an existing owner toward paying the $25 entry a second time.
     </div>
-    <p><code>findExistingFarm()</code> is an explicit stub in this build — it always returns <code>null</code> (gated by a <code>DEMO_EXISTING_FARM</code> testing flag, currently <code>false</code>), so <b>every connect in this build onboards as brand new.</b></p>
+    <p><b>Updated 2026-10-03:</b> this lookup is real now. Connecting a wallet asks the server whether that wallet already has a farm, and there are three answers: <b>yes</b> → straight into the game; <b>no</b> → the invite screen; <b>couldn't ask</b> (server unreachable) → the game refuses to guess rather than routing an owner toward a second $25 buy-in. (The old <code>findExistingFarm()</code> stub that always onboarded as new is gone.)</p>
 
     <h3>Stage 3 — "invite" (the code screen)</h3>
     <p>Split into its own screen on 2026-08-24 specifically to mirror GREEN LIFE's own two-screen invite/entry split "screenshot-for-screenshot." This screen's only job is collecting a code — no price, no wallet, no "what you get" belongs here.</p>
     <ul>
-      <li><b>Entry is invite-only, no skip.</b> Continue is hard-gated on the code being at least 4 characters — a real generated code is 4 letters + 3 digits = 7 characters, but the minimum-to-continue is looser to allow shorter/longer aliases in the future. The field itself accepts up to 12 characters (<code>REF_CODE_MAX_LEN</code>, raised 2026-08-27 to match GREEN LIFE — see §16), room enough for a readable admin-set name, not just the generator's own 7-char shape.</li>
+      <li><b>Entry is invite-only, no skip.</b> Continue is hard-gated on the code being at least 4 characters — a real generated code is 4 letters + 3 digits = 7 characters, but the minimum-to-continue is looser to allow shorter/longer aliases in the future. <b>With a wallet, the server enforces it (2026-10-04):</b> the code must belong to a player who owns a farm, or to a bootstrap seed — no valid code, no account. The field itself accepts up to 12 characters (<code>REF_CODE_MAX_LEN</code>, raised 2026-08-27 to match GREEN LIFE — see §16), room enough for a readable admin-set name, not just the generator's own 7-char shape.</li>
       <li><b>Code alphabet:</b> <code>ABCDEFGHJKLMNPQRSTUVWXYZ</code> — I and O deliberately excluded so a code read off a screen can never be confused with 1 and 0.</li>
-      <li><b>🎲 Referral roulette</b> shows 5 candidates per click — 2 admin-locked identities that never rotate, plus 3 randomly-rolled real-referral-count candidates the player picks from (never auto-assigned) — the same 5-slot/2-locked pattern ported from GREEN LIFE 2026-08-27; see §16 for the full mechanic. Every candidate resolves to a real, known ancestor, so a brand-new player's referral cut resolves correctly from their very first action.</li>
+      <li><b>🎲 Referral roulette</b> shows 5 candidates per click — 2 admin-locked identities that never rotate, plus 3 randomly-rolled real-referral-count candidates the player picks from (never auto-assigned) — the same 5-slot/2-locked pattern ported from GREEN LIFE 2026-08-27; see §16 for the full mechanic. With a wallet connected the candidates are real: farm owners active in the last 12 hours, plus bootstrap wallets #3–#5 so the list is never empty. Every candidate resolves to a real, known ancestor, so a brand-new player's referral cut resolves correctly from their very first action.</li>
       <li><b>Optional claim code field</b> — if a valid claim code is typed here, it waives the entry fee entirely on the next screen (validated live via <code>checkClaimCode()</code> before the player even continues).</li>
     </ul>
 
@@ -381,7 +382,7 @@
       <tr><td>Starter $GREEN bonus</td><td class="num">$5.00 → 500,000 $GREEN (comes out of the $25, not added on top)</td></tr>
       <tr><td>Welcome kit contents</td><td>Farm Level 1 + exactly 1 Starter Pack — <i>nothing else.</i> "Nothing here promises a starter boost or pre-rolled cards."</td></tr>
       <tr><td>Free starting plots</td><td class="num">10 total — 4 (1X) + 3 (2X) + 2 (5X) + 1 (10X) + 0 (Toxic) — summed live off the garden tier table</td></tr>
-      <tr><td>Pay-with options</td><td>SOL, USDC, or USDT — stablecoins auto-swap to SOL in the same transaction, no manual swapping</td></tr>
+      <tr><td>Pay-with options</td><td>With a real wallet: SOL only (USDC/USDT can't settle on devnet). In the no-wallet demo: SOL, USDC, or USDT</td></tr>
     </table>
     <p>The Starter Pack <b>auto-opens itself</b> the instant the farm mints — there is no sealed tile to find and tap first. It is always a crop card (never subject to the Mystery-Pack-style boost/crop roll), because a brand-new empty farm with a boost-only starter kit would leave the player with nothing to plant and no way to fix it until the next daily pack.</p>
     <p>A "💧 Where your buy-in goes (by total liquidity)" table is shown directly on this screen, computed live off the <code>LP_PHASES</code> table (see §23):</p>
@@ -391,7 +392,8 @@
       <tr><td>$25,000 – $100,000</td><td class="num">75% Liquidity Pool · 25% Treasury</td></tr>
       <tr><td>$100,000+</td><td class="num">50% Liquidity Pool · 50% Treasury</td></tr>
     </table>
-    <p>Bottom disclosure, exact: <i>"Simulated build — no real SOL leaves any wallet, and the code you use is stored locally."</i></p>
+    <p>Bottom disclosure, exact. With a wallet: <i>"Real devnet payment — your wallet shows the exact transaction before you approve it. Your referral code is recorded on the server."</i> In the no-wallet demo: <i>"Simulated build — no real SOL leaves any wallet, and the code you use is stored locally."</i></p>
+    <p>With a real wallet the $25 is a real devnet transaction: the $5 $GREEN bonus is a real swap on the shared pool, the rest routes to the liquidity pool by the table above, and the server then creates the farm and opens the Starter Pack. The 500,000 figure above is the demo's fixed-price amount; a real buy-in gets whatever $5 buys at the live pool price.</p>
   </section>
 
   <!-- 05 -->
@@ -755,7 +757,7 @@
     <h2>Marketplace</h2>
     <p class="lede">Everything is SOL-priced, because the fee split is denominated in SOL. Two halves: BUY (browse listings, filter, sort, buy) and SELL (list one of your own cards at a price you type). Its own dedicated tab, unlike GREEN LIFE where Market lives inside World.</p>
 
-    <h3>The fee split — design target</h3>
+    <h3>The fee split</h3>
     <table>
       <tr><th>Share</th><th>Percent</th><th>Destination</th></tr>
       <tr><td>Seller</td><td class="num">90%</td><td>The listing owner</td></tr>
@@ -763,19 +765,19 @@
       <tr><td>Treasury</td><td class="num">5%</td><td>Treasury wallet</td></tr>
     </table>
     <div class="callout warn">
-      <b>What the simulated build actually executes today (honestly disclosed on-screen)</b>
-      Every listing available to buy right now is NPC-seeded, not a real counterparty — so there is no real seller to pay a 90% share to. The buy-side wallet-sign confirmation states plainly that the current build books the <b>entire</b> 10% fee to treasury on a purchase (not the 5/5 split), with the design's real 90/5/5 split shown as the target once real players are trading. A <code>🧪 SIMULATED</code> badge and a sub-line under the fee panel both disclose this directly on the Market screen — this exact honesty gap (system disclosed in source comments but nowhere a player could see it) was found and fixed across the marketplace, lottery, and referral screens in the 2026-08-24 audit.</div>
+      <b>Real with a wallet, imitated in the demo (updated 2026-10-04)</b>
+      With a wallet connected this is the real Simple Farmer marketplace: real listings from real players, and a purchase pays the seller 90%, the buyback-burn 5% and the treasury 5% inside one transaction, so the seller is paid the moment the buyer pays (proven live 2026-10-03, split exact). A listed card is held by the server for the 7 days. In the no-wallet demo the market still shows invented listings and a <code>🧪 SIMULATED</code> badge, and none of it is real. <i>History:</i> before the backend existed, every listing was NPC-seeded and a purchase booked the whole 10% to treasury; that disclosure was added in the 2026-08-24 audit.</div>
 
     <h3>Listing mechanics</h3>
     <ul>
       <li><b>7-day listing window</b> (<code>LISTING_TTL_MS</code>), and a listing <b>cannot be cancelled</b> once posted — an intentional design choice, stated plainly on-screen rather than offering a cancel button that would fail.</li>
       <li>An unsold listing auto-returns to the seller's bag after 7 days, no loss beyond the time spent listed.</li>
       <li>Sell flow pre-fills the item's floor price, but the floor is now a genuinely <b>locked minimum, not a suggestion</b> (fixed 2026-08-28 — see below).</li>
-      <li>Listing sign sheet shows the full fee breakdown (10% = 5% burn + 5% treasury) and the exact net the seller will receive — the design target, shown at point of sale even though the current build's buy-side doesn't yet execute a real burn (no live counterparty to trigger one against).</li>
+      <li>Listing sign sheet shows the full fee breakdown (10% = 5% burn + 5% treasury) and the exact net the seller will receive — the same split a real buyer's transaction executes when a wallet is connected.</li>
     </ul>
 
     <h3>Floor price enforcement is now real, not just displayed (fixed 2026-08-28)</h3>
-    <p>Cody: <i>"the floor isnt a suggestion those are locked and cant be listed under that price unless i lower it from the admin screen."</i> Before this fix, the sell modal accepted any price above 0 and its own copy literally said "price it wherever you like" — the only thing enforcing the floor was a nonbinding <code>fmtSol(floor)</code> label. Now the price input sets a real HTML <code>min</code> at the live floor, a red "Below the floor — can't list under floor" warning appears the moment a typed price dips under it, and the List button disables and relabels ("Price is below floor") until the price clears it. <b>Enforced twice, not once:</b> the actual <code>listItem()</code> function also clamps to <code>Math.max(floor, priceSol)</code> as backend defense-in-depth, so a stale UI state or a direct call can never undercut the floor either. Floor values were already a live admin dial (<code>RARITY_FLOOR_SOL</code>/<code>BOOST_FLOOR_SOL</code> via the Economy panel's Floors sub-panel, §20) — only the enforcement of that dial against a real listing was missing until now.</p>
+    <p>Cody: <i>"the floor isnt a suggestion those are locked and cant be listed under that price unless i lower it from the admin screen."</i> Before this fix, the sell modal accepted any price above 0 and its own copy literally said "price it wherever you like" — the only thing enforcing the floor was a nonbinding <code>fmtSol(floor)</code> label. Now the price input sets a real HTML <code>min</code> at the live floor, a red "Below the floor — can't list under floor" warning appears the moment a typed price dips under it, and the List button disables and relabels ("Price is below floor") until the price clears it. <b>Enforced twice, not once:</b> the actual <code>listItem()</code> function also clamps to <code>Math.max(floor, priceSol)</code> as backend defense-in-depth, so a stale UI state or a direct call can never undercut the floor either. With a wallet connected the server enforces it a third time: it refuses any crop or boost listing below the floor (checked 2026-10-03). Floor values were already a live admin dial (<code>RARITY_FLOOR_SOL</code>/<code>BOOST_FLOOR_SOL</code> via the Economy panel's Floors sub-panel, §20) — only the enforcement of that dial against a real listing was missing until now.</p>
 
     <h3>Buy-side display — grouped tiles, not one row per listing (reworked 2026-08-27)</h3>
     <p>Cody: <i>"if we do every card for sale it will flood the page, can you set it up like green life. 1 card shows how many cards are for sale. lowest price, you click on the card and options display... card art with stats under it... make the display like simpler farmer is."</i> The flat <code>listings</code> array is now grouped into one tile PER ITEM — rendered through the game's own <code>CropCard</code>/<code>BoostCard</code> (the same card renderer every other screen uses, real art + stats, not an imported list-row style), showing that item's lowest listed price and how many total listings exist for it. Tapping a tile opens a price-tier picker (mirrors GREEN LIFE's own buy-modal shape): pick a price tier, pick a quantity (capped at that tier's count), then <b>one signed batch purchase</b> covers the whole quantity in a single signature rather than one sign-off per card.</p>
@@ -802,8 +804,8 @@
     </table>
 
     <div class="callout gap">
-      <b>Gap in the research</b>
-      The source research does not show any mechanism by which a player's own listing (<code>myListings</code>) is ever purchased by a simulated buyer — the buy path only operates against the NPC-seeded pool. As built today, a player-listed item appears to always run its full 7 days and return unsold rather than genuinely sell, even though the sell-flow UI is written as if a sale is a live possibility. This is not called out anywhere in the source comments as a known limitation — flagged here rather than asserted as confirmed broken, since it was not exhaustively traced end to end.</div>
+      <b>Resolved — how a player's own listing sells</b>
+      This was once flagged as a gap (a player's own listing seemed never to sell). It is closed both ways: with a wallet connected, a listing sells only when a real buyer pays for it; in the no-wallet demo, each listing gets a random chance to "sell" before its 7 days run out (the <code>sim-market-sell</code> entry in §25).</div>
   </section>
 
   <!-- 14 -->
@@ -816,24 +818,28 @@
       <tr><td>Farm emissions pool</td><td class="num">200,000,000,000 (200B)</td></tr>
       <tr><td>Decay rate</td><td class="num">0.05%/day of whatever remains (admin-dialable)</td></tr>
       <tr><td>Hard cap on the dial</td><td class="num">2.0%/day, contract-enforced ceiling, never higher</td></tr>
-      <tr><td>Simulated network power baseline</td><td class="num">5,000,000</td></tr>
+      <tr><td>Network power baseline (no-wallet demo only — with a wallet the chain's real network total is used)</td><td class="num">5,000,000</td></tr>
       <tr><td>Instant stream share</td><td class="num">70%</td></tr>
       <tr><td>Harvest-pot share</td><td class="num">30%</td></tr>
     </table>
     <p><code>emissionDay(pool, rate) = pool × (rate/100)</code>; <code>playerPerSecond = emissionSecond × (myEarningPower / totalNetworkPower)</code>. Every second, 70% of a player's share streams straight into their claimable balance; the other 30% accrues into each individual growing plant's own pot, split across a player's plants by their relative share of that player's own power. A finished (ready) plant stops earning entirely and is excluded from earning-power calculations — it still counts toward total farm power on the leaderboard, but not toward the emissions share.</p>
+    <div class="callout locked">
+      <b>Real on chain with a wallet (2026-10-03/04)</b>
+      Simple Farmer has its own on-chain emissions program on Solana devnet, holding the full 200B pool. When you plant, a keeper service registers your plant's power on chain within seconds; your 70% builds up continuously (a brand-new player can claim within about a minute of planting); and pressing Claim sends a real transaction that pays $GREEN straight from the pool to your wallet. The rate dial (0.05%/day) is the real on-chain rate, changed only by its own admin key and never above 2%/day. Since the 2026-10-04 audit, the earning rate and "pool left" on screen are read from the chain's real pool (vault minus what is already owed), not the 200B starting figure. The harvest pot (30%) is settled on chain by the keeper when you harvest, and lands in your claimable balance. In the no-wallet demo all of this is local arithmetic.</div>
 
     <h3>Early-pull outcome curve</h3>
     <p>Fractions of a plant's own cycle — deliberately a percentage, not a fixed day count, because a garden multiplier can shrink a plant's real cycle length by up to 100×; a fixed-day rule would wrongly call a 100X plant "pulled too early" when it had actually finished.</p>
     <table>
       <tr><th>Grown</th><th>Outcome</th></tr>
       <tr><td>Under 73.33% of cycle (22/30)</td><td class="num">Plant DIES — card and pot both lost</td></tr>
-      <tr><td>73.33% – 100%</td><td>Survives, pot penalty slides linearly from 100% loss down to 0%</td></tr>
-      <tr><td>100%+</td><td class="num">Full pot, no penalty</td></tr>
+      <tr><td>73.33% – 100%</td><td>Survives, pot penalty slides linearly from 80% loss down to 0% (matches GREEN LIFE; was 100%→0% until 2026-10-02)</td></tr>
+      <tr><td>100% – 100% + 7 days</td><td class="num">Full pot, no penalty</td></tr>
+      <tr><td>Unharvested 7+ days after finishing</td><td class="num">Plant DIES — card lost, pot burned (new 2026-10-02, matches GREEN LIFE)</td></tr>
     </table>
     <p>This mirrors GREEN LIFE's locked day-22-of-30 curve, expressed as a fraction so it scales correctly across every garden multiplier. Forfeited pot amounts (from death or penalty) are BURNED, never returned to the emissions pool.</p>
 
     <h3>Referral cut on claim/harvest</h3>
-    <p>Only applied when the player was actually referred (<code>referredBy</code> set) — an organic player with no referrer pays nothing extra either way. The cut is <b>4.01%</b> total, carved out of the player's own payout, same rate as the pack-purchase cut (see §16, §23).</p>
+    <p>Only applied when the player was actually referred (<code>referredBy</code> set) — an organic player with no referrer pays nothing extra either way. The cut is <b>4.01%</b> total, carved out of the player's own payout, same rate as the pack-purchase cut (see §16, §23). With a wallet connected the carve happens <b>on chain</b>, inside the claim itself: 3% / 1% / 0.01% is held in the pool for each of the three referrers, who collect it with their own claim (proven to the base unit, 2026-10-03). Because harvest pots land in the claimable balance, they are carved by the same claim. A level that reaches the Burn Wallet is really burned.</p>
     <h3>Idempotency &amp; double-submission guard</h3>
     <p>The harvest handler re-verifies its targets against a live ref of current plants before crediting anything, specifically to make a rapid double-click a clean no-op rather than a real double-credit — found and fixed in the 2026-08-24 audit as a real risk, not a hypothetical one.</p>
 
@@ -849,7 +855,7 @@
 
     <h3>GLG Lottery — Four Standing Pools</h3>
     <p class="lede">A straight port of GREEN LIFE's 4 standing pools — one panel, a 2×2 grid, sitting on the Farm screen above the pack carousel. Each pool is a weighted raffle: buy tickets, more tickets improve odds, one weighted-random winner takes the whole pot when the clock hits zero, then the pool immediately starts its next round.</p>
-    <p>The block's own header note was rewritten 2026-08-28 to name all three GLG games directly instead of a hedged "shared with every GLG game" framing: <i>"Each Lottery is shared between all GLG games. Simple Farmer, Mother Lode, and Green Life. More tickets, better odds. One winner takes the whole prize when the clock hits zero."</i> (GREEN LIFE's own matching header got the identical rewrite the same session.) The 🧪 SIMULATED disclosure directly underneath is untouched — still the honest fine print about how a draw is actually resolved today, see below.</p>
+    <p>The block's own header note was rewritten 2026-08-28 to name all three GLG games directly instead of a hedged "shared with every GLG game" framing: <i>"Each Lottery is shared between all GLG games. Simple Farmer, Mother Lode, and Green Life. More tickets, better odds. One winner takes the whole prize when the clock hits zero."</i> (GREEN LIFE's own matching header got the identical rewrite the same session.) With a wallet connected the lottery now shows and draws the real shared pools (see the update below); the 🧪 SIMULATED disclosure applies to the no-wallet demo only.</p>
     <table>
       <tr><th>Pool</th><th>Currency</th><th>Ticket price</th><th>Period</th></tr>
       <tr><td>🎟️ Daily $GREEN</td><td class="num">$GREEN</td><td class="num">$0.10 (USD-pegged)</td><td class="num">1 day</td></tr>
@@ -860,18 +866,21 @@
     <div class="callout locked">
       <b>Fee is 100% treasury, deliberately never burned</b>
       A flat 5% (<code>LOTTERY_FEE_PCT</code>) is taken from the pot and credited entirely to the treasury, funding future giveaways and events. This is a deliberate exception to the game's otherwise burn-heavy spend model: a lottery ticket is a wager pooled between players and redistributed, the same shape as any other PvP-style ante — not a spend that consumes an item, so it doesn't burn like one.</div>
-    <p>Pot = ticket price × total tickets (player + simulated bot tickets). Payout = pot minus the 5% fee, computed by rounding the fee first and deriving the payout by subtraction — never rounding both independently, so the difference can never vanish into nowhere. Bot tickets seed every pool between 40–199 so it never reads empty; a background 5-second tick resolves any pool whose clock has hit zero.</p>
+    <p>In the no-wallet demo: pot = ticket price × total tickets (player + simulated bot tickets). Payout = pot minus the 5% fee, computed by rounding the fee first and deriving the payout by subtraction — never rounding both independently, so the difference can never vanish into nowhere. Bot tickets seed every pool between 40–199 so it never reads empty; a background 5-second tick resolves any pool whose clock has hit zero.</p>
 
     <h3>Admin bonus pot (BUILT 2026-08-27, server-registered 2026-08-28)</h3>
     <p>Admin → Economy can add $GREEN or SOL straight to a pool's pot with no ticket issued and no fee taken — the whole amount goes to whoever wins that round; nobody, including the admin, gets extra odds for it. Splits proportionally among real ticket-holders at draw time, the same shape as a Tournament's house-funded bonus-prize field. As of 2026-08-28 a bonus top-up also registers with the real cross-game server ledger (<code>glgServerAddBonus</code>) alongside the local pool, matching how a ticket purchase now registers server-side too (below).</p>
 
-    <h3>The ticket ledger is now genuinely real; the on-screen draw still isn't (updated 2026-08-28)</h3>
+    <h3>Tickets and draws are real with a wallet (updated 2026-10-03)</h3>
+    <div class="callout locked">
+      <b>Current state</b>
+      With a wallet connected, Simple Farmer shows and draws the real shared GLG pools, signing in its own Simple Farmer domain. A paid ticket is a real payment straight into the round's on-chain escrow while a real round is open (proven 2026-10-03: a real Weekly $GREEN ticket), and prizes and refunds are swept to the wallet without extra popups. VRF was dropped platform-wide; the shared glg server draws the winner. The no-wallet demo still uses local bot tickets and a local draw. The older note below is kept as history.</div>
     <div class="callout warn">
-      <b>Two separate layers of "shared," only one of them a real backend</b>
+      <b>History (2026-08-28): two separate layers of "shared," only one of them a real backend</b>
       Genuinely shared across every GLG game two ways now. <b>(1)</b> Same-origin localStorage (2026-08-24) — real cross-tab sharing on one browser, a ticket bought in GREEN LIFE in another tab really does move this pool. <b>(2)</b> A real Supabase backend (2026-08-28, <code>glg</code> schema, shared by GREEN LIFE / Simple Farmer / Mother Lode) — every ticket bought and every admin bonus is genuinely recorded server-side, atomically, across devices and games for real; proven live by watching a ticket bought in one game and one bought in another land in the literal same server-side pool, with correct weighted-draw math and the fee split. <b>What's NOT yet true:</b> the countdown/winner/payout the player actually SEES still comes from the local pool and resolves with client <code>Math.random()</code> — the real server draw is proven and callable but does not yet drive the on-screen UI. <b>Real money must never enter a client-resolved random draw.</b> Shown via a visible <code>🧪 SIMULATED</code> badge directly on the Farm screen's lottery block.</div>
 
     <h3>Simple Farmer Raffle — Three Standing Pools, Built 2026-08-29</h3>
-    <p>A second, deliberately unrelated system that sits as a 1×3 row directly under the GLG Lottery 2×2 grid. Where GLG Lottery is player-funded and shared cross-game, Simple Farmer Raffle is <b>100% GLG/treasury-funded</b> (players never contribute to the prize), <b>free to enter</b>, and <b>scoped to Simple Farmer alone</b> — its 3 pools carry no shared state with GREEN LIFE's or Mother Lode's own copies, and there is no backend behind it at all (contrast with GLG Lottery's real shared Supabase ledger above).</p>
+    <p>A second, deliberately unrelated system that sits as a 1×3 row directly under the GLG Lottery 2×2 grid. Where GLG Lottery is player-funded and shared cross-game, Simple Farmer Raffle is <b>100% GLG/treasury-funded</b> (players never contribute to the prize), <b>free to enter</b>, and <b>scoped to Simple Farmer alone</b> — its 3 pools carry no shared state with GREEN LIFE's or Mother Lode's own copies. With a wallet connected it is server-side (2026-10-03): a real ticket balance, real entries, paid tickets verified on chain, and draws run by the keeper, with prizes landing in Open Now or the bag. A $GREEN prize, when the admin adds one, is paid from Simple Farmer's own raffle wallet. The no-wallet demo keeps everything local.</p>
     <table>
       <tr><th>Pool</th><th>Period</th></tr>
       <tr><td>🍀 GLG Daily Raffle</td><td class="num">1 day</td></tr>
@@ -883,7 +892,7 @@
       <b>Every prize is admin-authored — never drawn from player activity</b>
       A pool's prize is a bundle — $GREEN, specific packs (<code>GLG_LOTTO_PRIZE_PACKS</code>, this game's own <code>PACKS</code>/<code>PACK_IDS</code> vocabulary, not GREEN LIFE's), and/or specific named crops (<code>CROPS</code>/<code>CROP_KEYS</code>) — any component optional. Both pickers in Admin → Economy are real art-tile grids (<code>CropCard</code> for crops, <code>PACK_IMG</code> for packs), not text dropdowns, and the admin panel always shows each pool's live current prize rather than a blind fund-entry form. <code>glgLottoPrizeLines(pool)</code> is the single function both the admin panel and the player-facing tile call to render a bundle, so a prize can never be described two different ways.</div>
     <p>Admin also controls a per-pool on/off toggle and reschedule, plus a <b>Daily-only pre-scheduled queue</b> (<code>glgLottoDailyQueue</code>) letting several future days' prizes be loaded in one sitting and auto-applied calendar-aligned on rollover — with an admin-controlled visibility toggle (<code>glgLottoQueueVisible</code>, off by default) for whether players see what's coming. Admin can additionally spin up a <b>one-off "random" raffle</b> — a 4th tile (defaulting to the name "🎲 Surprise Raffle") that draws once and is deleted outright, never becoming a recurring pool; it reuses every existing fund/toggle/enter handler unmodified since they already operate generically on whichever pool id is passed in. A tap or hover on a pool tile expands a truncated prize summary into the full itemized list.</p>
-    <p>Ticket art is Simple Farmer's own distinct design (not the shared GLG-branded look the Master Pass card uses) — a dark kraft-paper, deep-brown county-fair raffle ticket with the game's real produce-collage tile logo set in a neon-glow box, wired to the small icon on the Marketplace → 🎫 Pass tab's ticket-purchase panel, directly under the Master Pass hero tile. <code>🧪 SIMULATED</code> — unlike GLG Lottery above, Simple Farmer Raffle has no backend of any kind; every pool, ticket count, and draw lives entirely in this game's own in-memory client state.</p>
+    <p>Ticket art is Simple Farmer's own distinct design (not the shared GLG-branded look the Master Pass card uses) — a dark kraft-paper, deep-brown county-fair raffle ticket with the game's real produce-collage tile logo set in a neon-glow box, wired to the small icon on the Marketplace → 🎫 Pass tab's ticket-purchase panel, directly under the Master Pass hero tile. In the no-wallet demo every pool, ticket count and draw is local and marked <code>🧪 SIMULATED</code>; with a wallet it is the real server-side raffle described above (the Daily prize queue is server-side too, since 2026-10-03).</p>
   </section>
 
   <!-- 16 -->
@@ -931,19 +940,19 @@
     <table>
       <tr><th>Slot type</th><th>Count</th><th>Behavior</th></tr>
       <tr><td>🔒 Admin-locked</td><td class="num">2</td><td>Fixed identities (defaults "Buffalo Bill" / "Lucky Person"), set by Admin → Economy → 📌 Locked roulette slots (signed); never change on a re-roll</td></tr>
-      <tr><td>🎲 Rolled candidates</td><td class="num">3</td><td>Drawn from a simulated "active in the last 12 hours" pool (<code>ROULETTE_CANDIDATES</code>), each showing its code and total referral count; a re-roll draws 3 different ones without leaving the screen</td></tr>
+      <tr><td>🎲 Rolled candidates</td><td class="num">3</td><td>With a wallet: real farm owners active in the last 12 hours, plus bootstrap wallets #3–#5 so the pool is never empty (in the no-wallet demo: the invented <code>ROULETTE_CANDIDATES</code> list), each showing its code and total referral count; a re-roll draws 3 different ones without leaving the screen</td></tr>
     </table>
     <p>Cody, on the 2 locked slots: <i>"make give 5 names. the top 2 will be locked. 1 Buffalo Bill 2. Lucky Person. make these 2 wallets where i can lock a set person in them and they dont change. i would like that across all games."</i> The rolled-candidate pool falls back to the bootstrap chain's own <code>SFROOT3</code>/<code>SFROOT4</code>/<code>SFROOT5</code> as a reserve if it were ever thinner than 3 real candidates — codes #1 (Burn seed) and #2 (Dev seed) stay structurally excluded from ever appearing, matching the locked rule carried over from GREEN LIFE: "#1 and #2 will not show on the roulette button, they are just the top of the game so the refers can end." The referral count shown next to each candidate is the whole point of the design (Cody: "maybe someone will want to help a little guy?") — it quietly rewards picking the smallest account rather than the biggest, and a 0 reads as an invitation ("you'd be their first"), never a bare zero.</p>
 
     <h3>Where earnings actually live</h3>
     <div class="callout locked">
       <b>Structurally isolated pot</b>
-      Referral earnings live in their own separate pot (<code>refEarnings</code>), claimed via its own button, never mixed into the player's own farmed <code>unclaimed</code>/<code>balance</code>. Nothing that can drain a farmed balance can reach it.</div>
-    <p>A code that resolves to a real (non-bootstrap) referrer — i.e. an actual player's own generated code, once a backend exists — only resolves one level deep in this single-device simulation; the remainder is tracked in <code>refChainPayout</code> as "owed to a real player, not paid yet," while any share that reaches the burn seed is destroyed for real, right now, regardless of backend status (burning needs no backend to be correct).</p>
-    <p>My Stuff → Invite includes a dashed-border <b>"🧪 Testing tool — not a real feature"</b> panel with a <b>"Simulate a friend joining"</b> button — it fakes one referral activation (credits exactly the Level-1 3% rate against a hardcoded $10 simulated spend) purely so the earnings UI can be seen working without a second device.</p>
+      Referral earnings live in their own separate pot (<code>refEarnings</code>), claimed via its own button, never mixed into the player's own farmed <code>unclaimed</code>/<code>balance</code>. Nothing that can drain a farmed balance can reach it. <b>With a wallet (2026-10-03):</b> this pot is on chain — each referrer's share of every claim is held in Simple Farmer's emissions program and collected with the referrer's own claim transaction (proven live: pot to zero, wallet up by exactly the same amount). For $GREEN pack purchases the cut is paid straight to each referrer's wallet inside the buyer's own transaction; SOL packs (including PRIMO) pay the cut in SOL the same way.</div>
+    <p><b>No-wallet demo only:</b> a code that resolves to a real (non-bootstrap) referrer only resolves one level deep in the demo; the remainder is tracked in <code>refChainPayout</code> as "owed to a real player, not paid yet," while any share that reaches the burn seed is destroyed for real, right now, regardless of backend status (burning needs no backend to be correct).</p>
+    <p>My Stuff → Invite includes a dashed-border <b>"🧪 Testing tool — not a real feature"</b> panel with a <b>"Simulate a friend joining"</b> button — it fakes one referral activation (credits exactly the Level-1 3% rate against a hardcoded $10 simulated spend) purely so the earnings UI can be seen working without a second device. It only appears in a dev build with <b>no wallet connected</b>, is never shown to a wallet player, and is stripped from the public build.</p>
 
     <h3>Backend infrastructure note — Supabase project consolidated, not rebuilt (2026-08-28)</h3>
-    <p>Separately from everything simulated above (which describes what a single browser tab can demonstrate with no second player present), Simple Farmer's real account/referral backend — <code>account-link</code>, <code>activate</code>, <code>credit-referral</code>, <code>referral-earnings</code>, called fail-silent from <code>farmer-game.jsx</code> via <code>SF_REFERRAL_BACKEND_ENABLED</code> — used to live in its own dedicated Supabase project. It was migrated 2026-08-28 into a <code>farmer</code> schema inside the SAME shared Supabase project GREEN LIFE and Mother Lode also use (the hosting org's free tier caps out at 2 simultaneous projects, and there are now 3 games needing one). All 4 real accounts, 8 aliases, and 1 referral were migrated with UUIDs preserved and verified zero-loss via curl and in-browser. <b>Functionally nothing changed for players</b> — same real backend, same real numbers, just relocated infrastructure; this is a pure infra move, not a feature change, and does not itself resolve the single-device limitations §25 documents above (those describe what this front-end can demonstrate locally, independent of where the real backend happens to be hosted).</p>
+    <p>Separately from everything simulated above (which describes what a single browser tab can demonstrate with no second player present), Simple Farmer's real account/referral backend — <code>account-link</code>, <code>activate</code>, <code>credit-referral</code>, <code>referral-earnings</code>, called fail-silent from <code>farmer-game.jsx</code> via <code>SF_REFERRAL_BACKEND_ENABLED</code> — used to live in its own dedicated Supabase project. It was migrated 2026-08-28 into a <code>farmer</code> schema inside the SAME shared Supabase project GREEN LIFE and Mother Lode also use (the hosting org's free tier caps out at 2 simultaneous projects, and there are now 3 games needing one). All 4 real accounts, 8 aliases, and 1 referral were migrated with UUIDs preserved and verified zero-loss via curl and in-browser. <b>Functionally nothing changed for players</b> — same real backend, same real numbers, just relocated infrastructure; this is a pure infra move, not a feature change. <b>Update 2026-10-04:</b> the single-device limitations are gone for wallet players — the whole referral graph is now the server's real <code>farmer.referrals</code> table, account links require the wallet's own signature, and the old off-chain <code>credit-referral</code>/<code>referral-earnings</code> endpoints were retired (they now refuse) because referral money moves on chain instead.</p>
   </section>
 
   <!-- 17 -->
@@ -971,8 +980,8 @@
       <li>A warning banner fires if sales run ahead of what's been topped up by more than a rounding threshold, prompting a deposit before more codes get redeemed.</li>
     </ul>
     <div class="callout gap">
-      <b>Single-device limitation, disclosed in the game's own honesty list</b>
-      <code>genClaimCode()</code> and the credit-card ledger are real client logic, but there is no shared server yet — a code generated in one browser can only be redeemed in that same browser tab (plus a small built-in demo list: <code>FREEFARM</code>, <code>GREENGIFT</code>, <code>WELCOME420</code> for a plain farm grant; <code>FARM5SOL</code>, <code>GIFT5SOL</code> for the +SOL version).</div>
+      <b>Real with a wallet (2026-10-03/04); single-device in the demo only</b>
+      With a wallet connected, Gift-a-Farm is real: one transaction from the buyer escrows the $5 $GREEN (plus the optional $5 SOL) into Simple Farmer's own Gift Wallet and routes the rest through the liquidity curve; the server issues a one-time code that works on any device; a brand-new player redeems it for a farm and starter kit; and the keeper delivers the escrowed bonus. Free <b>marketing codes</b> made by the admin are real too (2026-10-04): one-time, any device, no daily cap, redeemed through the same path, with the bonus paid from Simple Farmer's own raffle wallet — never the Gift Wallet. The credit-card ledger stays switched off. Only the no-wallet demo still uses device-local codes.</div>
   </section>
 
   <!-- 18 -->
@@ -1004,10 +1013,10 @@
   <section id="world">
     <div class="sec-num">19</div>
     <h2>World Screen — World Rankings &amp; Pool-Life Projection</h2>
-    <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms across 6 separate leaderboards, how long the pool lasts, and the full simulated-systems disclosure list. Four sections in this fixed order: Global Stats, World Rankings, Pool Life projection, Simulated Systems.</p>
+    <p class="lede">The "everyone else" screen: how the shared emissions pool is doing, where the player sits against other farms across 6 separate leaderboards, how long the pool lasts, and the disclosure list of what is still demo-only or test-only. Four sections in this fixed order: Global Stats, World Rankings, Pool Life projection, Simulated Systems.</p>
 
     <h3>Emissions pool panel</h3>
-    <p>Live pool balance vs. the original 200B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend).</p>
+    <p>Live pool balance vs. the original 200B, with copy that explicitly explains the pool can exceed 100% if topped up: <i>"Nothing mints into it. Its address is public, so the treasury — or anyone — can buy $GREEN and send it here. That moves existing supply to farmers, it never creates any."</i> A stat grid of 6 tiles, each individually tagged <b>LIVE</b> (real for this session, resets on refresh) or <b>SIM</b> (a genuine placeholder for a future backend). With a wallet connected (since 2026-10-04) the pool figure and earning rate come from the chain's real pool — what is in the vault minus what is already owed to farmers.</p>
 
     <h3>World Rankings — 6 boards, replacing the old single Farm-Power leaderboard (rebuilt 2026-08-30)</h3>
     <p>The original single-board leaderboard (10 fixed rival farms, ranked by total farm power only) is superseded — replaced with <b>6 independent World Rankings boards</b> (<code>WORLD_RANKINGS</code>, <code>farmer-constants.js</code>): 🏆 Farm Power, 🌾 Lifetime Harvest, 🧬 Breeding Legacy, 💎 Rarest Collection, 👥 Top Recruiter, 🏪 Market Mogul. Each renders as its own <code>RankingBoard</code> component on the World screen, stacked in that order. Full detail — event-window design, the sale-tick mechanism that now makes Marketplace listings actually sell, and the admin controls — lives in §29.</p>
@@ -1016,14 +1025,14 @@
     <p>Standard exponential decay compounding: <code>poolLeft(days) = pool × (1 − rate/100)^days</code>, projected at 1/2/5/10-year horizons, plus a computed half-life (<code>ln(0.5) / ln(keep)</code>). Reads the <b>live</b> admin-set emissions rate, not the hardcoded default, so the projection can never disagree with a rate an admin has actually dialed in (e.g. during a promo weekend).</p>
 
     <h3>🧪 What's simulated</h3>
-    <p>Renders the complete <code>SIM_FLAGS</code> list verbatim (see §25) directly on a player-visible screen — the game's own framing: "A disclaimer nobody reads is the same as no disclaimer, so the fake systems get a real section on a real screen."</p>
+    <p>Renders the complete <code>SIM_FLAGS</code> list verbatim (see §25) directly on a player-visible screen — the game's own framing: "A disclaimer nobody reads is the same as no disclaimer, so the fake systems get a real section on a real screen." Since the backend build, almost every entry on that list now says "no-wallet practice mode only".</p>
   </section>
 
   <!-- 20 -->
   <section id="admin">
     <div class="sec-num">20</div>
     <h2>Admin Console</h2>
-    <p class="lede">Built to mirror GREEN LIFE's admin console exactly — "those are proven and tested" — with everything specific to systems Simple Farmer doesn't have (emotes, clans, tournaments) deliberately omitted, since a control for a nonexistent system reads as a broken feature. Gate: <code>IS_ADMIN = true</code>, currently open to anyone loading the page — see §25/§27.</p>
+    <p class="lede">Built to mirror GREEN LIFE's admin console exactly — "those are proven and tested" — with everything specific to systems Simple Farmer doesn't have (emotes, clans, tournaments) deliberately omitted, since a control for a nonexistent system reads as a broken feature. Gate (updated 2026-10-03/04): a real server check — the connected wallet must be on the platform admin list (<code>public.admin_wallets</code>), and every admin write is checked again on the server. The console only exists on the admin build; the public build leaves it out entirely. With a wallet connected, the admin tools below change the live game for every player, not just the admin's own browser (see §30).</p>
     <div class="callout locked">
       <b>Every admin change signs</b>
       Nothing mutates the instant a button is tapped. Every change routes through the same wallet-sign sheet a player sees buying a pack, badged gold 👑, naming which of several admin keys signs it (Price dial key / Emissions dial key / Support-grant key / Treasury key / Content key) — mirroring a deliberate multi-key split so one stolen key can't become every problem.</div>
@@ -1033,7 +1042,7 @@
       <tr><th>Tab</th><th>Purpose</th></tr>
       <tr><td>📊 Overview</td><td>Pool balance, LIVE/SIM-tagged stat grid</td></tr>
       <tr><td>🎫 Tickets</td><td>Player-filed support tickets, each carrying the player's last 5 logged actions so most answer themselves</td></tr>
-      <tr><td>👤 Players</td><td>Search roster (simulated), player card with a "🛠 Grant an item" flow and badge awarding</td></tr>
+      <tr><td>👤 Players</td><td>Search real accounts by wallet or referral code (with a wallet connected; a generated roster in the demo), player card with a "🛠 Grant an item" flow and badge awarding</td></tr>
       <tr><td>🛒 Items</td><td>Per-item price/currency dial for Seed, Mystery, Boost, PRIMO</td></tr>
       <tr><td>💰 Economy</td><td>Breed promo toggle, emissions rate dial, pool-decay projection, floor-price ladders, marketing codes, credit-card ledger</td></tr>
       <tr><td>🏅 Badges</td><td>Cosmetic badge library — build, publish, delete</td></tr>
@@ -1053,11 +1062,11 @@
     <ul>
       <li><b>🧬 Guaranteed-breed promo toggle</b> — see §09.</li>
       <li><b>🎁 PRIMO Buy 1 Get 1 Free toggle</b> (added 2026-08-27) — doubles the first PRIMO purchase of the day; see §11.</li>
-      <li><b>📌 Locked roulette slots</b> (added 2026-08-27) — set the name/code/referral-count shown in the referral roulette's 2 fixed slots (defaults "Buffalo Bill" / "Lucky Person"); signs like every other admin change. See §16.</li>
-      <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.05%) and "2× promo weekend" (0.10%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement.</li>
+      <li><b>📌 Locked roulette slots</b> (added 2026-08-27) — in the demo, set the name/code/referral-count shown in the roulette's 2 fixed slots. With a wallet (2026-10-03) each slot is a real player's code, the count is their real referral count, and the Burn and Dev wallets can never be pinned. See §16.</li>
+      <li><b>⚙️ Emissions rate dial</b> — slider + number input, hard-clamped 0–2%/day, with "Reset to default" (0.05%) and "2× promo weekend" (0.10%) quick chips. A gold "rate elevated" banner appears automatically whenever the live rate sits above the default — a reminder, not an enforcement. With a wallet (2026-10-03) a change is sent on chain by the emissions program's own admin key and applied within seconds; the program itself refuses anything outside the allowed band.</li>
       <li><b>📉 Pool decay projection</b> — the same math as §19, computed off the live-typed (unsigned) draft rate so the projection updates as the admin types, before it's even signed.</li>
       <li><b>🏷️ Item floor prices</b> — two independently editable ladders (crop / boost), anchored to GREEN LIFE's own numbers on purpose; the panel explicitly warns that drifting one game's floor far from the other's opens a cross-game arbitrage.</li>
-      <li><b>🎟️ Marketing codes</b> — free admin-generated Gift-a-Farm codes (plain or +SOL), tracked in their own array separate from player-purchased codes.</li>
+      <li><b>🎟️ Marketing codes</b> — free admin-generated Gift-a-Farm codes (plain or +SOL). Real since 2026-10-04: issued by the server, one-time, redeemable on any device, no daily cap, bonus paid from Simple Farmer's own raffle wallet. A buyer's own "Your Claim Codes" list never shows them.</li>
       <li><b>💳 Credit-card on-ramp panel</b> — the on/off toggle plus the sale/top-up ledger forms described in §17.</li>
     </ul>
 
@@ -1071,25 +1080,26 @@
     <table>
       <tr><th>Field</th><th>Value</th></tr>
       <tr><td>Grantable items</td><td>PRIMO Pack · Seed Pack · Mystery Pack · Boost Pack · Master Pass — the exact 5-item <code>GRANTABLE</code> list</td></tr>
-      <tr><td>Daily cap</td><td class="num">50, contract-enforced concept even in this simulated build</td></tr>
+      <tr><td>Daily cap</td><td class="num">50 items per rolling 24 hours, enforced by the server (2026-10-03); grants reach any wallet, not just the admin's own session</td></tr>
       <tr><td>Rule</td><td>Items only — never $GREEN, never farm power, never anything taken from another player</td></tr>
       <tr><td>Where it lands</td><td>The <code>pending</code> array (Open Now), sealed — a granted pack can never be flipped for tokens while sealed</td></tr>
     </table>
     <p>Every grant is published to a public, in-game grant log with its reason and (if it fixed a ticket) the ticket id — "'it's all on-chain' is true and useless on its own, because nobody reads a block explorer... a list of anonymous handouts proves nothing, a list where each one says what it fixed can be argued with."</p>
 
     <h3>🎁 Event drops</h3>
-    <p>One published offer — item, audience, claim window, message — claimed by players themselves rather than pushed to wallets, so cost stays flat regardless of player count and anything unclaimed at expiry is never minted. Windows: 24h / 48h / 72h / 1 week. Audiences: All farm owners · Active in last 7 days · Farm level 3+ · Joined in last 30 days.</p>
+    <p>One published offer — item, audience, claim window, message — claimed by players themselves rather than pushed to wallets, so cost stays flat regardless of player count and anything unclaimed at expiry is never minted. Windows: 24h / 48h / 72h / 1 week. Audiences: All farm owners · Active in last 7 days · Farm level 3+ · Joined in last 30 days. With a wallet (2026-10-03) drops are server-side: the audience is checked by the server at claim time, one claim per player, and a Master Pass can be a drop.</p>
 
     <h3>👛 Wallets registry</h3>
     <table>
       <tr><th>Wallet</th><th>Kind</th><th>Alert threshold</th><th>What it does</th></tr>
-      <tr><td>🎲 VRF Wallet</td><td class="num">Operational</td><td class="num">3 SOL</td><td>Funds every randomness draw — pack pulls and breed outcomes</td></tr>
+      <tr><td>⚙️ Keeper (farm authority)</td><td class="num">Operational</td><td class="num">1 SOL</td><td>Pays the network fee for every keeper job — emissions ticks, grow-power updates, harvest payouts, referral links, gift and raffle deliveries (replaced the old "VRF Wallet" row 2026-10-04; VRF was dropped platform-wide)</td></tr>
+      <tr><td>🎟️ Raffle Wallet</td><td class="num">Operational</td><td class="num">0.2 SOL</td><td>Simple Farmer's own giveaway wallet — pays $GREEN raffle prizes and free marketing codes</td></tr>
       <tr><td>🎁 Gift Wallet</td><td class="num">Operational</td><td class="num">2 SOL</td><td>Holds unredeemed gift value, pays gas on gasless claims</td></tr>
       <tr><td>🏦 Treasury</td><td class="num">Cold</td><td class="num">—</td><td>Receives market fee, lottery fee, treasury slice of SOL purchases</td></tr>
       <tr><td>💧 LP Reserve</td><td class="num">Vault</td><td class="num">—</td><td>The $GREEN side of the pool, pairs with incoming SOL</td></tr>
       <tr><td>🌾 Emissions Pool</td><td class="num">Vault</td><td class="num">—</td><td>The 200B this game pays out of — its address is public, anyone can top it up</td></tr>
     </table>
-    <p>All addresses currently render as literal placeholders ("— not created yet" / "PDA — derived at deploy") — deliberately never a fake-real-looking address, and balances render as a plain em-dash ("— not wired") rather than a misleading "0," since a zero would look like a real reading.</p>
+    <p>The program and these wallets are real on devnet, but the console shows their addresses as placeholders ("— in the keeper config" / "PDA — derived at deploy") because the addresses live in the keeper and server config, not in the game files — deliberately never a fake-real-looking address, and balances render as a plain em-dash ("— not wired") rather than a misleading "0," since a zero would look like a real reading. <b>Note (2026-10-04):</b> this registry in the code still shows those placeholders even though some real devnet wallets now exist (Simple Farmer's own Gift Wallet and raffle wallet, and the on-chain emissions vault); it has not been updated to list them. The VRF Wallet row is also out of date — VRF was dropped platform-wide and packs/breeds roll on the server.</p>
 
     <h3>🚩 Pre-launch checklist</h3>
     <p>Renders the full <code>SIM_FLAGS</code> list (§25) as read-only, permanently-unticked checkboxes — "a checkbox that clears a blocker without changing any code would let the console lie about whether the game is ready. A box only clears when the entry leaves the flag list in the code — never by tapping it here."</p>
@@ -1118,7 +1128,7 @@
       <li><b>CropCard / BoostCard</b> — the single card renderer for the whole game; every screen routes through these two so real art (once swapped in) updates everywhere in a single file change.</li>
       <li><b>CropThumb / BoostThumb</b> — deliberately shimmer-free small thumbnails for dense rows (inventory counts, breed pickers) — a field of many simultaneously-animating cards is exactly the "tune against a maxed screen" trap the game avoids.</li>
       <li><b>Bar / TimeChip</b> — shared progress bar and countdown chip, used by grow timers, the egg-style ticker, and lottery clocks alike.</li>
-      <li><b><code>SimBadge</code></b> — a visible, on-screen "this system is simulated" disclosure component, added 2026-08-24 specifically because several systems (marketplace, lottery, referral downline) were honestly disclosed in source comments but nowhere a player could actually see it.</li>
+      <li><b><code>SimBadge</code></b> — a visible, on-screen "this system is simulated" disclosure component, added 2026-08-24 specifically because several systems (marketplace, lottery, referral downline) were honestly disclosed in source comments but nowhere a player could actually see it. It now belongs to the no-wallet demo; the 2026-10-03/04 audits removed leftover "simulated" wording from screens a wallet player sees (marketplace, referral, World).</li>
       <li><b>LogoTile</b> — the game's own icon, a pre-cropped, alpha-masked transparent PNG (not a CSS-clipped square) — a direct cross-game lesson reuse from a real bug GREEN LIFE hit twice with its own platform-splash icon.</li>
     </ul>
   </section>
@@ -1153,6 +1163,10 @@
     <h2>Money Flow &amp; Burn Discipline</h2>
     <p class="lede">Rebuilt 2026-08-31 against a complete buy-by-buy spec Cody handed over directly (a handwritten sheet covering every purchase in the game). The prior version of this section was already stale in two real ways by the time it was replaced — the marketplace's advertised 5%-burn half was never actually implemented (see the dedicated callout below), and <code>spendSol</code> was described as one-size-fits-all when this pass gave it two new opt-in modes. Everything below reflects what the code does as of this rebuild, verified against source, not just against the sign-sheet copy.</p>
 
+    <div class="callout locked">
+      <b>Real money flow with a wallet (updated 2026-10-04)</b>
+      The function names below are the client's original names, and they still describe the no-wallet demo. With a wallet connected, each of these is a real devnet transaction that the server checks on chain before granting anything: $GREEN spends are really burned (for $GREEN packs, each referrer's share is paid straight to their wallet inside the same transaction and the rest is burned); SOL spends really go to the liquidity pool or treasury by the table below. One difference from the table: on a SOL pack (including PRIMO) the referral cut is paid <b>in SOL</b> directly to each referrer's wallet, not converted to $GREEN. Since the 2026-10-04 audit, a paid item that can run out (an upgrade, a plot, Season Premium, a capped pack) is reserved on the server <i>before</i> you pay, so you can't pay for something and then be refused.</div>
+
     <h3>The three spend functions</h3>
     <table>
       <tr><th>Function</th><th>Referral cut?</th><th>Where the money goes</th><th>Used by</th></tr>
@@ -1183,10 +1197,10 @@
 
     <h3>The marketplace's 5%-burn half was never actually implemented — fixed 2026-08-31</h3>
     <p>Found while re-verifying the ALREADY-locked 90/5/5 marketplace split against Cody's sheet (it wasn't a new rule — the sign sheet, the constants file's own comment, and this very report all already said "5% burn + 5% treasury"). The code that resolves a real listing sale funneled the FULL 10% fee into <code>treasurySol</code>, with a comment claiming it was "the same combined burn+treasury bucket" — nothing was ever actually burned. Fixed to genuinely split: the 5% burn half buys $GREEN from the LP with that SOL (same market-buy mechanic the $5 sign-up bonus already uses) and burns the resulting $GREEN; the 5% treasury half is unchanged.</p>
-    <p><b>The NPC-seeded-listing buy path got the same fix, one directive later.</b> <code>buyListing</code>/<code>buyListingBatch</code> (buying from the simulated shop pool, not a real player's own listing) originally routed its whole 10% to treasury on the theory that "no real seller" meant nothing to split — that theory held for the 90% seller share (still true: there's genuinely no one to pay it to) but not for the burn half, which needs no counterparty at all. Cody's call once this ambiguity was raised: <i>"this should be built for the 5% buyback and burn, 90% to seller, remaining 5%ish treasury."</i> Both functions now credit the same real 5%/5% split as every real-seller path; the sign-sheet copy on both was updated to say "simulated seller, no 90% to split" so the remaining asymmetry (only the seller's share is unpayable) stays honest rather than implying the whole fee is inert.</p>
+    <p><b>(No-wallet demo only.)</b> <b>The NPC-seeded-listing buy path got the same fix, one directive later.</b> <code>buyListing</code>/<code>buyListingBatch</code> (buying from the simulated shop pool, not a real player's own listing) originally routed its whole 10% to treasury on the theory that "no real seller" meant nothing to split — that theory held for the 90% seller share (still true: there's genuinely no one to pay it to) but not for the burn half, which needs no counterparty at all. Cody's call once this ambiguity was raised: <i>"this should be built for the 5% buyback and burn, 90% to seller, remaining 5%ish treasury."</i> Both functions now credit the same real 5%/5% split as every real-seller path; the sign-sheet copy on both was updated to say "simulated seller, no 90% to split" so the remaining asymmetry (only the seller's share is unpayable) stays honest rather than implying the whole fee is inert.</p>
 
     <h3>Where the referral cut actually goes when it can't be paid</h3>
-    <p>In this single-device simulation, a cut owed to a real (non-bootstrap) referrer has nobody live to pay — it accumulates in <code>refChainPayout</code>, an honestly-tracked running total, rather than being silently dropped or wrongly credited to the paying player's own referral-earnings pot (a different pot entirely — that one is what a player earns <i>as</i> a referrer, not what they pay <i>as</i> someone who was referred). Any portion of the cut that resolves all the way up to the bootstrap chain's burn seed is destroyed for real, immediately, regardless of backend status. This applies identically whether the cut originated from a $GREEN spend or a SOL spend's new <code>refCut</code> mode — both route through the exact same chain-split logic.</p>
+    <p>With a wallet connected this paragraph no longer applies — every referrer is a real account and is paid for real (§14, §16). In the no-wallet demo, a cut owed to a real (non-bootstrap) referrer has nobody live to pay — it accumulates in <code>refChainPayout</code>, an honestly-tracked running total, rather than being silently dropped or wrongly credited to the paying player's own referral-earnings pot (a different pot entirely — that one is what a player earns <i>as</i> a referrer, not what they pay <i>as</i> someone who was referred). Any portion of the cut that resolves all the way up to the bootstrap chain's burn seed is destroyed for real, immediately, regardless of backend status. This applies identically whether the cut originated from a $GREEN spend or a SOL spend's new <code>refCut</code> mode — both route through the exact same chain-split logic.</p>
 
     <h3>Burn sources, consolidated</h3>
     <ul>
@@ -1232,7 +1246,7 @@
       <tr><td><code>MAX_FARM_LEVEL</code></td><td class="num">5</td></tr>
       <tr><td><code>UPGRADE_COST_USD</code> (Lv2–5)</td><td class="num">$10.00 flat each</td></tr>
       <tr><td><code>UPGRADE_COOLDOWN_DAYS</code></td><td class="num">2 / 3 / 4 / 5 days for Lv2 / 3 / 4 / 5</td></tr>
-      <tr><td><code>TESTING_FAST_COOLDOWN</code></td><td class="num">true → 20 seconds flat in the current build</td></tr>
+      <tr><td><code>TESTING_FAST_COOLDOWN</code></td><td class="num">true → 20 seconds flat, client and server — the one testing tool kept on purpose; turn off before mainnet</td></tr>
       <tr><td>Garden tiers &amp; multipliers</td><td class="num">1× / 2× / 5× / 10× / 100× — see §06 for the full table</td></tr>
     </table>
 
@@ -1245,7 +1259,7 @@
       <tr><td><code>NETWORK_POWER_BASE</code></td><td class="num">5,000,000</td></tr>
       <tr><td><code>HARVEST_SPLIT_INSTANT</code> / <code>HARVEST_SPLIT_POT</code></td><td class="num">70% / 30%</td></tr>
       <tr><td><code>DEATH_BEFORE_FRAC</code></td><td class="num">22/30 ≈ 73.33%</td></tr>
-      <tr><td><code>TESTING_FAST_GROW</code></td><td class="num">true → 1 game-day = 60 real seconds</td></tr>
+      <tr><td><code>TESTING_FAST_GROW</code></td><td class="num">OFF since 2026-10-04 — 1 game-day = 1 real day, client and server</td></tr>
     </table>
 
     <h3>Packs &amp; shop</h3>
@@ -1318,7 +1332,7 @@
       <tr><td><code>GRANTABLE</code></td><td class="num">5 items — primo, plant, mystery, boost, masterpass</td></tr>
       <tr><td><code>DROP_AUDIENCES</code></td><td class="num">4 — all / active7 / lvl3 / new30</td></tr>
       <tr><td><code>BADGE_LIBRARY</code></td><td class="num">12 starter badges across 3 categories</td></tr>
-      <tr><td><code>ADMIN_DEMO_PLAYERS</code></td><td class="num">12 deterministically-seeded fake players</td></tr>
+      <tr><td><code>ADMIN_DEMO_PLAYERS</code></td><td class="num">12 deterministically-seeded fake players (no-wallet demo only)</td></tr>
       <tr><td><code>GAME_WALLETS</code></td><td class="num">5 registered wallets (2 operational, 1 cold, 2 vault)</td></tr>
     </table>
   </section>
@@ -1327,33 +1341,45 @@
   <section id="simflags">
     <div class="sec-num">25</div>
     <h2>What's Simulated vs. What's Real</h2>
-    <p class="lede">Reproduced from the game's own <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code>, quoted faithfully — this is the authoritative, in-code list, rendered live on the player-visible World screen and again on the Admin Console's Pre-launch tab. Header comment: "the same discipline as GREEN LIFE's pre-launch checklist: anything fake gets listed HERE, in the code, in the same commit that adds it. A checklist that silently omits an item is worse than no checklist, because it gets trusted."</p>
+    <p class="lede">Rewritten 2026-10-04 from the game's own <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code> — the authoritative, in-code list, rendered on the player-visible World screen and on the Admin Console's Pre-launch tab. Header comment: "the same discipline as GREEN LIFE's pre-launch checklist: anything fake gets listed HERE, in the code, in the same commit that adds it. A checklist that silently omits an item is worse than no checklist, because it gets trusted."</p>
+    <div class="callout locked">
+      <b>The short version</b>
+      <b>With a wallet connected, Simple Farmer is real on Solana devnet.</b> Almost everything left on this list is about the <b>no-wallet demo</b> (also called practice mode), which still runs locally in the browser and resets on refresh. The only test-only setting still switched on is fast farm upgrades (20 seconds). The game is not on mainnet yet.</div>
+
+    <h3>Still on the list (11 entries)</h3>
     <table>
-      <tr><th>id</th><th>Label</th><th>Note</th></tr>
-      <tr><td class="num">no-chain</td><td>No wallet / no chain</td><td>Every balance, payment and signature is local state. Nothing touches Solana.</td></tr>
-      <tr><td class="num">no-backend</td><td>No backend</td><td>Referrals, marketplace and leaderboard are in-memory. Refresh resets them.</td></tr>
-      <tr><td class="num">cpu-random</td><td>CPU random, not VRF</td><td>Pack, breed and lottery rolls use Math.random(). ⚠️ CORRECTED 2026-09-10: only the LOTTERY roll must become VRF. Packs and breeds deliberately stay server-side against one published odds table — VRF is for adversarial, pooled-stake ACTIONS (a raid, a lottery draw), not for content REVEALS. A pack costs the same whatever it contains, so there is nothing to rig for or against the buyer; what matters is the published odds being honoured.</td></tr>
-      <tr><td class="num">fast-grow</td><td>TESTING_FAST_GROW</td><td>A "day" is 60 seconds so a full grow is watchable. Revert before launch.</td></tr>
-      <tr><td class="num">fast-cd</td><td>TESTING_FAST_COOLDOWN</td><td>Farm upgrade cooldowns are 20s, not 2–5 days. Revert before launch.</td></tr>
-      <tr><td class="num">sim-market</td><td>Simulated marketplace</td><td>NPC listings are generated locally; there is no real counterparty.</td></tr>
-      <tr><td class="num">sim-network</td><td>Simulated network power</td><td>Other players' farm power is a constant, so your emission share is approximate.</td></tr>
-      <tr><td class="num">seeded-lp</td><td>Seeded LP pool</td><td>The pool starts at 120 SOL so the LP-phase split has something to work against. Real pool depth comes from the chain.</td></tr>
-      <tr><td class="num">admin-open</td><td>Admin console is open to all</td><td>No wallet gate — anyone can open the Admin tab. Must be locked to Cody's wallet before launch.</td></tr>
-      <tr><td class="num">ref-chain-untracked</td><td>Referral chain payout is deferred, not paid</td><td>The 3-level cut is correctly deducted from claims, harvests and $GREEN pack purchases, and resolved through the seeded bootstrap chain — a share that reaches the burn seed IS burned for real. But there's no live upline player on a single device, so any share owed to a real (non-bootstrap) referrer is tracked in refChainPayout rather than paid. Breeding and farm-level upgrades are correctly exempt from the cut — this line is only about packs/claims/harvests.</td></tr>
-      <tr><td class="num">sim-gift-codes</td><td>Gift-a-Farm codes are single-device</td><td>genClaimCode() and the credit-card ledger are real client logic, but there is no shared server yet — a code generated in this browser can only be redeemed in this same browser (plus the small built-in demo list).</td></tr>
-      <tr><td class="num">single-player-graph</td><td>Referral graph is one seeded chain</td><td>The whole referral tree right now is the 5-code bootstrap chain plus whatever a player types by hand. A real backend has real other players as ancestors instead.</td></tr>
-      <tr><td class="num">sim-lottery</td><td>Lottery display still draws client-side <i>(reworded 2026-08-28)</i></td><td>Genuinely shared across every GLG game two ways now. (1) Same-origin localStorage (2026-08-24) — real cross-tab sharing on one browser. (2) A real Supabase backend (2026-08-28, <code>glg</code> schema, shared by GREEN LIFE/Simple Farmer/Mother Lode) — every ticket bought and every admin bonus is genuinely recorded server-side, atomically, across devices and games for real. What's NOT yet true: the countdown/winner/payout the player actually SEES still comes from the local pool and resolves with client Math.random() — the real server draw is proven and callable but doesn't drive the on-screen UI yet. Real money must never enter a client-resolved random draw.</td></tr>
-      <tr><td class="num">sim-players</td><td>Admin Players tab is a fake roster</td><td>ADMIN_DEMO_PLAYERS is deterministically generated, not real accounts. Cody can't look up, message, or badge a real player until there's a backend to read one from.</td></tr>
-      <tr><td class="num">sim-friend-join</td><td>"Simulate a friend joining" test button</td><td>My Stuff → Invite ships a player-visible testing control that fakes a referral activation, so it gets its own line rather than hiding inside single-player-graph.</td></tr>
-      <tr><td class="num">sim-market-sell</td><td>Your own listings sell via a dice roll, not a real buyer</td><td>Fixed 2026-08-30: each of your listings gets an independent per-second chance of selling before its 7-day TTL (real proceeds, real fee split), but Math.random() stands in for a real counterparty — you still can't buy your own listing back or trade with another real player.</td></tr>
-      <tr><td class="num">sim-roulette</td><td>Referral roulette matches invented players</td><td>ROULETTE_CANDIDATES is an invented pool standing in for other real players logged in within the last 12 hours — there's no backend yet to hold a real last_login to query against.</td></tr>
-      <tr><td class="num">sim-glg-raffle</td><td>Simple Farmer Raffle — Simulated v1</td><td>This game's own free-to-enter, treasury-funded raffle. Every pool, entry, and draw lives only in this browser's local state — nothing shared across devices or games.</td></tr>
-      <tr><td class="num">demo-existing-farm</td><td>"Returning owner" wallet-connect path is a stub</td><td>Existing-farm lookup always returns null — every wallet connect onboards as new, since there's no chain to read a wallet-derived farm PDA from. A dev-only toggle can fake the returning-owner path.</td></tr>
-      <tr><td class="num">sim-season-pass</td><td>Season Pass progress is local-only</td><td>Real points from real actions and a real signed admin content editor, but no backend — a player's points, claimed tiers, and Premium ownership all reset on refresh.</td></tr>
-      <tr><td class="num">sim-rankings-rivals</td><td>World Rankings' rival rows are simulated for every category except your own</td><td>Your own row is real (live local counters, or the real Supabase referred_activated_count for Top Recruiter); every other row on every board is generated, not a real player.</td></tr>
-      <tr><td class="num">ranking-events-no-backend</td><td>Event-scoped ranking baselines are captured client-side, not server-snapshotted</td><td>When an admin starts/resets an event, each player's baseline is captured the moment their OWN client next notices the new startedAt, not by one atomic server snapshot of every account at once.</td></tr>
+      <tr><th>id</th><th>Label</th><th>What it means today</th></tr>
+      <tr><td class="num">no-chain</td><td>No wallet / no chain</td><td>No-wallet demo only: balances, payments and signatures are local. With a wallet connected every payment is a real devnet transaction.</td></tr>
+      <tr><td class="num">no-backend</td><td>No backend</td><td>No-wallet demo only: the farm lives in this browser and a refresh resets it. With a wallet connected the farm, cards, plants, market, referrals, Season Pass and raffle are server-side.</td></tr>
+      <tr><td class="num">fast-grow</td><td>TESTING_FAST_GROW</td><td><b>Off since 2026-10-04</b> — a game day is a real day, in the demo and on the server. Kept on the list so it shows if anyone turns it back on.</td></tr>
+      <tr><td class="num">fast-cd</td><td>TESTING_FAST_COOLDOWN</td><td><b>Kept on purpose</b> — the one testing tool (same as GREEN LIFE's instant upgrades): farm upgrades take 20 seconds, not 2–5 days, on the client and the server. Must be turned off before mainnet.</td></tr>
+      <tr><td class="num">sim-market</td><td>Simulated marketplace</td><td>No-wallet demo only: the market shows invented sellers. With a wallet it is the real marketplace (90/5/5 in one transaction).</td></tr>
+      <tr><td class="num">sim-market-sell</td><td>Your own listings sell via a dice roll</td><td>No-wallet demo only: listings "sell" on a random roll. With a wallet a listing sells only when a real buyer pays.</td></tr>
+      <tr><td class="num">sim-network</td><td>Simulated network power</td><td>No-wallet demo only: other players' power is a constant. With a wallet your share uses the chain's own network total, and the earning rate and "pool left" use the chain's real pool (vault minus what is owed), not the 200B starting figure.</td></tr>
+      <tr><td class="num">seeded-lp</td><td>Seeded LP pool</td><td>No-wallet demo only: the liquidity split works against a pretend 120 SOL pool. With a wallet the split reads the real pool's tier from the chain.</td></tr>
+      <tr><td class="num">sim-friend-join</td><td>"Simulate a friend joining" test button — demo only</td><td>A testing button on My Stuff → Invite that fakes a referral, shown only in a dev build with <b>no</b> wallet connected. Never shown to a wallet player; stripped from the public build.</td></tr>
+      <tr><td class="num">sim-rankings-rivals</td><td>World Rankings rivals — demo only</td><td>With a wallet every board is real: every real farm, ranked on the server the same way as your own number (Lifetime Harvest comes from each farmer's on-chain total, mirrored every minute). The 10 named rivals only appear in the no-wallet demo.</td></tr>
+      <tr><td class="num">ranking-events-no-backend</td><td>Ranking events — local in the demo only</td><td>With a wallet an event is one server record per category: one start moment for every player, with a snapshot of every account taken at the start. The old per-browser starting point only runs in the demo.</td></tr>
     </table>
-    <div class="tip"><b>This "15" is itself stale — see §27's "SIM_FLAGS total-count" callout below for the current count (22, as of this session's fresh audit).</b> This table row-by-row listing above predates the game gaining several more simulated systems (Season Pass, World Rankings events, Simple Farmer Raffle) and was never updated to match — treat the live <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code> as the only durable source of truth, not any specific integer written down here.</div>
+
+    <h3>Removed from the list — now real with a wallet (2026-10-03/04)</h3>
+    <table>
+      <tr><th>Former id</th><th>Was</th><th>Now</th></tr>
+      <tr><td class="num">cpu-random</td><td>Packs, breeds and lottery rolled in the browser</td><td>Packs and breeds roll on the server from one published odds table; the lottery draws on the shared GLG server. VRF was dropped platform-wide.</td></tr>
+      <tr><td class="num">admin-open</td><td>Anyone could open the Admin tab</td><td>A real server check against the platform admin list; the public build doesn't include the console at all.</td></tr>
+      <tr><td class="num">ref-chain-untracked</td><td>Referral cut owed but not paid</td><td>The cut is carved on chain on every claim and paid straight to referrers on pack purchases; referrers collect their pot on chain.</td></tr>
+      <tr><td class="num">sim-gift-codes</td><td>Gift codes worked on one device only</td><td>Real escrowed purchase, server-issued one-time codes any device can redeem, keeper delivery from Simple Farmer's own Gift Wallet. Free admin marketing codes are real too.</td></tr>
+      <tr><td class="num">single-player-graph</td><td>Referral tree was one seeded chain</td><td>The referral graph is the server's real table of players.</td></tr>
+      <tr><td class="num">sim-roulette</td><td>Roulette offered invented players</td><td>Real farm owners active in the last 12 hours, plus bootstrap wallets #3–#5.</td></tr>
+      <tr><td class="num">sim-lottery</td><td>Lottery draw shown from a local copy</td><td>Shows and draws the real shared GLG pools.</td></tr>
+      <tr><td class="num">sim-glg-raffle</td><td>Raffle lived in the browser</td><td>Server-side: real ticket balance, entries, paid tickets checked on chain, draws by the keeper, prizes into Open Now / the bag.</td></tr>
+      <tr><td class="num">sim-players</td><td>Admin Players was a fake roster</td><td>Admin → Players searches real accounts.</td></tr>
+      <tr><td class="num">demo-existing-farm</td><td>Returning-owner lookup was a stub</td><td>Connecting a wallet asks the server whether that wallet has a farm.</td></tr>
+      <tr><td class="num">sim-season-pass</td><td>Season Pass reset on refresh</td><td>Server-side: points, claims and Premium ownership are stored per account.</td></tr>
+      <tr><td class="num">sim-swap</td><td>Swap used a flat rate</td><td>A real SOL ↔ $GREEN trade on the game's real pool, fresh quote at signing; USDC/USDT refuse.</td></tr>
+      <tr><td class="num">drop-active7-unenforced</td><td>"Active in last 7 days" drop audience not checked</td><td>The server checks every drop audience at claim time.</td></tr>
+    </table>
+    <div class="tip">Treat the live <code>SIM_FLAGS</code> array in <code>farmer-constants.js</code> as the only durable source of truth — this table is a snapshot of it as of 2026-10-04 (11 entries still listed; earlier versions of this report carried 15 and then 22).</div>
   </section>
 
   <!-- 26 -->
@@ -1450,14 +1476,14 @@
       <b>PRIMO's Legendary rate vs. this game's thin Legendary roster</b>
       25% Legendary on PRIMO was ported directly from GREEN LIFE for parity, but Simple Farmer has only two Legendary crops total. One crate a day at 25% mints Legendaries far faster than the base pack's 0.5% rate — explicitly flagged in the source as an easy dial to turn down, not yet turned.</div>
     <div class="callout warn">
-      <b>The marketplace's own buyer sign-sheet vs. its fee panel disagree on the current split</b>
-      The buy-side wallet-sign screen states the entire 10% fee books to treasury today; the fee panel elsewhere on the same screen still shows the target 90/5/5 breakdown. Both are individually honest about what they're describing (one is "what happens right now," the other is "the real design"), but a player reading only one of the two could come away with a different understanding of where their money went on a purchase they just made.</div>
+      <b>The marketplace's own buyer sign-sheet vs. its fee panel disagree on the current split — <i>no longer applies with a wallet</i></b>
+      Resolved for wallet players: a real purchase executes the 90/5/5 split in one transaction, so there is one split to describe. What follows is the original concern about the old simulated build. The buy-side wallet-sign screen states the entire 10% fee books to treasury today; the fee panel elsewhere on the same screen still shows the target 90/5/5 breakdown. Both are individually honest about what they're describing (one is "what happens right now," the other is "the real design"), but a player reading only one of the two could come away with a different understanding of where their money went on a purchase they just made.</div>
     <div class="callout gap">
-      <b>No confirmed path for a player's own listing to actually sell</b>
-      The buy handler only operates against the NPC-seeded pool; no mechanism was found in the research for a simulated buyer to purchase a player's own <code>myListings</code> entry. As built, a player listing appears to always run its full 7 days and auto-return rather than genuinely sell — not confirmed as broken end-to-end, but not confirmed as working either, and not called out anywhere in the source as a known limitation.</div>
+      <b>No confirmed path for a player's own listing to actually sell — <i>resolved</i></b>
+      Closed: with a wallet a listing sells when a real buyer pays (proven live 2026-10-03); in the no-wallet demo a listing can "sell" on a random roll (see §29). Original note, kept as history: the buy handler only operates against the NPC-seeded pool; no mechanism was found in the research for a simulated buyer to purchase a player's own <code>myListings</code> entry. As built, a player listing appears to always run its full 7 days and auto-return rather than genuinely sell — not confirmed as broken end-to-end, but not confirmed as working either, and not called out anywhere in the source as a known limitation.</div>
     <div class="callout locked">
-      <b>SIM_FLAGS total-count — updated in this session's fresh audit, was stale at "20"</b>
-      A direct read of the live array in this session confirms <b>22 entries</b> (<code>farmer-constants.js</code>). The count kept moving as the game grew — 17 → 19 with <code>sim-season-pass</code> (2026-08-29) → 20 with <code>sim-glg-raffle</code> (2026-08-30) → 22 with <code>sim-rankings-rivals</code> and <code>ranking-events-no-backend</code> (added alongside the World Rankings event-window feature, never previously reflected in this count). Treat any hard-coded count in this document as a snapshot that will drift again the next time a simulated system ships — the live array is the only durable source of truth.</div>
+      <b>SIM_FLAGS total-count — now 11 (2026-10-04)</b>
+      The backend build removed 13 entries as their systems became real with a wallet; the live array now holds <b>11 entries</b>, nearly all "no-wallet demo only" (see §25). Earlier history: a read in an August session confirmed <b>22 entries</b> (<code>farmer-constants.js</code>). The count kept moving as the game grew — 17 → 19 with <code>sim-season-pass</code> (2026-08-29) → 20 with <code>sim-glg-raffle</code> (2026-08-30) → 22 with <code>sim-rankings-rivals</code> and <code>ranking-events-no-backend</code> (added alongside the World Rankings event-window feature, never previously reflected in this count). Treat any hard-coded count in this document as a snapshot that will drift again the next time a simulated system ships — the live array is the only durable source of truth.</div>
     <div class="callout gap">
       <b>Stale documentation inside the game's own code</b>
       At least two comments in <code>farmer-constants.js</code> were found to describe numbers that had already moved on: a PRIMO-pricing rationale comment still compares against a "$10 entry" figure after farm entry was raised to $25, and the buy-in-split comment in <code>mintFarm()</code> still literally says "$10 entry" in its prose even though every actual number it computes uses $25. Neither affects behavior — both are comment-only drift — but both are worth a cleanup pass.</div>
@@ -1466,7 +1492,7 @@
       This report's picture of the platform beyond Simple Farmer itself comes from the locked platform tokenomics — no GREEN LIFE or other GLG-game source file was part of the research this report draws from, so treat any cross-game figures here as the stated plan, not independently cross-checked against those other games' code.</div>
     <div class="callout note">
       <b>Reminder for whoever picks this document up next</b>
-      This is a snapshot of a fully simulated dev preview. §25's SIM_FLAGS list and §20's Admin Console (currently open to anyone, per <code>admin-open</code>) are the two most load-bearing sections for anyone deciding whether any part of this build is close to handling real value — it is not, by the game's own explicit and repeated disclosure.</div>
+      As of 2026-10-04 Simple Farmer is real on Solana <b>devnet</b> when a wallet is connected, with a locked-down admin console, and is <b>not on mainnet yet</b>. §25 (what is still demo-only or test-only) and §30 (what became real and what the latest audit fixed) are the two most load-bearing sections for anyone deciding how close it is to handling real value. Known items before mainnet include turning off the fast-upgrade testing tool and the funding decisions noted in §30.</div>
   </section>
 
   <!-- 28 -->
@@ -1479,7 +1505,7 @@
     <table>
       <tr><th>Ladder</th><th>Size</th><th>Cost</th><th>Shape</th></tr>
       <tr><td>🌱 Free</td><td>12 tiers</td><td>Free</td><td>175 pts/tier. <b>Corrected 2026-08-30 — LOCKED:</b> claimable exactly as fast as points come in, no weekly cap. (Was capped at 3 tiers/real-week unless Premium was owned; Cody: "i dont want a cap on either 1 of them.")</td></tr>
-      <tr><td>👑 Premium</td><td>4 bonus bundles</td><td>$4.99, SOL only</td><td>One extra bundled reward at week-end tiers 3/6/9/12, stacked on top of Free — points-gated only, same as Free now. Its old second perk, "removes Free's weekly claim cap," is gone along with the cap itself. <b>Buy-and-claim UI's primary home moved off this ladder's own popup 2026-08-30, then partly came back</b> — see Entry points below.</td></tr>
+      <tr><td>👑 Premium</td><td>4 bonus bundles</td><td>$4.99 (admin-adjustable); with a wallet, paid in SOL (to treasury) or $GREEN (100% burned)</td><td>One extra bundled reward at week-end tiers 3/6/9/12, stacked on top of Free — points-gated only, same as Free now. Its old second perk, "removes Free's weekly claim cap," is gone along with the cap itself. <b>Buy-and-claim UI's primary home moved off this ladder's own popup 2026-08-30, then partly came back</b> — see Entry points below.</td></tr>
       <tr><td>🌟 Welcome</td><td>5 tiers</td><td>Free</td><td>35 pts/tier (175 total). 11 one-time tasks sum to 295 available points — deliberately over-provisioned so a player doesn't need every task to max the ladder. <b>Own pill + popup moved off this ladder's own popup too, 2026-08-30</b> — see Entry points below.</td></tr>
     </table>
 
@@ -1498,13 +1524,13 @@
     <p><b>Result:</b> <code>SeasonPassPanel</code> (reachable <b>exclusively</b> via My Profile → Open Season Pass) shows its header, the Daily/Weekly task checklist, Premium (again, as of Split 4), and the Free track — Welcome content is the only thing still fully gone from it. <b>Two</b> popups now cover what one used to: season progress + Premium (My Profile), Welcome Tasks (My Profile, its own pill) — plus Premium's standing extra appearance on Marketplace → 🎫 Pass.</p>
 
     <h3>Admin editor</h3>
-    <p><code>SeasonPassAdminPanel</code> — draft-then-sign over the live <code>SEASON_PASS</code> object: season name, premium price, and (added mid-session per Cody) independent Free/Premium on-off <code>ToggleSwitch</code> controls. Welcome deliberately has no toggle — a one-time onboarding ladder isn't a recurring content drop worth pausing.</p>
+    <p><code>SeasonPassAdminPanel</code> — draft-then-sign over the live <code>SEASON_PASS</code> object: season name, premium price, and (added mid-session per Cody) independent Free/Premium on-off <code>ToggleSwitch</code> controls. Welcome deliberately has no toggle — a one-time onboarding ladder isn't a recurring content drop worth pausing. With a wallet connected (2026-10-03) an edit is saved on the server and reaches every player; the server pays rewards from the same table the screens draw.</p>
 
     <div class="callout gap">
       <b>Welcome task list — revised same session</b>
       Cody removed 3 original tasks (connect wallet, claim first daily pack, sign &amp; commit planting batch — the last a near-duplicate of "plant your first card") and replaced item 5 with "Plant multiple cards at once," then added 3 new 50-pt tasks after the invite-share step: Buy a Seed Pack, Buy a Mystery Pack, Buy a Boost Pack.</div>
 
-    <p><code>🧪 SIMULATED</code> — like every other reward/points system in this game, points, claims and Premium ownership are in-memory React state only, gone on refresh, no backend behind any of it yet.</p>
+    <p><b>Real with a wallet (2026-10-03):</b> the Season Pass is server-side. Points are awarded by the server right after each real action (the daily claim task needs a real on-chain claim), claims are granted by the server (cards, boosts, packs into Open Now, raffle tickets), Premium is a real payment, and unclaimed tiers are delivered when a season rolls over. In the no-wallet demo, points, claims and Premium are still in-memory and gone on refresh.</p>
   </section>
 
   <!-- 29 -->
@@ -1526,23 +1552,80 @@
     <p><code>WORLD_RANKINGS</code> (<code>farmer-constants.js</code>) is the registry — 6 entries, each <code>{id, emoji, label, desc}</code>, plus <code>rankingById()</code>. <code>rankingLiveValues</code> (a <code>useMemo</code> in <code>farmer-game.jsx</code>) combines all 6 into one object every render, the single source both the World screen and the admin panel read from.</p>
 
     <h3>A real gap this closed: Marketplace listings could never actually sell</h3>
-    <p>Market Mogul needed a real "you sold something" event to track — and the game's own listings had none. <code>listingSellTickPct(tickMs)</code> gives every open listing an independent per-tick chance of selling, calibrated so a listing has roughly a 65% chance of selling within its full TTL window (<code>LISTING_SELL_TARGET_PCT = 0.65</code>) rather than either never selling or resolving instantly: <code>1 − (1 − TARGET)^(tickMs / LISTING_TTL_MS)</code>, a constant-hazard-rate model — same shape a radioactive-decay half-life uses. Runs on the game's existing 1-second clock tick (<code>CLOCK_TICK_MS</code>, a new shared constant so the sale-roll and the clock interval can never drift out of calibration with each other). A sold listing pays the seller their net (after the standard marketplace fee), credits the fee to the treasury, and adds the net amount to <code>lifetimeMarketSol</code> — the exact figure Market Mogul ranks on.</p>
+    <p><b>No-wallet demo only.</b> With a wallet connected, listings sell only to real buyers and Market Mogul counts real sales (90% of each sold listing). The demo mechanism follows. Market Mogul needed a real "you sold something" event to track — and the game's own listings had none. <code>listingSellTickPct(tickMs)</code> gives every open listing an independent per-tick chance of selling, calibrated so a listing has roughly a 65% chance of selling within its full TTL window (<code>LISTING_SELL_TARGET_PCT = 0.65</code>) rather than either never selling or resolving instantly: <code>1 − (1 − TARGET)^(tickMs / LISTING_TTL_MS)</code>, a constant-hazard-rate model — same shape a radioactive-decay half-life uses. Runs on the game's existing 1-second clock tick (<code>CLOCK_TICK_MS</code>, a new shared constant so the sale-roll and the clock interval can never drift out of calibration with each other). A sold listing pays the seller their net (after the standard marketplace fee), credits the fee to the treasury, and adds the net amount to <code>lifetimeMarketSol</code> — the exact figure Market Mogul ranks on.</p>
 
     <h3>Event windows — separate from lifetime totals, admin-controlled, multi-select</h3>
     <p>Cody's spec, verbatim: "make sure to have a way to keep it seperate from the game totals. if a even starts i should be able to chose to reset the counter for the time of the even. so that way new players can compete with players 3 months old" — then, mid-build: "make sure i can do multiple at a time, like doing rarest collection and marketplace mogul would be win/win for both sides if played at same time."</p>
     <p><code>RANKING_EVENTS</code> holds one <code>{active, startedAt, name}</code> slot <b>per category</b>, not one shared "current event" slot — this is what makes independently-timed, independently-named simultaneous events possible, rather than only one event running at a time across the whole board set. A new admin panel, <code>RankingsEventsPanel</code> (Admin → 🏆 Rankings tab), presents all 6 categories as a checklist with one shared optional event name (e.g. "Collector's Weekend"), and one sign-and-apply action starts or resets every checked category at once with the same <code>startedAt</code> timestamp.</p>
-    <p>Each player's own event-window score is computed <b>entirely client-side</b>, never server-tracked: the first moment a player's client notices a category's <code>startedAt</code> has changed, it captures a baseline (<code>eventBaselines</code> state) — "my lifetime value right now." From then on, that category's event score is <code>current lifetime value − baseline value</code>, so a 3-month veteran and a brand-new player both start an event at exactly zero, regardless of their lifetime totals. Lifetime boards are never touched by an event starting, resetting, or ending. The World screen shows a 🔥 EVENT LIVE panel above a category's regular lifetime board whenever that category has a live, baseline-matched event running, using <code>fmtDurShort</code> for the "started N ago" line (an earlier draft used <code>fmtDur</code>, which returns the misleading string "ready" for an elapsed time of zero — caught and fixed before shipping since a just-started event would have read as "Started ready ago").</p>
+    <p><b>With a wallet (2026-10-03):</b> events are server-side — one record per category, one start moment shared by every player, a snapshot of every account's Farm Power / Rarest Collection / Lifetime Harvest taken at the start, and breeds / recruits / sales counted from that moment. <b>In the no-wallet demo</b>, each player's own event-window score is computed <b>entirely client-side</b>: the first moment a player's client notices a category's <code>startedAt</code> has changed, it captures a baseline (<code>eventBaselines</code> state) — "my lifetime value right now." From then on, that category's event score is <code>current lifetime value − baseline value</code>, so a 3-month veteran and a brand-new player both start an event at exactly zero, regardless of their lifetime totals. Lifetime boards are never touched by an event starting, resetting, or ending. The World screen shows a 🔥 EVENT LIVE panel above a category's regular lifetime board whenever that category has a live, baseline-matched event running, using <code>fmtDurShort</code> for the "started N ago" line (an earlier draft used <code>fmtDur</code>, which returns the misleading string "ready" for an elapsed time of zero — caught and fixed before shipping since a just-started event would have read as "Started ready ago").</p>
 
-    <h3>Simulated boards, real player row</h3>
-    <p>Each board's rival rows are simulated (<code>LIFETIME_CACHE</code>/<code>EVENT_CACHE</code>, generic caches keyed per-category so all 6 boards reuse one mechanism instead of six copies of the old single-board code) — no ranking backend exists yet. The event-scoped cache is additionally keyed by <code>${categoryId}:${startedAt}</code>, so an admin reset naturally produces a fresh simulated field rather than needing an explicit cache-clear step. The player's own row is always their real, live value on every board, event or lifetime.</p>
+    <h3>Real boards with a wallet; simulated rivals in the demo</h3>
+    <p><b>With a wallet (2026-10-03)</b> every board is real: every real farm, ranked on the server by the same definition as the player's own number, top 10 plus the viewer's own row and true rank (names are referral codes, which are already public); Lifetime Harvest comes from each farmer's on-chain total, mirrored by the keeper every minute. <b>In the no-wallet demo</b>, each board's rival rows are simulated (<code>LIFETIME_CACHE</code>/<code>EVENT_CACHE</code>, generic caches keyed per-category so all 6 boards reuse one mechanism instead of six copies of the old single-board code) — no ranking backend exists yet. The event-scoped cache is additionally keyed by <code>${categoryId}:${startedAt}</code>, so an admin reset naturally produces a fresh simulated field rather than needing an explicit cache-clear step. The player's own row is always their real, live value on every board, event or lifetime.</p>
 
     <h3>Scope note — no prize payouts</h3>
     <p>This build is rankings and visibility only. No prize-payout or reward-distribution system was built for ranking events — a category leaderboard shows standing, nothing more; anything that pays out the top of a board on event-end would be a separate, not-yet-scoped feature.</p>
 
-    <p><code>🧪 SIMULATED</code> (rival rows, no ranking backend) <code>LIVE</code> (the player's own 6 tracked values, and the admin event-window control)</p>
+    <p><code>LIVE</code> with a wallet (every board, every event) · <code>🧪 SIMULATED</code> in the no-wallet demo (rival rows and per-browser event baselines)</p>
   </section>
 
-  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN + its LP with GREEN LIFE · §28 (Season Pass) and the §20 grant-tool update added 2026-08-29 in a follow-up pass · §29 (World Rankings) added 2026-08-30</div>
+  <!-- 30 -->
+  <section id="backend">
+    <div class="sec-num">30</div>
+    <h2>Backend Build &amp; Audit (Oct 2026)</h2>
+    <p class="lede">Between 2026-10-02 and 2026-10-04 Simple Farmer went from a browser-only preview to a real game on Solana devnet whenever a wallet is connected. This section summarizes what became real and what the 2026-10-04 audit round fixed. The full record is in <code>FARMER-BACKEND-BUILD-PLAN.md</code> and <code>FIX-LOG-2026-10-03.md</code>.</p>
+
+    <h3>What it is built from</h3>
+    <ul>
+      <li><b>Its own on-chain emissions program</b> on devnet, holding Simple Farmer's full 200B $GREEN pool and paying out at 0.05%/day. The 3% / 1% / 0.01% referral cut is built into it, so the cut is carved inside every claim and cannot be skipped. No other new program was added; the shared GLG programs (lottery, liquidity) are reused.</li>
+      <li><b>A server</b> (its own <code>farmer</code> schema on the shared platform database) that holds farms, plants, cards, packs, the market, referrals, Season Pass, raffle, drops, grants, badges, rankings and support tickets, and checks every payment on chain before granting anything.</li>
+      <li><b>A keeper service</b> running on a server (not anyone's PC) that registers plant power on chain, settles harvest pots, tidies expired listings and neglected plants, runs raffle draws and delivers gift and marketing-code bonuses — the payout jobs every 15 seconds.</li>
+    </ul>
+
+    <h3>What is real with a wallet connected</h3>
+    <table>
+      <tr><th>System</th><th>What happens</th></tr>
+      <tr><td>Wallet &amp; login</td><td>Real wallet connect; connecting is the login. Every payment opens the wallet to approve it.</td></tr>
+      <tr><td>Entry</td><td>Invite-only: the code must belong to a player with a farm or a bootstrap seed — no code, no account. $25 buy-in (0.25 SOL at $100/SOL), with a real $5 $GREEN bonus swap and the rest routed to the liquidity pool.</td></tr>
+      <tr><td>Farming</td><td>Plants, harvests, boosts and packs run on the server. Game days are real days.</td></tr>
+      <tr><td>Earning</td><td>$GREEN claimed on chain from the 200B pool; harvest pots paid by the keeper; referral cut carved on chain; referrers collect their own pot on chain.</td></tr>
+      <tr><td>Purchases</td><td>Packs, plots, farm upgrades, Season Premium and raffle tickets are real payments; $GREEN spends are really burned (packs pay referrers first).</td></tr>
+      <tr><td>Marketplace</td><td>Real listings; each sale splits 90% seller / 5% buyback-burn / 5% treasury in one transaction.</td></tr>
+      <tr><td>Gifts &amp; codes</td><td>Gift-a-Farm codes and free admin marketing codes are one-time and work on any device. Marketing-code bonuses are paid from Simple Farmer's own raffle wallet.</td></tr>
+      <tr><td>Lottery &amp; raffle</td><td>Real shared GLG lottery; Simple Farmer's own raffle is server-side.</td></tr>
+      <tr><td>Swap</td><td>Real SOL ↔ $GREEN trade on the game's pool.</td></tr>
+      <tr><td>Support</td><td>Support tickets are saved on the server and reach the admin; a "paid but nothing happened" error opens a ticket already filled in with the transaction signature.</td></tr>
+      <tr><td>Admin console</td><td>Admin build only, server-checked; prices, floors, promos, the emissions dial, grants, drops, badges, rankings events, Season Pass and raffle edits all change the live game.</td></tr>
+    </table>
+    <p><b>Still not real:</b> the no-wallet demo (local, resets on refresh) and the switched-off credit-card tools. <b>Still a testing setting:</b> fast farm upgrades (20 seconds), to be turned off before mainnet.</p>
+
+    <h3>The 2026-10-04 audit round</h3>
+    <p>Step one of "bring Simple Farmer up to GREEN LIFE's level" (fix #22): game days became real days on both the server and the screen (the screen now reads the day length from the server, so the two can't disagree); the public website build no longer contains the admin console at all; and the test sites, a month out of date, were redeployed from the real build.</p>
+    <p>Then two audits ran side by side — one on the game screens, one on the server and money paths — 24 findings in all, each re-checked before fixing (fix #23). The main fixes, in plain terms:</p>
+    <ul>
+      <li><b>Earning estimate</b> now uses the chain's real pool, not the 200B starting figure (the same mistake once made GREEN LIFE's estimate far too high).</li>
+      <li><b>A payment the network didn't answer</b> is now treated as "may have been sent", so the game never offers a second $25 buy-in and keeps a market hold in place.</li>
+      <li><b>Buying several market items at once</b> now stops at the first failure, and a paid-but-not-delivered item opens a pre-filled support ticket.</li>
+      <li><b>No referral code, no account</b> — accounts without a referrer could skip the referral cut forever. (Four test farms from 2026-10-03 have no referrer and were left as they are.)</li>
+      <li><b>Keeper SOL protected</b> — free accounts could make the keeper pay setup costs; now only farm owners (and their referrers) get on-chain referral links, recorded once.</li>
+      <li><b>Reserve before paying</b> — upgrades, plots, Season Premium and capped packs are reserved on the server first, so a player can't pay and then be refused.</li>
+      <li><b>Slow server nodes</b> no longer turn good payments into support tickets — paid actions retry when a transaction isn't visible yet.</li>
+      <li><b>Support tickets</b> can't be filed in someone else's name to lock them out.</li>
+      <li><b>An unfunded raffle prize</b> now waits and sends one alert instead of retrying forever.</li>
+      <li><b>Old referral-pot endpoints</b> were retired.</li>
+      <li><b>Market holds</b> are limited to farm owners and can't be re-taken endlessly.</li>
+      <li><b>One SOL price</b> — the game now refuses SOL payments before charging if its SOL price and the server's disagree (to change the SOL price, change both).</li>
+      <li>Plus wording fixes so wallet players no longer see "simulated" text meant for the demo.</li>
+    </ul>
+
+    <h3>Open decisions for Cody</h3>
+    <ul>
+      <li>Marketing-code bonuses are paid from Simple Farmer's own raffle wallet (chosen to match GREEN LIFE's rule of never using the Gift Wallet) — flagged for Cody to confirm.</li>
+      <li>How the raffle wallet is funded on mainnet.</li>
+      <li>Turning off fast farm upgrades before mainnet.</li>
+    </ul>
+  </section>
+
+  <div class="footer">Simple Farmer — Master Technical Reference · compiled from 11 source-code research passes over the live <code>farmer-*.jsx</code> / <code>farmer-constants.js</code> file set · every figure traces to a named constant or a quoted source comment · GLG platform, shares only $GREEN + its LP with GREEN LIFE · §28 (Season Pass) and the §20 grant-tool update added 2026-08-29 in a follow-up pass · §29 (World Rankings) added 2026-08-30 · §30 (Backend Build &amp; Audit) added and the whole report updated for the real devnet backend 2026-10-04</div>
 
 </div>
 </body>
