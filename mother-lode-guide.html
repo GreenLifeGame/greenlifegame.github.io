@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mother Lode Player Guide</title>
+<meta name="description" content="A plain-English guide to Mother Lode, the Solana mining game: joining, rigs, sites, jackpots, chests, raids, the marketplace and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0a08; --panel:#16120e; --panel2:#1e1811; --ink:#f5efe4; --sub:#b9ab98; --mut:#8a7c6a;
+  --gold:#ffc94d; --gold2:#b8912f; --line:rgba(255,255,255,.09); --accent-bg:rgba(255,201,77,.07);
+  --green:#57d364; --red:#ff8b8b; --blue:#8ad0ff;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f7f2e8; --panel:#ffffff; --panel2:#f1e9da; --ink:#241c12; --sub:#5d5040; --mut:#8a7a66;
+    --gold:#9a6b00; --gold2:#7a5400; --line:rgba(0,0,0,.1); --accent-bg:rgba(154,107,0,.07);
+    --green:#1f8a2c; --red:#b3261e; --blue:#1f6aa3;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;font-size:16px}
+.wrap{max-width:820px;margin:0 auto;padding:28px 16px 64px}
+header.hero{border:1px solid var(--line);border-radius:20px;padding:28px 22px;background:
+  radial-gradient(120% 120% at 0% 0%, rgba(255,201,77,.16), transparent 60%), var(--panel);margin-bottom:24px}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:800}
+h1{font-size:clamp(30px,7vw,46px);line-height:1.05;margin:8px 0 10px;font-weight:900;letter-spacing:.01em}
+h1 span{color:var(--gold)}
+.lead{color:var(--sub);font-size:17px;margin:0}
+h2{font-size:24px;margin:40px 0 10px;font-weight:900;padding-top:8px;border-top:1px solid var(--line)}
+h2 .num{color:var(--gold);margin-right:8px}
+h3{font-size:18px;margin:22px 0 6px;font-weight:800}
+p{margin:10px 0}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin:4px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0}
+.tip{background:var(--accent-bg);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:12px 14px;margin:12px 0}
+.warn{border-left-color:var(--red)}
+.tip b:first-child{color:var(--gold)}
+.warn b:first-child{color:var(--red)}
+.table-wrap{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:420px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-weight:800;font-size:13px;letter-spacing:.03em}
+tr:last-child td{border-bottom:none}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+nav.toc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 8px}
+nav.toc ol{columns:2;column-gap:28px;margin:6px 0 0}
+@media (max-width:560px){nav.toc ol{columns:1}}
+a{color:var(--gold)}
+.pill{display:inline-block;font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:var(--panel2)}
+.c{color:#c9a27a}.u{color:#57d364}.r{color:#4da6ff}.e{color:#c86bff}.l{color:#e0a800}.m{color:var(--blue)}
+@media (prefers-color-scheme: light){.c{color:#8a5a2a}.u{color:#1f8a2c}.r{color:#1f6aa3}.e{color:#8a3bc0}.l{color:#9a6b00}}
+.faq dt{font-weight:800;margin-top:16px}
+.faq dd{margin:4px 0 0;color:var(--sub)}
+footer{margin-top:40px;color:var(--mut);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">⛏️ Player Guide</div>
+  <h1>Welcome to <span>Mother Lode</span></h1>
+  <p class="lead">Five mining sites. Eighteen machines. One of them is on the Moon. You run a mining operation, your rigs earn a share of a fixed pool of $GREEN every second, and every rig you send underground is quietly rolling for a hidden jackpot you only see when you pull it back up.</p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <b>In this guide</b>
+  <ol>
+    <li><a href="#what">What Mother Lode is</a></li>
+    <li><a href="#words">Crypto words, in one line each</a></li>
+    <li><a href="#join">Joining the game</a></li>
+    <li><a href="#sites">Sites and heat</a></li>
+    <li><a href="#rigs">Rigs</a></li>
+    <li><a href="#pull">Pulling a rig</a></li>
+    <li><a href="#crits">Jackpots (crit hits)</a></li>
+    <li><a href="#moon">The Moon</a></li>
+    <li><a href="#boosts">Boosts and shields</a></li>
+    <li><a href="#claim">Claiming your earnings</a></li>
+    <li><a href="#chests">Chests and the daily free chest</a></li>
+    <li><a href="#open">Open Now</a></li>
+    <li><a href="#levels">Levels and slots</a></li>
+    <li><a href="#scrap">Scrapping</a></li>
+    <li><a href="#market">The marketplace</a></li>
+    <li><a href="#raids">Raids and hired raiders</a></li>
+    <li><a href="#gift">Gift a Mine</a></li>
+    <li><a href="#extras">Lottery, Raffle, Season Pass, Master Pass</a></li>
+    <li><a href="#refs">Referrals</a></li>
+    <li><a href="#help">Getting help</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ol>
+</nav>
+
+<h2 id="what"><span class="num">1</span>What Mother Lode is</h2>
+<p>Mother Lode is a mining game on the Solana blockchain. You stake a claim, get mining machines called <b>rigs</b>, and put them to work at one of five sites: four on Earth and one on the Moon.</p>
+<p>The game holds a fixed pool of <b>200 billion $GREEN</b>. Every day it releases 0.05% of whatever is left, and that release is shared among everyone mining. The release is split two ways:</p>
+<ul>
+  <li><b>75%</b> streams to miners continuously, by how much mining power each has at each site. This is the balance you <b>claim</b>.</li>
+  <li><b>25%</b> goes into a separate <b>jackpot pool</b>. Your rigs roll against it while they work, and whatever they win stays hidden until you pull the rig.</li>
+</ul>
+<p>Nothing new is ever created to pay you: the pool only shrinks. The more total mining power in the game, the smaller each person's slice, so what you earn is your <b>share</b> of the pool, not a fixed amount per rig.</p>
+<div class="tip"><b>Practice demo.</b> If you open the game without a Solana wallet installed, you get a practice demo that runs entirely in your browser with no real money. Everything in this guide describes the real game you play with a connected wallet.</div>
+
+<h2 id="words"><span class="num">2</span>Crypto words, in one line each</h2>
+<div class="table-wrap"><table>
+<tr><th>Word</th><th>What it means here</th></tr>
+<tr><td><b>Wallet</b></td><td>An app (like Phantom) that holds your money and signs your actions. Connecting it is how you log in.</td></tr>
+<tr><td><b>SOL</b></td><td>Solana's own currency. You use it for the buy-in, upgrades, extra slots, marketplace buys and some passes. It also pays the tiny network fee on every transaction.</td></tr>
+<tr><td><b>$GREEN</b></td><td>The game token you earn. You also spend it on chests.</td></tr>
+<tr><td><b>Burn</b></td><td>Tokens destroyed forever, so the total supply shrinks.</td></tr>
+<tr><td><b>On chain</b></td><td>Recorded on the Solana blockchain, where anyone can check it.</td></tr>
+<tr><td><b>Liquidity pool (LP)</b></td><td>The market where $GREEN and SOL trade against each other. Part of the money players spend is added to it to make trading deeper.</td></tr>
+<tr><td><b>Signing</b></td><td>Approving an action in your wallet. Payments open your wallet's own approval screen. Non-payment actions show a ✓ Confirm box in the game.</td></tr>
+</table></div>
+
+<h2 id="join"><span class="num">3</span>Joining the game</h2>
+<h3>You need an invite</h3>
+<p>Mother Lode is invite-only: every miner joins under another miner. Enter their referral code on the "Who sent you?" screen. If you don't have one, tap <b>🎲 No code? Match me with a miner</b> and you'll be shown real miners who were active in the last 12 hours, with how many people each has already referred. Pick anyone. Choosing someone with few referrals helps a smaller player.</p>
+<h3>The buy-in</h3>
+<div class="card">
+<div class="table-wrap" style="border:none;margin:0"><table>
+<tr><td>Buy-in</td><td class="n"><b>$25</b>, paid in SOL (0.25 SOL at the game's $100-per-SOL price)</td></tr>
+<tr><td>Starter $GREEN</td><td class="n">$5 of the $25 buys $GREEN for you on the open market, in the same transaction</td></tr>
+<tr><td>Starter rig</td><td>One <b>MINE IT</b> chest, opened the moment you're in. It can be anything from a Pickaxe Crew up.</td></tr>
+<tr><td>Rest of the $25</td><td>Goes to the liquidity pool (and part to the treasury once the pool is deep)</td></tr>
+</table></div>
+</div>
+<p>Your wallet shows the exact transaction before anything moves. You'll also be asked once to <b>sign a message</b>. It costs nothing and proves the wallet is yours, and it lasts 24 hours so you aren't asked again for every action.</p>
+<div class="tip"><b>One mine per wallet.</b> When you connect, the game checks whether your wallet already owns a mine. If it does, you go straight in. You never pay twice.</div>
+<h3>Got a gift code?</h3>
+<p>If a friend bought you a mine, enter their gift code on the invite screen (you still need a referral code too). The buy-in is already paid, so you don't need any SOL to claim it. Your gift $GREEN (and SOL, if they added it) arrives in your wallet shortly after.</p>
+
+<h2 id="sites"><span class="num">4</span>Sites and heat</h2>
+<p>There are five sites. Four are on Earth: <b>Surface Quarry</b>, <b>Deep Shaft</b>, <b>Crystal Caverns</b> and <b>Abyssal Trench</b>. The fifth is <b>The Moon</b>, which plays by its own rules (see <a href="#moon">The Moon</a>).</p>
+<p>Each Earth site has a <b>heat</b> level: Frozen, Cold, Steady, Hot or Blazing. Heat decides how big a slice of the Earth emissions a site pulls. A hot site pays the rigs working it more. Heat re-rolls on a random, hidden schedule, every 1 to 7 days per site. Nobody can see when the next change is coming, so it pays to check in.</p>
+<div class="tip"><b>Good to know.</b> A site with no rigs on it takes no slice at all. Its share goes to the sites that are actually being mined.</div>
+
+<h2 id="rigs"><span class="num">5</span>Rigs</h2>
+<p>Rigs are your machines. Each one has four stats:</p>
+<ul>
+  <li><b>Mining Power</b>: your share of the stream while it works.</li>
+  <li><b>Crit chance</b>: the chance each roll hits the jackpot pool.</li>
+  <li><b>Crit cooldown</b>: how often it rolls.</li>
+  <li><b>Mining cycle</b>: how long one run takes.</li>
+</ul>
+<div class="table-wrap"><table>
+<tr><th>Rarity</th><th>Rigs</th><th>Power</th><th>Crit / roll</th><th>Rolls every</th><th>Cycle</th></tr>
+<tr><td class="c"><b>Common</b></td><td>Pickaxe Crew · Gold Pan Rig · Hand Auger</td><td class="n">100 – 1,000</td><td class="n">1%</td><td class="n">2h</td><td class="n">10 – 12.5 days</td></tr>
+<tr><td class="u"><b>Uncommon</b></td><td>Windlass Hoist · Long Tom Sluice · Stamp Mill</td><td class="n">2,000 – 4,000</td><td class="n">2%</td><td class="n">4h</td><td class="n">15 – 17.5 days</td></tr>
+<tr><td class="r"><b>Rare</b></td><td>Roof Bolter · Drilling Jumbo · The Giant</td><td class="n">5,000 – 20,000</td><td class="n">3.5%</td><td class="n">5h</td><td class="n">20 – 22.5 days</td></tr>
+<tr><td class="e"><b>Epic</b></td><td>Blasthole Rig · Continuous Miner · Dragline Excavator</td><td class="n">25,000 – 75,000</td><td class="n">6%</td><td class="n">6h</td><td class="n">24 – 26 days</td></tr>
+<tr><td class="l"><b>Legendary</b></td><td>Hydraulic Mining Shovel · Tunnel Boring Machine · Bucket-Wheel Excavator</td><td class="n">100,000 – 500,000</td><td class="n">10%</td><td class="n">8h</td><td class="n">28 – 30 days</td></tr>
+<tr><td class="m"><b>Moon</b></td><td>PRIME-1 Drill · VIPER · RASSOR</td><td class="n">20,000 – 750,000</td><td class="n">4%</td><td class="n">8h</td><td class="n">15 days</td></tr>
+</table></div>
+<h3>Deploying</h3>
+<p>Open a site, tap rigs into its open slots (or tap an empty slot and pick a rig), then press <b>Confirm &amp; Sign</b>. Staging is free and you can pull a staged rig back out before you confirm. The rig starts mining as soon as you confirm.</p>
+<div class="tip warn"><b>Rigs are one-time use.</b> Deploying uses up the card: the rig leaves your bag and works one full cycle. When you pull it, it's gone. To keep a slot mining, you need a fresh rig for it.</div>
+<h3>When a cycle finishes</h3>
+<p>A finished rig <b>stops earning immediately</b>. You then have <b>7 days</b> to pull it. After that it burns for good, and anything it struck burns with it. The game shows a countdown and warns you when a rig has less than a day left.</p>
+
+<h2 id="pull"><span class="num">6</span>Pulling a rig</h2>
+<p>Pulling ends the run, consumes the rig and pays out whatever it struck. How much you keep depends on how far through its cycle it was:</p>
+<div class="table-wrap"><table>
+<tr><th>Progress when pulled</th><th>What happens to its jackpot winnings</th></tr>
+<tr><td class="n">Under 73.3%</td><td><b>All forfeited</b> and burned.</td></tr>
+<tr><td class="n">73.3% to 100%</td><td>A sliding penalty: about <b>80%</b> lost just past 73.3%, easing to <b>0%</b> at 100%. For example, about 60% lost at 80%, 30% at 90%, 15% at 95%.</td></tr>
+<tr><td class="n">100% (finished)</td><td>You keep it all.</td></tr>
+</table></div>
+<p>Winnings go straight to your wallet, usually within about 15 seconds. They never wait for the 3-hour claim timer, and a raid can never touch them. The referral cut (see <a href="#refs">Referrals</a>) is taken from them first.</p>
+<h3>Pull bonus</h3>
+<p>Every pull that isn't a forfeit (73.3% or more) rolls once for a free chest: <b>30%</b> a MINE IT chest, <b>30%</b> a MYSTERY chest, <b>40%</b> nothing. A won chest goes to <a href="#open">Open Now</a>.</p>
+
+<h2 id="crits"><span class="num">7</span>Jackpots (crit hits)</h2>
+<p>Every time a working rig's cooldown comes round, it rolls its crit chance. On a hit, it picks one of four tiers. Each tier pays a percentage of a 20% slice of the jackpot pool at that moment:</p>
+<div class="table-wrap"><table>
+<tr><th>Tier</th><th>How often (of hits)</th><th>Pays (Earth)</th><th>Pays (Moon, 3×)</th></tr>
+<tr><td><b>Pay Dirt</b></td><td class="n">50%</td><td class="n">1% of the slice</td><td class="n">3%</td></tr>
+<tr><td><b>Strike</b></td><td class="n">30%</td><td class="n">2%</td><td class="n">6%</td></tr>
+<tr><td><b>Bonanza</b></td><td class="n">15%</td><td class="n">5%</td><td class="n">15%</td></tr>
+<tr><td><b>Mother Lode</b></td><td class="n">5%</td><td class="n">10%</td><td class="n">30%</td></tr>
+</table></div>
+<p>The jackpot pool grows with the 25% share of every day's emissions and shrinks as hits are paid. Rigs only roll while they are still working, so a finished rig sitting in the ground rolls nothing.</p>
+<div class="tip"><b>It's blind on purpose.</b> You never see what a rig has struck while it's down there. The reveal screen when you pull is the payoff. On the Moon, the finds are real lunar minerals: Olivine Shard, Titanium Ore, Platinum Nugget and Tranquillityite Crystal.</div>
+
+<h2 id="moon"><span class="num">8</span>The Moon</h2>
+<ul>
+  <li>Its five landing spots are real lunar craters: Cabeus, Haworth, Shoemaker, Faustini and Shackleton.</li>
+  <li>Every jackpot pays <b>3×</b>.</li>
+  <li>The three Moon rigs (PRIME-1, VIPER, RASSOR) work at full strength and <b>can only work on the Moon</b>.</li>
+  <li>Any Earth rig can be sent up, but at <b>half</b> Mining Power and half roll speed (its cooldown doubles). Its crit chance is unchanged.</li>
+  <li><b>No boosts</b> work on the Moon.</li>
+  <li>The Moon has no heat. It always gets a fixed 20% of daily emissions, shared between the rigs working there by mining power. The four Earth sites split the other 80% by heat.</li>
+  <li>Moon rigs come from chests: rarely from MINE IT and MYSTERY, far more often from HIGH GRADE.</li>
+</ul>
+
+<h2 id="boosts"><span class="num">9</span>Boosts and shields</h2>
+<h3>Boosts</h3>
+<p>A boost makes a rig work <b>faster, never harder</b>. It speeds up what's left of the cycle and shortens the crit cooldown by the same amount. Mining Power, crit chance and jackpot size are unchanged.</p>
+<div class="table-wrap"><table>
+<tr><th>Boost</th><th>Rarity</th><th>Speed</th></tr>
+<tr><td>Sharpened Bit</td><td class="c">Common</td><td class="n">×1.25</td></tr>
+<tr><td>High-Octane Fuel</td><td class="u">Uncommon</td><td class="n">×2</td></tr>
+<tr><td>Turbo Piston Kit</td><td class="r">Rare</td><td class="n">×5</td></tr>
+<tr><td>Diamond-Tipped Head</td><td class="e">Epic</td><td class="n">×10</td></tr>
+<tr><td>Overdrive Core</td><td class="l">Legendary</td><td class="n">×25</td></tr>
+</table></div>
+<ul>
+  <li>A boost lasts <b>24 hours</b>, or until the rig is pulled.</li>
+  <li>One boost per rig at a time. You can't boost a finished rig, and boosts don't work on the Moon.</li>
+  <li>A boosted rig finishes sooner, so it spends less time in the stream. The trade-off: you free the slot for the next rig sooner.</li>
+</ul>
+<h3>Shields</h3>
+<p>A shield stops anyone raiding you while it's up. There are three: <b>8-Hour</b> (Rare), <b>12-Hour</b> (Epic) and <b>24-Hour</b> (Legendary). Shields come from MYSTERY chests or the marketplace. Use one from Bag → Items. A second shield adds its hours on top of one that's already running.</p>
+<div class="tip warn"><b>Attacking drops your shield.</b> The moment you start a raid, your own shield is gone, with no refund.</div>
+
+<h2 id="claim"><span class="num">10</span>Claiming your earnings</h2>
+<p>The bar at the top shows <b>Mined, unclaimed</b>. It grows every second while your rigs work. Tap <b>Claim</b> to move it to your wallet.</p>
+<ul>
+  <li>You can claim once every <b>3 hours</b>, timed from your own last claim. Nothing is lost by waiting: the number keeps climbing.</li>
+  <li>If you were referred (and every player is), <b>4.01%</b> of each claim goes to the three miners above you. If your chain is shorter, the cut is smaller.</li>
+  <li>If you owe any raid fee (see <a href="#raids">Raids</a>), it's burned from the claim first.</li>
+  <li>Your very first claim also creates your $GREEN account in your wallet. That costs a little SOL as account rent, which stays yours.</li>
+</ul>
+<div class="tip warn"><b>Unclaimed $GREEN can be raided.</b> Claiming regularly keeps less of it exposed. Jackpot winnings and referral earnings are never raidable.</div>
+
+<h2 id="chests"><span class="num">11</span>Chests and the daily free chest</h2>
+<p>Rigs, boosts and shields only come into the game through chests (the game also calls them packs). Chests are paid in $GREEN, and that $GREEN is <b>burned</b>, apart from the referral cut, which goes straight to your referrers.</p>
+<div class="table-wrap"><table>
+<tr><th>Chest</th><th>Price</th><th>Contains</th><th>Daily limit</th></tr>
+<tr><td>⛏️ <b>MINE IT</b></td><td class="n">$1.50</td><td>1 rig, any rarity</td><td class="n">25 / 30 / 35 / 40 / 50 by level</td></tr>
+<tr><td>🔧 <b>BOOST IT</b></td><td class="n">$0.50</td><td>1 boost</td><td>No limit</td></tr>
+<tr><td>🎁 <b>MYSTERY</b></td><td class="n">$1.00</td><td>45% a rig · 45% a boost · 10% a shield</td><td class="n">25 / 30 / 35 / 40 / 50 by level</td></tr>
+<tr><td>💎 <b>HIGH GRADE</b></td><td class="n">$14.99</td><td>1 rig, Rare or better (10% Moon)</td><td class="n">1 per level per day (1 at Lv1, 5 at Lv5)</td></tr>
+</table></div>
+<p>Prices are in US dollars and charged in $GREEN at the live market price. You can buy up to 99 at once, all revealed together. Every chest shows its full odds; tap <b>Total Chest Breakdown</b> to see the chance of every single item.</p>
+<p>Odds for MINE IT (also used for the rig in a MYSTERY chest): <span class="c">Common 45%</span> · <span class="u">Uncommon 30%</span> · <span class="r">Rare 15%</span> · <span class="e">Epic 8%</span> · <span class="l">Legendary 1.8%</span> · <span class="m">Moon 0.2%</span>. Within a rarity, the weakest rig shows up 60% of the time, the middle one 30% and the strongest 10%.</p>
+<p>Occasionally the game runs a <b>HIGH GRADE Buy 1 Get 1 Free</b> promo: your first HIGH GRADE chest that day comes with a second one free.</p>
+<h3>The daily free chest</h3>
+<p>Once a day you can claim a free chest from the Office screen. It goes to <a href="#open">Open Now</a> rather than opening on the spot. Which chest you get depends on the day (UTC):</p>
+<div class="table-wrap"><table>
+<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+<tr><td>Mystery</td><td>Boost It</td><td>Mystery</td><td>Boost It</td><td>Mystery</td><td><b>Mine It</b></td><td>Boost It</td></tr>
+</table></div>
+<p>The daily reset, daily limits and raid counts all roll over at <b>midnight UTC</b>.</p>
+
+<h2 id="open"><span class="num">12</span>Open Now</h2>
+<p>Bag → <b>📦 Open Now</b> is where anything handed to you lands sealed: the daily free chest, pull bonuses, scrap rewards, raffle prizes, event drops and support grants. Open them one at a time or tap <b>Open all</b>.</p>
+<p>Event drops also appear here under <b>Ready to claim</b> while their window is open. Claim them before they close; unclaimed drops are never handed out.</p>
+<p>A sealed chest can't be sold. Open it, and what's inside is yours to use or trade.</p>
+
+<h2 id="levels"><span class="num">13</span>Levels and slots</h2>
+<p>Your operation goes from Level 1 to Level 5. Each level-up costs a flat <b>0.25 SOL</b> and then takes a build period. You pay when you start; the level arrives when the build finishes.</p>
+<div class="table-wrap"><table>
+<tr><th>Upgrade to</th><th>Cost</th><th>Build time</th></tr>
+<tr><td>Level 2</td><td class="n">0.25 SOL</td><td class="n">2 days</td></tr>
+<tr><td>Level 3</td><td class="n">0.25 SOL</td><td class="n">3 days</td></tr>
+<tr><td>Level 4</td><td class="n">0.25 SOL</td><td class="n">4 days</td></tr>
+<tr><td>Level 5</td><td class="n">0.25 SOL</td><td class="n">5 days</td></tr>
+</table></div>
+<h3>What a level gives you</h3>
+<ul>
+  <li><b>Each Earth site</b>: one more free slot, plus the right to buy one more paid slot (<b>0.05 SOL</b> each). At Level 5 that's up to 10 slots per Earth site.</li>
+  <li><b>The Moon</b>: one more crater you can open. Cabeus is free; the others cost <b>0.25, 0.5, 0.75 and 1.0 SOL</b> and must be opened in order.</li>
+  <li>Higher chest limits, more HIGH GRADE chests and more raids per day.</li>
+</ul>
+<p>A level never hands you a paid slot; it only raises how many you can buy. SOL spent on levels, slots and craters goes to the liquidity pool (and part to the treasury once the pool is deep).</p>
+
+<h2 id="scrap"><span class="num">14</span>Scrapping</h2>
+<p>Turn spare items into a guaranteed chest in Bag → <b>♻️ Scrap</b>. Any rarity counts the same, and your weakest items always go first.</p>
+<div class="table-wrap"><table>
+<tr><th>Feed in</th><th>Get</th></tr>
+<tr><td>10 rigs</td><td>1 MINE IT chest</td></tr>
+<tr><td>25 rigs</td><td>1 HIGH GRADE chest</td></tr>
+<tr><td>20 boosts</td><td>1 MINE IT chest</td></tr>
+<tr><td>50 boosts</td><td>1 HIGH GRADE chest</td></tr>
+</table></div>
+<p>Every scrap also burns a flat fee of <b>100 $GREEN</b> (the team can adjust it). Items you have listed on the market can't be scrapped. The confirm screen lists exactly which items will be destroyed.</p>
+
+<h2 id="market"><span class="num">15</span>The marketplace</h2>
+<p>Buy and sell rigs, boosts and shields with other players, priced in SOL.</p>
+<ul>
+  <li><b>You set the price</b>, but never below the floor for that item.</li>
+  <li><b>10% fee</b>: the seller keeps 90%, 5% buys back and burns $GREEN, 5% goes to the treasury. The buyer pays all three parts in one transaction.</li>
+  <li>Listings run <b>7 days</b> and <b>can't be cancelled</b>. If nothing sells, the item comes back to you automatically.</li>
+  <li>When you tap Buy, the listing is held for you for a few minutes while you pay, so nobody else can grab it mid-purchase.</li>
+</ul>
+<div class="table-wrap"><table>
+<tr><th>Item</th><th>Floor price (SOL)</th></tr>
+<tr><td>Rigs: Common / Uncommon / Rare / Epic / Legendary</td><td class="n">0.01 / 0.025 / 0.075 / 0.35 / 0.75</td></tr>
+<tr><td>Moon rigs: PRIME-1 / VIPER / RASSOR</td><td class="n">0.25 / 0.75 / 1.5</td></tr>
+<tr><td>Boosts: Common → Legendary</td><td class="n">0.01 / 0.025 / 0.05 / 0.15 / 0.35</td></tr>
+<tr><td>Shields: 8h / 12h / 24h</td><td class="n">0.05 / 0.15 / 0.35</td></tr>
+</table></div>
+<p>Floors can be changed by the team; the game always shows the current one.</p>
+
+<h2 id="raids"><span class="num">16</span>Raids and hired raiders</h2>
+<p>Raid another miner to take part of the $GREEN they haven't claimed yet. You need at least one rig deployed: raids are your Mining Power against theirs.</p>
+<h3>How a raid works</h3>
+<ul>
+  <li><b>Targets</b> are real miners with between 0.4× and 1.7× your Mining Power who aren't shielded. Tap 🔄 for new targets.</li>
+  <li><b>Win chance</b> = your power ÷ (your power + theirs), but never below 10% or above 90%. There's no hidden defence: the number you see is the number rolled.</li>
+  <li><b>Prize</b>: if you win, you take <b>20%</b> of their unclaimed $GREEN.</li>
+  <li><b>Fee</b>: 10% of the prize, burned <b>win or lose</b>. It comes out of <b>your own unclaimed $GREEN</b>, not your wallet, so you need enough unclaimed to cover it. If you claim before the raid settles and can't cover it, the rest is taken from your next claim or jackpot.</li>
+  <li>The server decides the raid the instant you confirm, and it settles on chain within about 15 seconds.</li>
+  <li>Daily raids: <b>20 / 25 / 30 / 35 / 40</b> at Levels 1–5.</li>
+  <li>A miner who actually gets robbed gets a free <b>3-hour shield</b>. Your own shield drops when you attack.</li>
+</ul>
+<h3>Hired raiders</h3>
+<p>You can hire a raider to swing a second time. It ignores Mining Power completely, so a small operation has the same odds as a big one. You can hire each raider <b>once per day</b>.</p>
+<div class="table-wrap"><table>
+<tr><th>Raider</th><th>Win chance</th><th>Costs (share of the pot it attacks)</th></tr>
+<tr><td>🤪 Degen Raiders</td><td class="n">18%</td><td class="n">9%</td></tr>
+<tr><td>🏴‍☠️ Pirates</td><td class="n">32%</td><td class="n">16%</td></tr>
+<tr><td>🕴️ Cartels</td><td class="n">38%</td><td class="n">19%</td></tr>
+<tr><td>⚔️ Samurai Raiders</td><td class="n">65%</td><td class="n">about 33%</td></tr>
+</table></div>
+<p>The raider attacks whatever the target still holds: what's left after your raid if it won, or their whole unclaimed balance if it lost. If it wins it takes <b>that whole pot</b>. Its cost is paid either way, also from your unclaimed $GREEN. The confirm screen shows the most you could pay.</p>
+
+<h2 id="gift"><span class="num">17</span>Gift a Mine</h2>
+<p>Buy a mine for a friend from Bag → Invite or your profile. They redeem the code for a free staked claim, with no SOL needed.</p>
+<div class="table-wrap"><table>
+<tr><th>Gift</th><th>Price</th><th>Your friend gets</th></tr>
+<tr><td>The Mine</td><td class="n">$25</td><td>A mine + $5 of $GREEN</td></tr>
+<tr><td>The Mine + Fuel</td><td class="n">$30</td><td>A mine + $5 of $GREEN + $5 of SOL</td></tr>
+</table></div>
+<p>The $GREEN is bought when you pay and held for your friend, so they get exactly what you paid for, whenever they redeem. Your codes are saved under "Your claim codes" on any device. A code works once, only for a brand-new wallet, and your friend still needs a referral code to join.</p>
+
+<h2 id="extras"><span class="num">18</span>Lottery, Raffle, Season Pass and Master Pass</h2>
+<h3>🎰 GLG Lottery</h3>
+<p>Four lotteries shared with the other GLG games (Green Life and Simple Farmer). Buy tickets; more tickets mean better odds; one winner takes the prize when the clock runs out.</p>
+<div class="table-wrap"><table>
+<tr><th>Lottery</th><th>Ticket</th><th>Draws</th></tr>
+<tr><td>Daily $GREEN</td><td class="n">$0.10 in $GREEN</td><td>Every day</td></tr>
+<tr><td>Weekly $GREEN</td><td class="n">$0.25 in $GREEN</td><td>Every week</td></tr>
+<tr><td>Daily SOL</td><td class="n">0.005 SOL</td><td>Every day</td></tr>
+<tr><td>Weekly SOL</td><td class="n">0.015 SOL</td><td>Every week</td></tr>
+</table></div>
+<p>5% of the pot goes to the treasury; the winner gets the rest. A pool with no paid round open shows tickets as free practice tickets with nothing to win. Prizes are collected to your wallet automatically while you play.</p>
+<h3>🎁 GLG Raffle (Mother Lode's own)</h3>
+<p>Free to enter: every prize is put up by the house. You spend <b>raffle tickets</b>, which you earn from the Season Pass or buy for <b>$0.25 each</b> in SOL (Market → 🎫 Pass). There are Daily, Weekly and Monthly raffles, plus occasional one-off ones. Prizes can be chests (to Open Now), specific rigs (to your bag) or $GREEN (sent to your wallet). Current defaults: Daily 1 MYSTERY chest, Weekly 1 HIGH GRADE, Monthly 3 HIGH GRADE.</p>
+<h3>🎟️ Season Pass</h3>
+<p>A 28-day season with 12 tiers of 175 points each. Every tier pays raffle tickets.</p>
+<ul>
+  <li><b>Daily, +20 each</b>: claim your $GREEN, deploy a rig, pull a rig, use a boost.</li>
+  <li><b>Weekly, +40 each</b>: list something on the market, run a raid, buy a chest.</li>
+  <li><b>Free track</b>: 1, 1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 10 tickets.</li>
+  <li><b>Premium</b> (<b>$4.99</b> in SOL, this season only): bonus drops of 5, 8, 10 and 15 tickets at tiers 3, 6, 9 and 12.</li>
+</ul>
+<p>Points only count after the real action succeeds. Anything you earned but didn't claim is delivered automatically when the season ends. Open it from your profile or Market → 🎫 Pass.</p>
+<h3>🎫 GLG Master Pass</h3>
+<p>One lifetime pass that covers every GLG game. It's one per wallet, can never be sold or transferred, and is paid in SOL to the treasury. The price rises as more are sold, and supply is limited; the Pass tab shows the live price. Perks: bonus packs handed out by the team across the games you actively play, a founder board channel, early access, and a profile badge. It's a supporter pass, not an investment: it pays no yield.</p>
+
+<h2 id="refs"><span class="num">19</span>Referrals</h2>
+<p>Your referral code is on your profile and in Bag → Invite. Anyone who joins with it is yours. You earn from three levels, then it stops:</p>
+<div class="table-wrap"><table>
+<tr><th>Level</th><th>You earn</th></tr>
+<tr><td>People you invited</td><td class="n">3%</td></tr>
+<tr><td>People they invited</td><td class="n">1%</td></tr>
+<tr><td>One level further</td><td class="n">0.01%</td></tr>
+</table></div>
+<p>The cut comes out of what they <b>claim</b>, what their rigs <b>strike</b>, and the $GREEN they <b>spend on chests</b>. It's taken from their share, never from the pool.</p>
+<ul>
+  <li>Claim and jackpot cuts collect in a separate on-chain referral pot. Collect them from Bag → Invite → <b>Claim</b>.</li>
+  <li>Chest cuts are paid straight into your wallet at the moment of purchase. You need a $GREEN account in your wallet to receive them; everyone who has done the buy-in has one.</li>
+  <li>Referral money is <b>raid-proof</b>: no raid can reach it.</li>
+</ul>
+
+<h2 id="help"><span class="num">20</span>Getting help</h2>
+<p>Open your profile (👤, top right) and tap <b>🎫 Get help</b>. Pick a category and describe what happened. Your last few actions are attached automatically, and you get a ticket number. If a payment ever goes through but the item doesn't arrive, the game shows the full transaction signature and a Get help button that fills it in for you. Don't pay again; send the ticket.</p>
+
+<h2 id="faq"><span class="num">21</span>FAQ</h2>
+<dl class="faq">
+  <dt>Do my rigs last forever?</dt>
+  <dd>No. Every rig works one cycle and is consumed when you pull it. A finished rig left in the ground burns after 7 days.</dd>
+  <dt>Why did my earnings per hour change when I didn't do anything?</dt>
+  <dd>Your share depends on everyone's mining power and on each Earth site's heat, and both change. The pool also releases a little less each day as it shrinks.</dd>
+  <dt>Why can't I see what my rig has won?</dt>
+  <dd>That's the design. Jackpot winnings stay hidden until you pull.</dd>
+  <dt>Should I pull early?</dt>
+  <dd>Only if you accept the penalty: under 73.3% you lose every jackpot win; from there to 100% you lose a sliding share. Pull at 100% to keep everything.</dd>
+  <dt>Can someone steal my jackpot or referral money?</dt>
+  <dd>No. Raids can only take your unclaimed mining balance. Jackpots go straight to your wallet, and referral earnings sit in a separate pot.</dd>
+  <dt>Why can't I raid?</dt>
+  <dd>You need a deployed rig, enough unclaimed $GREEN to cover the fee, raids left today, and targets within 0.4×–1.7× your power.</dd>
+  <dt>Why is the Claim button showing a timer?</dt>
+  <dd>Claims are limited to one every 3 hours. Your balance keeps growing while you wait.</dd>
+  <dt>Can I cancel a marketplace listing?</dt>
+  <dd>No. It runs 7 days and comes back to you automatically if it doesn't sell.</dd>
+  <dt>Which network is this?</dt>
+  <dd>The current build connects to Solana devnet, the test network.</dd>
+  <dt>I paid and nothing arrived. What now?</dt>
+  <dd>Don't pay again. Tap the Get help button on the message (or Profile → 🎫 Get help) and include the signature shown.</dd>
+</dl>
+
+<footer>Mother Lode is a GreenLifeGame (GLG) title. All numbers in this guide are the game's current settings and may be adjusted by the team; the game always shows the live values.</footer>
+</div>
+</body>
+</html>
